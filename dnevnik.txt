@@ -1,0 +1,41 @@
+-----------------------
+Kickoff - 19.10.2023.
+
+Dnevni red:
+- izbor tehnologije
+- izbor teme
+- ime tima
+- osnovna podjela posla
+- osiguravanje pristupa na sve servise svim članovima tima
+
+Prisutni: D. Matić, L. Crvelin, M. Lešković, K. Valečić, M. Vidaković, V. Kumanović
+Neprisutni: L. Cvetkovski (konferencija)
+
+Zapisnik:
+
+Dogovoreni su taskovi za prvi sprint (do četvrtrka 26.10). Oni za većinu ljudi uključuju učenje gita i tehnologija koje
+su odabrali (backend/frontend), a Lucia Crvelin treba i napraviti prve korake u organizaciji dokumentacije.
+Dorian Matić će postaviti repozitoriji na GitHubu i osigurati svima pristup.
+
+Dogovorena je i radionica na temu značajki (featurea) aplikacije sutra (petak 20.10.) u 12 sati, gdje ćemo pokušati
+prioritizirati posao i složiti Jiru.
+
+-----------------------
+Radionica: Značajke aplikacije - 20.10.2023.
+
+Dnevni red:
+- Cilj je analizirati značajke aplikacije i napisati iz njih epice i storije u Jiri.
+
+Prisutni: D. Matić, L. Crvelin, M. Lešković, K. Valečić, M. Vidaković, V. Kumanović
+Neprisutni:  L. Cvetkovski (konferencija)
+
+Zapisnik:
+
+Detaljno su analizirane značajke aplikacije i stvoren dijagrami iz kojih se može stvoriti definicija baze podataka što
+će do kraja sprinta učiniti Vedran Kumanović i prioritizirani popis zadataka koji će u Jiri stvoriti Dorian Matić.
+Također, identificirali smo nejasnoće u samoj definiciji zadatka koje ćemo komunicirati asistentici.
+
+Mia Vidaković će do kraja sprinta istražiti kako se pravilno postavlja Spring projekt, a Krešimir Valečić će isto
+učiniti za React u čemu će mu pomoći Mihael Lešković.
+
+Dogovorene su još dvije radionice sljedeći tjedan, u četvrtak i petak na temu postavljanja Reacta i Springa.
