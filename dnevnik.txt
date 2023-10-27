@@ -41,7 +41,7 @@ učiniti za React u čemu će mu pomoći Mihael Lešković.
 Dogovorene su još dvije radionice sljedeći tjedan, u četvrtak i petak na temu postavljanja Reacta i Springa.
 
 -------------------------------------------------------------------------------------------------------------------
-Radionica: Postavljanje backenda (Spring) & Planiranje sprinta i pregled napretka - 27.10.2023
+Radionica: Postavljanje backenda (Spring) & Planiranje sprinta i pregled napretka - 26.10.2023.
 
 Dnevni red:
 - Tjedni sastanak za planiranje i praćenje napretka.
@@ -72,3 +72,23 @@ koja će se održati sutra (petak 27.10. u 14 sati). Nakon te radionice ćemo bi
 
 Komentirali smo rad s gitom i Mihael Lešković je pokazao workflow u GitHub Desktop alatu. Naglašena je važnost da više
 ljudi pogleda PR prije mergea s glavnom granom.
+
+-------------------------------------------------------------------------------------------------------------------
+Radionica: Postavljanje frontenda (React) - 27.10.2023.
+
+Dnevni red:
+- Cilj je postaviti frontend prema svim pravilima i omogućiti nesmetan razvoj u budućnosti.
+
+Prisutni: D. Matić, L. Crvelin, M. Lešković, K. Valečić, V. Kumanović, L. Cvetkovski
+Neprisutni: M. Vidaković
+
+Zapisnik:
+
+Mihael Lešković je postavio temelje React projekta i detaljno objasnio što i kako radi. Dogovorili smo se da ćemo za
+izgradnju korisničkog sučelja koristiti Bootstrap, a integraciju Bootstrapa s projektom će napraviti Leon Cvetkovski.
+Za to vrijeme će Krešimir Valečić naučiti kako se Bootstrap koristi i onda s Leonom izgraditi prvih par stranica
+aplikacije (login/register, homepage, profile edit page) do kraja ovog sprinta. Mihael Lešković će od sad raditi na
+backend dijelu.
+
+Dogovorili smo se da ćemo dodati README na projekt s uputama kako pokrenuti backend / frontend. To je bitno da svi mogu
+jednostavno postaviti projekt na svojim računalima.
