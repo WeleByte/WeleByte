@@ -24,6 +24,8 @@ function App({wordIn}) {
           {wordIn}
         </p>
 
+        <button class = "btn btn-primary">Bootstrap confirmation button</button>
+
       </header>
     </div>
   );
