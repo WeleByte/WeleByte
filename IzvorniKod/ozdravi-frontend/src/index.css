@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
 
+
 body {
   margin: 0;
   font-family: 'Inter', sans-serif;
@@ -31,32 +32,85 @@ code {
   font-weight: 500 !important;
   font-size: 14px !important;
   letter-spacing: 1px;
+  background-color: #283953 !important;
+  border-color: #283953 !important;
+ 
   
 }
 
 
 #loginVectorMobile {
   height: auto !important; 
-  width: 103vw;
+  width: 100vw;
   border-bottom-left-radius: 12px;
   border-bottom-right-radius: 12px;
-
+ 
 } 
 
 
 
 #loginRow {
-  padding-left: 20px;
-  padding-right: 10px;
+  padding-left: 30px;
+  width: 100vw;
   padding-top: 25px
 }
+
+#loginVectorDesktop {
+  display: none;
+ }
 
 
 /* CSS for screens above 570px */
 @media (min-width: 571px) {
+
   #loginVectorMobile {
-    display: none !important;
+    height: 200px !important;
+    width: auto;
+    object-fit: contain;
+    position: fixed;
+    left: 50%;
+    transform: translate(-50%, 0%);
+    z-index: 2;
+    top: 85px;
   }
+ 
+  #imageWidener {
+    background-color: #AAC5D7 ;
+    height: 250px !important;
+    width: 100vw;
+    object-fit: contain;
+    position: fixed;
+    left: 50%;
+    transform: translate(-50%, 0%);
+    z-index: 1;
+    border-bottom-left-radius: 16px;
+    border-bottom-right-radius: 16px;
+  }
+  
+
+  #loginContainer {
+    margin: 0px;
+    padding: 0px;
+    width: 100vw !important;
+  
+  }
+
+  #loginRow {
+    height: 100vh !important;
+    width: 350px; 
+    margin-left:auto;margin-right:auto;
+    padding-top: 310px !important;
+    position: fixed;
+    left: 50%;
+    transform: translate(-50%, 0%);
+    padding-left: 0px;
+  }
+ 
+  #loginVectorMobile {
+    
+    border-top-left-radius: 16px;
+    border-top-right-radius: 16px;
+  } 
 
   
 
