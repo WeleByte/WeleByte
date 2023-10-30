@@ -64,22 +64,18 @@ code {
 @media (min-width: 571px) {
 
   #loginVectorMobile {
-<<<<<<< HEAD
+
     height: 245px !important;
-=======
-    height: 250px !important;
->>>>>>> b6f2e1e47bbaf632e3e64ccc3e3ea5c0f91a87ae
     width: auto;
     object-fit: contain;
     position: fixed;
     left: 50%;
     transform: translate(-50%, 0%);
     z-index: 2;
-<<<<<<< HEAD
+
+
     top: 65px;
-=======
-    top: 55px;
->>>>>>> b6f2e1e47bbaf632e3e64ccc3e3ea5c0f91a87ae
+
   }
  
   #imageWidener {
