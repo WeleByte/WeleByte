@@ -1,9 +1,12 @@
 import React from 'react';
+import loginVector from '../assets/images/loginVector.jpeg';
 
 const LoginPage = () => {
   return (
-    <div className="container mt-5 col-12" id = "loginContainer">
-      <div className="row">
+    
+    <div className="container  col-12" id = "loginContainer">
+    <img src={loginVector} id ="loginVectorMobile" alt = "" ></img>
+      <div className="row" id = "loginRow">
         <div className="col-md-4 offset-md-4">
           <h2>Prijava u Ozdravi me</h2>
           <p>Unesite svoje podatke</p>

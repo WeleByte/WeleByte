@@ -31,5 +31,25 @@ code {
   font-weight: 500 !important;
   font-size: 14px !important;
   letter-spacing: 1px;
+  
 }
 
+#loginVectorMobile {
+  height: auto !important; 
+  width: 101vw;
+  border-bottom-left-radius: 12px;
+  border-bottom-right-radius: 12px;
+
+
+} 
+
+#loginContainer {
+  padding:0px;
+  display:float;
+}
+
+#loginRow {
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-top: 25px
+}
