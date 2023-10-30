@@ -64,14 +64,14 @@ code {
 @media (min-width: 571px) {
 
   #loginVectorMobile {
-    height: 200px !important;
+    height: 245px !important;
     width: auto;
     object-fit: contain;
     position: fixed;
     left: 50%;
     transform: translate(-50%, 0%);
     z-index: 2;
-    top: 85px;
+    top: 65px;
   }
  
   #imageWidener {
@@ -97,9 +97,9 @@ code {
 
   #loginRow {
     height: 100vh !important;
-    width: 350px; 
+    width: 438px; 
     margin-left:auto;margin-right:auto;
-    padding-top: 310px !important;
+    padding-top: 350px !important;
     position: fixed;
     left: 50%;
     transform: translate(-50%, 0%);
