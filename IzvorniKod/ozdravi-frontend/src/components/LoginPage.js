@@ -26,11 +26,11 @@ const LoginPage = () => {
   return (
     
     <div className="container  col-12" id = "loginContainer">
-    <img src={loginVector} id ="loginVectorMobile" alt = "" ></img>
+    <img src={loginVector} id ="loginVectorMobile" className='mt-md-auto' alt = "" ></img>
 
       <div className="row" id = "loginRow">
 
-        <div className="col-12 mx-auto " >
+        <div className="col-12 mb-auto " >
           <h2>Prijava u Ozdravi Me</h2>
           <p>Unesite svoje podatke</p>
           <form onSubmit={handleLogin}> 
