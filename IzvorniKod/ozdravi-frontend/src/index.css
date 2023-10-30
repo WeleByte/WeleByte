@@ -34,22 +34,41 @@ code {
   
 }
 
+
 #loginVectorMobile {
   height: auto !important; 
-  width: 101vw;
+  width: 103vw;
   border-bottom-left-radius: 12px;
   border-bottom-right-radius: 12px;
 
-
 } 
 
-#loginContainer {
-  padding:0px;
-  display:float;
-}
+
 
 #loginRow {
   padding-left: 20px;
-  padding-right: 20px;
+  padding-right: 10px;
   padding-top: 25px
+}
+
+
+/* CSS for screens above 570px */
+@media (min-width: 571px) {
+  #loginVectorMobile {
+    display: none !important;
+  }
+
+  
+
+}
+/* CSS for screens above 570px */
+@media (max-width: 571px) {
+
+  #loginContainer {
+    padding:0px;
+    display:float;
+    margin:0px
+  }
+  
+
 }
