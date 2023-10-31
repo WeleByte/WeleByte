@@ -13,6 +13,9 @@ TODO: Napisati kako se pokreće backend dio aplikacije.
 Prvo se pozicionirajte u frontend direktorij: `cd IzvorniKod\ozdravi-frontend` \
 (ili tamo otvorite projekt)
 
+Bitno je prvo instalirati sve dependency-je: `npm install` \
+(ovo se radi samo prvi put, ili eventualno kad se mijenja grana git-a)
+
 Zatim pokrenite skriptu:
 `npm start` \
 Aplikacija je pokrenuta i moguće ju je vidjeti na [http://localhost:3000](http://localhost:3000).
