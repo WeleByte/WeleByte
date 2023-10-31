@@ -118,6 +118,22 @@ code {
   } 
 
   
+}
+
+
+#navbarLogo {
+  height: 40px !important;
+  margin-right: 25px; 
+}
+
+/* CSS for screens above 570px */
+@media (min-width: 571px) {
+
+  #navbarLogo {
+    height: 40px !important;
+    margin-right: 25px; 
+}
+  
 
 }
 /* CSS for screens above 570px */

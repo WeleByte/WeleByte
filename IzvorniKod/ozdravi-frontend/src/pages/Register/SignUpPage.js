@@ -1,5 +1,5 @@
 import React from 'react';
-import loginVector from '../assets/images/loginVector.png';
+import loginVector from '../../assets/images/loginVector.png';
 import { useNavigate } from 'react-router-dom';
 
 const SignUpPage = () => {
