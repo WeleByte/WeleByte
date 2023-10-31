@@ -2,50 +2,83 @@
 		
 	\section{Funkcionalni zahtjevi}
 			
-			%dio 1. revizije
-			
-			%Navesti dionike koji imaju interes u ovom sustavu ili  su nositelji odgovornosti. To su prije svega korisnici, ali i administratori sustava, naručitelji, razvojni tim.
-				
-			%Navesti aktore koji izravno koriste ili komuniciraju sa sustavom. Oni mogu imati inicijatorsku ulogu, tj. započinju određene procese u sustavu ili samo sudioničku ulogu, tj. obavljaju određeni posao. Za svakog aktora navesti funkcionalne zahtjeve koji se na njega odnose.
-			
-			
 			\noindent \textbf{Dionici:}
 			
 			\begin{packed_enum}
 				
-				\item Dionik 1
-				\item Dionik 2				
-				
+				\item Roditelj
+				\item Pedijatar
+                \item Liječnik obiteljske medicine
+                \item Administrator
+                
 			\end{packed_enum}
 			
 			\noindent \textbf{Aktori i njihovi funkcionalni zahtjevi:}
 			
 			
 			\begin{packed_enum}
-				\item  \underbar{Aktor 1 (inicijator) može:}
+				\item  \underbar{Roditelj (inicijator) može:}
 				
 				\begin{packed_enum}
-					
-					\item funkcionalnost 1
-					\item funkcionalnost 2
-					\begin{packed_enum}
-						
-						\item  podfunkcionalnost 1 
-						\item  podfunkcionalnost 2
-				
-					\end{packed_enum}
-					\item  funkcionalnost 3
-					
+    
+					\item registrirati se i prijaviti u sustav
+                    \item vidjeti profil za sebe i svoju djecu
+					\item pregledati medicinske nalaze, dijagnoze i povijesti posjeta za svoju djecu
+                    \item zatražiti povratnu informaciji liječnika ili pedijatra
+                    \item pregledati svoje povijesti posjeta kod liječnika i dijagnoze
+                    \item vidjeti druga mišljenja koja je stvorio
+                    
 				\end{packed_enum}
 			
-				\item  \underbar{Aktor 2 (sudionik) može:}
+				\item  \underbar{Pedijatar (inicijator) može:}
 				
 				\begin{packed_enum}
-					
-					\item funkcionalnost 1
-					\item funkcionalnost 2
+			
+					\item registrirati se i prijaviti u sustav kako bi upisao podatke za djecu
+                    \item prijaviti djecu po identifikatoru (OIB)
+                    \item pregledati popis sve prijavljene djece i njihove kartone
+					\item unijeti medicinske podatke (dijagnoze, preglede, terapije) i ažurirati te podatke
+                    \item evidentirati preporuku za bolovanje za roditelja u slučaju bolesti djeteta
+                    \item utvrditi bolest djeteta nakon čega se šalje ispričnica u školu ili vrtić
+                    \item naručiti djecu na specijalističke preglede/postupke
+                    \item dati očitovanje na drugo mišljenje
+                
+				\end{packed_enum}
+
+                \item  \underbar{Liječnik obiteljske medicine (inicijator) može:}
+				
+				\begin{packed_enum}
+			
+					\item registrirati se i prijaviti u sustav
+                    \item pregledati i odobriti doznake izdane od strane pedijatra koje se šalju poslodavcu roditelja
+                    \item pristupiti povijesti medicinskih podataka
+                    \item dati očitovanje na drugo mišljenje
+                    \item naručiti pacijenta na specijalistički pregled/postupak
+                    \item unositi podatke o pregledima
+                    \item pristupiti medicinskim nalazima i upitima 
+                    
+				\end{packed_enum}
+    
+                \item  \underbar{Administrator (inicijator) može:}
+				
+				\begin{packed_enum}
+
+                    \item registracija i prijava u sustav kao administrator
+					\item pripremiti registre djece (osnovni podaci, OIB)
+                    \item po registraciji roditelja, povezati iste s djecom (preko OIB-a)
+					\item administrirati korisničke račune
+                    \item ažurirati sve podatke u aplikaciji
+                 
+				\end{packed_enum}
+
+                \item  \underbar{Baza podataka (sudionik):}
+				
+				\begin{packed_enum}
+
+                    \item pohranjuje sve podatke o korisnicima i njihovim ovlastima
 					
 				\end{packed_enum}
+    
 			\end{packed_enum}
 			
 			\eject 
