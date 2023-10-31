@@ -92,3 +92,21 @@ backend dijelu.
 
 Dogovorili smo se da ćemo dodati README na projekt s uputama kako pokrenuti backend / frontend. To je bitno da svi mogu
 jednostavno postaviti projekt na svojim računalima.
+
+-------------------------------------------------------------------------------------------------------------------
+Radionica: funkcionalni zahtjevi, opis obrazaca uporabe - 31.10.2023.
+
+Dnevni red:
+- Cilj radionice je dodatno odrediti funkcionalne zahtjeve aplikacije kako bismo mogli napraviti UC dijagrame za
+potrebe dokumentacije.
+
+Prisutni: D. Matić, L. Crvelin, M. Lešković, K. Valečić, V. Kumanović, L. Cvetkovski, M. Vidaković
+Neprisutni: -
+
+Zapisnik:
+
+Lucia Crvelin je pokazala dosadašnji napredak vezan uz definiranje funkcionalnih zahtjeva i izložila nejasnoće koje
+imamo u ovom trenutku. Kroz raspravu smo razjasnili sve i omogućili daljni razvoj dokumentacije.
+
+Leon Cvetkovski je pokazao napredak vezan uz razvoj frontenda. Dogovoreno je da će frontend tim imati zasebne sastanke
+u terminu u kojem se dogovore kako bi odredili sljedeće korake.
