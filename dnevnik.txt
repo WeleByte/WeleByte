@@ -1,4 +1,4 @@
------------------------
+-------------------------------------------------------------------------------------------------------------------
 Kickoff - 19.10.2023.
 
 Dnevni red:
@@ -20,7 +20,7 @@ Dorian Matić će postaviti repozitoriji na GitHubu i osigurati svima pristup.
 Dogovorena je i radionica na temu značajki (featurea) aplikacije sutra (petak 20.10.) u 12 sati, gdje ćemo pokušati
 prioritizirati posao i složiti Jiru.
 
------------------------
+-------------------------------------------------------------------------------------------------------------------
 Radionica: Značajke aplikacije - 20.10.2023.
 
 Dnevni red:
@@ -39,3 +39,56 @@ Mia Vidaković će do kraja sprinta istražiti kako se pravilno postavlja Spring
 učiniti za React u čemu će mu pomoći Mihael Lešković.
 
 Dogovorene su još dvije radionice sljedeći tjedan, u četvrtak i petak na temu postavljanja Reacta i Springa.
+
+-------------------------------------------------------------------------------------------------------------------
+Radionica: Postavljanje backenda (Spring) & Planiranje sprinta i pregled napretka - 26.10.2023.
+
+Dnevni red:
+- Tjedni sastanak za planiranje i praćenje napretka.
+- Cilj je postaviti backend prema svim pravilima i omogućiti nesmetan razvoj u budućnosti.
+
+Prisutni: D. Matić, L. Crvelin, M. Lešković, K. Valečić, M. Vidaković, V. Kumanović, L. Cvetkovski
+Neprisutni: -
+
+Zapisnik:
+
+Potvrdili smo da svi imaju potreban pristup na JIRU i GitHub repozitoriji.
+
+Lucia Crvelin je izložila napredak u dokumentiranju i predstavila način prikupljanja podataka za pojedine dijelove
+dokumentacije. Podaci o napretku će se prikupljati kroz komentare na JIRA taskovima i kroz bilješke sa sastanaka.
+Sljedeći koraci vezani uz izradu dokumentacije su raspisivanje obrazaca uporabe i pisanje opisa projektnog zadatka.
+To će preuzeti Lucia Crvelin i Vedran Kumanović. Također, Lucia Crvelin je naglasila važnost praćenja potrošenog vremena
+za svaki zadatak koji radimo. To će u JIRI postaviti Dorian Matić.
+
+Predstavljena je i schema baze podataka koju smo komentirali i utvrdili koje su promjene nužne. Te će promjene u ovom
+sprintu učiniti Vedran Kumanović i Mia Vidaković i predstaviti timu na sljedećem planiranju sprinta u četvrtak.
+
+Mia Vidaković je prezentirala napredak vezan uz postavljanje Spring backenda i preuzela zadatak integracije backenda s
+Postgresom što se može događati usporedno uz razvijanje scheme baze.
+
+Krešimir Valečić i Mihael Lešković su potvrdili da su spremni za nadolazeću radionicu vezanu uz postavljanje Reacta,
+koja će se održati sutra (petak 27.10. u 14 sati). Nakon te radionice ćemo bit spremni za početak razvoja na frontendu,
+što će preuzeti Leon Cvetkovski i Krešimir Valečić.
+
+Komentirali smo rad s gitom i Mihael Lešković je pokazao workflow u GitHub Desktop alatu. Naglašena je važnost da više
+ljudi pogleda PR prije mergea s glavnom granom.
+
+-------------------------------------------------------------------------------------------------------------------
+Radionica: Postavljanje frontenda (React) - 27.10.2023.
+
+Dnevni red:
+- Cilj je postaviti frontend prema svim pravilima i omogućiti nesmetan razvoj u budućnosti.
+
+Prisutni: D. Matić, L. Crvelin, M. Lešković, K. Valečić, V. Kumanović, L. Cvetkovski
+Neprisutni: M. Vidaković
+
+Zapisnik:
+
+Mihael Lešković je postavio temelje React projekta i detaljno objasnio što i kako radi. Dogovorili smo se da ćemo za
+izgradnju korisničkog sučelja koristiti Bootstrap, a integraciju Bootstrapa s projektom će napraviti Leon Cvetkovski.
+Za to vrijeme će Krešimir Valečić naučiti kako se Bootstrap koristi i onda s Leonom izgraditi prvih par stranica
+aplikacije (login/register, homepage, profile edit page) do kraja ovog sprinta. Mihael Lešković će od sad raditi na
+backend dijelu.
+
+Dogovorili smo se da ćemo dodati README na projekt s uputama kako pokrenuti backend / frontend. To je bitno da svi mogu
+jednostavno postaviti projekt na svojim računalima.

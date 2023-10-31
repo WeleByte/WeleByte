@@ -1,0 +1,149 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+
+
+body {
+  margin: 0;
+  font-family: 'Inter', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h2 {
+  color: rgba(0, 0, 0, 0.793) !important;
+  font-weight: 500 !important
+}
+
+p {
+  font-weight:600;
+  color: rgba(0, 0, 0, 0.684) !important;
+}
+
+label {
+  font-size: 13px;
+  font-weight:600;
+  color: rgba(0, 0, 0, 0.684) !important;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+.btn-primary {
+  font-weight: 500 !important;
+  font-size: 14px !important;
+  letter-spacing: 1px;
+  background-color: #283953 !important;
+  border-color: #283953 !important;
+ 
+  
+}
+
+
+#loginVectorMobile {
+  height: auto !important; 
+  width: 100vw;
+  border-bottom-left-radius: 12px;
+  border-bottom-right-radius: 12px;
+ 
+} 
+
+
+
+#loginRow {
+  padding-left: 30px;
+  width: 100vw;
+  padding-top: 25px
+}
+
+#loginVectorDesktop {
+  display: none;
+ }
+
+
+/* CSS for screens above 570px */
+@media (min-width: 571px) {
+
+  #loginVectorMobile {
+
+    height: 245px !important;
+    width: auto;
+    object-fit: contain;
+    position: fixed;
+    left: 50%;
+    transform: translate(-50%, 0%);
+    z-index: 2;
+
+
+    top: 65px;
+
+  }
+ 
+  #imageWidener {
+    background-color: #AAC5D7 ;
+    height: 250px !important;
+    width: 100vw;
+    object-fit: contain;
+    position: fixed;
+    left: 50%;
+    transform: translate(-50%, 0%);
+    z-index: 1;
+    border-bottom-left-radius: 16px;
+    border-bottom-right-radius: 16px;
+  }
+  
+
+  #loginContainer {
+    margin: 0px;
+    padding: 0px;
+    width: 100vw !important;
+  
+  }
+
+  #loginRow {
+   
+    width: 438px; 
+    margin-left:auto;margin-right:auto;
+    padding-top: 350px !important;
+    position: fixed;
+    left: 50%;
+    transform: translate(-50%, 0%);
+    padding-left: 0px;
+  }
+ 
+  #loginVectorMobile {
+    
+    border-top-left-radius: 16px;
+    border-top-right-radius: 16px;
+  } 
+
+  
+}
+
+
+#navbarLogo {
+  height: 40px !important;
+  margin-right: 25px; 
+}
+
+/* CSS for screens above 570px */
+@media (min-width: 571px) {
+
+  #navbarLogo {
+    height: 40px !important;
+    margin-right: 25px; 
+}
+  
+
+}
+/* CSS for screens above 570px */
+@media (max-width: 571px) {
+
+  #loginContainer {
+    padding:0px;
+    display:float;
+    margin:0px
+  }
+  
+
+}
