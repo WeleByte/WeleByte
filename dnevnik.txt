@@ -94,6 +94,7 @@ Dogovorili smo se da ćemo dodati README na projekt s uputama kako pokrenuti bac
 jednostavno postaviti projekt na svojim računalima.
 
 -------------------------------------------------------------------------------------------------------------------
+
 Sastanak frontend tima - 1.11.2023.
 
 Dnevni red:
@@ -111,3 +112,21 @@ Dogovoreno je da trebamo razdvojiti uloge na platformi, odnosno definirati razli
 Razgovarali smo o potrebi definiranja specifičnih podstranica za svaku ulogu kako bismo omogućili prilagođeni sadržaj i funkcionalnosti za svaku kategoriju korisnika.
 Odlučeno je da će adminu biti omogućeno upravljanje svim računima korisnika s jedne centralne stranice nazvane "racuni.js". Ovo će pojednostaviti administraciju i omogućiti efikasnije upravljanje korisničkim računima.
 Razgovarali smo o raspodjeli zadatka za izradu osnovnih kostura stranica za svaku ulogu na frontendu. Leon Cvetkovski će raditi na stranici za pedijatra i liječnika obiteljske medicine, a Krešimir Valečić će raditi na stranici za roditelja.
+=======
+Radionica: funkcionalni zahtjevi, opis obrazaca uporabe - 31.10.2023.
+
+Dnevni red:
+- Cilj radionice je dodatno odrediti funkcionalne zahtjeve aplikacije kako bismo mogli napraviti UC dijagrame za
+potrebe dokumentacije.
+
+Prisutni: D. Matić, L. Crvelin, M. Lešković, K. Valečić, V. Kumanović, L. Cvetkovski, M. Vidaković
+Neprisutni: -
+
+Zapisnik:
+
+Lucia Crvelin je pokazala dosadašnji napredak vezan uz definiranje funkcionalnih zahtjeva i izložila nejasnoće koje
+imamo u ovom trenutku. Kroz raspravu smo razjasnili sve i omogućili daljni razvoj dokumentacije.
+
+Leon Cvetkovski je pokazao napredak vezan uz razvoj frontenda. Dogovoreno je da će frontend tim imati zasebne sastanke
+u terminu u kojem se dogovore kako bi odredili sljedeće korake.
+
