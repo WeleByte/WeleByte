@@ -92,3 +92,22 @@ backend dijelu.
 
 Dogovorili smo se da ćemo dodati README na projekt s uputama kako pokrenuti backend / frontend. To je bitno da svi mogu
 jednostavno postaviti projekt na svojim računalima.
+
+-------------------------------------------------------------------------------------------------------------------
+Sastanak frontend tima - 1.11.2023.
+
+Dnevni red:
+- Razdvajanje uloga
+- Određivanje podstranica za svaku ulogu
+- Pregled dosadašnjeg napretka
+- Administracija računa
+- Podjela zadatka 
+
+Prisutni: L. Crvelin, L. Cvetkovski, K. Valečić
+
+Zapisnik:
+
+Dogovoreno je da trebamo razdvojiti uloge na platformi, odnosno definirati različite korisničke uloge: pedijatar, liječnik obiteljske medicine (OM), i roditelj.
+Razgovarali smo o potrebi definiranja specifičnih podstranica za svaku ulogu kako bismo omogućili prilagođeni sadržaj i funkcionalnosti za svaku kategoriju korisnika.
+Odlučeno je da će adminu biti omogućeno upravljanje svim računima korisnika s jedne centralne stranice nazvane "racuni.js". Ovo će pojednostaviti administraciju i omogućiti efikasnije upravljanje korisničkim računima.
+Razgovarali smo o raspodjeli zadatka za izradu osnovnih kostura stranica za svaku ulogu na frontendu. Leon Cvetkovski će raditi na stranici za pedijatra i liječnika obiteljske medicine, a Krešimir Valečić će raditi na stranici za roditelja.
