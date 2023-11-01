@@ -19,6 +19,7 @@ const HomePage = () => {
         </div>
       </div>
     </nav>
+    <h3 className='pt-4'>Welcome home</h3>
     </div>
   );
 };

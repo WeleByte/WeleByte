@@ -1,9 +1,9 @@
 import logo from './logo.svg';
 import './App.css';
 import React, { useState } from "react";
-import LoginPage from './pages/Login/LoginPage';
-import SignUpPage from './pages/Register/SignUpPage';
-import HomePage from './pages/HomePage/HomePage';
+import LoginPage from './pages/LoginPage';
+import SignUpPage from './pages/SignUpPage';
+import HomePage from './pages/HomePage';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 

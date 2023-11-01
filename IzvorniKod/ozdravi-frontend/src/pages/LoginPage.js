@@ -8,6 +8,7 @@ const LoginPage = () => {
 
     const handleLogin = (e) => {
         e.preventDefault();
+        
         // Perform login logic
         // If login is successful, navigate to the home page
       
