@@ -110,3 +110,33 @@ imamo u ovom trenutku. Kroz raspravu smo razjasnili sve i omogućili daljni razv
 
 Leon Cvetkovski je pokazao napredak vezan uz razvoj frontenda. Dogovoreno je da će frontend tim imati zasebne sastanke
 u terminu u kojem se dogovore kako bi odredili sljedeće korake.
+
+-------------------------------------------------------------------------------------------------------------------
+Planiranje sprinta i pregled napretka - 2.11.2023
+
+Dnevni red:
+- Tjedni sastanak za planiranje i praćenje napretka.
+
+Prisutni: D. Matić, L. Crvelin, M. Lešković, K. Valečić, V. Kumanović, L. Cvetkovski, M. Vidaković
+Neprisutni: -
+
+Zapisnik:
+
+Dogovorili smo sljedeće korake koje treba napraviti vezano uz dokumentaciju kako bismo mogli tražiti povratnu
+informaciju na konzulatcijama u utorak (7.11). Lucia Crvelin će prepisati definirane tablice baze iz Excela u
+dokumenaciju, a Vedran Kumanović će iz definiranih tablica nacrtati dijagram baze podataka koji je također dio
+dokumentacije. Prošli smo kroz sve obrasce uporabe koje smo do sad definirali i dogovorili se da će oni biti dovršeni do
+ponedjeljka, što će učiniti Lucia Crvelin.
+
+Dorian Matić je pokazao napredak u izboru i postavljanju deploy platforme. Izabrali smo Heroku i napravili osnovno
+postavljenje dviju aplikacija (frontend i backend).
+
+Mia Vidaković je pokazala kako se Postgres baza spaja na Spring aplikaciju što nam je bio preduvijet da možemo nastaviti
+razvoj na backendu, ali i da možemo napraviti potpun deployment aplikacije. Nastavno na to će Mihael Lešković
+implementirati mehanizme za prijavu i registraciju korisnika pomoću Spring Security modula, a Dorian Matić će napraviti
+potrebne korake na Heroku platformi vezane uz deploy aplikacije. Mia Vidaković će u sljedećem sprintu implementirati
+mehanizam uloga na entitetu korisnika.
+
+Leon Cvetkovski i Krešimir Valečić su podijelili plan za razvoj frontenda s ostalima. Potvrdili smo daljnje korake
+vezane uz razvoj React aplikacije koji uključuju restrukturiranje i razvoj homescreena. Dogovoreno je da će frontend tim
+razraditi najbolje načine kako nastaviti raditi s obzirom da backend još uvijek zaostaje za frontendom.
