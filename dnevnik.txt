@@ -124,3 +124,5 @@ Dogovoreno je da trebamo razdvojiti uloge na platformi, odnosno definirati razli
 Razgovarali smo o potrebi definiranja specifičnih podstranica za svaku ulogu kako bismo omogućili prilagođeni sadržaj i funkcionalnosti za svaku kategoriju korisnika.
 Odlučeno je da će adminu biti omogućeno upravljanje svim računima korisnika s jedne centralne stranice nazvane "racuni.js". Ovo će pojednostaviti administraciju i omogućiti efikasnije upravljanje korisničkim računima.
 Razgovarali smo o raspodjeli zadatka za izradu osnovnih kostura stranica za svaku ulogu na frontendu. Leon Cvetkovski će raditi na stranici za pedijatra i liječnika obiteljske medicine, a Krešimir Valečić će raditi na stranici za roditelja.
+-------------------------------------------------------------------------------------------------------------------
+
