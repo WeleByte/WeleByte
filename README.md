@@ -4,7 +4,29 @@ Setup guide
 
 ## Backend
 
-TODO: Napisati kako se pokreće backend dio aplikacije.
+Za potrebe spajanja projekta u Springu s postgres bazom podataka, treba se napraviti baza lokalno na računalu.
+
+Prvo treba instalirati i konfigurirati PostgreSQL sa stranice: [https://www.postgresql.org/download/](https://www.postgresql.org/download/).
+
+Nakon toga u SQL shellu treba izvesti sljedece naredbe: \
+`create user welebyte with password 'welebyte';` \
+`create database ozdravi owner welebyte;` 
+
+Sada bi trebala biti kreairana baza podataka 'ozdravi' ćiji je vlasnik korisnik 'welebyte'. \
+To se može provjeriti izvođenjem naredbe `\l` nakon koje bi se trebale \
+izlistati sve postojeće baze podataka i njihovi vlasnici. 
+
+Trbea otvoriti PgAdmin i tamo naći odgovarajući port servera baze prateći sljedeće korake: \
+desni klik na `PostgreSQL 15` ->  `Properties` -> `Connection` \
+U kućici Port pisat će odgovarajući port servera.
+
+U datoteci `IzvorniKod\ozdravi-backend\src\main\resources\application.properties` potrebno je u prvoj 
+liniji koda kod `localhost:5434` zamjeniti četiri znamenke s nađenim portom.
+
+Potrebno je otvoriti folder `IzvorniKod\ozdravi-backend` kao projekt u Intellij-u. \
+Aplikacija se dalje jednostavno pokrene pokretanjem datoteke `OzdraviBackendApplication.java`
+
+Rad backenda može se dalje pratiti na [http://localhost:8080](http://localhost:8080)
 
 #
 
