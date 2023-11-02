@@ -94,6 +94,19 @@ Dogovorili smo se da ćemo dodati README na projekt s uputama kako pokrenuti bac
 jednostavno postaviti projekt na svojim računalima.
 
 -------------------------------------------------------------------------------------------------------------------
+Radionica: funkcionalni zahtjevi - 31.10.2023.
+
+Dnevni red:
+- Cilj radionice je pregledati funkcionalne zahtjeve iz dokumentacije te se usuglasiti oko istih kako bismo mogli napravititi UC dijagrame za potrebe dokumentacije. 
+
+Prisutni: L. Crvelin, L. Cvetkovski, V. Kumanović, M. Lešković, D. Matić, K. Valečić, M. Vidaković
+
+Zapisnik: 
+
+L. Crvelin je pokazala dosadašnji napredak vezan uz definiranje funkcionalnih zahtjeva i izložila nejasnoće koje imamo u ovom trenutku. Kroz raspravu smo razjasnili sve i omogućili daljni razvoj dokumentacije.
+L. Cvetkovski je pokazao napredak vezan uz razvoj frontenda. Dogovoreno je da će frontend tim imati zasebne sastanke u terminu u kojem se dogovore kako bi odredili sljedeće korake.
+
+-------------------------------------------------------------------------------------------------------------------
 Sastanak frontend tima - 1.11.2023.
 
 Dnevni red:
