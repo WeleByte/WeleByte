@@ -1,25 +1,39 @@
 import React from 'react';
-import logoPng from '../../assets/images/logo.png';
+import Navbar from '../components/Header';
+import patientsImage from '../assets/images/patientsNo2.png'
+import drugoMisljenje from '../assets/images/drugoMisljenje.png'
+import bolovanje from '../assets/images/bolovanje.png'
+import djeca from '../assets/images/kids2.png'
+import HomeCard from '../components/HomeCard';
+
+
 
 const HomePage = () => {
+
+  const uloga = "doktor"
+
   return (
       
     
     <div id = "HomePageWrapper">
-      <nav className="navbar navbar-expand-lg navbar-light bg-light px-3 py-3">
-      <img src = {logoPng} id ="navbarLogo" alt = "" style={{height: "40px !important"}} className='ms-2'></img>
-      <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-        <span className="navbar-toggler-icon"></span>
-      </button>
-      <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
-        <div className="navbar-nav">
-          <a className="nav-item nav-link active" href="/home">Home </a>
-          <a className="nav-item nav-link" href="/">Features</a>
-          <a className="nav-item nav-link" href="/">Pricing</a>
-        </div>
-      </div>
-    </nav>
-    <h3 className='pt-4'>Welcome home</h3>
+     <Navbar></Navbar>
+
+    <div id = "homePageWrapperInner">
+          <h3 className = "pt-4 px-4 mt-2" style={{textAlign: "left"}}>Dobrodošao nazad, Filip.</h3>
+    <p style={{textAlign: "left"}} className = "px-4">Što ćemo raditi danas?</p>
+     <div className='homePageCardSection p-4 pt-0 ps-3' >
+
+    
+    { uloga === "doktor" || uloga === "pedijatar" ? (<HomeCard title = "Moji Pacijenti" description= "34 odraslih • 4 djece" image= {patientsImage} buttonText="Vidi sve"/>) : null}
+    <HomeCard title = "Druga Mišljenja" description= "3 za pregled" image= {drugoMisljenje} buttonText = "Pregledaj"/>
+    <HomeCard title = "Preporuke za bolovanje" description= "7 za pregled" image= {bolovanje} buttonText = "Pregledaj"/>
+
+
+    { uloga !== "roditelj" ? ( <HomeCard title = "Moja djeca" description= "3 prijavljenje djece" image= {djeca} buttonText = "Vidi sve"/> ) : null}
+
+     </div>
+     </div>
+
     </div>
   );
 };

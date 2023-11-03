@@ -1,11 +1,15 @@
-import logo from './logo.svg';
+
 import './App.css';
 import React, { useState } from "react";
-import LoginPage from './pages/LoginPage';
-import SignUpPage from './pages/SignUpPage';
-import HomePage from './pages/HomePage';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
+import Racuni from './pages/Admin/Racuni';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import LoginPage from './pages/LoginPage.js';
+import SignUpPage from './pages/SignUpPage.js';
+import HomePage from './pages/HomePage.js';
+import Users from './pages/Users';
+import SecondOppinions from './pages/SecondOppinions';
+import Bolovanja from './pages/Bolovanja';
 
 function App({wordIn}) {
   const [word, setWord] = useState(wordIn);
@@ -17,6 +21,10 @@ function App({wordIn}) {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/signup" element={<SignUpPage />} />
           <Route path="/home" element={<HomePage />} />
+          <Route path="/users" element={<Users />} />
+          <Route path="/drugaMisljenja" element={<SecondOppinions />} />
+          <Route path="/bolovanja" element={<Bolovanja />} />
+          <Route path="/admin/racuni" element={<Racuni />} />
         </Routes>
       </BrowserRouter>
     </div>
