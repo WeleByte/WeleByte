@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import Navbar from '../components/Header';
 import ArrowRightIcon from '../assets/icons/arrow-right.png'
 
@@ -6,6 +6,8 @@ import ArrowRightIcon from '../assets/icons/arrow-right.png'
 const Bolovanja = () => {
 
   const uloga = "doktor"
+
+  const [selectedState, setSelectedState] = useState('svi')
 
   return (
       
@@ -22,9 +24,17 @@ const Bolovanja = () => {
 
 
 <div id = "usersSelectorDiv" className = "px-4 pb-1 pt-0 " style={{display: "flex", justifyContent: "left", flexWrap: "wrap"}}>
-        <button class = "btn btn-primary me-2 mt-2" id = "nepregledano"> Sve</button>
-        <button class = "btn btn-secondary me-2 mt-2" id = "nepregledano"> Nepregledano</button>
-        <button class = "btn btn-secondary me-auto mt-2" id = "pregledano"> Pregledano</button>
+    <button className = {selectedState === 'svi' ?
+        "btn btn-primary me-2 mt-2" : "btn btn-secondary me-2 mt-2"}
+            id = "nepregledano" onClick={() => setSelectedState('svi')}>SVI</button>
+
+    <button className = {selectedState === 'nepregledano' ?
+        "btn btn-primary me-2 mt-2" : "btn btn-secondary me-2 mt-2"}
+            id = "nepregledano" onClick={() => setSelectedState('nepregledano')}>NEPREGLEDANO</button>
+
+    <button className = {selectedState === 'pregledano' ?
+        "btn btn-primary me-2 mt-2" : "btn btn-secondary me-2 mt-2"}
+            id = "pregledano" onClick={() => setSelectedState('pregledano')}>PREGLEDANO</button>
     </div>
 
     <p style={{textAlign: "left", fontSize: "13px"}} className='px-4 mb-0 mt-4 mb-1'>INBOX</p>

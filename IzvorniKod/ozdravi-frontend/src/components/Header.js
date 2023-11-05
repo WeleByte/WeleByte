@@ -1,12 +1,30 @@
 import React from 'react';
 import logoPng from '../assets/images/logo.png';
 import userIcon from '../assets/images/userIcon.png'
-
+import {useState} from 'react';
+import {useNavigate} from "react-router-dom";
 
 const Navbar = () => {
-
     const uloga = "doktor"
+    const navigate = useNavigate()
 
+    const [selectedItem, setSelectedItem] = useState(localStorage.getItem('SelectedItem'))
+    const handleItemClick = (e, item) => {
+        // e.preventDefault()
+        localStorage.setItem('SelectedItem', item)
+        setSelectedItem(item)
+        console.log(selectedItem)
+        switch(item) {
+            case 'home': navigate('/home')
+                break
+            case 'drugaMisljenja': navigate('/drugaMisljenja')
+                break
+            case 'pacijenti': navigate('/users')
+                break
+            case 'bolovanja': navigate('/bolovanja')
+                break
+        }
+    }
   return (
       
 
@@ -20,11 +38,20 @@ const Navbar = () => {
       </button>
       <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div className="navbar-nav ">
-          <a className="nav-item nav-link active" href="/home"> Početna </a>
-          { uloga === "doktor" || uloga === "pedijatar" ? (  <a className="nav-item nav-link" href="/users">Pacijenti</a> ) : null }
-          <a className="nav-item nav-link" href="/drugaMisljenja">Druga Misljenja</a>
-          <a className="nav-item nav-link" href="/bolovanja">Bolovanja</a>
-          { uloga === "roditelj" ? (  <a className="nav-item nav-link" href="/">Djeca</a> ) : null }
+          <button className={selectedItem === 'home' ? "nav-item nav-link active" : "nav-item nav-link"}
+             onClick={(e)  => handleItemClick(e, 'home')}> Početna </button>
+
+          { uloga === "doktor" || uloga === "pedijatar" ? (  <button
+              className={selectedItem === 'pacijenti' ? "nav-item nav-link active" : "nav-item nav-link"}
+               onClick={(e) => handleItemClick(e, 'pacijenti')}>Pacijenti</button> ) : null }
+
+          <button className={selectedItem === 'drugaMisljenja' ? "nav-item nav-link active" : "nav-item nav-link"}
+              onClick={(e) => handleItemClick(e, 'drugaMisljenja')}>Druga Misljenja</button>
+
+          <button className={selectedItem === 'bolovanja' ? "nav-item nav-link active" : "nav-item nav-link"}
+              onClick={(e) => handleItemClick(e, 'bolovanja')}>Bolovanja</button>
+
+          { uloga === "roditelj" ? (  <button className="nav-item nav-link">Djeca</button> ) : null }
         </div>
       </div>
 

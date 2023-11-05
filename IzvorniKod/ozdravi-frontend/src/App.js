@@ -8,7 +8,7 @@ import LoginPage from './pages/LoginPage.js';
 import SignUpPage from './pages/SignUpPage.js';
 import HomePage from './pages/HomePage.js';
 import Users from './pages/Users';
-import SecondOppinions from './pages/SecondOppinions';
+import SecondOpinions from './pages/SecondOpinions';
 import Bolovanja from './pages/Bolovanja';
 
 function App({wordIn}) {
@@ -22,7 +22,7 @@ function App({wordIn}) {
           <Route path="/signup" element={<SignUpPage />} />
           <Route path="/home" element={<HomePage />} />
           <Route path="/users" element={<Users />} />
-          <Route path="/drugaMisljenja" element={<SecondOppinions />} />
+          <Route path="/drugaMisljenja" element={<SecondOpinions />} />
           <Route path="/bolovanja" element={<Bolovanja />} />
           <Route path="/admin/racuni" element={<Racuni />} />
         </Routes>
