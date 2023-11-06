@@ -1,38 +1,26 @@
 \chapter{Specifikacija programske potpore}
-		
 	\section{Funkcionalni zahtjevi}
-			
 			\noindent \textbf{Dionici:}
-			
 			\begin{packed_enum}
-				
 				\item Roditelj
 				\item Pedijatar
                 \item Liječnik obiteljske medicine
                 \item Administrator
-                
 			\end{packed_enum}
 			
 			\noindent \textbf{Aktori i njihovi funkcionalni zahtjevi:}
-			
-			
 			\begin{packed_enum}
 				\item  \underbar{Roditelj (inicijator) može:}
-				
 				\begin{packed_enum}
-    
 					\item registrirati se i prijaviti u sustav
                     \item vidjeti profil za sebe i svoju djecu
 					\item pregledati medicinske nalaze, dijagnoze i povijesti pregleda za sebe i svoju djecu
                     \item zatražiti povratnu informaciju liječnika ili pedijatra o nalazu dobivenim temeljem određene usluge u privatnoj ustanovi, tj. drugog mišljenja
                     \item vidjeti druga mišljenja koja je stvorio
-                    
 				\end{packed_enum}
 			
 				\item  \underbar{Pedijatar (inicijator) može:}
-				
 				\begin{packed_enum}
-			
 					\item prijaviti se u sustav
                     \item prijaviti djecu po identifikatoru (OIB)
                     \item pregledati popis sve prijavljene djece i njihove kartone
@@ -41,13 +29,10 @@
                     \item utvrditi bolest djeteta nakon čega se šalje ispričnica u vrtić
                     \item naručiti djecu na specijalističke preglede/postupke
                     \item dati povratnu informaciju na drugo mišljenje
-                
 				\end{packed_enum}
 
                 \item  \underbar{Liječnik obiteljske medicine (inicijator) može:}
-				
 				\begin{packed_enum}
-			
 					\item prijaviti se u sustav
                     \item pregledati i odobriti doznake izdane od strane pedijatra koje se šalju poslodavcu roditelja
                     \item utvrditi bolest djeteta nakon čega se šalje ispričnica u školu
@@ -55,35 +40,25 @@
                     \item naručiti pacijenta na specijalistički pregled/postupak
                     \item unositi podatke o pregledima
                     \item pristupiti medicinskim nalazima, povijesti pregleda i upitima 
-                    
 				\end{packed_enum}
     
                 \item  \underbar{Administrator (inicijator) može:}
-				
 				\begin{packed_enum}
-
                     \item prijava u sustav kao administrator
 					\item pripremiti registre djece (osnovni podaci, OIB)
                     \item registrira liječnika obiteljske medicine i pedijatra
                     \item po registraciji roditelja, povezati iste s djecom (preko OIB-a)
 					\item administrirati korisničke račune
                     \item ažurirati sve podatke u aplikaciji
-                 
 				\end{packed_enum}
 
                 \item  \underbar{Baza podataka (sudionik):}
-				
 				\begin{packed_enum}
-
                     \item pohranjuje sve podatke o korisnicima i njihovim ovlastima
-					
 				\end{packed_enum}
-    
 			\end{packed_enum}
 			
 			\eject 
-			
-			
 				
 			\subsection{Obrasci uporabe}
 				
@@ -554,41 +529,36 @@
 					
 					\end{packed_item}
 
-                    \begin{comment}
-                        
-                    \noindent \underbar{\textbf{UC20 - }}
-					\begin{packed_item}
+                    % \noindent \underbar{\textbf{UC20 - }}
+					% \begin{packed_item}
 	
-						\item \textbf{Glavni sudionik: }
-						\item  \textbf{Cilj:} 
-						\item  \textbf{Sudionici:} 
-						\item  \textbf{Preduvjet:} -
-						\item  \textbf{Opis osnovnog tijeka:}
+					% 	\item \textbf{Glavni sudionik: }
+					% 	\item  \textbf{Cilj:} 
+					% 	\item  \textbf{Sudionici:} 
+					% 	\item  \textbf{Preduvjet:} -
+					% 	\item  \textbf{Opis osnovnog tijeka:}
 						
-						\item[] \begin{packed_enum}
+					% 	\item[] \begin{packed_enum}
 	
-							\item 
-							\item 
-							\item 
+					% 		\item 
+					% 		\item 
+					% 		\item 
 
-						\end{packed_enum}
+					% 	\end{packed_enum}
 						
-						\item  \textbf{Opis mogućih odstupanja:}
+					% 	\item  \textbf{Opis mogućih odstupanja:}
 						
-						\item[] \begin{packed_item}
+					% 	\item[] \begin{packed_item}
 	
-							\item[2.a] 
-							\item[] \begin{packed_enum}
+					% 		\item[2.a] 
+					% 		\item[] \begin{packed_enum}
 								
-								\item 
-								\item 
-							\end{packed_enum}
+					% 			\item 
+					% 			\item 
+					% 		\end{packed_enum}
 							
-						\end{packed_item}
-					\end{packed_item}
-                
-                    \end{comment}
-                    
+					% 	\end{packed_item}
+					% \end{packed_item}
      
 				\subsubsection{Dijagrami obrazaca uporabe}
 					

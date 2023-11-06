@@ -1,6 +1,5 @@
 \chapter{Arhitektura i dizajn sustava}
-		
-		%dio 1. revizije
+		Arhitektura sustava počiva na podjeli na korisničko sučelje \textit{(en. frontend)} i na pozadinsku aplikaciju \textit{(en. backend)} koja se spaja na relacijsku bazu podataka.
 
 		Glavna tehnologija izrade "frontend" dijela sustava je React.js razvojni okvir, a samo korisničko sučelje je izgrađeno od gotovih komponenti iz paketa "Bootstrap". Korištenje Bootstrap-a nam omogućuje da brzo i lako razvijamo sučelja koja su izgledaju moderno i koja su responzivna, 
 		što je jedan od važnijih zahtjeva. 
@@ -40,25 +39,22 @@
 		\end{packed_item}
 					
 		\section{Baza podataka}
-			
-			%dio 1. revizije
-			
-		%Potrebno je opisati koju vrstu i implementaciju baze podataka ste odabrali, glavne komponente od kojih se sastoji i slično.
-        Baza podataka koja se koristi u projektu "Ozdravi" ključna je komponenta sustava koja omogućava pohranu, upravljanje i praćenje svih relevantnih informacija o korisnicima i njihovim zdravstvenim podacima. Odabrana je relacijska baza podataka koja se sastoji od nekoliko ključnih entiteta:
-            \begin{packed_item}
-                \item Person
-                \item Examination
-                \item SecondOpinion
-                \item Instruction
-                \item SickLeaveRecommendation
-                \item LoginCreds
-            \end{packed_item}
+        Baza podataka koja se koristi u projektu "Ozdravi" ključna je komponenta sustava koja omogućava pohranu, upravljanje i praćenje svih relevantnih informacija o korisnicima i njihovim zdravstvenim podacima. 
+		Izgrađena je relacijska baza podataka koja se sastoji od nekoliko ključnih entiteta:
+		\begin{packed_item}
+			\item Person
+			\item Examination
+			\item SecondOpinion
+			\item Instruction
+			\item SickLeaveRecommendation
+		\end{packed_item}
 
-        Baza podataka "Ozdravi" omogućava integraciju svih informacija kako bi podržala procese komunikacije, pregleda i dijagnoza u kontekstu brige o zdravstvenim potrebama djece. Ova struktura omogućava učinkovito praćenje i upravljanje svim relevantnim medicinskim podacima i podržava glavne funkcionalnosti sustava.
+        Baza podataka "Ozdravi" omogućava integraciju svih informacija kako bi podržala procese komunikacije, pregleda i dijagnoza u kontekstu brige o zdravstvenim potrebama djece. Ova struktura omogućava učinkovito praćenje i upravljanje svim 
+		relevantnim medicinskim podacima i podržava glavne funkcionalnosti sustava.
         
-			\subsection{Opis tablica}
+		\subsection{Opis tablica}
 
-		\textbf{Osoba} Ovaj entitet sadržava osnovne informacije o svim korisnicima sustava. Sadrži atribute: identifikator osobe, identifikator roditelja osobe, identifikator pripadajućeg liječnika, identifikator adrese stanovanja osobe, OIB, ime, prezime, uloga u sustavu, lozinka te e-mail. Ovaj entitet je ključan za autentikaciju korisnika i definiranje njegove uloge unutar sustava.
+		\textbf{Osoba} Ovaj entitet sadržava osnovne informacije o svim korisnicima sustava, uključujući njihovu ulogu, identifikacijske brojeve, ime, prezime, korisničko ime i lozinku. Ova tablica je ključna za autentikaciju korisnika i definira njihove uloge unutar sustava.
 		\begin{longtblr}[
 			label=none,
 			entry=none
