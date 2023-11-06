@@ -94,7 +94,6 @@ Dogovorili smo se da ćemo dodati README na projekt s uputama kako pokrenuti bac
 jednostavno postaviti projekt na svojim računalima.
 
 -------------------------------------------------------------------------------------------------------------------
-
 Radionica: funkcionalni zahtjevi, opis obrazaca uporabe - 31.10.2023.
 
 Dnevni red:
