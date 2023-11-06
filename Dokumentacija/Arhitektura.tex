@@ -2,14 +2,6 @@
 		
 		%dio 1. revizije
 
-<<<<<<< Updated upstream
-		%Potrebno je opisati stil arhitekture te identificirati: podsustave, preslikavanje na radnu platformu, spremišta podataka, mrežne protokole, globalni upravljački tok i sklopovsko-programske zahtjeve. Po točkama razraditi i popratiti odgovarajućim skicama:
-	% - izbor arhitekture temeljem principa oblikovanja pokazanih na           predavanjima (objasniti zašto ste baš odabrali takvu arhitekturu)
-	% - organizaciju sustava s najviše razine apstrakcije (npr. klijent-       poslužitelj, baza podataka, datotečni sustav, grafičko sučelje)
-	% - organizaciju aplikacije (npr. slojevi frontend i backend, MVC          arhitektura)		
-	
-
-=======
 		Glavna tehnologija izrade "frontend" dijela sustava je React.js razvojni okvir, a samo korisničko sučelje je izgrađeno od gotovih komponenti iz paketa "Bootstrap". Korištenje Bootstrap-a nam omogućuje da brzo i lako razvijamo sučelja koja su izgledaju moderno i koja su responzivna, 
 		što je jedan od važnijih zahtjeva. 
 
@@ -46,7 +38,6 @@
 			\item fleksibilan model naplate koji omogućava da besplatno koristimo platformu
 			\item jednostavno integriranje s GitHub repozitorijem za lak "deployment" kad je to potrebno
 		\end{packed_item}
->>>>>>> Stashed changes
 					
 		\section{Baza podataka}
 			
@@ -67,111 +58,6 @@
         
 			\subsection{Opis tablica}
 
-<<<<<<< Updated upstream
-            \textbf{Osoba} Ovaj entitet sadržava osnovne informacije o svim korisnicima sustava, uključujući njihovu ulogu, identifikacijske brojeve, ime, prezime, korisničko ime i lozinku. Ova tablica je ključna za autentikaciju korisnika i definira njihove uloge unutar sustava.
-				\begin{longtblr}[
-					label=none,
-					entry=none
-					]{
-						width = \textwidth,
-						colspec={|X[6,l]|X[6, l]|X[20, l]|}, 
-						rowhead = 1,
-					} %definicija širine tablice, širine stupaca, poravnanje i broja redaka naslova tablice
-					\hline \SetCell[c=3]{c}{\textbf{Person (osoba)}}	 \\ \hline[3pt]
-					\SetCell{LightGreen}id & INT	&  	- 	\\ \hline
-					\SetCell{LightBlue}parent\_id	& INT & ID Osobe koja je roditelj osobe [Parent] \\ \hline 
-                    \SetCell{LightBlue}doctor\_id	& INT & ID Osobe koja je doktor osobe [Doctor/Pediatrician] \\ \hline 
-                    \SetCell{LightBlue}address\_id	& INT & ID Adrese osobe \\ \hline 
-					OIB & VARCHAR & Personal ID Number \\ \hline 
-					first\_name & VARCHAR &  Ime osobe (NOT NULL) \\ \hline 
-                    last\_name & VARCHAR &  Prezime osobe (NOT NULL) \\ \hline 
-                    role & VARCHAR &  Uloga korisnika (NOT NULL) \\ \hline 
-                    password & VARCHAR &  Lozinka za prijavu u sustav \\ \hline
-                    email & VARCHAR &  e-mail za prijavu u sustav \\ \hline 
-					
-				\end{longtblr}
-
-                \textbf{Pregled} Ovaj entitet sadržava podatke o pacijentima, uključujući informacije o njihovim pregledima, dijagnozama i zapisnicima. Sadrži veze između pacijenata, doktora i pregleda, omogućavajući praćenje medicinskih podataka.
-                
-                \begin{longtblr}[
-					label=none,
-					entry=none
-					]{
-						width = \textwidth,
-						colspec={|X[6,l]|X[6, l]|X[20, l]|}, 
-						rowhead = 1,
-					} 
-					\hline \SetCell[c=3]{c}{\textbf{Examination (pregled)}}	 \\ \hline[3pt]
-					\SetCell{LightGreen}id & INT	&  	- 	\\ \hline
-					\SetCell{LightBlue}patient\_id	& INT & ID Osobe koja je pacijent [Parent/Child] (NOT NULL) \\ \hline 
-                    \SetCell{LightBlue}doctor\_id	& INT & ID Osobe koja vrši pregled [Doctor/Pediatrician] (NOT NULL) \\ \hline 
-                    \SetCell{LightBlue}scheduler\_id	& INT & ID osobe koja je zakazala pregled [Doctor/Pediatriciran] (NOT NULL) \\ \hline 
-                    \SetCell{LightBlue}address\_id	& INT & ID adrese na kojoj se održava pregled \\ \hline 
-					report & TEXT & Dijagnoza/zapisnik s pregleda/... \\ \hline 
-					date & DATETIME &  Datum i vrijeme pregleda (NOT NULL) \\ \hline 
-				\end{longtblr}
-
-                \textbf{Drugo mišljenje} Ovaj entitet služi za praćenje detalja o pregledima pacijenata. Sadrži informacije o osobama koje su zatražile drugo mišljenje, doktorima koji su dali mišljenje te samom sadržaju mišljenja. To omogućava praćenje medicinskih konzultacija.
-                
-                 \begin{longtblr}[
-					label=none,
-					entry=none
-					]{
-						width = \textwidth,
-						colspec={|X[6,l]|X[6, l]|X[20, l]|}, 
-						rowhead = 1,
-					} 
-					\hline \SetCell[c=3]{c}{\textbf{SecondOpinion (DrugoMišljenje)}}	 \\ \hline[3pt]
-					\SetCell{LightGreen}id & INT	&  	- 	\\ \hline
-					\SetCell{LightBlue}requester\_id	& INT & ID Osobe koja je zatražila drugo mišljenje [Parent] (NOT NULL) \\ \hline 
-                    \SetCell{LightBlue}doctor\_id & INT & ID Osobe koja je dala drugo mišljenje [Doctor/Pediatrician] (NOT NULL) \\ \hline 
-					second_opinion & TEXT & Drugo mišljenje doktora (NOT NULL)\\ \hline 
-					content & TEXT &  Sadržaj na koji se daje drugo mišljenje (nalaz iz privatne ustanove) \\ \hline 
-				\end{longtblr}
-
-                \textbf{Uputa} Ovaj entitet sadržava informacije o izdanim uputama, uključujući informacije o pacijentima, doktorima koji stvaraju upute i statusu upute. Omogućava praćenje i upravljanje medicinskim preporukama.
-                
-                \begin{longtblr}[
-					label=none,
-					entry=none
-					]{
-						width = \textwidth,
-						colspec={|X[6,l]|X[6, l]|X[20, l]|}, 
-						rowhead = 1,
-					} 
-					\hline \SetCell[c=3]{c}{\textbf{Instruction (uputa)}}	 \\ \hline[3pt]
-					\SetCell{LightGreen}id & INT	&  	- 	\\ \hline
-					\SetCell{LightBlue}doctor\_id	& INT & ID Osobe koja je izdala uputu [Doctor/Pediatrician] (NOT NULL) \\ \hline 
-                    \SetCell{LightBlue}patient\_id & INT & ID Osobe za koju je uputa [Parent] (NOT NULL) \\ \hline 
-					date & DATETIME & Datum i vrijeme izdavanja upute (NOT NULL)\\ \hline 
-					content & TEXT &  Sadržaj uput (NOT NULL) \\ \hline 
-				\end{longtblr}
-
-                \textbf{Preopurka za bolovanje} Ovaj enitet sadrži informacije o izdanim preporukama za bolovanje.  
-                \begin{longtblr}[
-					label=none,
-					entry=none
-					]{
-						width = \textwidth,
-						colspec={|X[6,l]|X[6, l]|X[20, l]|}, 
-						rowhead = 1,
-					} 
-					\hline \SetCell[c=3]{c}{\textbf{SickLeaveRecommendation (Preporuka za bolovanje)}}	 \\ \hline[3pt]
-					\SetCell{LightGreen}id & INT	&  	- 	\\ \hline
-                    \SetCell{LightBlue}patient\_id & INT & ID Osobe za koju se traži bolovanje [Parent] (NOT NULL) \\ \hline 
-                    \SetCell{LightBlue}creator\_id & INT & ID Osobe koja je stvorila preporuku [Pediatrician] (NOT NULL) \\ \hline
-                    \SetCell{LightBlue}approver\_id & INT & ID Osobe koja mora odobriti preporuku [Doctor] (NOT NULL) \\ \hline 
-					\SetCell{LightBlue}examination\_id	& INT & ID pregleda na temelju kojeg se izdaje preporuka (NOT NULL) \\ \hline 
-					email & VARCHAR & e-mail na koji se šalje, ako je potvrđena (NOT NULL) \\ \hline 
-					status & BOOLEAN &  Je li preporuka odobrena \\ \hline 
-				\end{longtblr}
-
-			\subsection{Dijagram baze podataka}
-				% U ovom potpoglavlju potrebno je umetnuti dijagram baze podataka. Primarni i strani ključevi moraju biti označeni, a tablice povezane. Bazu podataka je potrebno normalizirati.
-			
-			\eject
-			
-=======
 		\textbf{Osoba} Ovaj entitet sadržava osnovne informacije o svim korisnicima sustava. Sadrži atribute: identifikator osobe, identifikator roditelja osobe, identifikator pripadajućeg liječnika, identifikator adrese stanovanja osobe, OIB, ime, prezime, uloga u sustavu, lozinka te e-mail. Ovaj entitet je ključan za autentikaciju korisnika i definiranje njegove uloge unutar sustava.
 		\begin{longtblr}[
 			label=none,
@@ -296,7 +182,6 @@
 		    \end{figure}
 		\eject
 		
->>>>>>> Stashed changes
 			
 		\section{Dijagram razreda}
 		
