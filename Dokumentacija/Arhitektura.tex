@@ -1,13 +1,13 @@
 \chapter{Arhitektura i dizajn sustava}
 		Arhitektura sustava počiva na podjeli na korisničko sučelje \textit{(en. frontend)} i na pozadinsku aplikaciju \textit{(en. backend)} koja se spaja na relacijsku bazu podataka.
 
-		Glavna tehnologija izrade "frontend" dijela sustava je React.js razvojni okvir, a samo korisničko sučelje je izgrađeno od gotovih komponenti iz paketa "Bootstrap". Korištenje Bootstrapa nam omogućuje da brzo i lako razvijamo sučelja koja su izgledaju moderno i koja su responzivna, 
+		Glavna tehnologija izrade "frontend" dijela sustava je React.js razvojni okvir, a samo korisničko sučelje je izgrađeno od gotovih komponenti iz paketa "Bootstrap". Korištenje Bootstrap-a nam omogućuje da brzo i lako razvijamo sučelja koja su izgledaju moderno i koja su responzivna, 
 		što je jedan od važnijih zahtjeva. 
 
-		Backend dio je izađen u Spring radnom okviru koji omogućava razvoj MVC (Model-View-Controller) aplikacija, ali i još puno toga, poput rada s bazama podataka i autorizacije korisnika (Spring Security). 
+		Backend dio je izrađen u Spring radnom okviru koji omogućava razvoj MVC (Model-View-Controller) aplikacija, ali i još puno toga, poput rada s bazama podataka i autorizacije korisnika (Spring Security). 
 		Za postavljanje aplikacije u skladu sa Springovim konvencijama koristili smo Spring Boot ekstenziju.
 
-		Kao relacijsku bazu podataka odabrali smo Postgres. Radi se o bazi otvorenog koda \textit{(eg. open-source)} visokih performansi koja se korisiti za širok raspon zadataka i u raznim okruženjima.
+		Kao relacijsku bazu podataka odabrali smo Postgres. Radi se o bazi otvorenog koda \textit{(en. open-source)} visokih performansi koja se koristi za širok raspon zadataka i u raznim okruženjima.
 
 		\begin{figure}[H]
 			\includegraphics[width=\textwidth]{slike/architecture.png} 
@@ -15,10 +15,10 @@
 			% \label{fig:promjene2} 
 		\end{figure}
 
-		Kao što je prikazano na slici 4.1, središnji je dio sustava Spring backend koji ostvaruje komunikaciju s Postgres bazom, ali i s frontend aplikacijom. Komunikacija s frontendom se ostvaruje primjnom
-		HTTP (HyperText Transfer Protokola) koji je ključni protokol weba. Za potrebe komunikacije backenda i frontenda definiran je API (Application Programming Interface) u skladu s pravilima REST-a (Representational State Transfer). Neka od njih su:
+		Kao što je prikazano na slici 4.1, središnji je dio sustava Spring backend koji ostvaruje komunikaciju s Postgres bazom, ali i s frontend aplikacijom. Komunikacija s frontend-om se ostvaruje primjenom
+		HTTP (HyperText Transfer Protokola) koji je ključni protokol web-a. Za potrebe komunikacije backend-a i frontend-a definiran je API (Application Programming Interface) u skladu s pravilima REST-a (Representational State Transfer). Neka od njih su:
 		\begin{packed_item}
-			\item odvajanje poslužitelja i klijena - Klijent i poslužitelj su u potpunosti neovisni, a sve što klijent "zna" dolazi od poslužitelja.
+			\item odvajanje poslužitelja i klijenta - Klijent i poslužitelj su u potpunosti neovisni, a sve što klijent "zna" dolazi od poslužitelja.
 			\item "statelessness" - 
 		\end{packed_item}
 
@@ -34,7 +34,7 @@
 		Kao infrastrukturnu platformu, na kojoj ćemo postaviti produkcijsko okruženje, izabrali smo Heroku iz dva glavna razloga:
 		\begin{packed_item}
 			\item jednostavnost postavljanja potrebnih resursa (Heroku Dyno, Heroku Postgres)
-			\item fleksibilan model naplate koji omogućava da besplatno korisitimo platformu
+			\item fleksibilan model naplate koji omogućava da besplatno koristimo platformu
 			\item jednostavno integriranje s GitHub repozitorijem za lak "deployment" kad je to potrebno
 		\end{packed_item}
 					
@@ -64,7 +64,7 @@
 				rowhead = 1,
 			} %definicija širine tablice, širine stupaca, poravnanje i broja redaka naslova tablice
 			\hline \SetCell[c=3]{c}{\textbf{Person (osoba)}}	 \\ \hline[3pt]
-			\SetCell{LightGreen}id & INT	&  	- 	\\ \hline
+			\SetCell{LightGreen}id & INT	&  	jedinstveni brojčani identifikator 	\\ \hline
 			\SetCell{LightBlue}parent\_id	& INT & ID osobe koja je roditelj osobe [Parent] \\ \hline 
 			\SetCell{LightBlue}doctor\_id	& INT & ID osobe koja je doktor osobe [Doctor/Pediatrician] \\ \hline 
 			\SetCell{LightBlue}address\_id	& INT & ID Adrese osobe \\ \hline 
@@ -76,7 +76,7 @@
 			email & VARCHAR &  e-mail za prijavu u sustav \\ \hline 
 		\end{longtblr}
 
-		\textbf{Pregled} Ovaj entitet sadržava podatke o pacijentima, uključujući informacije o njihovim pregledima, dijagnozama i zapisnicima. Sadrži veze između pacijenata, doktora i pregleda, omogućavajući praćenje medicinskih podataka.
+		\textbf{Pregled} Ovaj entitet sadržava podatke o pacijentima, uključujući informacije o njihovim pregledima, dijagnozama i zapisnicima. Sadrži atribute: identifikator pregleda, identifikator pacijenta, identifikator liječnika, identifikator liječnika koji je zakazao pregled, identifikator adrese na kojoj se održava pregled, zapisnik s pregleda te datum i vrijeme pregleda. Pohranjuje veze između pacijenata, doktora i pregleda, omogućavajući praćenje medicinskih podataka. 
 		
 		\begin{longtblr}[
 			label=none,
@@ -87,16 +87,16 @@
 				rowhead = 1,
 			} 
 			\hline \SetCell[c=3]{c}{\textbf{Examination (Pregled)}}	 \\ \hline[3pt]
-			\SetCell{LightGreen}id & INT	&  	- 	\\ \hline
+			\SetCell{LightGreen}id & INT	&  	jedinstveni brojčani identifikator 	\\ \hline
 			\SetCell{LightBlue}patient\_id	& INT & ID osobe koja je pacijent [Parent/Child] (NOT NULL) \\ \hline 
 			\SetCell{LightBlue}doctor\_id	& INT & ID osobe koja vrši pregled [Doctor/Pediatrician] (NOT NULL) \\ \hline 
 			\SetCell{LightBlue}scheduler\_id	& INT & ID osobe koja je zakazala pregled [Doctor/Pediatriciran] (NOT NULL) \\ \hline 
 			\SetCell{LightBlue}address\_id	& INT & ID adrese na kojoj se održava pregled \\ \hline 
-			report & TEXT & Dijagnoza/zapisnik s pregleda/... \\ \hline 
+			report & TEXT & Dijagnoza/zapisnik s pregleda \\ \hline 
 			date & DATETIME &  Datum i vrijeme pregleda (NOT NULL) \\ \hline 
 		\end{longtblr}
 
-		\textbf{Drugo mišljenje} Ovaj entitet služi za praćenje detalja o pregledima pacijenata. Sadrži informacije o osobama koje su zatražile drugo mišljenje, doktorima koji su dali mišljenje te samom sadržaju mišljenja. To omogućava praćenje medicinskih konzultacija.
+		\textbf{Drugo mišljenje} Ovaj entitet služi za praćenje detalja o pregledima pacijenata. Sadrži atribute: identifikator drugog mišljenja, identifikator osobe koja ga je zatražila, identifikator liječnika koji daje drugo mišljenje te nalaz iz privatne ustanove na temelju kojeg se traži drugo mišljenje. Ovaj entitet omogućava praćenje medicinskih konzultacija.
 		\begin{longtblr}[
 			label=none,
 			entry=none
@@ -106,14 +106,14 @@
 				rowhead = 1,
 			} 
 			\hline \SetCell[c=3]{c}{\textbf{SecondOpinion (DrugoMišljenje)}}	 \\ \hline[3pt]
-			\SetCell{LightGreen}id & INT	&  	- 	\\ \hline
+			\SetCell{LightGreen}id & INT	&  	jedinstveni brojčani identifikator 	\\ \hline
 			\SetCell{LightBlue}requester\_id	& INT & ID osobe koja je zatražila drugo mišljenje [Parent] (NOT NULL) \\ \hline 
 			\SetCell{LightBlue}doctor\_id & INT & ID osobe koja je dala drugo mišljenje [Doctor/Pediatrician] (NOT NULL) \\ \hline 
-			second\_opinion & TEXT & Drugo mišljenje doktora (NOT NULL)\\ \hline 
+			private\_report & TEXT & nalaz iz privatne ustanove koji unosi roditelj (NOT NULL)\\ \hline 
 			content & TEXT &  Sadržaj na koji se daje drugo mišljenje (nalaz iz privatne ustanove) \\ \hline 
 		\end{longtblr}
 
-		\textbf{Uputa} Ovaj entitet sadržava informacije o izdanim uputama, uključujući informacije o pacijentima, doktorima koji stvaraju upute i statusu upute. Omogućava praćenje i upravljanje medicinskim preporukama.
+		\textbf{Uputa} Ovaj entitet sadržava informacije o izdanim uputama, uključujući informacije o pacijentima, doktorima koji stvaraju upute i statusu upute. Sadrži atribute: identifikator upute, identifikator liječnika koji je izdao uputu, identifikator pacijenta kojemu je upućena, identifikator adrese, datum te sadržaj upute. Omogućava praćenje i upravljanje medicinskim preporukama.
 		\begin{longtblr}[
 			label=none,
 			entry=none
@@ -123,14 +123,15 @@
 				rowhead = 1,
 			} 
 			\hline \SetCell[c=3]{c}{\textbf{Instruction (Uputa)}}	 \\ \hline[3pt]
-			\SetCell{LightGreen}id & INT	&  	- 	\\ \hline
+			\SetCell{LightGreen}id & INT	&  	jedinstveni brojčani identifikator 	\\ \hline
 			\SetCell{LightBlue}doctor\_id	& INT & ID osobe koja je izdala uputu [Doctor/Pediatrician] (NOT NULL) \\ \hline 
 			\SetCell{LightBlue}patient\_id & INT & ID osobe za koju je uputa [Parent] (NOT NULL) \\ \hline 
+            \SetCell{LightBlue}address\_id	& INT & ID adrese na kojoj će se održati pregled za danu uputu (NOT NULL) \\ \hline 
 			date & DATETIME & Datum i vrijeme izdavanja upute (NOT NULL)\\ \hline 
 			content & TEXT &  Sadržaj upute (NOT NULL) \\ \hline 
 		\end{longtblr}
 
-		\textbf{Preopurka za bolovanje} Ovaj entitet sadrži informacije o izdanim preporukama za bolovanje, tko ih je izdao, za koga i tko ih treba odobriti.
+		\textbf{Preopurka za bolovanje} Ovaj entitet sadržava informacije o izdanim preporukama za bolovanje, tko ih je izdao, za koga i tko ih treba odobriti. Sadrži atribute: identifikator preporuke, identifikator pacijenta, identifikator pedijatra koji ju je stvorio, identifikatora liječnika koji ju je odobrio, identifikator pregleda na kojem se izdaje, e-mail adresa posolodavca kojem se šalje doznaka za bolovanje te status preporuke.
 		\begin{longtblr}[
 			label=none,
 			entry=none
@@ -140,18 +141,41 @@
 				rowhead = 1,
 			} 
 			\hline \SetCell[c=3]{c}{\textbf{SickLeaveRecommendation (Preporuka za bolovanje)}}	 \\ \hline[3pt]
-			\SetCell{LightGreen}id & INT	&  	- 	\\ \hline
+			\SetCell{LightGreen}id & INT	&  	jedinstveni brojčani identifikator	\\ \hline
 			\SetCell{LightBlue}patient\_id & INT & ID osobe za koju se traži bolovanje [Parent] (NOT NULL) \\ \hline 
 			\SetCell{LightBlue}creator\_id & INT & ID osobe koja je stvorila preporuku [Pediatrician] (NOT NULL) \\ \hline
 			\SetCell{LightBlue}approver\_id & INT & ID osobe koja mora odobriti preporuku [Doctor] (NOT NULL) \\ \hline 
 			\SetCell{LightBlue}examination\_id	& INT & ID pregleda na temelju kojeg se izdaje preporuka (NOT NULL) \\ \hline 
-			email & VARCHAR & e-mail na koji se šalje, ako je potvrđena (NOT NULL) \\ \hline 
-			status & BOOLEAN &  Je li preporuka odobrena? \\ \hline 
+			email & VARCHAR & e-mail poslodavca na koji se šalje doznaka, ako je potvrđena preporuka(NOT NULL) \\ \hline 
+			status & BOOLEAN &  Je li preporuka odobrena? (default false) \\ \hline 
 		\end{longtblr}
 
+        \textbf{Adresa} Ovaj entitet sadržava informacije o adresi održavanja pregleda. Sadrži atribute: identifikator ulice, ulicu, kućni broj, grad, državu te geografsku širinu i dužinu. 
+		\begin{longtblr}[
+			label=none,
+			entry=none
+			]{
+				width = \textwidth,
+				colspec={|X[6,l]|X[6, l]|X[20, l]|}, 
+				rowhead = 1,
+			} 
+			\hline \SetCell[c=3]{c}{\textbf{Address (Adresa)}}	 \\ \hline[3pt]
+			\SetCell{LightGreen}id & INT	&  	jedinstveni brojčani identifikator 	\\ \hline
+			street	& VARCHAR & ulica\\ \hline 
+            number	& VARCHAR & kućni broj\\ \hline
+            city	& VARCHAR & grad\\ \hline
+            country	& VARCHAR & država\\ \hline
+            latitude	& NUMERIC & geografska širina\\ \hline
+            longitude	& NUMERIC & geografska dužina\\ \hline
+			
+		\end{longtblr}
+  
 		\subsection{Dijagram baze podataka}
 			% U ovom potpoglavlju potrebno je umetnuti dijagram baze podataka. Primarni i strani ključevi moraju biti označeni, a tablice povezane. Bazu podataka je potrebno normalizirati.
-		
+		    \begin{figure}[H]
+			     \includegraphics[width=\textwidth]{slike/ERdijagram.png} 
+			     \caption{ER dijagram baze podataka} 
+		    \end{figure}
 		\eject
 		
 			
