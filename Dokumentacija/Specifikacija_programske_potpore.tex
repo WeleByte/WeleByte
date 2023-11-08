@@ -15,8 +15,9 @@
 					\item registrirati se i prijaviti u sustav
                     \item vidjeti profil za sebe i svoju djecu
 					\item pregledati medicinske nalaze, dijagnoze i povijesti pregleda za sebe i svoju djecu
-                    \item zatražiti povratnu informaciju liječnika ili pedijatra o nalazu dobivenim temeljem određene usluge u privatnoj ustanovi, tj. drugog mišljenja
-                    \item vidjeti druga mišljenja koja je stvorio
+					\item unijeti nalaz dobiven temeljem određenog pregleda ili postupka u privatnoj ustanovi
+                    \item zatražiti drugo mišljenje liječnika ili pedijatra o nalazu dobivenim u privatnoj ustanovi
+                    \item vidjeti zahtjeve za drugim mišljenjima koja je stvorio
 				\end{packed_enum}
 			
 				\item  \underbar{Pedijatar (inicijator) može:}
@@ -34,8 +35,8 @@
                 \item  \underbar{Liječnik obiteljske medicine (inicijator) može:}
 				\begin{packed_enum}
 					\item prijaviti se u sustav
-                    \item pregledati i odobriti doznake izdane od strane pedijatra koje se šalju poslodavcu roditelja
-                    \item utvrditi bolest djeteta nakon čega se šalje ispričnica u školu
+                    \item pregledati i odobriti preporuke za bolovanje izdane od strane pedijatra 
+					\item slati doznake za bolovanje poslodavcu roditelja
                     \item dati povratnu informaciju na drugo mišljenje
                     \item naručiti pacijenta na specijalistički pregled/postupak
                     \item unositi podatke o pregledima
@@ -71,17 +72,17 @@
 					\noindent \underbar{\textbf{UC1 - registraj se}}
 					\begin{packed_item}
 	
-						\item \textbf{Glavni sudionik: }roditelj
+						\item \textbf{Glavni sudionik: }korisnik
 						\item  \textbf{Cilj:} stvoriti korisnički račun za pristup sustavu
 						\item  \textbf{Sudionici:} baza podataka
 						\item  \textbf{Preduvjet:} -
 						\item  \textbf{Opis osnovnog tijeka:}
 						
 						\item[] \begin{packed_enum}
-	
+							\item korisnik otvara početnu stranicu za registraciju u aplikaciju
 							\item korisnik odabire opciju za registraciju
 							\item korisnik unosi potrebne korisničke podatke
-							\item korisnik dobiva prstup korisničkim funkcijama
+							\item korisnik dobiva pristup korisničkim funkcijama
 
 						\end{packed_enum}
 						
@@ -105,65 +106,89 @@
 						\item \textbf{Glavni sudionik: }korisnik
 						\item  \textbf{Cilj: }dobiti pristup korisničkom sučelju
 						\item  \textbf{Sudionici: }baza podataka
-						\item  \textbf{Preduvjet: }registracija
+						\item  \textbf{Preduvjet: } korisnik je registriran
 						\item  \textbf{Opis osnovnog tijeka:}
 						
 						\item[] \begin{packed_enum}
-	
-							\item unos korisničkog imena i lozinke
-							\item potvrda o ispravnosti unesenih podataka
-							\item pristup korisničkim funkcijama
+							\item korisniku se po upisu web adrese aplikacije, otvara početna stranica
+							\item korisnik odabire akciju prijavi se
+							\item sustav otvara modalni ekran prijave
+							\item korisnik unosi unosi korisničko ime i lozinku
+							\item korisnik odabire akciju potvrde unosa
+							\item sustav provjerava i utvrđuje da je unos uspješan
+							\item korisniku se prikazuje sučelje aplikacije s korisničkim funkcijama
 
 						\end{packed_enum}
 						
 						\item  \textbf{Opis mogućih odstupanja:}
 						
 						\item[] \begin{packed_item}
-	
-							\item[2.a] Neispravno korisničko ime/lozinka ili ne postoji profil s ovim korisničkim imenom/e-mailom
-							\item[] \begin{packed_enum}
-								
-								\item sustav obavještava korisnika o neuspjelom upisu i vraća ga na stranicu za prijavu
-								
+							\item[5.a] Korisnik odabire akciju Odustani
+							\item[] 
+							\begin{packed_enum} 
+								\item sustav zatvara modalni ekran
+								\item prikazuje se prethodni ekran i završava izvođenje ovog scenarija
+							\end{packed_enum}
+							\item[6a]  Sustav provjerava i utvrđuje da unos podataka nije uspješan
+							\item[] 
+							\begin{packed_enum}
+								\item sustav obavještava korisnika notifikacijom na modalnom ekranu o unosu pogrešne lozinke
+								\item sustav nastavlja izvođenje u koraku 4. (korisnik ispravlja unesenu lozinku i dalje scenarij ide svojim tijekom)
 							\end{packed_enum}
 							
 						\end{packed_item}
 					\end{packed_item}
 
-                    \noindent \underbar{\textbf{UC3 - pregledaj profila djeteta}}
+                    \noindent \underbar{\textbf{UC3 - pregledaj profil djeteta}}
 					\begin{packed_item}
 	
-						\item \textbf{Glavni sudionik: }roditelj
+						\item \textbf{Glavni sudionik: }korisnik
 						\item  \textbf{Cilj:} pregledati djetetovu povijest pregleda, nalaze i dijagnoze
 						\item  \textbf{Sudionici:} baza podataka
-						\item  \textbf{Preduvjet:} roditelj je prijavljen, ima dijete i povezani su u sustavu
+						\item  \textbf{Preduvjet:} izvođenje UC2 i UC18, korisnik ima dijete
 						\item  \textbf{Opis osnovnog tijeka:}
 						
 						\item[] \begin{packed_enum}
-	
-							\item roditelj odabire opciju 'moja djeca' te mu se prikaže popis njegove djece
+		
+							\item roditelj odabire opciju 'moja djeca' na početnoj stranici
+							\item sustav prikazuje popis djece koja su povezana s roditeljem
 							\item roditelj odabire dijete čije podatke želi pregledati
-							
+							\item sustav prikazuje osobne podatke o djetetu
+							\item roditelj odabire opciju 'povijest pregleda'
+							\item sustav prikazuje popis svih djetetovih pregleda
+							\item roditelj odabire pregled čije podatke želi pregledati
+							\item sustav prikazuje podatke o odabranom pregledu
 						\end{packed_enum}
+						\item  \textbf{Opis mogućih odstupanja:}
 						
+						\item[] \begin{packed_item}
+							\item[6.a] Dijete nema nijedan zabilježeni pregled
+							\item[] 
+							\begin{packed_enum} 
+								\item prikazuje se poruka 'Ne postoji nijedan zabilježeni pregled'
+								\item završava izvođenje ovog scenarija
+								
+							\end{packed_enum}
+						\end{packed_item}
 					\end{packed_item}
 
                     
                     \noindent \underbar{\textbf{UC4 - pregledaj vlastiti profil}}
 					\begin{packed_item}
 	
-						\item \textbf{Glavni sudionik: }roditelj, pedijatar, liječnik obiteljske medicine, administrator
+						\item \textbf{Glavni sudionik: }korisnik
 						\item  \textbf{Cilj:} pregledati vlastiti profil
 						\item  \textbf{Sudionici:} baza podataka
-						\item  \textbf{Preduvjet:} korisnik je prijavljen 
+						\item  \textbf{Preduvjet:} izvođenje UC2
 						\item  \textbf{Opis osnovnog tijeka:}
 						
 						\item[] \begin{packed_enum}
 	
-							\item korisnik odabire opciju 'osobni podaci'
-							\item korisnik vidi svoje podatke
-							
+							\item korisnik odabire opciju 'osobni podaci' s početne stranice
+							\item sustav prikazuje osobne podatke korisnika 
+			
 						\end{packed_enum}
+						
 						
 					\end{packed_item}
 
@@ -171,49 +196,60 @@
                      \noindent \underbar{\textbf{UC5 - pregledaj medicinske podatake}}
 					\begin{packed_item}
 	
-						\item \textbf{Glavni sudionik: }roditelj
+						\item \textbf{Glavni sudionik: }korisnik
 						\item  \textbf{Cilj:} pristupiti povijesti pregleda, za svaki pregled su vidljivi nalazi i dijagnoze ustanovljene na pregledu
 						\item  \textbf{Sudionici:} baza podataka
-						\item  \textbf{Preduvjet:} roditelj je prijavljen u sustav
+						\item  \textbf{Preduvjet:} izvođenje UC2
 						\item  \textbf{Opis osnovnog tijeka:}
 						
 						\item[] \begin{packed_enum}
 	
-							\item roditelj odabire opciju 'moji pregledi'
-							\item roditelj vidi listu svojih prošlih i zakazanih pregleda
-							\item odabirom na pojedini pregled, roditelj vidi nalaze i dijagnoze s tog pregleda
-
+							\item roditelj odabire opciju 'moji pregledi' s početne stranice
+							\item sustav prikazuje popis svih obavljenih i zakazanih pregleda
+							\item korisnik odabire pregled za koji želi vidjeti podatke
+							\item sustav prikazuje podatke o odabranom pregledu
+							
 						\end{packed_enum}
+						\item  \textbf{Opis mogućih odstupanja:}
+						
+						\item[] \begin{packed_item}
+							\item[2.a] Korisnik nema nijedan zabilježeni pregled
+							\item[] 
+							\begin{packed_enum} 
+								\item prikazuje se poruka 'Ne postoji nijedan zabilježeni pregled'
+								\item završava izvođenje ovog scenarija
+								
+							\end{packed_enum}
+						\end{packed_item}
 					\end{packed_item}
 
                     \noindent \underbar{\textbf{UC6 - stvori zahtjev za drugim mišljenjem}}
 					\begin{packed_item}
-						\item \textbf{Glavni sudionik: }roditelj
+						\item \textbf{Glavni sudionik: }korisnik
 						\item  \textbf{Cilj:} zatražiti drugo mišljenja liječnika ili pedijatra o nalazu dobivenom temeljem određene usluge u privatnoj ustanovi
 						\item  \textbf{Sudionici:} baza podataka
-						\item  \textbf{Preduvjet:} roditelj je prijavljen u sustav
+						\item  \textbf{Preduvjet:} izvođenje UC2 i UC8
 						\item  \textbf{Opis osnovnog tijeka:}
 						
 						\item[] \begin{packed_enum}
-	
-							\item roditelj unosi nalaz dobiven u privatnoj ustanovi
-                            \item roditelj odabire liječnika/peidjatra čije drugo mišljenje želi dobiti
-							\item roditelj šalje zahtjev za drugim mišljenjem
+							\item korisnik odabire opciju 'Zatraži drugo mišljenje'
+							\item sustav otvara modalni okvir unosa zahtjeva za drugim mišljenjem
+							\item roditelj prenosi nalaz dobiven u privatnoj ustanovi
+                            \item roditelj odabire liječnika/pedijatra čije drugo mišljenje želi dobiti
+							\item roditelj odabire akciju 'pošalji zahtjev'
+							\item sustav provjerava i utvrđuje da je unos uspješan
+							\item prikazuje se poruka 'Zahtjev uspješno poslan'
 						
 						\end{packed_enum}
 						
 						\item  \textbf{Opis mogućih odstupanja:}
 						
 						\item[] \begin{packed_item}
-	
-							\item[2.a] pacijent (roditelj/dijete) ne pripada nijednom liječniku
-							\item[] \begin{packed_enum}
-								\item roditelj nije u mogućnosti poslati zahtjev, sve dok pacijent pripada nijednom liječniku
-							\end{packed_enum}
-
-                            \item[3.a] neispravno popunjen zahtjev
+                            \item[5.a] neispravno popunjen zahtjev
                             \item[] \begin{packed_enum}
-								\item zahtjev nije moguće poslati te se roditelja ponovno usmjerava na ispunjavanje zahtjeva za drugim mišljenjem
+                            	\item sustav utvrđuje da je zahtjev neispravno popunjen
+								\item sustav usmjerava korisnika na ponovno ispunjavanje zahtjeva za drugim mišljenjem
+								\item nakon ispravong unosa, korisnik odabire akciju 'pošalji zahtjev' te se scenarij nastavlja od koraka 6
 							\end{packed_enum}
 						\end{packed_item}
 					\end{packed_item}
@@ -222,18 +258,19 @@
                     \noindent \underbar{\textbf{UC7 - Pregledaj zahtjev za drugim mišljenjem}}
 					\begin{packed_item}
 	
-						\item \textbf{Glavni sudionik: }roditelj
+						\item \textbf{Glavni sudionik: }korisnik
 						\item  \textbf{Cilj:} pregledati predani zahtjev za drugim mišljenjem te liječnikovu ili pedijatrovu povratnu informaciju 
 						\item  \textbf{Sudionici:} baza podataka
-						\item  \textbf{Preduvjet:} roditelj je prijavljen u sustav, predao je zahtjev za drugim mišljenjem
+						\item  \textbf{Preduvjet:} izvođenje UC2 i UC6
 						\item  \textbf{Opis osnovnog tijeka:}
 						
 						\item[] \begin{packed_enum}
 	
-							\item roditelj odabire opciju 'Moji zahtjevi'
-							\item pregledava popis svojih zahtjeva
-							\item odabire zahtjev koji želi vidjeti
-                            \item pregledava liječnikovo/pedijatrovo drugo mišljenje
+							\item korisnik odabire opciju 'moji zahtjevi' s početne stranice
+							\item sustav prikazuje popis svih korisnikovih zahtjeva za drugim mišljenjem
+							\item korisnik odabire zahtjev koji želi pregledati
+                            \item sustav prikazuje korisnikov zahtjev za drugim mišljenjem
+                            \item korisnik pregledava liječnikov odgovor na zahtjev
 
 						\end{packed_enum}
 						
@@ -241,27 +278,30 @@
 						
 						\item[] \begin{packed_item}
 	
-							\item[3.a] liječnik/pedijatar nije poslao svoje drugo mišljenje
+							\item[5.a] liječnik nije poslao svoje drugo mišljenje
 							\item[] \begin{packed_enum}
 								\item roditelj može vidjeti samo svoj predani zahtjev
+								\item sustav prikazuje poruku 'Liječnik nije poslao svoje drugo mišljenje!' u polju za odgovor liječnika
+								\item završava se izvođenje ovog scenarija 
 							\end{packed_enum}
 							
 						\end{packed_item}
 					\end{packed_item}
 
-                    \noindent \underbar{\textbf{UC8 - prijavi dijete po identifikatoru }}
+                    \noindent \underbar{\textbf{UC8 - prijavi pacijenta u svoju ordinaciju }}
 					\begin{packed_item}
 	
-						\item \textbf{Glavni sudionik: }pedijatar
-						\item  \textbf{Cilj:} prijaviti dijete u sustav
+						\item \textbf{Glavni sudionik: }pedijatar, liječnik obiteljske medicine
+						\item  \textbf{Cilj:} prijaviti pacijenta u svoju ordinaciju
 						\item  \textbf{Sudionici:} baza podataka
-						\item  \textbf{Preduvjet:} pedijatar je prijavljen u sustav
+						\item  \textbf{Preduvjet:} izvođenje UC2
 						\item  \textbf{Opis osnovnog tijeka:}
 						
 						\item[] \begin{packed_enum}
-	
-							\item pedijatar vidi popis djece koje nemaju pridijeljenog pedijatra
-							\item pedijatar odabire dijete koje postaje njegov pacijent
+							\item liječnik odabire opciju 'Prijavi pacijenta' s početne stranice
+							\item sustav prikazuje popis pacijenata koji nemaju pridijeljenog liječnika
+							\item liječnik odabire pacijenta koji postaje njegov pacijent odabirom akcije 'Odaberi pacijenta'
+							\item sustav obavještava liječnika da je pacijent uspješno odabran i prijavljen u njegovu ordinaciju
 
 						\end{packed_enum}
 						
@@ -269,9 +309,9 @@
 						
 						\item[] \begin{packed_item}
 	
-							\item[1.a] ne postoji dijete koje nema pridijeljenog pedijatra 
+							\item[2.a] ne postoji nijedan pacijent koji nema pridijeljenog liječnika
 							\item[] \begin{packed_enum}
-								\item pedijatar ne može odabrati nijedno dijete
+								\item sustav umjesto popisa pacijenata, prikazuje poruku 'Svi pacijenti imaju pridjeljenog liječnika'
 							\end{packed_enum}
 							
 						\end{packed_item}
@@ -284,13 +324,15 @@
 						\item \textbf{Glavni sudionik: }pedijatar, liječnik obiteljske medicine
 						\item  \textbf{Cilj:} pregledati popis prijavljenih pacijenata i njihovih kartona
 						\item  \textbf{Sudionici:} baza podataka
-						\item  \textbf{Preduvjet:} liječnik je prijavljen u sustav
+						\item  \textbf{Preduvjet:} izvođenje UC2
 						\item  \textbf{Opis osnovnog tijeka:}
 						
 						\item[] \begin{packed_enum}
 	
-							\item liječnik pregledava popis svojih pacijenata
-							\item liječnik odabire pacijenta čiji karton želi pregledati
+							\item liječnik odabire opciju 'Moji pacijenti' s početne stranice
+							\item sustav prikazuje popis pacijenata koji su prijavljeni u liječnikovoj ordinaciji
+							\item liječnik odabire pacijenta čiji karton želi pregledati i odabire opciju 'Pregledaj karton'
+							\item sustav prikazuje medicinske podatke o odabranom pacijentu
 						\end{packed_enum}
 						
 						\item  \textbf{Opis mogućih odstupanja:}
@@ -300,7 +342,8 @@
 							\item[2.a] liječnik nema nijednog pacijenta
 							\item[] \begin{packed_enum}
 								
-								\item ne može pregledati pacijentov karton, sve dok pacijent nije prijavljen u njegovoj ordinaciji
+								\item sustav prikazuje poruku 'Nemate nijednog prijavljenog pacijenta'
+								\item završava se izvođenje ovog scenarija
 							\end{packed_enum}
 							
 						\end{packed_item}
@@ -313,17 +356,35 @@
 						\item \textbf{Glavni sudionik: }pedijatar, liječnik obiteljske medicine
 						\item  \textbf{Cilj:} unijeti pregled te medicinske podatke vezane uz pregled: dijagnoza, nalaz, terapija
 						\item  \textbf{Sudionici:} baza podataka
-						\item  \textbf{Preduvjet:} liječnik je prijavljen u sustav, pacijent se nalazi na njegovom popisu
+						\item  \textbf{Preduvjet:} izvođenje UC2 i UC8
 						\item  \textbf{Opis osnovnog tijeka:}
 						
 						\item[] \begin{packed_enum}
 	
-							\item liječnik pregledava popis svojih pacijenata
-							\item liječnik odabire pacijenta za kojega želi unijeti novi pregled
+							\item liječnik odabire opciju 'novi pregled' s početne stranice
+							\item sustav prikazuje modalni ekran za unos pregleda
+							\item liječnik odabire pacijenta iz padajućeg izbornika za kojega želi unijeti novi pregled
 							\item liječnik unosi podatke o pregledu
+							\item liječnik odabire opciju 'unesi pregled'
+							\item sustav provjerava i utvrđuje da je unos uspješan
+							\item sustav obavještava liječnika da je pregled uspješno unesen
 
 						\end{packed_enum}
-					
+
+						\item  \textbf{Opis mogućih odstupanja:}
+						
+						\item[] \begin{packed_item}
+	
+							\item[6.a] liječnik je pogrešno unio podatke o pregledu
+							\item[] \begin{packed_enum}
+								
+								\item sustav prikazuje poruku 'Neispravan unos podataka o pregledu'
+								\item sustav vraća liječnika na izmjenu pogrešnih podataka o pregledu
+								\item scenarij se nastavlja od koraka 5
+							\end{packed_enum}
+							
+						\end{packed_item}
+						
 					\end{packed_item}
 
                     \noindent \underbar{\textbf{UC11 - evidentiraj preporuku za bolovanje}}
@@ -332,13 +393,18 @@
 						\item \textbf{Glavni sudionik: }pedijatar
 						\item  \textbf{Cilj:} evidentirati preporuku za bolovanje roditelja u slučaju bolesti djeteta
 						\item  \textbf{Sudionici:} baza podataka
-						\item  \textbf{Preduvjet:} pedijatar je prijavljen u sustav, stvoren je pregled na kojem je dijagnosticirana bolest djeteta
+						\item  \textbf{Preduvjet:} izvođenje UC2 i UC10
 						\item  \textbf{Opis osnovnog tijeka:}
 						
 						\item[] \begin{packed_enum}
 	
-							\item pedijatar odabire opciju 'Nova preporuka'
+							\item pedijatar odabire opciju 'nova preporuka za bolovanje' s početne stranice
+							\item sustav prikazuje modalni okvir za unos preporuke za bolovanje
 							\item pedijatar odabire pregled temeljem kojeg je potrebna preporuka za bolovanje
+							\item pedijatar unosi podatke o preporuci za bolovanje
+							\item pedijatar odabire opciju 'unesi preporuku'
+							\item sustav provjerava i potvrđuje da je unos uspješan
+							\item sustav obavještava pedijatra da je preporuka uspješno unesena
 							\item preporuka se šalje roditeljevom liječniku obiteljske medicine
 
 						\end{packed_enum}
@@ -348,17 +414,20 @@
 					\begin{packed_item}
 	
 						\item \textbf{Glavni sudionik: }pedijatar
-						\item  \textbf{Cilj:} poslati ispričnicu zbog bolesti djeteta u njegov vrtić/školu
+						\item  \textbf{Cilj:} poslati ispričnicu zbog bolesti djeteta u djetetov vrtić/školu
 						\item  \textbf{Sudionici:} baza podataka
-						\item  \textbf{Preduvjet:} liječnik je prijavljen u sustav, stvoren je pregled na kojem je dijagnosticirana bolest djeteta
+						\item  \textbf{Preduvjet:} izvođenje UC2 i UC10
 						\item  \textbf{Opis osnovnog tijeka:}
 						
 						\item[] \begin{packed_enum}
 	
-							\item pedijatar odabire opciju 'Nova ispričnica'
+							\item pedijatar odabire opciju 'Nova ispričnica' na početnoj stranici
+							\item sustav prikazuje modalni ekran za unos ispričnice
 							\item pedijatar odabire pregled na temelju kojega je potrebno poslati ispričnicu
-							\item unosi se e-mail adresa na koju je potrebno poslati ispričnicu
-                            \item ispričnica je poslana
+							\item pedijatar unosi e-mail adresu na koju je potrebno poslati ispričnicu
+                            \item pedijatar odabire opciju 'pošalji ispričnicu'
+                            \item sustav provjerava i potvrđuje da je unos uspješan
+                            \item sustav obavještava pedijatra da je ispričnica uspješno poslana
 
 						\end{packed_enum}
 						
@@ -366,15 +435,11 @@
 						
 						\item[] \begin{packed_item}
 	
-							\item[3.a] pedijatar je unio pogrešnu e-mail adresa
+                            \item[6.a] pedijatar je neispravno popunio ispričnicu
 							\item[] \begin{packed_enum}
-								
-								\item pedijatra se vraća na ponovni unos e-mail adrese
-							\end{packed_enum}
-                            \item[3.b] pedijatar je neispravno popunio ispričnicu
-							\item[] \begin{packed_enum}
-								
+								\item sustav prikazuje poruku 'Neispravan unos podataka o ispričnici'
 								\item pedijatra se vraća na ponovno popunjavanje ispričnice
+								\item scenarij se nastavlja od koraka 5
 							\end{packed_enum}
 							
 						\end{packed_item}
@@ -387,11 +452,11 @@
 						\item \textbf{Glavni sudionik: }pedijatar, liječnik obiteljske medicine
 						\item  \textbf{Cilj:} naručiti pacijenta na specijalistički pregled/postupak
 						\item  \textbf{Sudionici:} baza podataka
-						\item  \textbf{Preduvjet:} liječnik je prijavljen u sustav te je pacijent prijavljen u njegovoj ordinaciji
+						\item  \textbf{Preduvjet:} izvođenje UC2 i UC8
 						\item  \textbf{Opis osnovnog tijeka:}
 						
 						\item[] \begin{packed_enum}
-	
+							
 							\item liječnik pregledava popis svojih pacijenata
 							\item liječnik odabire pacijenta kojeg želi naručiti na specijalistički pregled/postupak
 							\item liječnik stvara novi specijalistički pregled i zakaže vrijeme
@@ -401,17 +466,17 @@
 					\end{packed_item}
 
 
-                     \noindent \underbar{\textbf{UC14 - pregledaj preporuke za bolovanje}}
+                     \noindent \underbar{\textbf{UC14 - donesi odluku o preporuci za bolovanje}}
 					\begin{packed_item}
 	
 						\item \textbf{Glavni sudionik: }liječnik obiteljske medicine
 						\item  \textbf{Cilj:} pregledati preoporuku za bolovanje roditelja izdanu od strane pedijatra
 						\item  \textbf{Sudionici:} baza podataka
-						\item  \textbf{Preduvjet:} liječnik je prijavljen u sustav, pedijatar je izdao preporuku za bolovanje
+						\item  \textbf{Preduvjet:} izvođenje UC2 i UC11
 						\item  \textbf{Opis osnovnog tijeka:}
 						
 						\item[] \begin{packed_enum}
-	
+							\item liječnik odabire opciju 'Preporuke za bolovanje' s početne stranice
 							\item liječnik pregledava listu preporuka za bolovanje njegovim pacijentima
 							\item liječnik odabire preporuku koju želi pregledati
 							\item liječnik preporuku može odbiti ili prihvatiti
@@ -427,13 +492,14 @@
 						\item \textbf{Glavni sudionik: }adminsitrator
 						\item  \textbf{Cilj:} pregledati registrirane korisnike
 						\item  \textbf{Sudionici:} baza podataka
-						\item  \textbf{Preduvjet:} administrator je prijavljen
+						\item  \textbf{Preduvjet:} izvođenje UC2
 						\item  \textbf{Opis osnovnog tijeka:}
 						
 						\item[] \begin{packed_enum}
 	
-							\item administrator odabire opciju pregledavanja korisnika
-							\item prikaže se lista svih ispravno registriranih korisnika s osobnim podacima
+							\item administrator odabire opciju 'pregled korisnika' s početne stranice
+							\item sustav prikazuje listu svih ispravno registriranih korisnika
+							\item administrator odabire korisnika čije podatke želi pregledati
 
 						\end{packed_enum}
 					\end{packed_item}
@@ -444,14 +510,16 @@
 						\item \textbf{Glavni sudionik: }adminsitrator
 						\item  \textbf{Cilj:} obrisati korisnika
 						\item  \textbf{Sudionici:} baza podataka
-						\item  \textbf{Preduvjet:} administrator je prijavljen
+						\item  \textbf{Preduvjet:} izvođenje UC2
 						\item  \textbf{Opis osnovnog tijeka:}
 						
 						\item[] \begin{packed_enum}
-	
-							\item administrator odabire opciju uklanjanja korisnika
+							\item administrator odabire opciju 'pregled korisnika' s početne stranice
+							\item sustav prikazuje listu svih ispravno registriranih korisnika
 							\item administrator pronalazi željenog korisnika
-                            \item administrator uklanja željenog korisnika i njegove podatke iz baze podataka
+							\item administrator odabire opciju 'ukloni korisnika'
+							\item sustav obavještava administratora da je korisnik uspješno uklonjen
+                            
 
 						\end{packed_enum}
 					\end{packed_item}
@@ -462,13 +530,15 @@
 						\item \textbf{Glavni sudionik: }adminsitrator
 						\item  \textbf{Cilj:} promijeniti razinu pristupa korisnika
 						\item  \textbf{Sudionici:} baza podataka
-						\item  \textbf{Preduvjet:} administrator je prijavljen
+						\item  \textbf{Preduvjet:} izvođenje UC2
 						\item  \textbf{Opis osnovnog tijeka:}
 						
 						\item[] \begin{packed_enum}
-	
+							\item administrator odabire opciju 'pregled korisnika' s početne stranice
+							\item sustav prikazuje listu svih ispravno registriranih korisnika
 							\item administrator pronalazi željenog korisnika
-							\item administrator mijenja razinu pristupa željenom korisniku
+							\item administrator mijenja razinu pristupa željenom korisniku odabirom opcije 'promjeni razinu pristupa'
+							\item sustav obavještava administratora da je razina pristupa uspješno promijenjena
                         
 						\end{packed_enum}
 					\end{packed_item}
@@ -479,14 +549,16 @@
 						\item \textbf{Glavni sudionik: }administrator
 						\item  \textbf{Cilj:} upravljati registrima djece i korisničkim računima u sustavu
 						\item  \textbf{Sudionici:} baza podataka
-						\item  \textbf{Preduvjet:} administrator je prijavljen u sustav, postoji potreba za stvaranjem ili ažuriranjem korisničkih računa i registara djece
+						\item  \textbf{Preduvjet:} izvođenje UC2
 						\item  \textbf{Opis osnovnog tijeka:}
 						
 						\item[] \begin{packed_enum}
 	
-							\item administrator se prijavljuje u sustav
-							\item administrator ima ovlasti za stvaranje, uređivanje i brisanje korisničkih računa i zapisa djece
-							\item administrator stvara zapise za djecu povezane s njihovim roditeljima
+							\item aministrator odabire opciju 'novi registar djeteta'
+							\item sustav prikazuje modalni okvir za stvaranje djetetova registra
+							\item administrator unosi podatke o djetetu
+							\item administrator odabire opciju 'stvori registar'
+							\item sustav obavještava administratora da je registar uspješno stvoren
 
 						\end{packed_enum}
 						
@@ -498,13 +570,19 @@
 						\item \textbf{Glavni sudionik: }administrator
 						\item  \textbf{Cilj:} povezati profil roditelja s registrom njegove djece u sustavu
 						\item  \textbf{Sudionici:} baza podataka
-						\item  \textbf{Preduvjet:} roditelj je registriran, postoje registri djece
+						\item  \textbf{Preduvjet:} izvođenje UC1 i UC2
 						\item  \textbf{Opis osnovnog tijeka:}
 						
 						\item[] \begin{packed_enum}
-	
-							\item administrator odabire roditelja i dijete koje želi povezati
-							\item administrator izvršava povezivanje roditelja i dijete u sustavu
+							\item administrator odabire opciju 'pregled korisnika' s početne stranice
+							\item sustav prikazuje listu svih ispravno registriranih korisnika
+							\item administrator pronalazi željenog korisnika
+							\item administrator odabire opciju 'poveži s djetetom'
+							\item sustav prikazuje modalni okvir za povezivanje korisnika s djetetom
+							\item sustav prikazuje popis registara djece koji još nisu povezani s roditeljima
+							\item administrator odabire registar djeteta s kojim želi povezati roditelja
+							\item administrator odabire opciju 'završi povezivanje'
+							\item sustav obavještava administratora da je roditelj uspješno povezan s djetetom
 						
 						\end{packed_enum}
 						
@@ -521,9 +599,13 @@
 						\item  \textbf{Opis osnovnog tijeka:}
 						
 						\item[] \begin{packed_enum}
-	
-							\item administrator odabire podatke koje želi ažurirati
-							\item administrator ažurira željene podatke
+							\item administrator odabire opciju 'pregled korisnika' s početne stranice
+							\item administrator pronalazi željenog korisnika
+							\item administrator odabire opciju 'uredi'
+							\item sustav prikazuje profil odabranog korisnika
+							\item administrator izmjenjuje osabne podatke o korisniku i njegove medicinske podatke
+							\item administrator odabire opciju spremi
+							\item sustav obavještava administratora da su podaci uspješno ažurirani
 						
 						\end{packed_enum}
 					
