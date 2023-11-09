@@ -6,14 +6,14 @@ import jakarta.validation.constraints.Size;
 public class AuthenticationRequest {
     @NotNull
     @Size(max = 255)
-    private String email;
+    private String username;
 
     @NotNull
     @Size(max = 255)
     private String password;
 
-    public String getEmail() {
-        return email;
+    public String getUsername() {
+        return username;
     }
 
     public String getPassword() {
