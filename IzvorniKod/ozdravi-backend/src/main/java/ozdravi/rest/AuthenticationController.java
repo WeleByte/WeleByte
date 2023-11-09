@@ -55,9 +55,4 @@ public class AuthenticationController {
 
         return true;
     }
-
-    @GetMapping("/")
-    public String home(){
-        return "Hello World!";
-    }
 }
