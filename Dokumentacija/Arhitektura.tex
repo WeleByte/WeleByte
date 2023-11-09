@@ -113,7 +113,7 @@
 			content & TEXT &  Sadržaj na koji se daje drugo mišljenje (nalaz iz privatne ustanove) \\ \hline 
 		\end{longtblr}
 
-		\textbf{Uputa} Ovaj entitet sadržava informacije o izdanim uputama, uključujući informacije o pacijentima, doktorima koji stvaraju upute i statusu upute. Sadrži atribute: identifikator upute, identifikator liječnika koji je izdao uputu, identifikator pacijenta kojemu je upućena, identifikator adrese, datum te sadržaj upute. Omogućava praćenje i upravljanje medicinskim preporukama.
+		\textbf{Uputa} Ovaj entitet sadržava informacije o izdanim uputama, uključujući informacije o pacijentima, doktorima koji stvaraju upute i statusu upute. Sadrži atribute: identifikator upute, identifikator liječnika koji je izdao uputu, identifikator pacijenta kojemu je upućena, datum te sadržaj upute. Omogućava praćenje i upravljanje medicinskim preporukama.
 		\begin{longtblr}[
 			label=none,
 			entry=none
@@ -126,7 +126,6 @@
 			\SetCell{LightGreen}id & INT	&  	jedinstveni brojčani identifikator 	\\ \hline
 			\SetCell{LightBlue}doctor\_id	& INT & ID osobe koja je izdala uputu [Doctor/Pediatrician] (NOT NULL) \\ \hline 
 			\SetCell{LightBlue}patient\_id & INT & ID osobe za koju je uputa [Parent] (NOT NULL) \\ \hline 
-            \SetCell{LightBlue}address\_id	& INT & ID adrese na kojoj će se održati pregled za danu uputu (NOT NULL) \\ \hline 
 			date & DATETIME & Datum i vrijeme izdavanja upute (NOT NULL)\\ \hline 
 			content & TEXT &  Sadržaj upute (NOT NULL) \\ \hline 
 		\end{longtblr}
@@ -173,7 +172,7 @@
 		\subsection{Dijagram baze podataka}
 			% U ovom potpoglavlju potrebno je umetnuti dijagram baze podataka. Primarni i strani ključevi moraju biti označeni, a tablice povezane. Bazu podataka je potrebno normalizirati.
 		    \begin{figure}[H]
-			     \includegraphics[width=\textwidth]{slike/ERdijagram.png} 
+			     \includegraphics[width=\textwidth]{slike/DijagramBazePodataka.png} 
 			     \caption{ER dijagram baze podataka} 
 		    \end{figure}
 		\eject
