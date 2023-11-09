@@ -64,6 +64,7 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
+dist/
 HELP.md
 target/
 !.mvn/wrapper/maven-wrapper.jar
@@ -92,3 +93,14 @@ build/
 mvnw
 mvnw.cmd
 .mvn/
+
+### LaTeX ###
+/Dokumentacija/*.aux
+/Dokumentacija/*.lof
+/Dokumentacija/*.log
+/Dokumentacija/*.lot
+/Dokumentacija/*.out
+/Dokumentacija/*.synctex.gz
+/Dokumentacija/*.toc
+/Dokumentacija/*.fls
+/Dokumentacija/*.fdb_latexmk
