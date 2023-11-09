@@ -25,22 +25,22 @@ const Navbar = () => {
                 break
         }
     }
-  return (
-      
+
+    return (
 
     
     <div id = "HomePageWrapper">
      
-     <nav className="navbar  navbar-expand-lg navbar-light  px-3 py-3 py-lg-0  " >
-      <img src = {logoPng} id ="navbarLogo" alt = "" style={{height: "40px !important"}} className='ms-2'></img>
-      <button className="navbar-toggler " type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        <nav className="navbar  navbar-expand-lg navbar-light  px-3 py-3 py-lg-0  " >
+        <img src = {logoPng} id ="navbarLogo" alt = "" style={{height: "40px !important"}} className='ms-2'></img>
+        <button className="navbar-toggler " type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
+                aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
         <span className="navbar-toggler-icon"></span>
-      </button>
-      <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
-        <div className="navbar-nav ">
-          <button className={selectedItem === 'home' ? "nav-item nav-link active" : "nav-item nav-link"}
-             onClick={(e)  => handleItemClick(e, 'home')}> Početna </button>
-
+        </button>
+        <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <div className="navbar-nav ">
+                <button className={selectedItem === 'home' ? "nav-item nav-link active" : "nav-item nav-link"}
+                    onClick={(e)  => handleItemClick(e, 'home')}> Početna </button>
           { uloga === "doktor" || uloga === "pedijatar" ? (  <button
               className={selectedItem === 'pacijenti' ? "nav-item nav-link active" : "nav-item nav-link"}
                onClick={(e) => handleItemClick(e, 'pacijenti')}>Pacijenti</button> ) : null }
