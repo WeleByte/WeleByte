@@ -1,13 +1,15 @@
 package ozdravi.responses;
 
+import lombok.Getter;
+import org.springframework.security.core.userdetails.UserDetails;
+
+@Getter
 public class AuthenticationResponse {
-    private String accessToken;
+    private final String accessToken;
+    private final String username;
 
-    public void setAccessToken(String accessToken) {
+    public AuthenticationResponse(UserDetails user, String accessToken) {
+        this.username = user.getUsername();
         this.accessToken = accessToken;
-    }
-
-    public String getAccessToken() {
-        return accessToken;
     }
 }

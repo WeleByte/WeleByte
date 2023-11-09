@@ -18,23 +18,23 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @GetMapping("")
+    @GetMapping("/users")
     public List<User> getAllUsers() {
         return userService.listAll();
     }
 
-    @PostMapping("")
+    @PostMapping("/users")
     public ResponseEntity<User> createUser(@RequestBody User user) {
         User saved = userService.createUser(user);
         return ResponseEntity.created(URI.create("/users/" + saved.getId())).body(saved);
     }
 
     @GetMapping("/user/{id}")
-    public ResponseEntity<User> getUser(@PathVariable("id") Long id) {
+    public User getUser(@PathVariable("id") Long id) {
         Optional<User> user = userService.findById(id);
 
         if(user.isPresent()) {
-            return ResponseEntity.ok().body(user.get());
+            return user.get();
         } else {
             throw new ResponseStatusException(NOT_FOUND, "No user with that id");
         }

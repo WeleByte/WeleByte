@@ -44,9 +44,9 @@ public class AuthenticationController {
         }
 
         final UserDetails userDetails = jwtUserDetailsService.loadUserByUsername(authenticationRequest.getEmail());
-        final AuthenticationResponse authenticationResponse = new AuthenticationResponse();
-        authenticationResponse.setAccessToken(tokenUtil.generateToken(userDetails));
-        return authenticationResponse;
+
+        return new AuthenticationResponse(userDetails,
+                tokenUtil.generateToken(userDetails));
     }
 
     @PostMapping("/register")
