@@ -12,7 +12,7 @@
 	<artifactId>ozdravi-backend</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>ozdravi-backend</name>
-	<description>Backend for application &apos;ozrdavi&apos;</description>
+	<description>Backend for application &apos;ozdravi&apos;</description>
 	<properties>
 		<java.version>17</java.version>
 	</properties>
