@@ -94,6 +94,10 @@ Dogovorili smo se da ćemo dodati README na projekt s uputama kako pokrenuti bac
 jednostavno postaviti projekt na svojim računalima.
 
 -------------------------------------------------------------------------------------------------------------------
+<<<<<<< HEAD
+
+=======
+>>>>>>> main
 Radionica: funkcionalni zahtjevi, opis obrazaca uporabe - 31.10.2023.
 
 Dnevni red:
@@ -159,3 +163,24 @@ mehanizam uloga na entitetu korisnika.
 Leon Cvetkovski i Krešimir Valečić su podijelili plan za razvoj frontenda s ostalima. Potvrdili smo daljnje korake
 vezane uz razvoj React aplikacije koji uključuju restrukturiranje i razvoj homescreena. Dogovoreno je da će frontend tim
 razraditi najbolje načine kako nastaviti raditi s obzirom da backend još uvijek zaostaje za frontendom.
+
+-------------------------------------------------------------------------------------------------------------------
+Planiranje sprinta i pregled napretka - 2.11.2023
+
+Dnevni red:
+- Tjedni sastanak za planiranje i praćenje napretka.
+
+Prisutni: D. Matić, L. Crvelin, M. Lešković, K. Valečić, V. Kumanović, L. Cvetkovski, M. Vidaković
+Neprisutni: -
+
+Zapisnik:
+
+Analizirali smo povratne informacije koje smo dobili na konzultacijama u utorak i podijelili posao vezan uz to u ovom
+sprintu. Lucia Crvelin će napraviti sve potrebne promjene na UC-ovima, Vedran Kumanović će modifcirati dijagram baze
+podataka, a Dorian Matić će dovršiti odlomak "Arhitektura sustava"
+
+Leon Cvetkovski je predstavio napredak u refaktoriziranju frontenda koji su on i Krešimir Valečić napravili u ovom
+sprintu. Zaključili smo da je frontend sad spreman za spajanje s backendom.
+
+Mihael Lešković je opisao probleme s kojima se susreo pri postavljanju Spring Security modula za backend aplikacije.
+Dogovoreno je da će on i Dorian Matić probati što prije to popraviti i omogućiti daljnju razvoj frontenda.
