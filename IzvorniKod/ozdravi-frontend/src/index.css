@@ -59,12 +59,12 @@ code {
  }
 
 
+
 #usersTable {
   margin-top: 3rem;
   margin-left: 2rem;
   margin-right: 10rem !important
 }
-
 
 /* CSS for screens above 570px */
 @media (min-width: 571px) {
@@ -149,8 +149,6 @@ code {
     display:float;
     margin:0px
   }
-  
-
 }
 
 .nav-item {
@@ -337,21 +335,19 @@ tr td:last-child {
 @media (max-width: 750px) {
   tr td:nth-child(3), tr td:nth-child(4), tr th:nth-child(3), tr th:nth-child(4) {
     display: none;
-  }
-
- 
+  } 
 }
+
 @media (max-width: 990px) {
   #logOutBtn {
     display:none
   }
-
- 
 }
 
 .pregledajGumbMobile {
   display: none !important;
 }
+
 @media (max-width: 550px) {
   .pregledajGumbPc {
     display:none  !important
@@ -364,10 +360,4 @@ tr td:last-child {
   .pregledajCardBody {
     padding-right: 20px !important
   }
-
- 
 }
-
-
-
-

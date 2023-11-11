@@ -1,6 +1,11 @@
 
 import './App.css';
 import React, { useState } from "react";
+import LoginPage from './pages/Login/LoginPage';
+import SignUpPage from './pages/Register/SignUpPage';
+import HomePage from './pages/HomePage/HomePage';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+
 
 import Racuni from './pages/Admin/Racuni';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
