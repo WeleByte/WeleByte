@@ -1,0 +1,1 @@
+// kod unosa pregled se takoder bira ispis ispricnice i preporuke za bolovanje

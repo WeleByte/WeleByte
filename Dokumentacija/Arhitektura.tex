@@ -47,6 +47,9 @@
 			\item SecondOpinion
 			\item Instruction
 			\item SickLeaveRecommendation
+			\item Address
+			\item Role
+			\item PersonRoles
 		\end{packed_item}
 
         Baza podataka "Ozdravi" omogućava integraciju svih informacija kako bi podržala procese komunikacije, pregleda i dijagnoza u kontekstu brige o zdravstvenim potrebama djece. Ova struktura omogućava učinkovito praćenje i upravljanje svim 
@@ -113,7 +116,7 @@
 			content & TEXT &  Sadržaj na koji se daje drugo mišljenje (nalaz iz privatne ustanove) \\ \hline 
 		\end{longtblr}
 
-		\textbf{Uputa} Ovaj entitet sadržava informacije o izdanim uputama, uključujući informacije o pacijentima, doktorima koji stvaraju upute i statusu upute. Sadrži atribute: identifikator upute, identifikator liječnika koji je izdao uputu, identifikator pacijenta kojemu je upućena, identifikator adrese, datum te sadržaj upute. Omogućava praćenje i upravljanje medicinskim preporukama.
+		\textbf{Uputa} Ovaj entitet sadržava informacije o izdanim uputama, uključujući informacije o pacijentima, doktorima koji stvaraju upute i statusu upute. Sadrži atribute: identifikator upute, identifikator liječnika koji je izdao uputu, identifikator pacijenta kojemu je upućena, datum te sadržaj upute. Omogućava praćenje i upravljanje medicinskim preporukama.
 		\begin{longtblr}[
 			label=none,
 			entry=none
@@ -126,12 +129,11 @@
 			\SetCell{LightGreen}id & INT	&  	jedinstveni brojčani identifikator 	\\ \hline
 			\SetCell{LightBlue}doctor\_id	& INT & ID osobe koja je izdala uputu [Doctor/Pediatrician] (NOT NULL) \\ \hline 
 			\SetCell{LightBlue}patient\_id & INT & ID osobe za koju je uputa [Parent] (NOT NULL) \\ \hline 
-            \SetCell{LightBlue}address\_id	& INT & ID adrese na kojoj će se održati pregled za danu uputu (NOT NULL) \\ \hline 
 			date & DATETIME & Datum i vrijeme izdavanja upute (NOT NULL)\\ \hline 
 			content & TEXT &  Sadržaj upute (NOT NULL) \\ \hline 
 		\end{longtblr}
 
-		\textbf{Preopurka za bolovanje} Ovaj entitet sadržava informacije o izdanim preporukama za bolovanje, tko ih je izdao, za koga i tko ih treba odobriti. Sadrži atribute: identifikator preporuke, identifikator pacijenta, identifikator pedijatra koji ju je stvorio, identifikatora liječnika koji ju je odobrio, identifikator pregleda na kojem se izdaje, e-mail adresa posolodavca kojem se šalje doznaka za bolovanje te status preporuke.
+\textbf{Preopurka za bolovanje} Ovaj entitet sadržava informacije o izdanim preporukama za bolovanje, tko ih je izdao, za koga i tko ih treba odobriti. Sadrži atribute: identifikator preporuke, identifikator pacijenta, identifikator pedijatra koji ju je stvorio, identifikatora liječnika koji ju je odobrio, identifikator pregleda na kojem se izdaje te status preporuke.
 		\begin{longtblr}[
 			label=none,
 			entry=none
@@ -146,7 +148,6 @@
 			\SetCell{LightBlue}creator\_id & INT & ID osobe koja je stvorila preporuku [Pediatrician] (NOT NULL) \\ \hline
 			\SetCell{LightBlue}approver\_id & INT & ID osobe koja mora odobriti preporuku [Doctor] (NOT NULL) \\ \hline 
 			\SetCell{LightBlue}examination\_id	& INT & ID pregleda na temelju kojeg se izdaje preporuka (NOT NULL) \\ \hline 
-			email & VARCHAR & e-mail poslodavca na koji se šalje doznaka, ako je potvrđena preporuka(NOT NULL) \\ \hline 
 			status & BOOLEAN &  Je li preporuka odobrena? (default false) \\ \hline 
 		\end{longtblr}
 
@@ -169,11 +170,42 @@
             longitude	& NUMERIC & geografska dužina\\ \hline
 			
 		\end{longtblr}
+
+		\textbf{Uloga} Ovaj entitet sadržava informacije o mogućim ulogama u sustavu. Sadrži atribute: identifikator uloge i naziv uloge. 
+		\begin{longtblr}[
+			label=none,
+			entry=none
+			]{
+				width = \textwidth,
+				colspec={|X[6,l]|X[6, l]|X[20, l]|}, 
+				rowhead = 1,
+			} 
+			\hline \SetCell[c=3]{c}{\textbf{Role (Uloga)}}	 \\ \hline[3pt]
+			\SetCell{LightGreen}id & INT	&  	jedinstveni brojčani identifikator 	\\ \hline
+			\SetCell{LightBlue}name	& VARCHAR & naziv uloge\\ \hline 
+        
+		\end{longtblr}
+
+		\textbf{PersonRoles} Ovaj entitet sadržava informacije o ulogama korisnika u sustavu. Prikazuje koji korisnik ima koju ulogu. Sadrži atribute: identifikator, identifikator uloge i naziv uloge. 
+		\begin{longtblr}[
+			label=none,
+			entry=none
+			]{
+				width = \textwidth,
+				colspec={|X[6,l]|X[6, l]|X[20, l]|}, 
+				rowhead = 1,
+			} 
+			\hline \SetCell[c=3]{c}{\textbf{PersonRoles}}	 \\ \hline[3pt]
+			\SetCell{LightGreen}id & INT	&  	jedinstveni brojčani identifikator 	\\ \hline
+			\SetCell{LightBlue}role\_id	& VARCHAR & identifikator uloge\\ \hline 
+			\SetCell{LightBlue}person\_id	& VARCHAR & identifikator osobe\\ \hline
+        
+		\end{longtblr}
   
 		\subsection{Dijagram baze podataka}
 			% U ovom potpoglavlju potrebno je umetnuti dijagram baze podataka. Primarni i strani ključevi moraju biti označeni, a tablice povezane. Bazu podataka je potrebno normalizirati.
 		    \begin{figure}[H]
-			     \includegraphics[width=\textwidth]{slike/ERdijagram.png} 
+			     \includegraphics[width=\textwidth]{slike/DijagramBazePodataka.png} 
 			     \caption{ER dijagram baze podataka} 
 		    \end{figure}
 		\eject
