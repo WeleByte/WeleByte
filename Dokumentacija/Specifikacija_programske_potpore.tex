@@ -29,7 +29,7 @@
                     \item evidentirati preporuku za bolovanje za roditelja u slučaju bolesti djeteta
                     \item utvrditi bolest djeteta nakon čega se šalje ispričnica u vrtić
                     \item naručiti djecu na specijalističke preglede/postupke
-                    \item dati povratnu informaciju na drugo mišljenje
+                    \item dati drugo mišljenje
 				\end{packed_enum}
 
                 \item  \underbar{Liječnik obiteljske medicine (inicijator) može:}
@@ -37,7 +37,7 @@
 					\item prijaviti se u sustav
                     \item pregledati i odobriti preporuke za bolovanje izdane od strane pedijatra 
 					\item slati doznake za bolovanje poslodavcu roditelja
-                    \item dati povratnu informaciju na drugo mišljenje
+                    \item dati drugo mišljenje
                     \item naručiti pacijenta na specijalistički pregled/postupak
                     \item unositi podatke o pregledima
                     \item pristupiti medicinskim nalazima, povijesti pregleda i upitima 
@@ -69,7 +69,7 @@
 					%Funkcionalne zahtjeve razraditi u obliku obrazaca uporabe. Ukoliko u nekom koraku može doći do odstupanja, potrebno je to odstupanje opisati i po mogućnosti ponuditi rješenje kojim bi se tijek obrasca vratio na osnovni tijek.
 					
 
-					\noindent \underbar{\textbf{UC1 - registraj se}}
+					\noindent \underbar{\textbf{UC1 - registriraj se}}
 					\begin{packed_item}
 	
 						\item \textbf{Glavni sudionik: }korisnik
@@ -94,7 +94,7 @@
 							\item[4.a] Korisnik odustaje od unosa podatka (odabir akcije odustani)
 							\item[] \begin{packed_enum}
 								
-								\item sustav szatvara trenutni ekran
+								\item sustav zatvara trenutni ekran
 								\item izvođenje scenarija je završeno
 							\end{packed_enum}
 							\item[5.a] Odabir već zauzetog korisničkog imena i/ili e-maila, unos korisničkih podatka u nedozvoljenom formatu
@@ -120,7 +120,7 @@
 							\item korisniku se po upisu web adrese aplikacije, otvara početna stranica
 							\item korisnik odabire akciju prijavi se
 							\item sustav otvara modalni ekran prijave
-							\item korisnik unosi unosi korisničko ime i lozinku
+							\item korisnik unosi korisničko ime i lozinku
 							\item korisnik odabire akciju potvrde unosa
 							\item sustav provjerava i utvrđuje da je unos uspješan
 							\item korisniku se prikazuje sučelje aplikacije s korisničkim funkcijama
@@ -139,7 +139,7 @@
 							\item[6a]  sustav provjerava i utvrđuje da unos podataka nije uspješan
 							\item[] 
 							\begin{packed_enum}
-								\item sustav obavještava korisnika notifikacijom na modalnom ekranu o unosu pogrešne lozinke
+								\item sustav obavještava korisnika porukom na modalnom ekranu o unosu pogrešne lozinke
 								\item sustav nastavlja izvođenje u koraku 4. (korisnik ispravlja unesenu lozinku i dalje scenarij ide svojim tijekom)
 							\end{packed_enum}
 							
@@ -228,7 +228,7 @@
 							\item[] 
 							\begin{packed_enum} 
 								\item prikazuje se poruka 'Pogrešan unos e-mail adrese'
-								\item sustav vraća korinsika na ponovno upisivanje e-mail adrese
+								\item sustav vraća korisnika na ponovno upisivanje e-mail adrese
 								\item scenarij se nastavlja od korak 6
 								
 							\end{packed_enum}
@@ -257,7 +257,7 @@
 							\item sustav omogućava roditelju izmjenu/dodavanje e-mail adrese vrtića/škole
 							\item roditelj odabire opciju 'spremi promjene'
 							\item sustav provjerava i utvrđuje da je unos uspješan
-							\item sustav obavještava roditlja da je unos uspješan
+							\item sustav obavještava roditelja da je unos uspješan
 			
 						\end{packed_enum}
 						
@@ -277,7 +277,7 @@
 					\end{packed_item}
 
 
-                     \noindent \underbar{\textbf{UC7 - pregledaj medicinske podatake}}
+                     \noindent \underbar{\textbf{UC7 - pregledaj medicinske podatke}}
 					\begin{packed_item}
 	
 						\item \textbf{Glavni sudionik: }korisnik
@@ -310,7 +310,7 @@
                     \noindent \underbar{\textbf{UC8 - stvori zahtjev za drugim mišljenjem}}
 					\begin{packed_item}
 						\item \textbf{Glavni sudionik: }korisnik
-						\item  \textbf{Cilj:} zatražiti drugo mišljenja liječnika ili pedijatra o nalazu dobivenom temeljem određene usluge u privatnoj ustanovi
+						\item  \textbf{Cilj:} zatražiti drugo mišljenja liječnika ili pedijatra o nalazu dobivenom na temelju određene usluge u privatnoj ustanovi
 						\item  \textbf{Sudionici:} baza podataka
 						\item  \textbf{Preduvjet:} izvođenje UC2, pacijent ima dodijeljenog liječnika ili pedijatra
 						\item  \textbf{Opis osnovnog tijeka:}
@@ -333,7 +333,7 @@
                             \item[] \begin{packed_enum}
                             	\item sustav utvrđuje da je zahtjev neispravno popunjen
 								\item sustav usmjerava korisnika na ponovno ispunjavanje zahtjeva za drugim mišljenjem
-								\item nakon ispravong unosa, korisnik odabire akciju 'pošalji zahtjev' te se scenarij nastavlja od koraka 6
+								\item nakon ispravnog unosa, korisnik odabire akciju 'pošalji zahtjev' te se scenarij nastavlja od koraka 6
 							\end{packed_enum}
 						\end{packed_item}
 					\end{packed_item}
@@ -395,14 +395,14 @@
 	
 							\item[2.a] ne postoji nijedan pacijent koji nema pridijeljenog liječnika
 							\item[] \begin{packed_enum}
-								\item sustav umjesto popisa pacijenata, prikazuje poruku 'Svi pacijenti imaju pridjeljenog liječnika'
+								\item sustav umjesto popisa pacijenata, prikazuje poruku 'Svi pacijenti imaju pridijeljenog liječnika'
 							\end{packed_enum}
 							
 						\end{packed_item}
 					\end{packed_item}
 
      
-                    \noindent \underbar{\textbf{UC11 - pregledaj prijavljene pacijenate i  njihove kartone }}
+                    \noindent \underbar{\textbf{UC11 - pregledaj prijavljene pacijente i  njihove kartone }}
 					\begin{packed_item}
 	
 						\item \textbf{Glavni sudionik: }pedijatar, liječnik obiteljske medicine
@@ -484,7 +484,7 @@
 	
 							\item pedijatar odabire opciju 'nova preporuka za bolovanje' s početne stranice
 							\item sustav prikazuje modalni okvir za unos preporuke za bolovanje
-							\item pedijatar odabire pregled temeljem kojeg je potrebna preporuka za bolovanje
+							\item pedijatar odabire pregled na temelju kojeg je potrebna preporuka za bolovanje
 							\item pedijatar unosi podatke o preporuci za bolovanje
 							\item pedijatar odabire opciju 'unesi preporuku'
 							\item sustav provjerava i potvrđuje da je unos uspješan
@@ -552,7 +552,7 @@
 					\begin{packed_item}
 	
 						\item \textbf{Glavni sudionik: }liječnik obiteljske medicine
-						\item  \textbf{Cilj:} pregledati preoporuku za bolovanje roditelja izdanu od strane pedijatra
+						\item  \textbf{Cilj:} pregledati preporuku za bolovanje roditelja izdanu od strane pedijatra
 						\item  \textbf{Sudionici:} baza podataka
 						\item  \textbf{Preduvjet:} izvođenje UC2 i UC13
 						\item  \textbf{Opis osnovnog tijeka:}
@@ -571,7 +571,7 @@
                     \noindent \underbar{\textbf{UC17 - pregledaj korisnika}}
 					\begin{packed_item}
 	
-						\item \textbf{Glavni sudionik: }adminsitrator
+						\item \textbf{Glavni sudionik: }administrator
 						\item  \textbf{Cilj:} pregledati registrirane korisnike
 						\item  \textbf{Sudionici:} baza podataka
 						\item  \textbf{Preduvjet:} izvođenje UC2
@@ -589,7 +589,7 @@
                     \noindent \underbar{\textbf{UC18 - obriši korisnika}}
 					\begin{packed_item}
 	
-						\item \textbf{Glavni sudionik: }adminsitrator
+						\item \textbf{Glavni sudionik: }administrator
 						\item  \textbf{Cilj:} obrisati korisnika
 						\item  \textbf{Sudionici:} baza podataka
 						\item  \textbf{Preduvjet:} izvođenje UC2
@@ -609,7 +609,7 @@
                     \noindent \underbar{\textbf{UC19 - promijeni prava pristupa}}
 					\begin{packed_item}
 	
-						\item \textbf{Glavni sudionik: }adminsitrator
+						\item \textbf{Glavni sudionik: }administrator
 						\item  \textbf{Cilj:} promijeniti razinu pristupa korisnika
 						\item  \textbf{Sudionici:} baza podataka
 						\item  \textbf{Preduvjet:} izvođenje UC2
@@ -636,7 +636,7 @@
 						
 						\item[] \begin{packed_enum}
 	
-							\item aministrator odabire opciju 'novi registar'
+							\item administrator odabire opciju 'novi registar'
 							\item sustav prikazuje modalni okvir za stvaranje djetetova registra
 							\item administrator unosi podatke o korisniku: OIB, ime, prezime, adresu
 							\item administrator odabire opciju 'stvori registar'
@@ -685,7 +685,7 @@
 							\item administrator pronalazi željenog korisnika
 							\item administrator odabire opciju 'uredi'
 							\item sustav prikazuje profil odabranog korisnika
-							\item administrator izmjenjuje osabne podatke o korisniku i njegove medicinske podatke
+							\item administrator izmjenjuje osobne podatke o korisniku i njegove medicinske podatke
 							\item administrator odabire opciju spremi
 							\item sustav obavještava administratora da su podaci uspješno ažurirani
 						
@@ -720,7 +720,7 @@
 				
 				%Nacrtati sekvencijske dijagrame koji modeliraju najvažnije dijelove sustava (max. 4 dijagrama). Uz svaki dijagram napisati detaljni opis dijagrama.
 				\noindent\textbf{Obrazac uporabe UC8 - stvori zahtjev za drugim mišljenjem}
-				Kroz proces zatraživanja drugog mišljenja, korisnik inicira postupak odabirom opcije 
+				Kroz proces potraživanja drugog mišljenja, korisnik inicira postupak odabirom opcije 
 				'Zatraži drugo mišljenje'. Sustav odgovara otvaranjem modalnog okvira za unos zahtjeva, 
 				gdje korisnik, u ovom slučaju roditelj, prenosi medicinski nalaz. Nakon toga, korisnik 
 				bira specifičnog liječnika ili pedijatra čije drugo mišljenje želi dobiti i potvrđuje 
@@ -781,18 +781,13 @@
 				\item Izvršavanje dijela programa u kojem se pristupa bazi podataka ne smije trajati duže od nekoliko sekundi
 				\item Sustav treba biti implementiran kao web aplikacija koristeći objektno-orijentirane jezike
 				\item Neispravno korištenje korisničkog sučelja ne smije narušiti funkcionalnost i rad sustava
-				\item Sustav treba biti jednostavan za korištenje, sučelje trebs biti intuitivno te se korisnici moraju znati koristiti sučeljem bez opširnih uputa
+				\item Sustav treba biti jednostavan za korištenje, sučelje treba biti intuitivno te se korisnici moraju znati koristiti sučeljem bez opširnih uputa
 				\item Veza s bazom podataka mora biti kvalitetno zaštićena, brza i otporna na vanjske greške
 				\item Pristup sustavu mora biti omogućen iz javne mreže pomoću HTTPS protokola
 				\item Svi osjetljivi korisnički podaci, uključujući medicinske informacije, moraju biti kriptirani u 
 				prijenosu i pohranjeni na način koji udovoljava standardima sigurnosti podataka u zdravstvenim aplikacijama
 				\item Redovito automatsko izvođenje sigurnosnih kopija podataka s brzim i pouzdanim sustavom oporavka u slučaju neplaniranih događaja ili gubitka podataka
 			 \end{packed_item}
-			 
-
-
-• 
-• 
-			 
+			 	 
 			 
 	
