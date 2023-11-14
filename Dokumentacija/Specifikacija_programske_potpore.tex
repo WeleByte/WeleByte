@@ -75,26 +75,33 @@
 						\item \textbf{Glavni sudionik: }korisnik
 						\item  \textbf{Cilj:} stvoriti korisnički račun za pristup sustavu
 						\item  \textbf{Sudionici:} baza podataka
-						\item  \textbf{Preduvjet:} -
+						\item  \textbf{Preduvjet:} korisnik je otvorio početnu stranicu za registraciju u aplikaciju
 						\item  \textbf{Opis osnovnog tijeka:}
 						
 						\item[] \begin{packed_enum}
-							\item korisnik otvara početnu stranicu za registraciju u aplikaciju
-							\item korisnik odabire opciju za registraciju
+							\item korisnik odabire opciju registriraj se
+							\item sustav otvara ekran registracije
 							\item korisnik unosi potrebne korisničke podatke
-							\item korisnik dobiva pristup korisničkim funkcijama
+							\item korisnik potvrđuje unos podataka odabirom akcije potvrdi
+							\item sustav provjerava i utvrđuje da je unos uspješan
+							\item sustav obavještava korisnika o uspješnoj registraciji
 
 						\end{packed_enum}
 						
 						\item  \textbf{Opis mogućih odstupanja:}
 						
 						\item[] \begin{packed_item}
-	
-							\item[2.a] Odabir već zauzetog korisničkog imena i/ili e-maila, unos korisničkih podatka u nedozvoljenom formatu
+							\item[4.a] Korisnik odustaje od unosa podatka (odabir akcije odustani)
 							\item[] \begin{packed_enum}
 								
-								\item sustav obavještava korisnika o neuspjelom upisu i vraća ga na stranicu za registraciju
-								\item korisnik mijenja potrebne podatke te završava unos ili odustaje od registracije
+								\item sustav szatvara trenutni ekran
+								\item izvođenje scenarija je završeno
+							\end{packed_enum}
+							\item[5.a] Odabir već zauzetog korisničkog imena i/ili e-maila, unos korisničkih podatka u nedozvoljenom formatu
+							\item[] \begin{packed_enum}
+								
+								\item sustav obavještava korisnika o neuspjelom upisu
+								\item sustav nastavlja izvođenje u koraku 3
 							\end{packed_enum}
 							
 						\end{packed_item}
@@ -106,7 +113,7 @@
 						\item \textbf{Glavni sudionik: }korisnik
 						\item  \textbf{Cilj: }dobiti pristup korisničkom sučelju
 						\item  \textbf{Sudionici: }baza podataka
-						\item  \textbf{Preduvjet: } korisnik je registriran
+						\item  \textbf{Preduvjet: } izvođenje UC1
 						\item  \textbf{Opis osnovnog tijeka:}
 						
 						\item[] \begin{packed_enum}
