@@ -159,7 +159,6 @@ mehanizam uloga na entitetu korisnika.
 Leon Cvetkovski i Krešimir Valečić su podijelili plan za razvoj frontenda s ostalima. Potvrdili smo daljnje korake
 vezane uz razvoj React aplikacije koji uključuju restrukturiranje i razvoj homescreena. Dogovoreno je da će frontend tim
 razraditi najbolje načine kako nastaviti raditi s obzirom da backend još uvijek zaostaje za frontendom.
-
 -------------------------------------------------------------------------------------------------------------------
 Planiranje sprinta i pregled napretka - 9.11.2023
 
