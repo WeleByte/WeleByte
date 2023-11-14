@@ -686,40 +686,25 @@
 					
 					\end{packed_item}
 
-                    % \noindent \underbar{\textbf{UC20 - }}
-					% \begin{packed_item}
-	
-					% 	\item \textbf{Glavni sudionik: }
-					% 	\item  \textbf{Cilj:} 
-					% 	\item  \textbf{Sudionici:} 
-					% 	\item  \textbf{Preduvjet:} -
-					% 	\item  \textbf{Opis osnovnog tijeka:}
-						
-					% 	\item[] \begin{packed_enum}
-	
-					% 		\item 
-					% 		\item 
-					% 		\item 
-
-					% 	\end{packed_enum}
-						
-					% 	\item  \textbf{Opis mogućih odstupanja:}
-						
-					% 	\item[] \begin{packed_item}
-	
-					% 		\item[2.a] 
-					% 		\item[] \begin{packed_enum}
-								
-					% 			\item 
-					% 			\item 
-					% 		\end{packed_enum}
-							
-					% 	\end{packed_item}
-					% \end{packed_item}
-     
+    
 				\subsubsection{Dijagrami obrazaca uporabe}
 					
 					%Prikazati odnos aktora i obrazaca uporabe odgovarajućim UML dijagramom. Nije nužno nacrtati sve na jednom dijagramu. Modelirati po razinama apstrakcije i skupovima srodnih funkcionalnosti.
+					\begin{figure}[H]
+						\includegraphics[width=\textwidth]{slike/uc_korisnik.png} 
+						\caption{Dijagram obrasca uporabe, funkcionalnosti korisnika i roditelja}
+						\label{fig:promjene2} 
+					\end{figure}
+					\begin{figure}[H]
+						\includegraphics[width=\textwidth]{slike/uc_dr.png} 
+						\caption{Dijagram obrasca uporabe, funkcionalnosti liječnika obiteljske medicine i pedijatra}
+						\label{fig:promjene2} 
+					\end{figure}
+					\begin{figure}[H]
+						\includegraphics[width=\textwidth]{slike/uc_admin.png} 
+						\caption{Dijagram obrasca uporabe, funkcionalnosti administratora}
+						\label{fig:promjene2} 
+					\end{figure}
 				\eject		
 				
 			\subsection{Sekvencijski dijagrami}
@@ -727,15 +712,78 @@
 				%dio 1. revizije
 				
 				%Nacrtati sekvencijske dijagrame koji modeliraju najvažnije dijelove sustava (max. 4 dijagrama). Uz svaki dijagram napisati detaljni opis dijagrama.
-    
+				\noindent\textbf{Obrazac uporabe UC8 - stvori zahtjev za drugim mišljenjem}
+				Kroz proces zatraživanja drugog mišljenja, korisnik inicira postupak odabirom opcije 
+				'Zatraži drugo mišljenje'. Sustav odgovara otvaranjem modalnog okvira za unos zahtjeva, 
+				gdje korisnik, u ovom slučaju roditelj, prenosi medicinski nalaz. Nakon toga, korisnik 
+				bira specifičnog liječnika ili pedijatra čije drugo mišljenje želi dobiti i potvrđuje 
+				zahtjev odabirom akcije 'Pošalji zahtjev'. Sustav potom provjerava i potvrđuje valjanost 
+				unosa, prikazujući korisniku poruku o uspješnom slanju zahtjeva. U slučaju neispravno 
+				popunjenog zahtjeva, sustav usmjerava korisnika na ponovni unos, osiguravajući točnost 
+				informacija prije nastavka postupka. \\
+
+				\begin{figure}[H]
+						\includegraphics[width=\textwidth]{slike/sduc8.png} 
+						\caption{Sekvencijski dijagram za UC8}
+						\label{fig:promjene2} 
+				\end{figure}
+
+				\noindent\textbf{Obrazac uporabe UC13 - evidentiraj preporuku za bolovanje}
+				U postupku stvaranja nove preporuke za bolovanje, pedijatar započinje odabirom opcije 
+				'Nova preporuka za bolovanje' s početne stranice. Sustav reagira prikazivanjem modalnog 
+				okvira za unos preporuke za bolovanje. Pedijatar zatim odabire pregled na temelju kojeg 
+				je potrebna preporuka za bolovanje i unosi relevantne podatke o preporuci. Kada završi 
+				s unosom, pedijatar odabire opciju 'Unesi preporuku'. Sustav provjerava i potvrđuje 
+				uspješan unos, nakon čega obavještava pedijatra o uspješnom dodavanju preporuke. \\
+
+				\begin{figure}[H]
+						\includegraphics[width=\textwidth]{slike/sduc13.png} 
+						\caption{Sekvencijski dijagram za UC13}
+						\label{fig:promjene2} 
+				\end{figure}
+
+				\noindent\textbf{Obrazac uporabe UC14 - evidentiraj preporuku za bolova}
+				U procesu izdavanja nove ispričnice, pedijatar započinje odabirom opcije 'Nova ispričnica' 
+				na početnoj stranici, što pokreće sustav da prikaže modalni ekran za unos ispričnice. 
+				Pedijatar tada odabire pregled na temelju kojeg je potrebno poslati ispričnicu. Nakon 
+				što popuni potrebne podatke, pedijatar odabire opciju 'Pošalji ispričnicu'. Sustav 
+				izvršava provjeru i potvrđuje uspješan unos, nakon čega obavještava pedijatra da je 
+				ispričnica uspješno poslana. U slučaju neispravnog popunjavanja ispričnice, sustav 
+				prikazuje poruku o neispravnom unosu podataka, a pedijatar se vraća na ponovno 
+				popunjavanje ispričnice, čime se scenarij nastavlja od koraka 4. \\
+
+				\begin{figure}[H]
+						\includegraphics[width=\textwidth]{slike/sduc14.png} 
+						\caption{Sekvencijski dijagram za UC14}
+						\label{fig:promjene2} 
+				\end{figure}
+
 				\eject
+
+
 	
 		\section{Ostali zahtjevi}
-		
 			%dio 1. revizije
-		 
 			 %Nefunkcionalni zahtjevi i zahtjevi domene primjene dopunjuju funkcionalne zahtjeve. Oni opisuju kako se sustav treba ponašati i koja ograničenja treba poštivati (performanse, korisničko iskustvo, pouzdanost, standardi kvalitete, sigurnost...). Primjeri takvih zahtjeva u Vašem projektu mogu biti: podržani jezici korisničkog sučelja, vrijeme odziva, najveći mogući podržani broj korisnika, podržane web/mobilne platforme, razina zaštite (protokoli komunikacije, kriptiranje...)... Svaki takav zahtjev potrebno je navesti u jednoj ili dvije rečenice.
+			 \begin{packed_item}
+				\item Sustav treba omogućiti rad više korisnika u stvarnom vremenu
+				\item Sustav treba pružati brz odziv na korisničke zahtjeve
+				\item Korisničko sučelje i sustav moraju podržavati hrvatsku abecedu (dijakritičke znakove) pri unosu i prikazu tekstualnog sadržaja
+				\item Izvršavanje dijela programa u kojem se pristupa bazi podataka ne smije trajati duže od nekoliko sekundi
+				\item Sustav treba biti implementiran kao web aplikacija koristeći objektno-orijentirane jezike
+				\item Neispravno korištenje korisničkog sučelja ne smije narušiti funkcionalnost i rad sustava
+				\item Sustav treba biti jednostavan za korištenje, sučelje trebs biti intuitivno te se korisnici moraju znati koristiti sučeljem bez opširnih uputa
+				\item Veza s bazom podataka mora biti kvalitetno zaštićena, brza i otporna na vanjske greške
+				\item Pristup sustavu mora biti omogućen iz javne mreže pomoću HTTPS protokola
+				\item Svi osjetljivi korisnički podaci, uključujući medicinske informacije, moraju biti kriptirani u 
+				prijenosu i pohranjeni na način koji udovoljava standardima sigurnosti podataka u zdravstvenim aplikacijama
+				\item Redovito automatsko izvođenje sigurnosnih kopija podataka s brzim i pouzdanim sustavom oporavka u slučaju neplaniranih događaja ili gubitka podataka
+			 \end{packed_item}
 			 
+
+
+• 
+• 
 			 
 			 
 	

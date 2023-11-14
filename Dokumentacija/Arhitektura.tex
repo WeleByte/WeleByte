@@ -19,10 +19,17 @@
 		HTTP (HyperText Transfer Protokola) koji je ključni protokol web-a. Za potrebe komunikacije backend-a i frontend-a definiran je API (Application Programming Interface) u skladu s pravilima REST-a (Representational State Transfer). Neka od njih su:
 		\begin{packed_item}
 			\item odvajanje poslužitelja i klijenta - Klijent i poslužitelj su u potpunosti neovisni, a sve što klijent "zna" dolazi od poslužitelja.
-			\item "statelessness" - 
+			\item "statelessness" - Zahtjevi klijenta prema poslužitelju su međusobno neovisni i sadrže sve informacije potrebne za svoje izvođenje.
 		\end{packed_item}
 
-		Važno je napomenuti da se React aplikacija izvršava unutar korisničkog preglednika, a ne na nekom vanjskom poslužitelju. Ipak, kako bi ju pokrenuo, korisnički preglednik tu aplikaciju mora preuzeti od negdje. To je oslikano u slici 4.2. 
+		U kontekstu Spring razvojnog okvira, aplikacija koristi tri arhitekturna sloja (Controller, Service i Repository) kako bi se organizirao kod i razdvojile odgovornosti:
+		\begin{packed_item}
+			\item Controller - Sloj koji obrađuje HTTP zahtjeve i upravlja komunikacijom između korisničkog sučelja (frontend) i ostatka aplikacije. Kontroleri su odgovorni za prihvat HTTP zahtjeva, obradu korisničkih ulaznih podataka, pozivanje odgovarajućih metoda u Service sloju i pripremu odgovora za korisnika.		
+			\item Service - Sloj koji sadrži poslovnu logiku aplikacije. Servisi se koriste kako bi se odvojila poslovna logika od kontrolera i omogućila ponovna upotreba iste logike na različitim dijelovima aplikacije.
+			\item Repository - Sloj je odgovoran za pristup podacima. To uključuje komunikaciju s bazom podataka. Repository sloj omogućava izvršavanje osnovnih operacija poput spremanja, dohvaćanja, ažuriranja i brisanja podataka.
+		\end{packed_item}
+    
+		Zahtjevi prema backendu dolaze iz React aplikacije koja se izvršava unutar korisničkog preglednika, a ne na nekom vanjskom poslužitelju. Ipak, kako bi ju pokrenuo, korisnički preglednik tu aplikaciju mora preuzeti od negdje. To je oslikano u slici 4.2. 
 
 		\begin{figure}[H]
 			\includegraphics[width=\textwidth]{slike/infrastructure.png} 
@@ -37,10 +44,13 @@
 			\item fleksibilan model naplate koji omogućava da besplatno koristimo platformu
 			\item jednostavno integriranje s GitHub repozitorijem za lak "deployment" kad je to potrebno
 		\end{packed_item}
+
+		Korisnici se u sustav prijavljuju pomoću korisničkog imena i lozinke. Na temelju tih vjerodajnica, a nakon provjere s podacima u bazi, backend korisniku izdaje token koji se koristi za autentikaciju narednih zahtjeva s klijenta.
+		Koristimo "Bearer" autentikacijsku schemu koja podrazumjeva da svaki HTTP zahtjev koji dolazi od klijenta ima token u ispravnom polju u zaglavlju. Ovakva implementacija podrazumjeva korištenje HTTPS protokola koji omogućava komunikaciju na siguran način.
 					
 		\section{Baza podataka}
         Baza podataka koja se koristi u projektu "Ozdravi" ključna je komponenta sustava koja omogućava pohranu, upravljanje i praćenje svih relevantnih informacija o korisnicima i njihovim zdravstvenim podacima. 
-		Izgrađena je relacijska baza podataka koja se sastoji od nekoliko ključnih entiteta:
+		Izgrađena je relacijska baza podataka koja se sastoji od sljedećih entiteta:
 		\begin{packed_item}
 			\item Person
 			\item Examination
