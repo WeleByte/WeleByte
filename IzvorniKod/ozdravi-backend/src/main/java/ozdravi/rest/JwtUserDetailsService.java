@@ -1,4 +1,4 @@
-package ozdravi.service.impl;
+package ozdravi.rest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -8,7 +8,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import ozdravi.dao.UserRepository;
 import ozdravi.domain.User;
-import ozdravi.security.JwtUserDetails;
 
 import java.util.Collections;
 import java.util.List;

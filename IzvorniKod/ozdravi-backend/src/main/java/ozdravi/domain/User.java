@@ -2,6 +2,11 @@ package ozdravi.domain;
 
 import jakarta.persistence.*;
 
+
+/**
+ * klasa User predstavlja usera u aplikaciji
+ * on ima svoj id, username i password
+ */
 @Entity
 @Table(name = "users")
 public class User {
