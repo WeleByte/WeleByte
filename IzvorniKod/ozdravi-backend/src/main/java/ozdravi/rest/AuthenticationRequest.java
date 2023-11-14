@@ -1,4 +1,4 @@
-package ozdravi.requests;
+package ozdravi.rest;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;

@@ -1,4 +1,4 @@
-package ozdravi.util;
+package ozdravi.rest;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;

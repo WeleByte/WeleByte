@@ -11,14 +11,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.server.ResponseStatusException;
-import ozdravi.dao.UserRepository;
 import ozdravi.domain.User;
-import ozdravi.requests.AuthenticationRequest;
-import ozdravi.responses.AuthenticationResponse;
 import ozdravi.service.UserService;
-import ozdravi.service.impl.JwtUserDetailsService;
-import ozdravi.util.JwtTokenUtil;
 
 @RestController
 public class AuthenticationController {
