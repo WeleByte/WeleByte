@@ -1,6 +1,7 @@
 package ozdravi.rest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
@@ -30,13 +31,13 @@ public class UserController {
     }
 
     @GetMapping("/user/{id}")
-    public User getUser(@PathVariable("id") Long id) {
+    public ResponseEntity<?> getUser(@PathVariable("id") Long id) {
         Optional<User> user = userService.findById(id);
 
         if(user.isPresent()) {
-            return user.get();
+            return ResponseEntity.ok(user.get());
         } else {
-            throw new ResponseStatusException(NOT_FOUND, "No user with that id");
+            return ResponseEntity.notFound().build();
         }
     }
 

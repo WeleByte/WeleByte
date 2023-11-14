@@ -180,3 +180,16 @@ sprintu. Zaključili smo da je frontend sad spreman za spajanje s backendom.
 Mihael Lešković je opisao probleme s kojima se susreo pri postavljanju Spring Security modula za backend aplikacije.
 Dogovoreno je da će on i Dorian Matić probati što prije to popraviti i omogućiti daljnju razvoj frontenda.
 
+-------------------------------------------------------------------------------------------------------------------
+Radionica: Integracija frontenda i backenda - 11.11.2023
+
+Dnevni red:
+- Omogućiti frontend timu da spoji React aplikaciju s backendom
+
+Prisutni: D. Matić, M.Lešković, K. Valečić, L. Cvetkovski
+Neprisutni: L. Crvelin, M. Vidaković, V. Kumanović
+
+Zapisnik:
+
+Predstavljen je dio backenda vezan uz Spring Security. Frontend tim je naučio kako se pokreće backend aplikacija lokalno.
+Dogovoreni su sljedeći koraci.
