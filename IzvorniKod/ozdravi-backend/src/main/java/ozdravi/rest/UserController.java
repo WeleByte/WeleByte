@@ -18,15 +18,13 @@ public class UserController {
     public List<User> getAllUsers() {
         return userService.listAll();
     }
-
-    @CrossOrigin(origins = "${frontend.url}")
+    
     @PostMapping("/users")
     public ResponseEntity<User> createUser(@RequestBody User user) {
         User saved = userService.createUser(user);
         return ResponseEntity.created(URI.create("/users/" + saved.getId())).body(saved);
     }
 
-    @CrossOrigin(origins = "${frontend.url}")
     @GetMapping("/user/{id}")
     public ResponseEntity<?> getUser(@PathVariable("id") Long id) {
         Optional<User> user = userService.findById(id);
