@@ -8,6 +8,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -28,6 +29,7 @@ public class AuthenticationController {
     @Autowired
     private UserService userService;
 
+    @CrossOrigin(origins = "${frontend.url}")
     @PostMapping("/login")
     public ResponseEntity<?> authenticate(@RequestBody @Valid final AuthenticationRequest authenticationRequest) {
         if(userService.findByUsername(authenticationRequest.getUsername()).isEmpty())
@@ -46,6 +48,7 @@ public class AuthenticationController {
                 userDetails, tokenUtil.generateToken(userDetails)));
     }
 
+    @CrossOrigin(origins = "${frontend.url}")
     @PostMapping("/register")
     public ResponseEntity<Boolean> register(@RequestBody User user) {
 
