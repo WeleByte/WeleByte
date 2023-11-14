@@ -1,7 +1,7 @@
 \chapter{Arhitektura i dizajn sustava}
 		Arhitektura sustava počiva na podjeli na korisničko sučelje \textit{(en. frontend)} i na pozadinsku aplikaciju \textit{(en. backend)} koja se spaja na relacijsku bazu podataka.
 
-		Glavna tehnologija izrade "frontend" dijela sustava je React.js razvojni okvir, a samo korisničko sučelje je izgrađeno od gotovih komponenti iz paketa "Bootstrap". Korištenje Bootstrap-a nam omogućuje da brzo i lako razvijamo sučelja koja su izgledaju moderno i koja su responzivna, 
+		Glavna tehnologija izrade "frontend" dijela sustava je React.js razvojni okvir, a samo korisničko sučelje je izgrađeno od gotovih komponenti iz paketa "Bootstrap". Korištenje Bootstrap-a omogućuje brzo i lako razvijanje sučelja koja izgledaju moderno i koja su responzivna, 
 		što je jedan od važnijih zahtjeva. 
 
 		Backend dio je izrađen u Spring radnom okviru koji omogućava razvoj MVC (Model-View-Controller) aplikacija, ali i još puno toga, poput rada s bazama podataka i autorizacije korisnika (Spring Security). 
@@ -16,20 +16,20 @@
 		\end{figure}
 
 		Kao što je prikazano na slici 4.1, središnji je dio sustava Spring backend koji ostvaruje komunikaciju s Postgres bazom, ali i s frontend aplikacijom. Komunikacija s frontend-om se ostvaruje primjenom
-		HTTP (HyperText Transfer Protokola) koji je ključni protokol web-a. Za potrebe komunikacije backend-a i frontend-a definiran je API (Application Programming Interface) u skladu s pravilima REST-a (Representational State Transfer). Neka od njih su:
+		HTTP (HyperText Transfer Protokola) protokola koji je ključni protokol web-a. Za potrebe komunikacije backend-a i frontend-a definiran je API (Application Programming Interface) u skladu s pravilima REST-a (Representational State Transfer). Neka od njih su:
 		\begin{packed_item}
-			\item odvajanje poslužitelja i klijenta - Klijent i poslužitelj su u potpunosti neovisni, a sve što klijent "zna" dolazi od poslužitelja.
-			\item "statelessness" - Zahtjevi klijenta prema poslužitelju su međusobno neovisni i sadrže sve informacije potrebne za svoje izvođenje.
+			\item odvajanje poslužitelja i klijenta - klijent i poslužitelj su u potpunosti neovisni, a sve što klijent "zna" dolazi od poslužitelja
+			\item "statelessness" - zahtjevi klijenta prema poslužitelju su međusobno neovisni i sadrže sve informacije potrebne za svoje izvođenje
 		\end{packed_item}
 
 		U kontekstu Spring razvojnog okvira, aplikacija koristi tri arhitekturna sloja (Controller, Service i Repository) kako bi se organizirao kod i razdvojile odgovornosti:
 		\begin{packed_item}
 			\item Controller - Sloj koji obrađuje HTTP zahtjeve i upravlja komunikacijom između korisničkog sučelja (frontend) i ostatka aplikacije. Kontroleri su odgovorni za prihvat HTTP zahtjeva, obradu korisničkih ulaznih podataka, pozivanje odgovarajućih metoda u Service sloju i pripremu odgovora za korisnika.		
 			\item Service - Sloj koji sadrži poslovnu logiku aplikacije. Servisi se koriste kako bi se odvojila poslovna logika od kontrolera i omogućila ponovna upotreba iste logike na različitim dijelovima aplikacije.
-			\item Repository - Sloj je odgovoran za pristup podacima. To uključuje komunikaciju s bazom podataka. Repository sloj omogućava izvršavanje osnovnih operacija poput spremanja, dohvaćanja, ažuriranja i brisanja podataka.
+			\item Repository - Sloj koji je odgovoran za pristup podacima. To uključuje komunikaciju s bazom podataka. Repository sloj omogućava izvršavanje osnovnih operacija poput spremanja, dohvaćanja, ažuriranja i brisanja podataka.
 		\end{packed_item}
     
-		Zahtjevi prema backendu dolaze iz React aplikacije koja se izvršava unutar korisničkog preglednika, a ne na nekom vanjskom poslužitelju. Ipak, kako bi ju pokrenuo, korisnički preglednik tu aplikaciju mora preuzeti od negdje. To je oslikano u slici 4.2. 
+		Zahtjevi prema backendu dolaze iz React aplikacije koja se izvršava unutar korisničkog preglednika, a ne na nekom vanjskom poslužitelju. Ipak, kako bi ju pokrenuo, korisnički preglednik tu aplikaciju mora preuzeti od negdje. To je prikazano na slici 4.2. 
 
 		\begin{figure}[H]
 			\includegraphics[width=\textwidth]{slike/infrastructure.png} 
@@ -38,15 +38,15 @@
 
 		U produkcijskom okruženju, sustav koristi dva poslužitelja - jedan pokreće Spring aplikaciju (backend), a drugi omogućava preglednicima preuzimanje React aplikacije (frontend).
 
-		Kao infrastrukturnu platformu, na kojoj ćemo postaviti produkcijsko okruženje, izabrali smo Heroku iz dva glavna razloga:
+		Kao infrastrukturnu platformu, na kojoj ćemo postaviti produkcijsko okruženje, izabrali smo Heroku zbog ova tri razloga:
 		\begin{packed_item}
 			\item jednostavnost postavljanja potrebnih resursa (Heroku Dyno, Heroku Postgres)
-			\item fleksibilan model naplate koji omogućava da besplatno koristimo platformu
-			\item jednostavno integriranje s GitHub repozitorijem za lak "deployment" kad je to potrebno
+			\item fleksibilan model naplate koji omogućava besplatno korištenje platforme
+			\item jednostavno integriranje s GitHub repozitorijem za lagan "deployment" kad je to potrebno
 		\end{packed_item}
 
-		Korisnici se u sustav prijavljuju pomoću korisničkog imena i lozinke. Na temelju tih vjerodajnica, a nakon provjere s podacima u bazi, backend korisniku izdaje token koji se koristi za autentikaciju narednih zahtjeva s klijenta.
-		Koristimo "Bearer" autentikacijsku schemu koja podrazumjeva da svaki HTTP zahtjev koji dolazi od klijenta ima token u ispravnom polju u zaglavlju. Ovakva implementacija podrazumjeva korištenje HTTPS protokola koji omogućava komunikaciju na siguran način.
+		Korisnici se u sustav prijavljuju unoseći svoje korisničko ime i lozinku. Na temelju tih vjerodajnica, a nakon provjere s podacima u bazi, backend korisniku izdaje token koji se koristi za autentikaciju narednih zahtjeva s klijenta.
+		Koristimo "Bearer" autentikacijsku schemu koja podrazumijeva da svaki HTTP zahtjev koji dolazi od klijenta ima token u ispravnom polju u zaglavlju. Ovakva implementacija podrazumijeva korištenje HTTPS protokola koji omogućava komunikaciju na siguran način.
 					
 		\section{Baza podataka}
         Baza podataka koja se koristi u projektu "Ozdravi" ključna je komponenta sustava koja omogućava pohranu, upravljanje i praćenje svih relevantnih informacija o korisnicima i njihovim zdravstvenim podacima. 
@@ -143,7 +143,7 @@
 			content & TEXT &  Sadržaj upute (NOT NULL) \\ \hline 
 		\end{longtblr}
 
-\textbf{Preopurka za bolovanje} Ovaj entitet sadržava informacije o izdanim preporukama za bolovanje, tko ih je izdao, za koga i tko ih treba odobriti. Sadrži atribute: identifikator preporuke, identifikator pacijenta, identifikator pedijatra koji ju je stvorio, identifikatora liječnika koji ju je odobrio, identifikator pregleda na kojem se izdaje te status preporuke.
+\textbf{Preporuka za bolovanje} Ovaj entitet sadržava informacije o izdanim preporukama za bolovanje, tko ih je izdao, za koga i tko ih treba odobriti. Sadrži atribute: identifikator preporuke, identifikator pacijenta, identifikator pedijatra koji ju je stvorio, identifikatora liječnika koji ju je odobrio, identifikator pregleda na kojem se izdaje te status preporuke.
 		\begin{longtblr}[
 			label=none,
 			entry=none
