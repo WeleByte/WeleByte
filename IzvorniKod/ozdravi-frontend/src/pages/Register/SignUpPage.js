@@ -9,19 +9,20 @@ const SignUpPage = () => {
   const handleSignUp = (e) => {
     e.preventDefault();
     // Perform login logic
+
     // If login is successful, navigate to the home page
     console.log("hello")
     navigate('/home');
   };
 
   const navigateLogIn = () => {
- 
-    
+
+
     navigate('/login');
   };
 
   return (
-    
+
     <div className="container  col-12" id = "loginContainer">
     <img src={loginVector} id ="loginVectorMobile" alt = "" ></img>
 
@@ -30,7 +31,7 @@ const SignUpPage = () => {
         <div className="col-12 mx-auto " >
           <h2>Registracija za Ozdravi Me</h2>
           <p>Unesite svoje podatke</p>
-          <form onSubmit={handleSignUp}> 
+          <form onSubmit={handleSignUp}>
             <div className="mb-3">
               <label htmlFor="username" className="form-label" style={{float: 'left'}}>EMAIL</label>
               <input type="text" className="form-control" id="username" />
