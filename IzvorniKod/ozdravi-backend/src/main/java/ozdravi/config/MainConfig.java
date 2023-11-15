@@ -24,8 +24,6 @@ public class MainConfig {
             username = dbUri.getUserInfo().split(":")[0];
             password = dbUri.getUserInfo().split(":")[1];
             dbUrl = "jdbc:postgresql://" + dbUri.getHost() + ':' + dbUri.getPort() + dbUri.getPath() + "?sslmode=require";
-
-
         } else {
             username = "welebyte";
             password = "welebyte";
