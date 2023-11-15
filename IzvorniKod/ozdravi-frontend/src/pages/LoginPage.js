@@ -6,7 +6,7 @@ const LoginPage = () => {
     const navigate = useNavigate();
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
-    const backendRoute = "http://localhost:8080"
+    const backendRoute = process.env.BACKEND_URL || "http://localhost:8080";
     const handleLogin = async (e) => {
         e.preventDefault();
         const response = await fetch( backendRoute + "/login", {
