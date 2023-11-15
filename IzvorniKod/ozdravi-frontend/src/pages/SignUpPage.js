@@ -6,6 +6,7 @@ const SignUpPage = () => {
 
   const backendRoute = "http://localhost:8080"
   const navigate = useNavigate();
+  const [signUpFailed, setSignUpFailed] = useState(false)
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const handleSignUp = async (e) => {
@@ -22,19 +23,15 @@ const SignUpPage = () => {
       })
 
     })
-        // .then(res => res.json())
-        // .then(data => console.log(data))
 
 
     // If login is successful, navigate to the home page
     if(!response.ok) {
-      throw new Error('Dogodila se greska')
+      setSignUpFailed(true)
     } else {
+      setSignUpFailed(false)
       navigate('/login');
     }
-
-    console.log(email, password)
-
   };
 
   const navigateLogIn = () => {
@@ -52,7 +49,7 @@ const SignUpPage = () => {
 
         <div className="col-12 mx-auto " >
           <h2>Registracija za Ozdravi Me</h2>
-          <p>Unesite svoje podatke</p>
+          {signUpFailed ? (<p>Email je zauzet, pokusajte ponovno</p>) : <p>Unesite svoje podatke</p>}
           <form onSubmit={handleSignUp}> 
             <div className="mb-3">
               <label htmlFor="username" className="form-label" style={{float: 'left'}}>EMAIL</label>

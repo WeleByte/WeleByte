@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 
 const LoginPage = () => {
     const navigate = useNavigate();
+    const [loginFailed, setLoginFailed] = useState(false)
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const backendRoute = "http://localhost:8080"
@@ -21,24 +22,24 @@ const LoginPage = () => {
 
         })
 
-        // If login is successful, navigate to the home page
-        if(!response) {
-            throw new Error('Dogodila se greska')
-        } else {
-            const responseData = await response.json()
-            console.log(responseData.accessToken)
-            sessionStorage.setItem('bearerToken', responseData.accessToken)
-            navigate('/home');
-        }
 
-        console.log(email, password)
+        // If login is successful, navigate to the home page
+            if(!response.ok) {
+                setLoginFailed(true)
+            } else {
+                setLoginFailed(false)
+                const responseData = await response.json()
+                console.log(responseData.accessToken, responseData.username)
+                sessionStorage.setItem('bearerToken', responseData.accessToken)
+                sessionStorage.setItem('email', responseData.username)
+                navigate('/home');
+            }
+
+
       };
 
     const navigateSignUp = () => {
-        
-        // Perform login logic
-        // If login is successful, navigate to the home page
-       
+
         navigate('/signup');
       };
 
@@ -51,7 +52,7 @@ const LoginPage = () => {
 
         <div className="col-12 mb-auto" >
           <h2>Prijava u Ozdravi Me</h2>
-          <p>Unesite svoje podatke</p>
+          {loginFailed ? (<p>Greska u login podatcima, pokusajte ponovno</p>) : <p>Unesite svoje podatke</p>}
           <form onSubmit={handleLogin}> 
             <div className="mb-3">
               <label htmlFor="username" className="form-label" style={{float: 'left'}}>EMAIL</label>
