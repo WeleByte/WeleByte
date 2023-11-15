@@ -1,4 +1,4 @@
-package ozdravi.responses;
+package ozdravi.rest;
 
 import lombok.Getter;
 import org.springframework.security.core.userdetails.UserDetails;
