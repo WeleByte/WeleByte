@@ -34,9 +34,6 @@ module.exports = {
         new MiniCssExtractPlugin({
             filename: '[name].bundle.css',
             chunkFilename: '[id].css'
-        }),
-        new webpack.DefinePlugin({
-            'process.env.BACKEND_URL': JSON.stringify(process.env.BACKEND_URL)
         })
     ]
 }
