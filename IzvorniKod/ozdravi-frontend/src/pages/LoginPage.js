@@ -22,7 +22,6 @@ const LoginPage = () => {
 
         })
 
-
         // If login is successful, navigate to the home page
             if(!response.ok) {
                 setLoginFailed(true)
@@ -34,8 +33,6 @@ const LoginPage = () => {
                 sessionStorage.setItem('email', responseData.username)
                 navigate('/home');
             }
-
-
       };
 
     const navigateSignUp = () => {
