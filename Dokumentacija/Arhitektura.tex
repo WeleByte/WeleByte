@@ -52,14 +52,14 @@
         Baza podataka koja se koristi u projektu "Ozdravi" ključna je komponenta sustava koja omogućava pohranu, upravljanje i praćenje svih relevantnih informacija o korisnicima i njihovim zdravstvenim podacima. 
 		Izgrađena je relacijska baza podataka koja se sastoji od sljedećih entiteta:
 		\begin{packed_item}
-			\item Person
+			\item User
 			\item Examination
 			\item SecondOpinion
 			\item Instruction
 			\item SickLeaveRecommendation
 			\item Address
 			\item Role
-			\item PersonRoles
+			\item UserRoles
 		\end{packed_item}
 
         Baza podataka "Ozdravi" omogućava integraciju svih informacija kako bi podržala procese komunikacije, pregleda i dijagnoza u kontekstu brige o zdravstvenim potrebama djece. Ova struktura omogućava učinkovito praćenje i upravljanje svim 
@@ -67,7 +67,7 @@
         
 		\subsection{Opis tablica}
 
-		\textbf{Osoba} Ovaj entitet sadržava osnovne informacije o svim korisnicima sustava, uključujući njihovu ulogu, identifikacijske brojeve, ime, prezime, korisničko ime i lozinku. Ova tablica je ključna za autentikaciju korisnika i definira njihove uloge unutar sustava.
+		\textbf{Korisnik} Ovaj entitet sadržava osnovne informacije o svim korisnicima sustava, uključujući njihovu ulogu, identifikacijske brojeve, ime, prezime, e-mail i lozinku te e-mail korisnikove institucije gdje je potrebno slati ispričnicu ili doznaku za bolovanje. Ova tablica je ključna za autentikaciju korisnika i definira njihove uloge unutar sustava.
 		\begin{longtblr}[
 			label=none,
 			entry=none
@@ -76,7 +76,7 @@
 				colspec={|X[6,l]|X[6, l]|X[20, l]|}, 
 				rowhead = 1,
 			} %definicija širine tablice, širine stupaca, poravnanje i broja redaka naslova tablice
-			\hline \SetCell[c=3]{c}{\textbf{Person (osoba)}}	 \\ \hline[3pt]
+			\hline \SetCell[c=3]{c}{\textbf{User (korisnik)}}	 \\ \hline[3pt]
 			\SetCell{LightGreen}id & INT	&  	jedinstveni brojčani identifikator 	\\ \hline
 			\SetCell{LightBlue}parent\_id	& INT & ID osobe koja je roditelj osobe [Parent] \\ \hline 
 			\SetCell{LightBlue}doctor\_id	& INT & ID osobe koja je doktor osobe [Doctor/Pediatrician] \\ \hline 
@@ -87,6 +87,7 @@
 			role & VARCHAR &  Uloga korisnika (NOT NULL) \\ \hline 
 			password & VARCHAR &  Lozinka za prijavu u sustav \\ \hline
 			email & VARCHAR &  e-mail za prijavu u sustav \\ \hline 
+			institution_email & VARCHAR &  službeni e-mail ustanove (vrtić/škola/poslodovac)\\ \hline
 		\end{longtblr}
 
 		\textbf{Pregled} Ovaj entitet sadržava podatke o pacijentima, uključujući informacije o njihovim pregledima, dijagnozama i zapisnicima. Sadrži atribute: identifikator pregleda, identifikator pacijenta, identifikator liječnika, identifikator liječnika koji je zakazao pregled, identifikator adrese na kojoj se održava pregled, zapisnik s pregleda te datum i vrijeme pregleda. Pohranjuje veze između pacijenata, doktora i pregleda, omogućavajući praćenje medicinskih podataka. 
@@ -196,7 +197,7 @@
         
 		\end{longtblr}
 
-		\textbf{PersonRoles} Ovaj entitet sadržava informacije o ulogama korisnika u sustavu. Prikazuje koji korisnik ima koju ulogu. Sadrži atribute: identifikator, identifikator uloge i naziv uloge. 
+		\textbf{UserRoles} Ovaj entitet sadržava informacije o ulogama korisnika u sustavu. Prikazuje koji korisnik ima koju ulogu. Sadrži atribute: identifikator, identifikator uloge i naziv uloge. 
 		\begin{longtblr}[
 			label=none,
 			entry=none
@@ -205,10 +206,10 @@
 				colspec={|X[6,l]|X[6, l]|X[20, l]|}, 
 				rowhead = 1,
 			} 
-			\hline \SetCell[c=3]{c}{\textbf{PersonRoles}}	 \\ \hline[3pt]
+			\hline \SetCell[c=3]{c}{\textbf{UserRoles}}	 \\ \hline[3pt]
 			\SetCell{LightGreen}id & INT	&  	jedinstveni brojčani identifikator 	\\ \hline
 			\SetCell{LightBlue}role\_id	& VARCHAR & identifikator uloge\\ \hline 
-			\SetCell{LightBlue}person\_id	& VARCHAR & identifikator osobe\\ \hline
+			\SetCell{LightBlue}user\_id	& VARCHAR & identifikator osobe\\ \hline
         
 		\end{longtblr}
   
