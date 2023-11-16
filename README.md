@@ -2,6 +2,14 @@
 
 Setup guide
 
+## Deployment
+
+URL aplikacije na javnom poslužitelju: https://welebyte-ozdravi-frontend-8717d38be8e3.herokuapp.com
+
+**NAPOMENA:** Potrebno je pričekati pola minute prije nego što aplikacija postane dostupna. To je zbog činjenice da 
+Heroku uspava aplikacije nakon nekog perioda nekorištenja. Slično se ponaša i backend aplikacija, pa će 
+biti potreno više vremena da se obradi prvi zahtjev prema backendu. Nakon toga, aplikacija radi normalnom brzinom. 
+
 ## Backend
 
 Za potrebe spajanja projekta u Springu s postgres bazom podataka, treba se napraviti baza lokalno na računalu.

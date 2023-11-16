@@ -193,3 +193,20 @@ Zapisnik:
 
 Predstavljen je dio backenda vezan uz Spring Security. Frontend tim je naučio kako se pokreće backend aplikacija lokalno.
 Dogovoreni su sljedeći koraci.
+
+-------------------------------------------------------------------------------------------------------------------
+
+Dnevni red:
+- Tjedni sastanak za planiranje i praćenje napretka.
+
+Prisutni: D. Matić, L. Crvelin, M. Lešković, K. Valečić, V. Kumanović, L. Cvetkovski, M. Vidaković
+Neprisutni: -
+
+Zapisnik:
+
+Timovi za dokumentaciju, backend i frontend su predstavili svoj napredak u ovom sprintu. Dogovorene su zadnje promjene
+u dokumentaciji prije verzije 1.0.
+
+Dogovoreno je da sljedeći sprint zbog međuispita kreće tek u četvrtak, 30.11. Do tad, svi timovi trebaju smisliti
+prijedloge daljenjeg djelovanja. Svi članovi tima su pristali na cilj da cjelokupna funkcionalnost aplikacije bude
+gotova do 1.1.2024.
