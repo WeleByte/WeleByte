@@ -7,7 +7,7 @@ const LoginPage = () => {
     const [loginFailed, setLoginFailed] = useState(false)
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
-    const backendRoute = "http://localhost:8080"
+    const backendRoute = process.env.REACT_APP_BACKEND_URL || 'http://localhost:8080'
     const handleLogin = async (e) => {
         e.preventDefault();
         const response = await fetch( backendRoute + "/login", {

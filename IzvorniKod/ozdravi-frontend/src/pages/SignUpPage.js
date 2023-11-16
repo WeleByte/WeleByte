@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 const SignUpPage = () => {
 
-  const backendRoute = "http://localhost:8080"
+  const backendRoute = process.env.REACT_APP_BACKEND_URL || 'http://localhost:8080'
   const navigate = useNavigate();
   const [signUpFailed, setSignUpFailed] = useState(false)
   const [email, setEmail] = useState('')
