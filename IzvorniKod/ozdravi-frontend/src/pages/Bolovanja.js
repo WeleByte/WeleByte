@@ -10,7 +10,7 @@ const Bolovanja = () => {
   const [selectedState, setSelectedState] = useState('svi')
 
   return (
-      
+
     
     <div id = "HomePageWrapper">
      <Navbar></Navbar>

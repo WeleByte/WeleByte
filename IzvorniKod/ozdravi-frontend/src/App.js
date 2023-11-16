@@ -8,10 +8,13 @@ import HomePage from './pages/HomePage.js';
 import Users from './pages/Users';
 import SecondOpinions from './pages/SecondOpinions';
 import Bolovanja from './pages/Bolovanja';
+import { useEffect } from "react";
 
 function App({wordIn}) {
-  const [word, setWord] = useState(wordIn);
+    useEffect(() => {
+        document.title = "Ozdravi"
 
+    }, [])
   return (
     <div className="App">
        <BrowserRouter>
