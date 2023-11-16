@@ -26,6 +26,11 @@ const Navbar = () => {
         }
     }
 
+    const handleSignOut = () => {
+        sessionStorage.clear()
+        navigate('/signup')
+    }
+
     return (
 
     
@@ -52,6 +57,8 @@ const Navbar = () => {
               onClick={(e) => handleItemClick(e, 'bolovanja')}>Bolovanja</button>
 
           { uloga === "roditelj" ? (  <button className="nav-item nav-link">Djeca</button> ) : null }
+
+          <button className="nav-item nav-link" onClick={handleSignOut}>Sign Out</button>
         </div>
       </div>
 
