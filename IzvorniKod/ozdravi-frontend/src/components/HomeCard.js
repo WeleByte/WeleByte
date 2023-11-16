@@ -5,16 +5,16 @@ const HomeCard = ({title, description, buttonText, image}) => {
   return (
       
     
-    <div class="card px-0 me-2 ms-2 mt-3" style={{width: "100%",textAlign: "left", marginLeft: "0.7rem"}}>
+    <div className="card px-0 me-2 ms-2 mt-3" style={{width: "100%",textAlign: "left", marginLeft: "0.7rem"}}>
     <img className='card-img-top' alt = "" src = {image} style={{height: "200px", objectFit: "cover"}}></img>
-    <div class="card-body">
-      <h5 class="card-title ">{title}</h5>
-      <p class="card-text">{description}</p>
+    <div className="card-body">
+      <h5 className="card-title ">{title}</h5>
+      <p className="card-text">{description}</p>
       
 
-      <div class="container">
-        <div class="row px-0">
-          <div class="col ps-0 pe-1">
+      <div className="container">
+        <div className="row px-0">
+          <div className="col ps-0 pe-1">
           <a href="/" className="btn btn-primary me-auto col-12"> {buttonText}
           
           <img width="14" height="14" className = "ms-2  " src={ArrowRightIcon} style={{marginBottom: "2px"}}  alt="right"/>

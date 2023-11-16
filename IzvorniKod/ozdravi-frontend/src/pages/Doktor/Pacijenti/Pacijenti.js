@@ -1,1 +1,0 @@
-// tablica za prikaz pacijenata

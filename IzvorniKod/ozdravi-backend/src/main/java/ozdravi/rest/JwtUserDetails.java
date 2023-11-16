@@ -1,4 +1,4 @@
-package ozdravi.security;
+package ozdravi.rest;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;

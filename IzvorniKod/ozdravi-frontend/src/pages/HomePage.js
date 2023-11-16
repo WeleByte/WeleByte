@@ -1,16 +1,22 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import Navbar from '../components/Header';
 import patientsImage from '../assets/images/patientsNo2.png'
 import drugoMisljenje from '../assets/images/drugoMisljenje.png'
 import bolovanje from '../assets/images/bolovanje.png'
 import djeca from '../assets/images/kids2.png'
 import HomeCard from '../components/HomeCard';
-
+import { useNavigate } from "react-router-dom";
 
 
 const HomePage = () => {
 
   const uloga = "doktor"
+  const navigate = useNavigate()
+  const bearerToken = sessionStorage.getItem('bearerToken')
+    useEffect(() => {
+        if(bearerToken === '' || bearerToken === null) {navigate('/login')}
+    }, []);
+  const email = sessionStorage.getItem('email')
 
   return (
       
@@ -19,7 +25,7 @@ const HomePage = () => {
      <Navbar></Navbar>
 
     <div id = "homePageWrapperInner">
-          <h3 className = "pt-4 px-4 mt-2" style={{textAlign: "left"}}>Dobrodošao nazad, Filip.</h3>
+          <h3 className = "pt-4 px-4 mt-2" style={{textAlign: "left"}}>Dobrodošao nazad, {email}.</h3>
     <p style={{textAlign: "left"}} className = "px-4">Što ćemo raditi danas?</p>
      <div className='homePageCardSection p-4 pt-0 ps-3' >
 
