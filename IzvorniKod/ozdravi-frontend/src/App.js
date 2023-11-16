@@ -1,13 +1,6 @@
 
 import './App.css';
 import React, { useState } from "react";
-// import LoginPage from './pages/Login/LoginPage';
-// import SignUpPage from './pages/Register/SignUpPage';
-// import HomePage from './pages/HomePage/HomePage';
-// import { BrowserRouter, Route, Routes } from 'react-router-dom';
-
-
-import Racuni from './pages/Admin/Racuni';
 import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
 import LoginPage from './pages/LoginPage.js';
 import SignUpPage from './pages/SignUpPage.js';
@@ -30,7 +23,6 @@ function App({wordIn}) {
           <Route path="/users" element={<Users />} />
           <Route path="/drugaMisljenja" element={<SecondOpinions />} />
           <Route path="/bolovanja" element={<Bolovanja />} />
-          <Route path="/admin/racuni" element={<Racuni />} />
         </Routes>
       </BrowserRouter>
     </div>
