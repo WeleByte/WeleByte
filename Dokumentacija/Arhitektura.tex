@@ -1,13 +1,13 @@
 \chapter{Arhitektura i dizajn sustava}
 		Arhitektura sustava počiva na podjeli na korisničko sučelje \textit{(en. frontend)} i na pozadinsku aplikaciju \textit{(en. backend)} koja se spaja na relacijsku bazu podataka.
 
-		Glavna tehnologija izrade fronten dijela sustava je React.js razvojni okvir, a samo korisničko sučelje je izgrađeno od gotovih komponenti iz paketa "Bootstrap". Korištenje Bootstrap-a omogućuje brzo i lako razvijanje sučelja koja izgledaju moderno i koja su responzivna, 
+		Glavna tehnologija izrade frontend dijela sustava je React.js razvojni okvir, a samo korisničko sučelje je izgrađeno od gotovih komponenti iz paketa "Bootstrap". Korištenje Bootstrapa omogućuje brzo i lako razvijanje sučelja koja izgledaju moderno i koja su responzivna, 
 		što je jedan od važnijih zahtjeva. 
 
 		Backend dio je izrađen u Spring radnom okviru koji omogućava razvoj MVC (Model-View-Controller) aplikacija, ali i još puno toga, poput rada s bazama podataka i autorizacije korisnika (Spring Security). 
 		Za postavljanje aplikacije u skladu sa Springovim konvencijama koristili smo Spring Boot ekstenziju.
 
-		Kao relacijsku bazu podataka odabrali smo Postgres. Radi se o bazi otvorenog koda \textit{(en. open-source)} visokih performansi koja se koristi za širok raspon zadataka i u raznim okruženjima.
+		Kao relacijsku bazu podataka odabrali smo Postgres. Radi se o bazi otvorenog koda \textit{(en. open-source)}, visokih performansi koja se koristi za širok raspon zadataka i u raznim okruženjima.
 
 		\begin{figure}[H]
 			\includegraphics[width=\textwidth]{slike/architecture.png} 
@@ -29,7 +29,7 @@
 			\item Repository - Sloj koji je odgovoran za pristup podacima. To uključuje komunikaciju s bazom podataka. Repository sloj omogućava izvršavanje osnovnih operacija poput spremanja, dohvaćanja, ažuriranja i brisanja podataka.
 		\end{packed_item}
     
-		Zahtjevi prema backendu dolaze iz React aplikacije koja se izvršava unutar korisničkog preglednika, a ne na nekom vanjskom poslužitelju. Ipak, kako bi ju pokrenuo, korisnički preglednik tu aplikaciju mora preuzeti od negdje. To je prikazano na slici 4.2. 
+		Zahtjevi prema backendu dolaze iz React aplikacije koja se izvršava unutar korisničkog preglednika, a ne na nekom vanjskom poslužitelju. Ipak, kako bi ju pokrenuo, korisnički preglednik tu aplikaciju mora preuzeti od nekuda. To je prikazano na slici 4.2. 
 
 		\begin{figure}[H]
 			\includegraphics[width=\textwidth]{slike/infrastructure.png} 
