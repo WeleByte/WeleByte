@@ -212,6 +212,7 @@ prijedloge daljenjeg djelovanja. Svi članovi tima su pristali na cilj da cjelok
 gotova do 1.1.2024.
 
 -------------------------------------------------------------------------------------------------------------------
+Planiranje sprinta i pregled napretka - 30.11.2023
 
 Dnevni red:
 - Tjedni sastanak za planiranje i praćenje napretka.
