@@ -210,3 +210,26 @@ u dokumentaciji prije verzije 1.0.
 Dogovoreno je da sljedeći sprint zbog međuispita kreće tek u četvrtak, 30.11. Do tad, svi timovi trebaju smisliti
 prijedloge daljenjeg djelovanja. Svi članovi tima su pristali na cilj da cjelokupna funkcionalnost aplikacije bude
 gotova do 1.1.2024.
+
+-------------------------------------------------------------------------------------------------------------------
+Planiranje sprinta i pregled napretka - 30.11.2023
+
+Dnevni red:
+- Tjedni sastanak za planiranje i praćenje napretka.
+
+Prisutni: D. Matić, M. Lešković, K. Valečić, V. Kumanović
+Neprisutni: L. Crvelin, L. Cvetkovski, M. Vidaković
+
+Zapisnik:
+
+Dogovoreni su daljni koraci za frontend, backend i dokumentaciju. Vedran Kumanović će istražiti koji su nam dijagrami
+potrebni u dokumentaciji i koji podaci nam trebaju kako bismo ih izradili. Analizirat će kako te podatke prikupiti i
+imamo li ih već prikupljene. Osim toga, napisat će i odlomak "Upute za puštanje u rad aplikacije" u dokumentaciji, na
+temelju README-ja.
+
+Mihael Lešković će nastaviti razvijati podršku za usere tako što će implementirati sve atribute usera unutar aplikacije
+i također njihove validacije. Mia Vidaković će nastaviti raditi na implementaciji uloga unutar aplikacije.
+
+Krešimir Valečić i Leon Cvetkovski će nadograditi ekran za registraciju s novim poljima koja su potrebna i napravit će
+novi ekran za unos ili izmjenu atributa usera.
+
