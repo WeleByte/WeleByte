@@ -1,6 +1,6 @@
 
 import './App.css';
-import React, { useState } from "react";
+import React, {useEffect, useState} from "react";
 import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
 import LoginPage from './pages/LoginPage.js';
 import SignUpPage from './pages/SignUpPage.js';
@@ -11,6 +11,10 @@ import Bolovanja from './pages/Bolovanja';
 
 function App({wordIn}) {
   const [word, setWord] = useState(wordIn);
+
+    useEffect(() => {
+        document.title = "Ozdravi"
+    }, []);
 
   return (
     <div className="App">

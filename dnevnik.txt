@@ -231,3 +231,4 @@ i također njihove validacije. Mia Vidaković će nastaviti raditi na implementa
 
 Krešimir Valečić i Leon Cvetkovski će nadograditi ekran za registraciju s novim poljima koja su potrebna i napravit će
 novi ekran za unos ili izmjenu atributa usera.
+
