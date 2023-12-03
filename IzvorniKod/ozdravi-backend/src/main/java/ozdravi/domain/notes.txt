@@ -1,2 +1,4 @@
 User
 -setter za id?
+
+oib unique ili ne? ako da, ne mozemo imati vise user klasa da bismo dobili funkcionalnost role-ova
