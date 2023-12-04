@@ -41,11 +41,11 @@ public class User {
     private String oib;
 
     @Getter @Setter
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private Long first_name;
 
     @Getter @Setter
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private Long last_name;
 
     @Getter @Setter

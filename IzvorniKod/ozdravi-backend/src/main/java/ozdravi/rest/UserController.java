@@ -36,4 +36,12 @@ public class UserController {
         }
     }
 
+    @PutMapping("user/{id}")
+    public ResponseEntity<?> modifyUser(@PathVariable("id") Long id, @RequestBody User userModified){
+        Optional<User> optionalUser = userService.findById(id);
+        if(optionalUser.isEmpty()) return ResponseEntity.notFound().build();
+
+        return ResponseEntity.ok().build();
+    }
+
 }

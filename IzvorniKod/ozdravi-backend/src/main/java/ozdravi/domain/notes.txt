@@ -2,3 +2,7 @@ User
 -setter za id?
 
 oib unique ili ne? ako da, ne mozemo imati vise user klasa da bismo dobili funkcionalnost role-ova
+
+put ili patch za modify-anje usera
+-put konvencionalno trazi sve podatke usera
+-patch konvencionalno trazi samo podatke koje zelimo mijenjati

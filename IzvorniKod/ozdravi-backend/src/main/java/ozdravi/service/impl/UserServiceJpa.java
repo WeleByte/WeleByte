@@ -19,11 +19,14 @@ public class UserServiceJpa implements UserService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Override
+    public void deleteById(Long id) {
+        userRepository.deleteById(id);
+    }
 
     @Override
     public User createUser(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-
         return userRepository.save(user);
     }
 
