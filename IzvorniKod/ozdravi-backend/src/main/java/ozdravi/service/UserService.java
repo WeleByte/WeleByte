@@ -35,5 +35,5 @@ public interface UserService {
 
     void deleteById(Long id);
 
-    void modifyUser(User newData);
+    User modifyUser(User newData, User oldUser);
 }

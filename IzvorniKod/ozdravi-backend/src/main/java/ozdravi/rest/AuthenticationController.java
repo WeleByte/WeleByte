@@ -52,17 +52,9 @@ public class AuthenticationController {
         if(userService.findByUsername(user.getUsername()).isPresent())
             return ResponseEntity.status(HttpStatus.CONFLICT).body("Email already registered");
 
-        if(!ValidityUtil.isValidEmail(user.getUsername()))
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Email is not valid");
-
-        if(!ValidityUtil.isValidOib(user.getOib()))
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("OIB is not valid");
-
-        if(!ValidityUtil.isValidName(user.getFirst_name()))
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("First name is not valid");
-
-        if(!ValidityUtil.isValidName(user.getLast_name()))
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Last name is not valid");
+        ResponseEntity<String> res = ValidityUtil.checkUserValidity(user);
+        if(res.getStatusCode()!= HttpStatus.OK)
+            return res;
 
         userService.createUser(user);
 

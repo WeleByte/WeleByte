@@ -2,10 +2,8 @@ package ozdravi.domain;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Digits;
-import jakarta.validation.constraints.Size;
 import lombok.AccessLevel;
 import lombok.Data;
-import lombok.Getter;
 import lombok.Setter;
 
 
@@ -50,6 +48,18 @@ public class User {
 
     @Column
     private String institution_email;
+
+    public void copyDifferentAttributes(User other){
+        if(!other.getUsername().equals(this.getUsername())) this.setUsername(other.getUsername());
+        if(!other.getPassword().equals(this.getPassword())) this.setPassword(other.getPassword());
+        if(!other.getOib().equals(this.getOib())) this.setOib(other.getOib());
+        if(!other.getFirst_name().equals(this.getFirst_name())) this.setFirst_name(other.getFirst_name());
+        if(!other.getLast_name().equals(this.getLast_name())) this.setLast_name(other.getLast_name());
+        if(!other.getParent_id().equals(this.getParent_id())) this.setParent_id(other.getParent_id());
+        if(!other.getDoctor_id().equals(this.getDoctor_id())) this.setDoctor_id(other.getDoctor_id());
+        if(!other.getAddress_id().equals(this.getAddress_id())) this.setAddress_id(other.getAddress_id());
+        if(!other.getInstitution_email().equals(this.getInstitution_email())) this.setInstitution_email(other.getInstitution_email());
+    }
 
     public User() {
     }

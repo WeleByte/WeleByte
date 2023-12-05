@@ -1,11 +1,31 @@
 package ozdravi.rest;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import ozdravi.domain.User;
 
 import java.util.regex.Pattern;
 
 @Service
 public class ValidityUtil {
+
+    public static ResponseEntity<String> checkUserValidity(User user){
+        if(!isValidEmail(user.getUsername()))
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Email is not valid");
+
+        if(!isValidOib(user.getOib()))
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("OIB is not valid");
+
+        if(!isValidName(user.getFirst_name()))
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("First name is not valid");
+
+        if(!isValidName(user.getLast_name()))
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Last name is not valid");
+
+        return ResponseEntity.ok().build();
+    }
+
     private static final String emailRegex = "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$";
 //            "^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@"
 //            + "[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$";
@@ -17,7 +37,6 @@ public class ValidityUtil {
                 && name.matches("^[a-zA-ZščćžđöüäŠČĆŽĐÖÜÄ\\\\s]+$");
     }
 
-    //TODO provjeriti radi li ova metoda
     public static boolean isValidEmail(String emailAdress){
         if(emailAdress.isEmpty()) return false;
         return Pattern.compile(emailRegex)

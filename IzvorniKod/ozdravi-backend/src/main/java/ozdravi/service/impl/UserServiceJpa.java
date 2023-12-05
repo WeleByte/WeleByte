@@ -46,7 +46,15 @@ public class UserServiceJpa implements UserService {
     }
 
     @Override
-    public void modifyUser(User newData){
-        userRepository.save(newData);
+    public User modifyUser(User newData, User oldUser){
+        Optional<User> optionalUser = userRepository.findById(newData.getId());
+
+        if(optionalUser.isPresent()){
+            User existingUser = optionalUser.get();
+            existingUser.copyDifferentAttributes(newData);
+            return userRepository.save(existingUser);
+        }
+
+        return oldUser;
     }
 }
