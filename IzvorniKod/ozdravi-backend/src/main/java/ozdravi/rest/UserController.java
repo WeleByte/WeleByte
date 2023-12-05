@@ -41,6 +41,7 @@ public class UserController {
         Optional<User> optionalUser = userService.findById(id);
         if(optionalUser.isEmpty()) return ResponseEntity.notFound().build();
 
+        userService.modifyUser(userModified);
         return ResponseEntity.ok().build();
     }
 

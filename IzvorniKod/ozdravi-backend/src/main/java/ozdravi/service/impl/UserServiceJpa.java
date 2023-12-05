@@ -44,4 +44,9 @@ public class UserServiceJpa implements UserService {
     public Optional<User> findByUsername(String username) {
         return userRepository.findByUsername(username);
     }
+
+    @Override
+    public void modifyUser(User newData){
+        userRepository.save(newData);
+    }
 }

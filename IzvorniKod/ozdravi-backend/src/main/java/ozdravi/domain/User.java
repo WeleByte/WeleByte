@@ -14,7 +14,7 @@ import lombok.Setter;
 @Table(name = "users")
 public class User {
     @Id
-    @Getter @Setter
+    @Getter
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
@@ -37,7 +37,8 @@ public class User {
 
     @Getter @Setter
     @Size(min=11, max=11)
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
+//    TODO naknadno promijeniti u unique ako krenemo u tom smjeru
     private String oib;
 
     @Getter @Setter

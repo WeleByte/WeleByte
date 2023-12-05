@@ -54,6 +54,8 @@ public class AuthenticationController {
 
         userService.createUser(user);
 
+//        TODO greske
+
         return ResponseEntity.ok(true);
     }
 }
