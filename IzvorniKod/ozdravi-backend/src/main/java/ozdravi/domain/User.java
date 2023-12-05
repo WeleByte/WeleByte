@@ -1,7 +1,10 @@
 package ozdravi.domain;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Digits;
 import jakarta.validation.constraints.Size;
+import lombok.AccessLevel;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,44 +15,40 @@ import lombok.Setter;
  */
 @Entity
 @Table(name = "users")
+@Data
 public class User {
     @Id
-    @Getter
+    @Setter(AccessLevel.NONE)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Getter @Setter
     @Column(nullable = false, unique = true)
     private String username;
 
-    @Getter @Setter
     @Column(nullable = false)
     private String password;
 
-    @Getter @Setter
-    private Long parent_id;
-
-    @Getter @Setter
-    private Long doctor_id;
-
-    @Getter @Setter
-    private Long address_id;
-
-    @Getter @Setter
-    @Size(min=11, max=11)
+    @Digits(integer = 11, fraction = 0)
     @Column(nullable = false)
 //    TODO naknadno promijeniti u unique ako krenemo u tom smjeru
-    private String oib;
+    private Long oib;
 
-    @Getter @Setter
     @Column(nullable = false)
-    private Long first_name;
+    private String first_name;
 
-    @Getter @Setter
     @Column(nullable = false)
-    private Long last_name;
+    private String last_name;
 
-    @Getter @Setter
+    @Column
+    private Long parent_id;
+
+    @Column
+    private Long doctor_id;
+
+    @Column
+    private Long address_id;
+
+    @Column
     private String institution_email;
 
     public User() {
