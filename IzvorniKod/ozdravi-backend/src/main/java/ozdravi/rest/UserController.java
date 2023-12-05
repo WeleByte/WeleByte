@@ -48,7 +48,11 @@ public class UserController {
         if(res.getStatusCode()!= HttpStatus.OK)
             return res;
 
-        userService.modifyUser(userModified, optionalUser.get());
+        try {
+            userService.modifyUser(userModified, id);
+        } catch (Exception e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
 
         return ResponseEntity.ok().body("User successfully modified");
     }

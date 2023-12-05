@@ -50,15 +50,32 @@ public class User {
     private String institution_email;
 
     public void copyDifferentAttributes(User other){
-        if(!other.getUsername().equals(this.getUsername())) this.setUsername(other.getUsername());
-        if(!other.getPassword().equals(this.getPassword())) this.setPassword(other.getPassword());
-        if(!other.getOib().equals(this.getOib())) this.setOib(other.getOib());
-        if(!other.getFirst_name().equals(this.getFirst_name())) this.setFirst_name(other.getFirst_name());
-        if(!other.getLast_name().equals(this.getLast_name())) this.setLast_name(other.getLast_name());
-        if(!other.getParent_id().equals(this.getParent_id())) this.setParent_id(other.getParent_id());
-        if(!other.getDoctor_id().equals(this.getDoctor_id())) this.setDoctor_id(other.getDoctor_id());
-        if(!other.getAddress_id().equals(this.getAddress_id())) this.setAddress_id(other.getAddress_id());
-        if(!other.getInstitution_email().equals(this.getInstitution_email())) this.setInstitution_email(other.getInstitution_email());
+        if(this.getUsername()==null || !other.getUsername().equals(this.getUsername()))
+            this.setUsername(other.getUsername());
+
+        if(this.getPassword()==null || !other.getPassword().equals(this.getPassword()))
+            this.setPassword(other.getPassword());
+
+        if(this.getOib()==null || !other.getOib().equals(this.getOib()))
+            this.setOib(other.getOib());
+
+        if(this.getFirst_name()==null || !other.getFirst_name().equals(this.getFirst_name()))
+            this.setFirst_name(other.getFirst_name());
+
+        if(this.getLast_name()==null || !other.getLast_name().equals(this.getLast_name()))
+            this.setLast_name(other.getLast_name());
+
+        if(this.getParent_id()==null || !other.getParent_id().equals(this.getParent_id()))
+            this.setParent_id(other.getParent_id());
+
+        if(this.getDoctor_id()==null || !other.getDoctor_id().equals(this.getDoctor_id()))
+            this.setDoctor_id(other.getDoctor_id());
+
+        if(this.getAddress_id()==null || !other.getAddress_id().equals(this.getAddress_id()))
+            this.setAddress_id(other.getAddress_id());
+
+        if(this.getInstitution_email()==null || !other.getInstitution_email().equals(this.getInstitution_email()))
+            this.setInstitution_email(other.getInstitution_email());
     }
 
     public User() {
