@@ -45,29 +45,26 @@ public class ValidityUtil {
     }
 
 //    provjera OIBa po algoritmu na "https://regos.hr/app/uploads/2018/07/KONTROLA-OIB-a.pdf"
-    public static boolean isValidOib(Long oib){
-        if(oib.toString().length()!=11) return false;
+    public static boolean isValidOib(String oib) {
+        if (oib.length() != 11) return false;
 
-        int num=0;
-        for(int i=0; i<11; i++){
-            if(i==0){
-                num = getDigit(oib, i);
+        int num = 0;
+        for (int i = 0; i < 10; i++) {
+
+            if (i == 0) {
+                num = Integer.parseInt(oib.substring(i, i + 1));
                 num += 10;
-            }else{
-                num += getDigit(oib, i);
+            } else {
+                num += Integer.parseInt(oib.substring(i, i + 1));
             }
             num = num % 10;
-            if(num==0){
+            if (num == 0) {
                 num = 10;
             }
             num *= 2;
             num = num % 11;
         }
-        num = (11 - num)%10;
-        return num==getDigit(oib, 11);
-    }
-
-    private static int getDigit(long number, int i) {
-        return (int) ((number / Math.pow(10, i - 1)) % 10);
+        num = (11 - num) % 10;
+        return num == Integer.parseInt(oib.substring(10, 11));
     }
 }

@@ -1,10 +1,10 @@
 package ozdravi.domain;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Digits;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.Setter;
+import org.hibernate.validator.constraints.Length;
 
 
 /**
@@ -26,10 +26,10 @@ public class User {
     @Column(nullable = false)
     private String password;
 
-    @Digits(integer = 11, fraction = 0)
+    @Length(min = 11, max = 11)
     @Column(nullable = false)
 //    TODO naknadno promijeniti u unique ako krenemo u tom smjeru
-    private Long oib;
+    private String oib;
 
     @Column(nullable = false)
     private String first_name;

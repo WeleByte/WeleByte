@@ -58,6 +58,6 @@ public class AuthenticationController {
 
         userService.createUser(user);
 
-        return ResponseEntity.ok("Successfully registrated");
+        return ResponseEntity.ok("Successfully registered");
     }
 }
