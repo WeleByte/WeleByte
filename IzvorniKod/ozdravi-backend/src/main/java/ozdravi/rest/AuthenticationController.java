@@ -47,13 +47,17 @@ public class AuthenticationController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<Boolean> register(@RequestBody User user) {
+    public ResponseEntity<String> register(@RequestBody User user) {
 
         if(userService.findByUsername(user.getUsername()).isPresent())
-            return ResponseEntity.status(HttpStatus.CONFLICT).body(false);
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("Email already registered");
+
+        ResponseEntity<String> res = ValidityUtil.checkUserValidity(user);
+        if(res.getStatusCode()!= HttpStatus.OK)
+            return res;
 
         userService.createUser(user);
 
-        return ResponseEntity.ok(true);
+        return ResponseEntity.ok("Successfully registered");
     }
 }

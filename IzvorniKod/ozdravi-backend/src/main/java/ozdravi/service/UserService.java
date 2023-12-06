@@ -32,4 +32,8 @@ public interface UserService {
      * @return korisnik
      */
     Optional<User> findByUsername(String username);
+
+    void deleteById(Long id);
+
+    void modifyUser(User newData, Long id);
 }
