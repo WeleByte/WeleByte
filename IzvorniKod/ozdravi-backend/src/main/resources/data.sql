@@ -10,3 +10,12 @@ values ('prvi@mail.com',
 -- bitno je paziti da je isti poredak i gore i dolje
 -- nije bitno paziti da je isti poredak kao i u User klasi, tj. kao i u bazi
 -- pass je 'primus" TODO obrisati komentar u nekom trenutku
+
+-------------------------
+
+-- roles
+insert into roles (name) values ('admin');
+insert into roles (name) values ('child');
+insert into roles (name) values ('doctor');
+insert into roles (name) values ('parent');
+insert into roles (name) values ('pediatrician');

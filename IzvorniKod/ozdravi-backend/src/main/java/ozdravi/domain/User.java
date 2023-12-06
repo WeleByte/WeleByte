@@ -7,6 +7,9 @@ import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.beans.BeanUtils;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 /**
  * klasa User predstavlja usera u aplikaciji
@@ -31,6 +34,11 @@ public class User {
     @Column(nullable = false)
 //    TODO naknadno promijeniti u unique ako krenemo u tom smjeru
     private String oib;
+  
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
+        inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
+    private List<Role> roles = new ArrayList<>();
 
     @Column(nullable = false)
     private String first_name;
