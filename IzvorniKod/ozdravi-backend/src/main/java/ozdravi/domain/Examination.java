@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.Setter;
-
+import org.springframework.beans.BeanUtils;
 import java.time.LocalDateTime;
 
 
@@ -34,4 +34,12 @@ public class Examination {
 
     @Column
     private LocalDateTime date;
+
+    public void copyDifferentAttributes(Examination newData) {
+        String[] ignoreProperties = {"id"};
+        BeanUtils.copyProperties(newData, this, ignoreProperties);
+    }
+
+    public Examination() {
+    }
 }

@@ -1,7 +1,6 @@
 package ozdravi.service;
 
 import ozdravi.domain.User;
-
 import java.util.List;
 import java.util.Optional;
 
