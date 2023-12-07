@@ -86,9 +86,8 @@ const SignUpPage = () => {
   return (
 
       <div className="container  col-12" id = "loginContainer">
-        <img src={loginVector} id ="loginVectorMobile" alt = "" ></img>
 
-        <div className="row" id = "loginRow">
+        <div className="row" id = "loginRow" style={{paddingTop: "50px"}}>
 
           <div className="col-12 mx-auto " >
             <h2>Registracija za Ozdravi Me</h2>
@@ -102,55 +101,57 @@ const SignUpPage = () => {
             }
             <form onSubmit={handleSignUp}>
               {/*----------------------------FIRST NAME-----------------------------*/}
-              <div className="mb-3">
-                <label htmlFor="username" className="form-label" style={{float: 'left'}}>IME</label>
-                <input type="text" className="form-control" id="username" value={firstName}
-                       onChange={(e) =>
-                           setFirstName(e.target.value.replace(/[^a-zA-ZščćžđöüäŠČĆŽĐÖÜÄ\s]/, ''))}/>
-              </div>
+              <div style={{display: "grid", gridTemplateColumns: "1fr 1fr", gridColumnGap: "20px"}}>
+                <div className="mb-3">
+                  <label htmlFor="username" className="form-label" style={{float: 'left'}}>IME</label>
+                  <input type="text" className="form-control" id="username" value={firstName}
+                         onChange={(e) =>
+                             setFirstName(e.target.value.replace(/[^a-zA-ZščćžđöüäŠČĆŽĐÖÜÄ\s]/, ''))}/>
+                </div>
 
-              {/*----------------------------LAST NAME-----------------------------*/}
-              <div className="mb-3">
-                <label htmlFor="username" className="form-label" style={{float: 'left'}}>PREZIME</label>
-                <input type="text" className="form-control" id="username" value={lastName}
-                       onChange={(e) =>
-                           setLastName(e.target.value.replace(/[^a-zA-ZščćžđöüäŠČĆŽĐÖÜÄ\s]/, ''))}/>
-              </div>
+                {/*----------------------------LAST NAME-----------------------------*/}
+                <div className="mb-3">
+                  <label htmlFor="username" className="form-label" style={{float: 'left'}}>PREZIME</label>
+                  <input type="text" className="form-control" id="username" value={lastName}
+                         onChange={(e) =>
+                             setLastName(e.target.value.replace(/[^a-zA-ZščćžđöüäŠČĆŽĐÖÜÄ\s]/, ''))}/>
+                </div>
 
-              {/*-------------------------------OIB--------------------------------*/}
-              <div className="mb-3">
-                <label htmlFor="username" className="form-label" style={{float: 'left'}}>OIB</label>
-                <input type="text" className="form-control" id="username" value={OIB}
-                       onChange={(e) =>
-                           setOIB(e.target.value.replace(/\D/g, ''))}/>
-              </div>
+                {/*-------------------------------OIB--------------------------------*/}
+                <div className="mb-3">
+                  <label htmlFor="username" className="form-label" style={{float: 'left'}}>OIB</label>
+                  <input type="text" className="form-control" id="username" value={OIB}
+                         onChange={(e) =>
+                             setOIB(e.target.value.replace(/\D/g, ''))}/>
+                </div>
 
-              {/*------------------------INSTITUTION EMAIL-------------------------*/}
-              <div className="mb-3">
-                <label htmlFor="password" className="form-label" style={{float: 'left'}}>E-MAIL INSTITUCIJE</label>
-                <input type="text" className="form-control" id="username" value={institutionEmail}
-                       onChange={(e) => setInstitutionEmail(e.target.value)}/>
-              </div>
+                {/*------------------------------EMAIL-------------------------------*/}
+                <div className="mb-3">
+                  <label htmlFor="password" className="form-label" style={{float: 'left'}}>E-MAIL</label>
+                  <input type="text" className="form-control" id="username" value={email}
+                         onChange={(e) => setEmail(e.target.value)}/>
+                </div>
 
-              {/*------------------------------EMAIL-------------------------------*/}
-              <div className="mb-3">
-                <label htmlFor="password" className="form-label" style={{float: 'left'}}>E-MAIL</label>
-                <input type="text" className="form-control" id="username" value={email}
-                       onChange={(e) => setEmail(e.target.value)}/>
-              </div>
+                {/*------------------------INSTITUTION EMAIL-------------------------*/}
+                <div className="mb-3">
+                  <label htmlFor="password" className="form-label" style={{float: 'left'}}>E-MAIL INSTITUCIJE</label>
+                  <input type="text" className="form-control" id="username" value={institutionEmail}
+                         onChange={(e) => setInstitutionEmail(e.target.value)}/>
+                </div>
 
-              {/*----------------------------PASSWORD------------------------------*/}
-              <div className="mb-3">
-                <label htmlFor="password" className="form-label" style={{float: 'left'}}>ŠIFRA</label>
-                <input type="password" className="form-control" id="password" value={password}
-                       onChange={(e) => setPassword(e.target.value)}/>
-              </div>
+                {/*----------------------------PASSWORD------------------------------*/}
+                <div className="mb-3">
+                  <label htmlFor="password" className="form-label" style={{float: 'left'}}>ŠIFRA</label>
+                  <input type="password" className="form-control" id="password" value={password}
+                         onChange={(e) => setPassword(e.target.value)}/>
+                </div>
 
-              {/*-------------------------PASSWORD CHECK---------------------------*/}
-              <div className="mb-3">
-                <label htmlFor="password" className="form-label" style={{float: 'left'}}>POTVRDITE ŠIFRU</label>
-                <input type="password" className="form-control" id="password" value={passwordCheck}
-                       onChange={(e) => setPasswordCheck(e.target.value)}/>
+                {/*-------------------------PASSWORD CHECK---------------------------*/}
+                <div className="mb-3">
+                  <label htmlFor="password" className="form-label" style={{float: 'left'}}>POTVRDITE ŠIFRU</label>
+                  <input type="password" className="form-control" id="password" value={passwordCheck}
+                         onChange={(e) => setPasswordCheck(e.target.value)}/>
+                </div>
               </div>
               <button type="submit" className="btn btn-primary col-12 py-2">Registriraj se </button>
               <p className = "pt-3" style={{fontSize: "13px"}}>Već ste član? <span style={{textDecoration: "underline ",
