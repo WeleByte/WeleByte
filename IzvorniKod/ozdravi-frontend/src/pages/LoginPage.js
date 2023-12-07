@@ -4,10 +4,10 @@ import { useNavigate } from 'react-router-dom';
 
 const LoginPage = () => {
     const navigate = useNavigate();
-    const [loginFailed, setLoginFailed] = useState(false)
+    const backendRoute = process.env.REACT_APP_BACKEND_URL || 'http://localhost:8080'
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
-    const backendRoute = process.env.REACT_APP_BACKEND_URL || 'http://localhost:8080'
+    const [loginFailed, setLoginFailed] = useState(false)
     const [incorrectEmailFormat, setIncorrectEmailFormat] = useState(false)
     const [incorrectPasswordLength, setIncorrectPasswordLength] = useState(false)
     const handleLogin = async (e) => {
