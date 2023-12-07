@@ -1,6 +1,14 @@
 package ozdravi.domain;
 
 import jakarta.persistence.*;
+import lombok.AccessLevel;
+import lombok.Data;
+import lombok.Setter;
+import org.hibernate.validator.constraints.Length;
+import org.springframework.beans.BeanUtils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -9,8 +17,10 @@ import jakarta.persistence.*;
  */
 @Entity
 @Table(name = "users")
+@Data
 public class User {
     @Id
+    @Setter(AccessLevel.NONE)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
@@ -20,30 +30,39 @@ public class User {
     @Column(nullable = false)
     private String password;
 
+    @Length(min = 11, max = 11)
+    @Column(nullable = false)
+//    TODO naknadno promijeniti u unique ako krenemo u tom smjeru
+    private String oib;
+  
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
+        inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
+    private List<Role> roles = new ArrayList<>();
+
+    @Column(nullable = false)
+    private String first_name;
+
+    @Column(nullable = false)
+    private String last_name;
+
+    @Column
+    private Long parent_id;
+
+    @Column
+    private Long doctor_id;
+
+    @Column
+    private Long address_id;
+
+    @Column
+    private String institution_email;
+
+    public void copyDifferentAttributes(User other) {
+        String[] ignoreProperties = {"id"};
+        BeanUtils.copyProperties(other, this, ignoreProperties);
+    }
+
     public User() {
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long user_id) {
-        this.id = user_id;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 }
