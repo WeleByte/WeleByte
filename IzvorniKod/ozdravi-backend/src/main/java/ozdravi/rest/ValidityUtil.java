@@ -66,9 +66,4 @@ public class ValidityUtil {
         num = (11 - num) % 10;
         return num == Integer.parseInt(oib.substring(10, 11));
     }
-
-//    TODO general ID existence check
-//    public static <T> boolean isExistingId(Long id, T instance){
-//        return true;
-//    }
 }
