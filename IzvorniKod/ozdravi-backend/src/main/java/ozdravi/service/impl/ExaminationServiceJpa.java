@@ -10,8 +10,6 @@ import java.util.Optional;
 
 @Service
 public class ExaminationServiceJpa implements ExaminationService {
-//    baca "incorrect autowiring in spring bean components" gresku na mom ide-u (~Mihael); provjeriti kod ostalih
-//    @SuppressWarnings("SpringJavaAutowiringInspection")
     @Autowired
     private ExaminationRepository examinationRepository;
 
