@@ -4,7 +4,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import ozdravi.domain.User;
-
 import java.util.regex.Pattern;
 
 @Service
@@ -67,4 +66,9 @@ public class ValidityUtil {
         num = (11 - num) % 10;
         return num == Integer.parseInt(oib.substring(10, 11));
     }
+
+//    TODO general ID existence check
+//    public static <T> boolean isExistingId(Long id, T instance){
+//        return true;
+//    }
 }
