@@ -46,6 +46,11 @@ public class ValidityUtil {
 //    provjera OIBa po algoritmu na "https://regos.hr/app/uploads/2018/07/KONTROLA-OIB-a.pdf"
     public static boolean isValidOib(String oib) {
         if (oib.length() != 11) return false;
+        try{
+            Long.parseLong(oib);
+        } catch (NumberFormatException e){
+            return false;
+        }
 
         int num = 0;
         for (int i = 0; i < 10; i++) {
