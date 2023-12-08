@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 import ozdravi.domain.User;
 import ozdravi.service.UserService;
 
+import java.util.Optional;
+
 @RestController
 public class AuthenticationController {
     @Autowired
@@ -30,7 +32,8 @@ public class AuthenticationController {
 
     @PostMapping("/login")
     public ResponseEntity<?> authenticate(@RequestBody @Valid final AuthenticationRequest authenticationRequest) {
-        if(userService.findByUsername(authenticationRequest.getUsername()).isEmpty())
+        Optional<User> user = userService.findByUsername(authenticationRequest.getUsername());
+        if(user.isEmpty())
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not registered");
 
         try {
@@ -40,10 +43,9 @@ public class AuthenticationController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid user or password");
         }
 
-        final UserDetails userDetails = jwtUserDetailsService.loadUserByUsername(authenticationRequest.getUsername());
-
+        final UserDetails userDetails = jwtUserDetailsService.buildUserDetails(user.get());
         return ResponseEntity.ok(new AuthenticationResponse(
-                userDetails, tokenUtil.generateToken(userDetails)));
+                user.get(), tokenUtil.generateToken(userDetails)));
     }
 
     @PostMapping("/register")
