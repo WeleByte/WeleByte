@@ -10,7 +10,7 @@ import java.util.regex.Pattern;
 public class ValidityUtil {
 
     public static ResponseEntity<String> checkUserValidity(User user){
-        if(!isValidEmail(user.getUsername()))
+        if(!isValidEmail(user.getEmail()))
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Email is not valid");
 
         if(!isValidOib(user.getOib()))

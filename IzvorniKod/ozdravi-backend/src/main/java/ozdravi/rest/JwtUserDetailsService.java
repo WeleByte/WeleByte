@@ -21,12 +21,12 @@ public class JwtUserDetailsService implements UserDetailsService {
     public static final String ROLE_USER = "ROLE_" + USER;
 
     @Override
-    public UserDetails loadUserByUsername(final String username) {
-        final User user = userRepository.findByUsername(username).orElseThrow(
-                () -> new UsernameNotFoundException("User " + username + " not found"));
+    public UserDetails loadUserByUsername(final String email) {
+        final User user = userRepository.findByEmail(email).orElseThrow(
+                () -> new UsernameNotFoundException("User " + email + " not found"));
 
         final List<SimpleGrantedAuthority> roles = Collections.singletonList(new SimpleGrantedAuthority("ADMIN"));
-        return new JwtUserDetails(user.getId(), username, user.getPassword(), roles);
+        return new JwtUserDetails(user.getId(), email, user.getPassword(), roles);
     }
 
 }
