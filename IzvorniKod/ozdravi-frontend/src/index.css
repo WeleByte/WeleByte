@@ -47,9 +47,9 @@ code {
 } 
 
 
-
 #loginRow {
   padding-left: 30px;
+  padding-right: 0px;
   width: 100vw;
   padding-top: 25px
 }
@@ -109,7 +109,7 @@ code {
    
     width: 438px; 
     margin-left:auto;margin-right:auto;
-    padding-top: 350px !important;
+    padding-top: 350px;
     position: fixed;
     left: 50%;
     transform: translate(-50%, 0%);
@@ -149,6 +149,8 @@ code {
     display:float;
     margin:0px
   }
+
+
 }
 
 .nav-item {
@@ -360,4 +362,10 @@ tr td:last-child {
   .pregledajCardBody {
     padding-right: 20px !important
   }
+}
+
+
+.btn-danger {
+  font-weight: 500 !important;
+  font-size: 14px !important;
 }
