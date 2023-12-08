@@ -237,3 +237,20 @@ novi ekran za unos ili izmjenu atributa usera.
 -------------------------------------------------------------------------------------------------------------------
 Planiranje sprinta i pregled napretka - 7.12.2023.
 
+Dnevni red:
+- Tjedni sastanak za planiranje i praćenje napretka.
+
+Prisutni: D. Matić, M. Lešković, K. Valečić, V. Kumanović, L. Crvelin, L. Cvetkovski, M. Vidaković
+Neprisutni: -
+
+Zapisnik:
+
+Dogovoreno je da će se tijekom sljedećeg sprinta napraviti radionica vezana uz preostale dijagrame koje treba nacrtati
+tim za dokumentaciju će predstaviti kakvi su to dijagrami i prikupiti informacije potrebne da ih se nacrta.
+
+Vedran Kumanović mora završtiti odlomak "Upute za puštanje u rad aplikacije", što mu je ostalo od prethodnog sprinta.
+
+Leon Cvetkovski i Krešimir Valečić moraju završiti ekrane koji su im ostali od prošlog sprinta i nastaviti raditi na
+ekranima za preglede i spajanje doktora i pacijenata.
+
+Mia Vidaković će nastaviti s implementacijama uloga, a Mihael Lešković će nastaviti rad na korisnicima i pregledima.
