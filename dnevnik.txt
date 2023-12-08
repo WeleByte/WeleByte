@@ -195,6 +195,7 @@ Predstavljen je dio backenda vezan uz Spring Security. Frontend tim je naučio k
 Dogovoreni su sljedeći koraci.
 
 -------------------------------------------------------------------------------------------------------------------
+Planiranje sprinta i pregled napretka - 16.11.2023
 
 Dnevni red:
 - Tjedni sastanak za planiranje i praćenje napretka.
@@ -232,4 +233,7 @@ i također njihove validacije. Mia Vidaković će nastaviti raditi na implementa
 
 Krešimir Valečić i Leon Cvetkovski će nadograditi ekran za registraciju s novim poljima koja su potrebna i napravit će
 novi ekran za unos ili izmjenu atributa usera.
+
+-------------------------------------------------------------------------------------------------------------------
+Planiranje sprinta i pregled napretka - 7.12.2023.
 
