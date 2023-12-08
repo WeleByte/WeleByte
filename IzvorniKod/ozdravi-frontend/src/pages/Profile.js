@@ -21,6 +21,12 @@ const ProfilePage = () => {
   const [incorrectOIB, setIncorrectOIB] = useState(false)
   const [signUpFailed, setSignUpFailed] = useState(false)
   const [incorrectPasswordCheck, setIncorrectPasswordCheck] = useState(false)
+
+  const handleSignOut = () => {
+    sessionStorage.clear()
+    navigate('/signup')
+}
+
   const handleSignUp = async (e) => {
     e.preventDefault();
     //check login format
@@ -140,7 +146,7 @@ const ProfilePage = () => {
             
               </div>
               <button type="submit" className="btn btn-primary col-12 py-2 mt-3">Spremi promjene</button>
-              <button type="submit" style={{fontWeight: "bold"}} className="btn  btn-danger mt-2 col-12 py-2">Odjavi se</button>
+              <button type="submit" style={{fontWeight: "bold"}} className="btn  btn-danger mt-2 col-12 py-2" onClick={(e) => handleSignOut()}>Odjavi se</button>
 
             </form>
           </div>

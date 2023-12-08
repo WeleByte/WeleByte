@@ -28,10 +28,7 @@ const Navbar = () => {
         }
     }
 
-    const handleSignOut = () => {
-        sessionStorage.clear()
-        navigate('/signup')
-    }
+   
 
     return (
 
