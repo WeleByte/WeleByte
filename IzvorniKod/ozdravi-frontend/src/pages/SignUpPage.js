@@ -22,7 +22,7 @@ const SignUpPage = () => {
   const handleSignUp = async (e) => {
     e.preventDefault();
     //check login format
-    if(firstName === '' || lastName === ''){
+    if(firstName.length < 2 || lastName === lastName.length < 2){
       setIncorrectName(true)
       return
     }
@@ -51,6 +51,8 @@ const SignUpPage = () => {
       return
     }
     setIncorrectPasswordCheck(false)
+
+
     //data verification
     const response = await fetch(backendRoute + "/register", {
       method: 'POST',
@@ -61,9 +63,14 @@ const SignUpPage = () => {
         'username' : email,
         'password' : password,
         'oib': OIB,
+<<<<<<< HEAD
         'institution_email': institutionEmail,
         "first_name": firstName,
         'last_name': lastName,
+=======
+        'first_name': firstName,
+        'last_name': lastName
+>>>>>>> 2ec08b851f1fce3d1d9b8bdb4d601689fc74f1b9
       })
 
     })
@@ -79,22 +86,25 @@ const SignUpPage = () => {
   };
 
   const navigateLogIn = () => {
-
-
     navigate('/login');
   };
 
   return (
 
       <div className="container  col-12" id = "loginContainer">
+<<<<<<< HEAD
         
 
         <div className="row" id = "loginRow"  style={{paddingTop: "50px"}}>
+=======
+
+        <div className="row" id = "loginRow" style={{paddingTop: "50px"}}>
+>>>>>>> 2ec08b851f1fce3d1d9b8bdb4d601689fc74f1b9
 
           <div className="col-12 mx-auto " >
             <h2>Registracija za Ozdravi Me</h2>
             {
-              incorrectName ? (<p>Ime i prezime je obavezno</p>) :
+              incorrectName ? (<p>Ime i prezime mora biti dulje od 2 slova</p>) :
                   incorrectOIB ? (<p>OIB je neispravan</p>) :
                       incorrectEmailFormat ? (<p>E-mail je neispravan</p>) :
                           incorrectPasswordLength ? (<p>Šifra mora biti dulja od 6 znakova</p>) :
@@ -106,6 +116,7 @@ const SignUpPage = () => {
               <div style={{display: "grid", gridTemplateColumns: "1fr 1fr", gridColumnGap: "20px"}}>
 
               {/*----------------------------FIRST NAME-----------------------------*/}
+<<<<<<< HEAD
               <div className="mb-3">
                 <label htmlFor="username" className="form-label" style={{float: 'left'}}>IME</label>
                 <input type="text" className="form-control" id="username" value={firstName}
@@ -154,13 +165,71 @@ const SignUpPage = () => {
                 <label htmlFor="password" className="form-label" style={{float: 'left'}}>POTVRDITE ŠIFRU</label>
                 <input type="password" className="form-control" id="password" value={passwordCheck}
                        onChange={(e) => setPasswordCheck(e.target.value)}/>
+=======
+              <div style={{display: "grid", gridTemplateColumns: "1fr 1fr", gridColumnGap: "20px"}}>
+                <div className="mb-3">
+                  <label htmlFor="username" className="form-label" style={{float: 'left'}}>IME</label>
+                  <input type="text" className="form-control" id="username" value={firstName}
+                         onChange={(e) =>
+                             setFirstName(e.target.value.replace(/[^a-zA-ZščćžđöüäŠČĆŽĐÖÜÄ\s]/, ''))}/>
+                </div>
+
+                {/*----------------------------LAST NAME-----------------------------*/}
+                <div className="mb-3">
+                  <label htmlFor="username" className="form-label" style={{float: 'left'}}>PREZIME</label>
+                  <input type="text" className="form-control" id="username" value={lastName}
+                         onChange={(e) =>
+                             setLastName(e.target.value.replace(/[^a-zA-ZščćžđöüäŠČĆŽĐÖÜÄ\s]/, ''))}/>
+                </div>
+
+                {/*-------------------------------OIB--------------------------------*/}
+                <div className="mb-3">
+                  <label htmlFor="username" className="form-label" style={{float: 'left'}}>OIB</label>
+                  <input type="text" className="form-control" id="username" value={OIB}
+                         onChange={(e) =>
+                             setOIB(e.target.value.replace(/\D/g, ''))}/>
+                </div>
+
+                {/*------------------------------EMAIL-------------------------------*/}
+                <div className="mb-3">
+                  <label htmlFor="password" className="form-label" style={{float: 'left'}}>E-MAIL</label>
+                  <input type="text" className="form-control" id="username" value={email}
+                         onChange={(e) => setEmail(e.target.value)}/>
+                </div>
+
+                {/*------------------------INSTITUTION EMAIL-------------------------*/}
+                <div className="mb-3">
+                  <label htmlFor="password" className="form-label" style={{float: 'left'}}>E-MAIL INSTITUCIJE</label>
+                  <input type="text" className="form-control" id="username" value={institutionEmail}
+                         onChange={(e) => setInstitutionEmail(e.target.value)}/>
+                </div>
+
+                {/*----------------------------PASSWORD------------------------------*/}
+                <div className="mb-3">
+                  <label htmlFor="password" className="form-label" style={{float: 'left'}}>ŠIFRA</label>
+                  <input type="password" className="form-control" id="password" value={password}
+                         onChange={(e) => setPassword(e.target.value)}/>
+                </div>
+
+                {/*-------------------------PASSWORD CHECK---------------------------*/}
+                <div className="mb-3">
+                  <label htmlFor="password" className="form-label" style={{float: 'left'}}>POTVRDITE ŠIFRU</label>
+                  <input type="password" className="form-control" id="password" value={passwordCheck}
+                         onChange={(e) => setPasswordCheck(e.target.value)}/>
+                </div>
+>>>>>>> 2ec08b851f1fce3d1d9b8bdb4d601689fc74f1b9
               </div>
             
 
               </div>
               <button type="submit" className="btn btn-primary col-12 py-2">Registriraj se </button>
+<<<<<<< HEAD
               <p className = "pt-3" style={{fontSize: "13px"}}>Već ste član? <span style={{textDecoration: "underline ", cursor: "pointer"}} onClick={navigateLogIn}>Prijava</span> </p>
 
+=======
+              <p className = "pt-3" style={{fontSize: "13px"}}>Već ste član? <span style={{textDecoration: "underline ",
+                cursor: "pointer"}} onClick={navigateLogIn}>Prijava</span> </p>
+>>>>>>> 2ec08b851f1fce3d1d9b8bdb4d601689fc74f1b9
             </form>
           </div>
         </div>
