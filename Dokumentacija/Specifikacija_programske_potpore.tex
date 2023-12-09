@@ -548,7 +548,7 @@
 					\end{packed_item}
 
 
-                     \noindent \underbar{\textbf{UC16 - donesi odluku o preporuci za bolovanje}}
+                     \noindent \underbar{\textbf{UC16 - prihvati preporuku za bolovanje}}
 					\begin{packed_item}
 	
 						\item \textbf{Glavni sudionik: }liječnik obiteljske medicine
@@ -561,14 +561,33 @@
 							\item liječnik odabire opciju 'Preporuke za bolovanje' s početne stranice
 							\item liječnik pregledava listu preporuka za bolovanje njegovim pacijentima
 							\item liječnik odabire preporuku koju želi pregledati
-							\item liječnik preporuku može odbiti ili prihvatiti
-                            \item u slučaju da je liječnik odobrio preporuku, doznaka za bolovanje se šalje poslodavcu pacijenta
+							\item liječnik odabire opciju 'Prihvati' i prihvaća preporuku za bolovanje
+                            \item doznaka za bolovanje se šalje poslodavcu pacijenta
+
+						\end{packed_enum}
+					\end{packed_item}
+
+					\noindent \underbar{\textbf{UC17 - odbij odluku o preporuci za bolovanje}}
+					\begin{packed_item}
+	
+						\item \textbf{Glavni sudionik: }liječnik obiteljske medicine
+						\item  \textbf{Cilj:} pregledati preporuku za bolovanje roditelja izdanu od strane pedijatra
+						\item  \textbf{Sudionici:} baza podataka
+						\item  \textbf{Preduvjet:} izvođenje UC2 i UC13
+						\item  \textbf{Opis osnovnog tijeka:}
+						
+						\item[] \begin{packed_enum}
+							\item liječnik odabire opciju 'Preporuke za bolovanje' s početne stranice
+							\item liječnik pregledava listu preporuka za bolovanje njegovim pacijentima
+							\item liječnik odabire preporuku koju želi pregledati
+							\item liječnik odabire opciju 'Odbij'
+                            \item preporuka je odbijena te se ne šalje doznaka za bolovanje poslodavcu pacijenta
 
 						\end{packed_enum}
 					\end{packed_item}
 
                     
-                    \noindent \underbar{\textbf{UC17 - pregledaj korisnika}}
+                    \noindent \underbar{\textbf{UC18 - pregledaj korisnika}}
 					\begin{packed_item}
 	
 						\item \textbf{Glavni sudionik: }administrator
@@ -586,7 +605,7 @@
 						\end{packed_enum}
 					\end{packed_item}
 
-                    \noindent \underbar{\textbf{UC18 - obriši korisnika}}
+                    \noindent \underbar{\textbf{UC19 - obriši korisnika}}
 					\begin{packed_item}
 	
 						\item \textbf{Glavni sudionik: }administrator
@@ -606,7 +625,7 @@
 						\end{packed_enum}
 					\end{packed_item}
 
-                    \noindent \underbar{\textbf{UC19 - promijeni prava pristupa}}
+                    \noindent \underbar{\textbf{UC20 - promijeni prava pristupa}}
 					\begin{packed_item}
 	
 						\item \textbf{Glavni sudionik: }administrator
@@ -619,13 +638,13 @@
 							\item administrator odabire opciju 'Pregled korisnika' s početne stranice
 							\item sustav prikazuje listu svih ispravno registriranih korisnika
 							\item administrator pronalazi željenog korisnika
-							\item administrator mijenja razinu pristupa željenom korisniku odabirom opcije 'Promjeni razinu pristupa'
+							\item administrator mijenja razinu pristupa željenom korisniku odabirom opcije 'Promijeni razinu pristupa'
 							\item sustav obavještava administratora da je razina pristupa uspješno promijenjena
                         
 						\end{packed_enum}
 					\end{packed_item}
         
-                    \noindent \underbar{\textbf{UC20 - administriraj registre djece i korisničke račune}}
+                    \noindent \underbar{\textbf{UC21 - administriraj registre djece i korisničke račune}}
 					\begin{packed_item}
 	
 						\item \textbf{Glavni sudionik: }administrator
@@ -643,16 +662,27 @@
 							\item sustav obavještava administratora da je registar uspješno stvoren
 
 						\end{packed_enum}
+
+						\item  \textbf{Opis mogućih odstupanja:}
+						
+						\item[] \begin{packed_item}
+                            \item[3.a] neispravno uneseni podaci
+                            \item[] \begin{packed_enum}
+                            	\item sustav utvrđuje da su podatci neispravni
+								\item sustav usmjerava admina na ponovno ispunjavanje podataka
+								\item nakon ispravnog unosa, scenarij se nastavlja od koraka 4
+							\end{packed_enum}
+						\end{packed_item}
 						
 					\end{packed_item}
 
-                    \noindent \underbar{\textbf{UC21 - poveži roditelja s djetetom}}
+                    \noindent \underbar{\textbf{UC22 - poveži roditelja s djetetom}}
 					\begin{packed_item}
 	
 						\item \textbf{Glavni sudionik: }administrator
 						\item  \textbf{Cilj:} povezati profil roditelja s registrom njegove djece u sustavu
 						\item  \textbf{Sudionici:} baza podataka
-						\item  \textbf{Preduvjet:} izvođenje UC1, UC2, UC20
+						\item  \textbf{Preduvjet:} izvođenje UC1, UC2, UC21
 						\item  \textbf{Opis osnovnog tijeka:}
 						
 						\item[] \begin{packed_enum}
@@ -671,7 +701,7 @@
 					\end{packed_item}
                     
         
-                    \noindent \underbar{\textbf{UC22 - ažuriraj podatke u aplikaciji}}
+                    \noindent \underbar{\textbf{UC23 - ažuriraj podatke u aplikaciji}}
 					\begin{packed_item}
 	
 						\item \textbf{Glavni sudionik: }administrator

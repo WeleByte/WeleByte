@@ -4,14 +4,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import ozdravi.domain.User;
-
 import java.util.regex.Pattern;
 
 @Service
 public class ValidityUtil {
 
     public static ResponseEntity<String> checkUserValidity(User user){
-        if(!isValidEmail(user.getUsername()))
+        if(!isValidEmail(user.getEmail()))
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Email is not valid");
 
         if(!isValidOib(user.getOib()))
@@ -47,6 +46,11 @@ public class ValidityUtil {
 //    provjera OIBa po algoritmu na "https://regos.hr/app/uploads/2018/07/KONTROLA-OIB-a.pdf"
     public static boolean isValidOib(String oib) {
         if (oib.length() != 11) return false;
+        try{
+            Long.parseLong(oib);
+        } catch (NumberFormatException e){
+            return false;
+        }
 
         int num = 0;
         for (int i = 0; i < 10; i++) {

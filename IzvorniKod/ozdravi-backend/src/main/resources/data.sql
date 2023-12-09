@@ -1,4 +1,4 @@
-insert into users (username, password, oib, first_name, last_name)
+insert into users (email, password, oib, first_name, last_name)
 values ('prvi@mail.com',
         '{bcrypt}$2a$12$vyhf.Rod8fQmYsXi7fooHOGIzq5gLXMZ5kQtzywRCiRrgCe41o9lq',
         '69435151530',
