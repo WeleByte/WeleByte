@@ -10,7 +10,7 @@ const SignUpPage = () => {
   const [password, setPassword] = useState('')
   const [firstName, setFirstName] = useState('')
   const [lastName, setLastName] = useState('')
-  const [OIB, setOIB] = useState('')
+  const [OIB, setOIB] = useState('') 
   const [institutionEmail, setInstitutionEmail] = useState('')
   const [passwordCheck, setPasswordCheck] = useState('')
   const [incorrectEmailFormat, setIncorrectEmailFormat] = useState(false)
@@ -33,7 +33,7 @@ const SignUpPage = () => {
       return
     }
     setIncorrectOIB(false)
-    
+
    /*  if(!(/\S+@\S+\.\S+/.test(email)) || !(/\S+@\S+\.\S+/.test(institutionEmail))) {
       console.log(email)
       setIncorrectEmailFormat(true)

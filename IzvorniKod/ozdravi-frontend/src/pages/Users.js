@@ -1,12 +1,22 @@
 import React, {useState} from 'react';
 import Navbar from '../components/Header';
 import userIcon from '../assets/images/userIcon.png'
+import AddPatient from '../components/AddPatient';
+import searchIcon from '../assets/icons/search.png'
+import chevronLeft from '../assets/icons/chevron-left.png'
+import chevronRight from '../assets/icons/chevron-right.png'
 
 
 const Users = () => {
 
   const uloga = "doktor"
   const [selectedUsers, setSelectedUsers] = useState('svi')
+
+  const [isAddPatientVisible, showAddPatient] = useState(false);
+
+  const toggleAddPatient = () => {
+    showAddPatient(!isAddPatientVisible);
+  };
 
   const original = [
       {
@@ -53,7 +63,7 @@ const Users = () => {
               <td>{user.visitCount}</td>
               <td>{user.email}</td>
 
-              <td ><img width="18" height="18" src="https://img.icons8.com/ios-glyphs/30/menu-2.png" alt="menu-2"/></td>
+              <td class = "three-dot-td"><img width="18" height="18" src="https://img.icons8.com/ios-glyphs/30/menu-2.png" alt="menu-2"/></td>
 
           </tr>
       ))
@@ -66,16 +76,19 @@ const Users = () => {
     <div id = "UsersWrapper">
      <Navbar></Navbar>
 
+     {isAddPatientVisible && <AddPatient closeAddPatient = {toggleAddPatient}/>}
+     
+
 
     <div id = "usersWrapperInner">
    
 
-    <h3 className = "pt-3 px-4 mt-2 " style={{textAlign: "left"}}>Pacijenti {/* <button className='btn btn-tertiary mt-1' style={{float: 'right'}}>Povijest </button>  */} </h3>
-<p style={{textAlign: "left"}} className = "px-4 mb-2 ">{odrasliCount} odraslih • {djecaCount} djece</p>
+    <h3 className = "pt-3 px-4 mt-2 " style={{textAlign: "left", maxWidth: "1246px"}}>Pacijenti {/* <button className='btn btn-tertiary mt-1' style={{float: 'right'}}>Povijest </button>  */} <button class = "btn btn-primary" style={{float:"right"}} onClick= {toggleAddPatient}>Novi Pacijent +</button> </h3>
+<p style={{textAlign: "left", maxWidth: "1200px"}} className = "px-4 mb-2 ">{odrasliCount} odraslih • {djecaCount} djece</p>
 
 
 
-<div id = "usersSelectorDiv" className = "px-4 pb-1 pt-0 " style={{display: "flex", justifyContent: "left", flexWrap: "wrap"}}>
+{/* <div id = "usersSelectorDiv" className = "px-4 pb-1 pt-0 " style={{display: "flex", justifyContent: "left", flexWrap: "wrap"}}>
 
     <button className = {selectedUsers === 'svi' ?
         "btn btn-primary me-2 mt-2" : "btn btn-secondary me-2 mt-2"}
@@ -89,16 +102,15 @@ const Users = () => {
         "btn btn-primary me-2 mt-2" : "btn btn-secondary me-2 mt-2"}
             id = "pregledano" onClick={() => setSelectedUsers('djeca')}> DJECA</button>
 
-</div>
+</div> */}
 
 
 <div id = "patientSearchBoxDiv" className='px-4 pt-3 ' >
 
-<div class="input-group mb-3  " style={{maxWidth: "1200px"}}>
-  <input type="text" class="form-control me-2" style = {{ borderTopRightRadius: "7px", borderBottomRightRadius: "7px", }} placeholder="Ime pacijenta.." aria-label="Recipient's username" aria-describedby="basic-addon2" ></input>
-  <div class="input-group-append">
-    <span class="input-group-text" id="searchButton">Search</span>
-  </div>
+<div class="input-group mb-0 mx-0  p-3 searchContainer" style={{maxWidth: "1200px"}} >
+<img src= {searchIcon} class = "searchIconUsers"></img>
+  <input type="text" class="form-control me-0 searchInput" style = {{ borderTopRightRadius: "7px", borderBottomRightRadius: "7px", }} placeholder="Pretraži" aria-label="Recipient's username" aria-describedby="basic-addon2" ></input>
+ 
 </div>
 </div>
 
@@ -106,8 +118,9 @@ const Users = () => {
     
 
     <div className='px-4 pt-0'>
-     <table class="table table-hover  table-bordered " style={{maxWidth: "1200px"}}>
+     <table class="table table-hover  table-bordered " id= "usersTable" style={{maxWidth: "1200px"}}>
     
+
 
   <thead>
     <tr>
@@ -126,6 +139,13 @@ const Users = () => {
 
   </tbody>
 </table>
+<div class="input-group mb-0 mx-0  paginationContainer " style={{maxWidth: "1200px"}} >
+
+<span class = "me-3">1-5 of 6</span>   
+<img src= {chevronLeft} style={{float: "right"}} class = "chevronIcon"></img>
+<img src= {chevronRight} style={{float: "right"}} class = "chevronIcon"></img>
+
+</div>
 </div>
 </div>
     </div>
