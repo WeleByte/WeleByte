@@ -102,11 +102,9 @@ const Users = () => {
     };
   }, []); // Empty dependency array ensures the effect runs only once on mount
 
-  const [isAddPatientVisible, showAddPatient] = useState(false);
 
-  const toggleAddPatient = () => {
-    showAddPatient(!isAddPatientVisible);
-  };
+
+
 
   const original = [
       {
