@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
 
+
 body {
   margin: 0;
   font-family: 'Inter', sans-serif;
@@ -160,7 +161,7 @@ code {
 }
 
 .btn-secondary {
-   font-weight: bold !important;
+    font-weight: 600 !important;
     font-size: 14px !important;
     letter-spacing: 1px;
     background-color: #ffffff !important;
@@ -316,7 +317,6 @@ tr {
 
 
 .three-dot-td { 
-
   width: 40px;
   padding-right: 14px;
   opacity: 70%;
@@ -423,7 +423,7 @@ tr {
   position: absolute;
   bottom: 25px;
   left: 30px;
-  z-index: 4;
+  z-index: 7;
   height: 18px;
   opacity: 60%;
 }
@@ -468,4 +468,30 @@ tr {
   line-height: 18px; vertical-align: middle;
   font-family: 'Inter', sans-serif;
   opacity: 70%
+}
+
+.userOptions {
+  background-color: white !important; 
+  position: absolute;
+  bottom: 0px; right: 10px;
+  z-index: 20 !important;
+  opacity: 100% !important
+}
+
+.list-group-item {
+  background-color: white !important; 
+  opacity: 100% !important;
+
+}
+
+.delete-btn {
+  color: rgba(255, 0, 0, 0.753) !important;
+}
+
+.novi-pregled-btn {
+  color: rgba(0, 0, 0, 0.684) !important
+}
+
+.closeActionsIcon {
+  margin-right: 1.35rem !important
 }
