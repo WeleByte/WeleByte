@@ -8,6 +8,8 @@ import HomePage from './pages/HomePage.js';
 import Users from './pages/Users';
 import SecondOpinions from './pages/SecondOpinions';
 import Bolovanja from './pages/Bolovanja';
+import ProfilePage from './pages/Profile.js';
+import Navbar from './components/Header.js';
 
 function App({wordIn}) {
   const [word, setWord] = useState(wordIn);
@@ -18,6 +20,8 @@ function App({wordIn}) {
 
   return (
     <div className="App">
+
+
        <BrowserRouter>
         <Routes>
           <Route path="/" element={<Navigate to="/home"/>}/>
@@ -27,6 +31,7 @@ function App({wordIn}) {
           <Route path="/users" element={<Users />} />
           <Route path="/drugaMisljenja" element={<SecondOpinions />} />
           <Route path="/bolovanja" element={<Bolovanja />} />
+          <Route path="/profil" element={<ProfilePage />} />
         </Routes>
       </BrowserRouter>
     </div>

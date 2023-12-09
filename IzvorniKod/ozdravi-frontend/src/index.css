@@ -47,9 +47,9 @@ code {
 } 
 
 
-
 #loginRow {
   padding-left: 30px;
+  padding-right: 0px;
   width: 100vw;
   padding-top: 25px
 }
@@ -61,8 +61,8 @@ code {
 
 
 #usersTable {
-  margin-top: 3rem;
-  margin-left: 2rem;
+  margin-top: 0rem;
+  margin-bottom: 0px;
   margin-right: 10rem !important
 }
 
@@ -109,7 +109,7 @@ code {
    
     width: 438px; 
     margin-left:auto;margin-right:auto;
-    padding-top: 350px !important;
+    padding-top: 350px;
     position: fixed;
     left: 50%;
     transform: translate(-50%, 0%);
@@ -149,6 +149,8 @@ code {
     display:float;
     margin:0px
   }
+
+
 }
 
 .nav-item {
@@ -158,7 +160,7 @@ code {
 }
 
 .btn-secondary {
-   font-weight: 600 !important;
+   font-weight: bold !important;
     font-size: 14px !important;
     letter-spacing: 1px;
     background-color: #ffffff !important;
@@ -277,7 +279,8 @@ code {
   background-color: transparent !important;
   text-decoration: underline !important;
   font-weight: 600 !important;
-  padding: 0px !important
+  padding: 0px !important;
+
 }
 
 #usersWrapper {
@@ -312,7 +315,7 @@ tr {
 }
 
 
-tr td:last-child { 
+.three-dot-td { 
 
   width: 40px;
   padding-right: 14px;
@@ -330,13 +333,29 @@ tr td:last-child {
 }
 
 
-
+#usersTable tr td:nth-child(3),
+  #usersTable tr td:nth-child(4),
+  #usersTable tr th:nth-child(3),
+  #usersTable tr th:nth-child(4) {
+    display: none !important;
+  }
 
 @media (max-width: 750px) {
-  tr td:nth-child(3), tr td:nth-child(4), tr th:nth-child(3), tr th:nth-child(4) {
+  #usersTable tr td:nth-child(3),
+  #usersTable tr td:nth-child(4),
+  #usersTable tr th:nth-child(3),
+  #usersTable tr th:nth-child(4) {
+    display: none !important;
+  }
+  #addPatientTable tr td:nth-child(2),
+  #addPatientTable tr td:nth-child(3),
+  #addPatientTable tr th:nth-child(2),
+  #addPatientTable tr th:nth-child(3) 
+  {
     display: none;
-  } 
+  }
 }
+
 
 @media (max-width: 990px) {
   #logOutBtn {
@@ -360,4 +379,93 @@ tr td:last-child {
   .pregledajCardBody {
     padding-right: 20px !important
   }
+}
+
+
+.btn-danger {
+  font-weight: 500 !important;
+  font-size: 14px !important;
+}
+
+#addPatientsWrapper {
+  position: fixed;
+  bottom: 0%;
+  right: 0%;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.3);
+  z-index: 10;
+  padding:0px !important;
+  margin: 0px !important
+}
+
+#addPatientsInner {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); 
+  border-radius: 6px;
+  background-color: white !important;
+  border: 1px solid rgba(0, 0, 0, 0.323);
+  z-index: 10;
+  width: 850px;
+  max-width: 90% !important
+}
+
+.searchInput {
+  border: 1px solid rgba(128, 128, 128, 0.4) !important;
+  border-radius: 5px !important;
+  padding-left: 46px !important;
+
+}
+
+.searchIconUsers {
+  position: absolute;
+  bottom: 25px;
+  left: 30px;
+  z-index: 4;
+  height: 18px;
+  opacity: 60%;
+}
+.searchIconAddPatient {
+  position: absolute;
+  bottom: 10px;
+  left: 16px;
+  z-index: 10;
+  height: 18px;
+  opacity: 60%;
+}
+
+.chevronIcon {
+  height: 18px;
+  opacity: 60%;
+}
+.searchContainer {
+  border-bottom-left-radius: 0px;
+  border-bottom-right-radius: 0px;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+  border: 1px solid rgba(128, 128, 128, 0.4);
+  border-bottom:none
+}
+
+.paginationContainer {
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+  border-top-left-radius: 0px;
+  border-top-right-radius: 0px;
+  border: 1px solid rgba(128, 128, 128, 0.4);
+  border-top:none;
+  display:flex;
+  justify-content: flex-end;
+  padding-top: 1.15rem;
+  padding-bottom: 1.15rem;
+  padding-right: 1.15rem
+}
+
+.paginationContainer span {
+  font-size: 13px;
+  line-height: 18px; vertical-align: middle;
+  font-family: 'Inter', sans-serif;
+  opacity: 70%
 }
