@@ -29,4 +29,8 @@ public class JwtUserDetailsService implements UserDetailsService {
         return new JwtUserDetails(user.getId(), email, user.getPassword(), roles);
     }
 
+    public UserDetails buildUserDetails(User user) {
+        final List<SimpleGrantedAuthority> roles = Collections.singletonList(new SimpleGrantedAuthority("ADMIN"));
+        return new JwtUserDetails(user.getId(), user.getEmail(), user.getPassword(), roles);
+    }
 }

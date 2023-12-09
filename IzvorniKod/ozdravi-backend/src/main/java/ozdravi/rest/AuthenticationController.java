@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 import ozdravi.domain.User;
 import ozdravi.service.UserService;
 
+import java.util.Optional;
+
 @RestController
 public class AuthenticationController {
     @Autowired
@@ -30,7 +32,8 @@ public class AuthenticationController {
 
     @PostMapping("/login")
     public ResponseEntity<?> authenticate(@RequestBody @Valid final AuthenticationRequest authenticationRequest) {
-        if(userService.findByEmail(authenticationRequest.getEmail()).isEmpty())
+        Optional<User> user = userService.findByEmail(authenticationRequest.getEmail());
+        if(user.isEmpty())
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not registered");
 
         try {
@@ -43,7 +46,7 @@ public class AuthenticationController {
         final UserDetails userDetails = jwtUserDetailsService.loadUserByUsername(authenticationRequest.getEmail());
 
         return ResponseEntity.ok(new AuthenticationResponse(
-                userDetails, tokenUtil.generateToken(userDetails)));
+                user.get(), tokenUtil.generateToken(userDetails)));
     }
 
     @PostMapping("/register")
