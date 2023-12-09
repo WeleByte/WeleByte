@@ -1,30 +1,32 @@
 package ozdravi.domain;
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Data;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.beans.BeanUtils;
 import java.time.LocalDateTime;
-
 
 @Entity
 @Table(name = "examinations")
 @Data
+@AllArgsConstructor
+@Builder
 public class Examination {
     @Id
     @Setter(AccessLevel.NONE)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
-    private Long patient_id;
+    @ManyToOne
+    @JoinColumn(name = "patient_id", nullable = false)
+    private User patient;
 
-    @Column(nullable = false)
-    private Long doctor_id;
+    @ManyToOne
+    @JoinColumn(name = "doctor_id", nullable = false)
+    private User doctor;
 
-    @Column(nullable = false)
-    private Long scheduler_id;
+    @ManyToOne
+    @JoinColumn(name = "scheduler_id", nullable = false)
+    private User scheduler;
 
     @Column
     private Long address_id;

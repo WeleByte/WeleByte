@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ozdravi.dao.ExaminationRepository;
 import ozdravi.domain.Examination;
+import ozdravi.rest.ExaminationRequest;
 import ozdravi.service.ExaminationService;
 import java.util.List;
 import java.util.Optional;
@@ -41,5 +42,10 @@ public class ExaminationServiceJpa implements ExaminationService {
     @Override
     public List<Examination> listAll() {
         return examinationRepository.findAll();
+    }
+
+    @Override
+    public List<ExaminationRequest> listAllRequests() {
+        return listAll().stream().map((examination -> new ExaminationRequest(examination))).toList();
     }
 }

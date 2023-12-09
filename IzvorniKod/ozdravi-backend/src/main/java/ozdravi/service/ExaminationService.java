@@ -1,6 +1,7 @@
 package ozdravi.service;
 
 import ozdravi.domain.Examination;
+import ozdravi.rest.ExaminationRequest;
 
 import java.util.List;
 import java.util.Optional;
@@ -15,4 +16,6 @@ public interface ExaminationService {
     void modifyExamination(Examination newData, Long id);
 
     List<Examination> listAll();
+
+    List<ExaminationRequest> listAllRequests();
 }
