@@ -33,6 +33,7 @@ public class AuthenticationController {
     @PostMapping("/login")
     public ResponseEntity<?> authenticate(@RequestBody @Valid final AuthenticationRequest authenticationRequest) {
         Optional<User> user = userService.findByEmail(authenticationRequest.getEmail());
+
         if(user.isEmpty())
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not registered");
 
