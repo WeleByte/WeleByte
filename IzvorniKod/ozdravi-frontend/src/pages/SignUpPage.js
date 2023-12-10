@@ -61,7 +61,7 @@ const SignUpPage = () => {
         "Content-Type" : 'application/json'
       },
       body : JSON.stringify({
-        'username' : email,
+        'email' : email,
         'password' : password,
         'oib': OIB,
 
@@ -113,22 +113,22 @@ const SignUpPage = () => {
               {/*----------------------------FIRST NAME-----------------------------*/}
 
               <div className="mb-3">
-                <label htmlFor="username" className="form-label" style={{float: 'left'}}>IME</label>
-                <input type="text" className="form-control" id="username" value={firstName}
+                <label htmlFor="first_name" className="form-label" style={{float: 'left'}}>IME</label>
+                <input type="text" className="form-control" id="firt_name" value={firstName}
                        onChange={(e) => setFirstName(e.target.value)}/>
               </div>
 
               {/*----------------------------LAST NAME-----------------------------*/}
               <div className="mb-3">
-                <label htmlFor="username" className="form-label" style={{float: 'left'}}>PREZIME</label>
-                <input type="text" className="form-control" id="username" value={lastName}
+                <label htmlFor="last_name" className="form-label" style={{float: 'left'}}>PREZIME</label>
+                <input type="text" className="form-control" id="last_name" value={lastName}
                        onChange={(e) => setLastName(e.target.value)}/>
               </div>
 
               {/*-------------------------------OIB--------------------------------*/}
               <div className="mb-3">
-                <label htmlFor="username" className="form-label" style={{float: 'left'}}>OIB</label>
-                <input type="text" className="form-control" id="username" value={OIB}
+                <label htmlFor="oib" className="form-label" style={{float: 'left'}}>OIB</label>
+                <input type="text" className="form-control" id="oib" value={OIB}
                        onChange={(e) => setOIB(e.target.value)}/>
               </div>
 
@@ -138,8 +138,8 @@ const SignUpPage = () => {
 
               {/*------------------------------EMAIL-------------------------------*/}
               <div className="mb-3">
-                <label htmlFor="password" className="form-label" style={{float: 'left'}}>E-MAIL</label>
-                <input type="text" className="form-control" id="username" value={email}
+                <label htmlFor="email" className="form-label" style={{float: 'left'}}>E-MAIL</label>
+                <input type="text" className="form-control" id="email" value={email}
                        onChange={(e) => setEmail(e.target.value)}/>
               </div>
 

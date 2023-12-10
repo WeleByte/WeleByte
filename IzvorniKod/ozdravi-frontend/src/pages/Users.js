@@ -210,7 +210,7 @@ const Users = () => {
 
 <div class="input-group mb-0 mx-0  p-3 searchContainer" style={{maxWidth: "1200px"}} >
 <img src= {searchIcon} class = "searchIconUsers"></img>
-  <input type="text" class="form-control me-0 searchInput" style = {{ borderTopRightRadius: "7px", borderBottomRightRadius: "7px", }} placeholder="Pretraži" aria-label="Recipient's username" aria-describedby="basic-addon2" ></input>
+  <input type="text" class="form-control me-0 searchInput" style = {{ borderTopRightRadius: "7px", borderBottomRightRadius: "7px", }} placeholder="Pretraži" aria-label="Recipient's email" aria-describedby="basic-addon2" ></input>
  
 </div>
 </div>

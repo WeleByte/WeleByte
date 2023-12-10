@@ -33,7 +33,7 @@ const LoginPage = () => {
                 "Content-Type" : 'application/json'
             },
             body : JSON.stringify({
-                'username' : email,
+                'email' : email,
                 'password' : password
             })
 
@@ -45,9 +45,9 @@ const LoginPage = () => {
         } else {
             setLoginFailed(false)
             const responseData = await response.json()
-            console.log(responseData.accessToken, responseData.username)
             sessionStorage.setItem('bearerToken', responseData.accessToken)
-            sessionStorage.setItem('email', responseData.username)
+            sessionStorage.setItem('user', JSON.stringify(responseData.user))
+
             navigate('/home');
         }
     };
@@ -73,8 +73,8 @@ const LoginPage = () => {
                     }
                     <form onSubmit={handleLogin}>
                         <div className="mb-3">
-                            <label htmlFor="username" className="form-label" style={{float: 'left'}}>EMAIL</label>
-                            <input type="text" className="form-control" id="username"
+                            <label htmlFor="email" className="form-label" style={{float: 'left'}}>EMAIL</label>
+                            <input type="text" className="form-control" id="email"
                                    value={email} onChange={(e) => setEmail(e.target.value)}/>
                         </div>
                         <div className="mb-3">
