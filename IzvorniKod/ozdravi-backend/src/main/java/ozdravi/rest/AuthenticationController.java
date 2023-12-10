@@ -11,8 +11,15 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import ozdravi.domain.Role;
 import ozdravi.domain.User;
+import ozdravi.service.RoleService;
 import ozdravi.service.UserService;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Optional;
 
 @RestController
 public class AuthenticationController {
@@ -27,6 +34,9 @@ public class AuthenticationController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private RoleService roleService;
 
     @PostMapping("/login")
     public ResponseEntity<?> authenticate(@RequestBody @Valid final AuthenticationRequest authenticationRequest) {
@@ -55,6 +65,9 @@ public class AuthenticationController {
         ResponseEntity<String> res = ValidityUtil.checkUserValidity(user);
         if(res.getStatusCode()!= HttpStatus.OK)
             return res;
+
+        Optional<Role> role = roleService.findByName("parent");
+        user.setRoles(List.of(role.get()));
 
         userService.createUser(user);
 
