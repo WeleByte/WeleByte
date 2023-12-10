@@ -52,8 +52,9 @@ public class User {
     @Column
     private Long doctor_id;
 
-    @Column
-    private Long address_id;
+    @ManyToOne
+    @JoinColumn(name = "address_id")
+    private Address address;
 
     @Column
     private String institution_email;
