@@ -1,7 +1,6 @@
 package ozdravi.service;
 
 import ozdravi.domain.User;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -28,8 +27,12 @@ public interface UserService {
 
     /**
      * nalazi korisnika po njegovom korisnickom imenu ako postoji
-     * @param username korisnicko ime korisnika
+     * @param email korisnicko ime korisnika
      * @return korisnik
      */
-    Optional<User> findByUsername(String username);
+    Optional<User> findByEmail(String email);
+
+    void deleteById(Long id);
+
+    void modifyUser(User newData, Long id);
 }

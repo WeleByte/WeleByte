@@ -19,11 +19,14 @@ public class UserServiceJpa implements UserService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Override
+    public void deleteById(Long id) {
+        userRepository.deleteById(id);
+    }
 
     @Override
     public User createUser(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-
         return userRepository.save(user);
     }
 
@@ -38,7 +41,18 @@ public class UserServiceJpa implements UserService {
     }
 
     @Override
-    public Optional<User> findByUsername(String username) {
-        return userRepository.findByUsername(username);
+    public Optional<User> findByEmail(String email) {
+        return userRepository.findByEmail(email);
+    }
+
+    @Override
+    public void modifyUser(User newData, Long id){
+        Optional<User> optionalUser = userRepository.findById(id);
+
+        if(optionalUser.isPresent()){
+            User existingUser = optionalUser.get();
+            existingUser.copyDifferentAttributes(newData);
+            userRepository.save(existingUser);
+        }
     }
 }

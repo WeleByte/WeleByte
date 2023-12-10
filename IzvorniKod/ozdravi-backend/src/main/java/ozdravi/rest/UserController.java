@@ -1,11 +1,13 @@
 package ozdravi.rest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ozdravi.domain.User;
 import ozdravi.service.UserService;
 import java.net.URI;
+import java.time.format.DateTimeParseException;
 import java.util.List;
 import java.util.Optional;
 
@@ -34,6 +36,28 @@ public class UserController {
         } else {
             return ResponseEntity.notFound().build();
         }
+    }
+
+    @PutMapping("user/{id}")
+    public ResponseEntity<String> modifyUser(@PathVariable("id") Long id, @RequestBody User userModified){
+
+        Optional<User> optionalUser = userService.findById(id);
+        if(optionalUser.isEmpty())
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User doesn't exist");
+
+        ResponseEntity<String> res = ValidityUtil.checkUserValidity(userModified);
+        if(res.getStatusCode()!= HttpStatus.OK)
+            return res;
+
+        try {
+            userService.modifyUser(userModified, id);
+        } catch (DateTimeParseException e){
+            throw e;
+        }catch (Exception e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
+
+        return ResponseEntity.ok().body("User successfully modified");
     }
 
 }

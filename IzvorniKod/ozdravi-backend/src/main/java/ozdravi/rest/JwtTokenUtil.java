@@ -33,7 +33,7 @@ public class JwtTokenUtil {
                 .sign(this.hmac512);
     }
 
-    public String validateTokenAndGetUsername(final String token) {
+    public String validateTokenAndGetEmail(final String token) {
         try {
             return verifier.verify(token).getSubject();
         } catch (final JWTVerificationException verificationEx) {
