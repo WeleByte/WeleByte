@@ -10,7 +10,8 @@ const SignUpPage = () => {
   const [password, setPassword] = useState('')
   const [firstName, setFirstName] = useState('')
   const [lastName, setLastName] = useState('')
-  const [OIB, setOIB] = useState('')
+  const [OIB, setOIB] = useState('') 
+  const [institutionEmail, setInstitutionEmail] = useState('')
   const [passwordCheck, setPasswordCheck] = useState('')
   const [incorrectEmailFormat, setIncorrectEmailFormat] = useState(false)
   const [incorrectPasswordLength, setIncorrectPasswordLength] = useState(false)
@@ -21,7 +22,7 @@ const SignUpPage = () => {
   const handleSignUp = async (e) => {
     e.preventDefault();
     //check login format
-    if(firstName.length < 2 || lastName.length < 2){
+    if(firstName.length < 2 || lastName === lastName.length < 2){
       setIncorrectName(true)
       return
     }
@@ -33,11 +34,12 @@ const SignUpPage = () => {
     }
     setIncorrectOIB(false)
 
-    if(!(/\S+@\S+\.\S+/.test(email))) {
+   /*  if(!(/\S+@\S+\.\S+/.test(email)) || !(/\S+@\S+\.\S+/.test(institutionEmail))) {
+      console.log(email)
       setIncorrectEmailFormat(true)
       return
     }
-    setIncorrectEmailFormat(false)
+    setIncorrectEmailFormat(false) */
 
     if(password.length < 6) {
       setIncorrectPasswordLength(true)
@@ -51,26 +53,26 @@ const SignUpPage = () => {
     }
     setIncorrectPasswordCheck(false)
 
-    console.log("registration data:", {
-      email, password, OIB, firstName, lastName
-    })
 
     //data verification
     const response = await fetch(backendRoute + "/register", {
       method: 'POST',
       headers: {
-        'Content-Type' : 'application/json'
+        "Content-Type" : 'application/json'
       },
       body : JSON.stringify({
-        "email" : email,
-        "password" : password,
-        "oib": OIB,
+        'email' : email,
+        'password' : password,
+        'oib': OIB,
+
+        'institution_email': institutionEmail,
         "first_name": firstName,
-        "last_name": lastName
+        'last_name': lastName,
+
       })
+
     })
 
-    console.log('Response Body:', await response.text());
 
     // If login is successful, navigate to the home page
     if(!response.ok) {
@@ -106,32 +108,33 @@ const SignUpPage = () => {
             }
             <form onSubmit={handleSignUp}>
 
-              <div style={{display: "grid", gridTemplateColumns: "1fr 1fr", gridColumnGap: "20px"}} className ="mt-4">
+              <div style={{display: "grid", gridTemplateColumns: "1fr 1fr", gridColumnGap: "20px"}} class ="mt-4">
 
               {/*----------------------------FIRST NAME-----------------------------*/}
 
               <div className="mb-3">
                 <label htmlFor="first_name" className="form-label" style={{float: 'left'}}>IME</label>
-                <input type="text" className="form-control" id="first_name" value={firstName}
-                       onChange={(e) =>
-                           setFirstName(e.target.value.replace(/[^a-zA-ZščćžđöüäŠČĆŽĐÖÜÄ\s]/, ''))}/>
+                <input type="text" className="form-control" id="firt_name" value={firstName}
+                       onChange={(e) => setFirstName(e.target.value)}/>
               </div>
 
               {/*----------------------------LAST NAME-----------------------------*/}
               <div className="mb-3">
                 <label htmlFor="last_name" className="form-label" style={{float: 'left'}}>PREZIME</label>
                 <input type="text" className="form-control" id="last_name" value={lastName}
-                       onChange={(e) =>
-                           setLastName(e.target.value.replace(/[^a-zA-ZščćžđöüäŠČĆŽĐÖÜÄ\s]/, ''))}/>
+                       onChange={(e) => setLastName(e.target.value)}/>
               </div>
 
               {/*-------------------------------OIB--------------------------------*/}
               <div className="mb-3">
                 <label htmlFor="oib" className="form-label" style={{float: 'left'}}>OIB</label>
                 <input type="text" className="form-control" id="oib" value={OIB}
-                       onChange={(e) =>
-                           setOIB(e.target.value.replace(/\D/g, ''))}/>
+                       onChange={(e) => setOIB(e.target.value)}/>
               </div>
+
+              
+             
+             
 
               {/*------------------------------EMAIL-------------------------------*/}
               <div className="mb-3">

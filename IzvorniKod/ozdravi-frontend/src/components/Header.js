@@ -8,12 +8,12 @@ const Navbar = () => {
     const uloga = "doktor"
     const navigate = useNavigate()
 
-    const [selectedNavbarItem, setSelectedNavbarItem] = useState(localStorage.getItem('SelectedNavbarItem'))
+    const [selectedItem, setSelectedItem] = useState(localStorage.getItem('SelectedItem'))
     const handleItemClick = (e, item) => {
         // e.preventDefault()
-        localStorage.setItem('SelectedNavbarItem', item)
-        setSelectedNavbarItem(item)
-        console.log(selectedNavbarItem)
+        localStorage.setItem('SelectedItem', item)
+        setSelectedItem(item)
+        console.log(selectedItem)
         switch(item) {
             case 'home': navigate('/home')
                 break
@@ -25,7 +25,6 @@ const Navbar = () => {
                 break
             case 'profil': navigate('/profil')
                 break
-            case 'pregledi': navigate('/pregledi')
         }
     }
 
@@ -44,19 +43,16 @@ const Navbar = () => {
         </button>
         <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div className="navbar-nav ">
-                <button className={selectedNavbarItem === 'home' ? "nav-item nav-link active" : "nav-item nav-link"}
+                <button className={selectedItem === 'home' ? "nav-item nav-link active" : "nav-item nav-link"}
                     onClick={(e)  => handleItemClick(e, 'home')}> Početna </button>
           { uloga === "doktor" || uloga === "pedijatar" ? (  <button
-              className={selectedNavbarItem === 'pacijenti' ? "nav-item nav-link active" : "nav-item nav-link"}
+              className={selectedItem === 'pacijenti' ? "nav-item nav-link active" : "nav-item nav-link"}
                onClick={(e) => handleItemClick(e, 'pacijenti')}>Pacijenti</button> ) : null }
 
-          <button className={selectedNavbarItem === 'pregledi' ? "nav-item nav-link active" : "nav-item nav-link"}
-               onClick={(e) => handleItemClick(e, 'pregledi')}>Pregledi</button>
-
-          <button className={selectedNavbarItem === 'drugaMisljenja' ? "nav-item nav-link active" : "nav-item nav-link"}
+          <button className={selectedItem === 'drugaMisljenja' ? "nav-item nav-link active" : "nav-item nav-link"}
               onClick={(e) => handleItemClick(e, 'drugaMisljenja')}>Druga Misljenja</button>
 
-          <button className={selectedNavbarItem === 'bolovanja' ? "nav-item nav-link active" : "nav-item nav-link"}
+          <button className={selectedItem === 'bolovanja' ? "nav-item nav-link active" : "nav-item nav-link"}
               onClick={(e) => handleItemClick(e, 'bolovanja')}>Bolovanja</button>
 
           { uloga === "roditelj" ? (  <button className="nav-item nav-link">Djeca</button> ) : null }
