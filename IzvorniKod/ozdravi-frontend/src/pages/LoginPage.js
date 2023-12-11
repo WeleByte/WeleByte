@@ -73,8 +73,8 @@ const LoginPage = () => {
                     }
                     <form onSubmit={handleLogin}>
                         <div className="mb-3">
-                            <label htmlFor="username" className="form-label" style={{float: 'left'}}>EMAIL</label>
-                            <input type="text" className="form-control" id="username"
+                            <label htmlFor="email" className="form-label" style={{float: 'left'}}>EMAIL</label>
+                            <input type="text" className="form-control" id="email"
                                    value={email} onChange={(e) => setEmail(e.target.value)}/>
                         </div>
                         <div className="mb-3">

@@ -111,32 +111,29 @@ const SignUpPage = () => {
               {/*----------------------------FIRST NAME-----------------------------*/}
 
               <div className="mb-3">
-                <label htmlFor="username" className="form-label" style={{float: 'left'}}>IME</label>
-                <input type="text" className="form-control" id="username" value={firstName}
-                       onChange={(e) =>
-                           setFirstName(e.target.value.replace(/[^a-zA-ZščćžđöüäŠČĆŽĐÖÜÄ\\s]/, ''))}/>
+                <label htmlFor="first_name" className="form-label" style={{float: 'left'}}>IME</label>
+                <input type="text" className="form-control" id="first_name" value={firstName}
+                       onChange={(e) => setFirstName(e.target.value)}/>
               </div>
 
               {/*----------------------------LAST NAME-----------------------------*/}
               <div className="mb-3">
-                <label htmlFor="username" className="form-label" style={{float: 'left'}}>PREZIME</label>
-                <input type="text" className="form-control" id="username" value={lastName}
-                       onChange={(e) =>
-                           setLastName(e.target.value.replace(/[^a-zA-ZščćžđöüäŠČĆŽĐÖÜÄ\\s]/, ''))}/>
+                <label htmlFor="last_name" className="form-label" style={{float: 'left'}}>PREZIME</label>
+                <input type="text" className="form-control" id="last_name" value={lastName}
+                       onChange={(e) => setLastName(e.target.value)}/>
               </div>
 
               {/*-------------------------------OIB--------------------------------*/}
               <div className="mb-3">
-                <label htmlFor="username" className="form-label" style={{float: 'left'}}>OIB</label>
-                <input type="text" className="form-control" id="username" value={OIB}
-                       onChange={(e) =>
-                           setOIB(e.target.value.replace(/\D/g, ''))}/>
+                <label htmlFor="oib" className="form-label" style={{float: 'left'}}>OIB</label>
+                <input type="text" className="form-control" id="oib" value={OIB}
+                       onChange={(e) => setOIB(e.target.value)}/>
               </div>
 
               {/*------------------------------EMAIL-------------------------------*/}
               <div className="mb-3">
-                <label htmlFor="password" className="form-label" style={{float: 'left'}}>E-MAIL</label>
-                <input type="text" className="form-control" id="username" value={email}
+                <label htmlFor="email" className="form-label" style={{float: 'left'}}>E-MAIL</label>
+                <input type="text" className="form-control" id="email" value={email}
                        onChange={(e) => setEmail(e.target.value)}/>
               </div>
 
