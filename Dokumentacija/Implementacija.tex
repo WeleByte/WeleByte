@@ -64,7 +64,7 @@
 		\includegraphics[width=\textwidth]{slike/sqlshell1.png} 
 		\caption{SQL Shell aplikacija} 
 	\end{figure}
-	Kako bi se pristupilo komandnoj liniji, potrebno je pritisnuti tipku Enter dok linija ne započne s \textit{postgres=\#}
+	 Kako bi se pristupilo komandnoj liniji, potrebno je pritisnuti tipku Enter dok linija ne započne s \textit{postgres=\#}
 	(ako je postavljena lozinka tijekom konfiguracije PostgreSQL-a, onda ju treba unijeti kada sustav zatraži: \textit{Password for user postgres:}). 
 	Nakon toga, izvršavaju se sljedeće naredbe:\\
 	\textit{create user welebyte with password 'welebyte';\\
@@ -75,11 +75,12 @@
 		\includegraphics[width=\textwidth]{slike/sqlshell2.png} 
 		\caption{Postavljanje baze podataka} 
 	\end{figure}
-	textbf{Pokretanje aplikacije koristeći Intellij} \\
+	\noindent\textbf{Pokretanje aplikacije koristeći Intellij} \\
 	Nakon uspješne konfiguracije baze podataka, prelazi se na postavljanje aplikacije koristeći IntelliJ IDE. Potrebno je otvoriti mapu \textit{IzvorniKod\textbackslash ozdravi-backend} kao 
 	novi projekt u IntelliJ-u, a aplikacija se dalje pokreće jednostavnim pokretanjem datoteke \textit{OzdraviBackendApplication.java}. Aplikacija je sada dostupna na adresi:
-	\url{http://localhost:8000}.
-	\textbf{Postavljanje frontenda}
+	\url{http://localhost:8000}.\\
+	\\
+	\textbf{Postavljanje frontenda}\\
 	Sljedeći korak uključuje postavljanje frontenda. Prvotno se preuzima okruženje za izvršavanje JavaScript koda, Node.js, s ovdje dostupne 
 	\href{https://nodejs.org/en/download/}{poveznice}, slijedeći standardne korake instalacije. Zatim, u naredbenom retku (terminalu), potrebno se pozicionirati 
 	u direktorij u kojem je spremljen izvorni kod za frontend: \textit{...IzvorniKod\textbackslash ozdravi-frontend}. Prilikom prvog pokretanja, izvršava se naredba \textit{npm install} kako bi se 
@@ -92,8 +93,8 @@
 		\includegraphics[width=\textwidth]{slike/npmst.png} 
 		\caption{Pokretanje aplikacije} 
 	\end{figure}
-
-	Nakon pokretanja, aplikaciju je moguće vidjeti na adresi: \url{http://localhost:3000.}\\
+	
+	\newpage \noindent Nakon pokretanja, aplikaciju je moguće vidjeti na adresi: \url{http://localhost:3000.}\\
 	\begin{figure}[H]
 		\includegraphics[width=\textwidth]{slike/loc3000.png} 
 		\caption{Aplikacija na portu 3000} 
