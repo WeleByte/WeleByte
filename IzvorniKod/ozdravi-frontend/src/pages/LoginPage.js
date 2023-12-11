@@ -33,7 +33,7 @@ const LoginPage = () => {
                 "Content-Type" : 'application/json'
             },
             body : JSON.stringify({
-                'username' : email,
+                'email' : email,
                 'password' : password
             })
 
@@ -45,9 +45,9 @@ const LoginPage = () => {
         } else {
             setLoginFailed(false)
             const responseData = await response.json()
-            console.log(responseData.accessToken, responseData.username)
+            console.log(responseData.accessToken, responseData.user)
             sessionStorage.setItem('bearerToken', responseData.accessToken)
-            sessionStorage.setItem('email', responseData.username)
+            sessionStorage.setItem('userData', JSON.stringify(responseData.user))
             navigate('/home');
         }
     };
