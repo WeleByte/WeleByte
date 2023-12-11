@@ -45,9 +45,9 @@ const LoginPage = () => {
         } else {
             setLoginFailed(false)
             const responseData = await response.json()
+            console.log(responseData.accessToken, responseData.user)
             sessionStorage.setItem('bearerToken', responseData.accessToken)
-            sessionStorage.setItem('user', JSON.stringify(responseData.user))
-
+            sessionStorage.setItem('userData', JSON.stringify(responseData.user))
             navigate('/home');
         }
     };
