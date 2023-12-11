@@ -7,65 +7,43 @@ import djeca from '../assets/images/kids2.png'
 import HomeCard from '../components/HomeCard';
 import {useNavigate} from "react-router-dom";
 
-
 const HomePage = () => {
 
-  const uloga = "doktor"
-  const navigate = useNavigate()
-  const bearerToken = sessionStorage.getItem('bearerToken')
+    const uloga = "doktor"
+    const navigate = useNavigate()
+    const bearerToken = sessionStorage.getItem('bearerToken');
+
     if(sessionStorage.userData === undefined) {
         sessionStorage.userData = JSON.stringify({first_name: 'a'})
     }
-  const user = JSON.parse(sessionStorage.userData)
-  useEffect(() => {
-      if(bearerToken === '' || bearerToken === null || bearerToken === undefined) {navigate('/login')}
 
-  }, []);
+    const user = JSON.parse(sessionStorage.userData);
 
-  return (
+    useEffect(() => {
+        if(bearerToken === '' || bearerToken === null || bearerToken === undefined) {
+            navigate('/login');
+        }
+    }, []);
 
-
-    <div id = "HomePageWrapper">
-     <Navbar></Navbar>
-
-    <div id = "homePageWrapperInner">
-          <h3 className = "pt-4 px-4 mt-2" style={{textAlign: "left"}}>Dobrodošao nazad, {user.first_name}.</h3>
-    <p style={{textAlign: "left"}} className = "px-4">Što ćemo raditi danas?</p>
-     <div className='homePageCardSection p-4 pt-0 ps-3' >
-
-
-    { uloga === "doktor" || uloga === "pedijatar" ? (<HomeCard title = "Moji Pacijenti" description= "34 odraslih • 4 djece" image= {patientsImage} buttonText="Vidi sve"/>) : null}
-    <HomeCard title = "Druga Mišljenja" description= "3 za pregled" image= {drugoMisljenje} buttonText = "Pregledaj"/>
-    <HomeCard title = "Preporuke za bolovanje" description= "7 za pregled" image= {bolovanje} buttonText = "Pregledaj"/>
-
-
+    return (
         <div id="HomePageWrapper">
-            <Navbar></Navbar>
-
+            <Navbar />
             <div id="homePageWrapperInner">
                 <h3 className="pt-4 px-4 mt-2" style={{textAlign: "left"}}>
-                    Dobrodošao nazad, {user?.first_name} {user?.last_name}.
+                    Dobrodošao nazad, {user.first_name}.
                 </h3>
                 <p style={{textAlign: "left"}} className="px-4">Što ćemo raditi danas?</p>
-                <div className='homePageCardSection p-4 pt-0 ps-3'>
-
-
-                    {uloga === "doktor" || uloga === "pedijatar" ? (
-                        <HomeCard title="Moji Pacijenti" description="34 odraslih • 4 djece" image={patientsImage}
-                                  buttonText="Vidi sve"/>) : null}
-                    <HomeCard title="Druga Mišljenja" description="3 za pregled" image={drugoMisljenje}
-                              buttonText="Pregledaj"/>
-                    <HomeCard title="Preporuke za bolovanje" description="7 za pregled" image={bolovanje}
-                              buttonText="Pregledaj"/>
-
-
-                    {uloga !== "roditelj" ? (
-                        <HomeCard title="Moja djeca" description="3 prijavljenje djece" image={djeca}
-                                  buttonText="Vidi sve"/>) : null}
-
+                <div className='homePageCardSection p-4 pt-0 ps-3' >
+                    {(uloga === "doktor" || uloga === "pedijatar") && (
+                        <HomeCard title="Moji Pacijenti" description="34 odraslih • 4 djece" image={patientsImage} buttonText="Vidi sve"/>
+                    )}
+                    <HomeCard title="Druga Mišljenja" description="3 za pregled" image={drugoMisljenje} buttonText="Pregledaj"/>
+                    <HomeCard title="Preporuke za bolovanje" description="7 za pregled" image={bolovanje} buttonText="Pregledaj"/>
+                    {uloga !== "roditelj" && (
+                        <HomeCard title="Moja djeca" description="3 prijavljenje djece" image={djeca} buttonText="Vidi sve"/>
+                    )}
                 </div>
             </div>
-
         </div>
     );
 };
