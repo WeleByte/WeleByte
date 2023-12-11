@@ -151,17 +151,17 @@ const Users = () => {
               <td>{user.visitCount}</td>
               <td>{user.email}</td>
 
-              <td className = "three-dot-td" >
+              <td class = "three-dot-td" >
               
 
                 <img width="18" height="18" onClick={() => openUserOptions(index)}  src="https://img.icons8.com/ios-glyphs/30/menu-2.png" alt="menu-2"/></td>
 
-                <ul className="list-group userOptions shadow-lg p-0 border" style={{display:"none"}}>
-                <p className ="mb-2 mt-2 ps-3 py-1" style={{textAlign: "left"}}>Akcije <img className =" mt-1 closeActionsIcon" style={{ height: "19px", float: "right", opacity: "80%"}} onClick={() => closeUserOptions(index)} src={CloseIcon}></img>  </p>
-                <hr className ="mt-0 mb-0" style={{opacity: "20%"}}></hr>
-                <button onClick={toggleNoviPregled} className =" ps-3 col-12 mb-2 mt-2 py-2 novi-pregled-btn" style={{opaciy: "80%",textAlign: "left", fontWeight:"500", border:"none", background:"none"}} > Novi pregled  <img class ="me-3 mt-1" style={{ height: "19px", float: "right", opacity: "80%" }} src={Plus2Icon}></img> </button>
+                <ul class="list-group userOptions shadow-lg p-0 border" style={{display:"none"}}>
+                <p class ="mb-2 mt-2 ps-3 py-1" style={{textAlign: "left"}}>Akcije <img class =" mt-1 closeActionsIcon" style={{ height: "19px", float: "right", opacity: "80%"}} onClick={() => closeUserOptions(index)} src={CloseIcon}></img>  </p>
+                <hr class ="mt-0 mb-0" style={{opacity: "20%"}}></hr>
+                <button onClick={toggleNoviPregled} class =" ps-3 col-12 mb-2 mt-2 py-2 novi-pregled-btn" style={{opaciy: "80%",textAlign: "left", fontWeight:"500", border:"none", background:"none"}} > Novi pregled  <img class ="me-3 mt-1" style={{ height: "19px", float: "right", opacity: "80%" }} src={Plus2Icon}></img> </button>
                 
-                <button className =" ps-3  col-12 mb-2 py-2 delete-btn" style={{opaciy: "80%",textAlign: "left", fontWeight:"500", border:"none", background:"none"}}> Izbriši <img class ="me-3 mt-1" style={{ height: "19px", float: "right", opacity: "800%" }}  src={TrashIcon}></img> </button>
+                <button class =" ps-3  col-12 mb-2 py-2 delete-btn" style={{opaciy: "80%",textAlign: "left", fontWeight:"500", border:"none", background:"none"}}> Izbriši <img class ="me-3 mt-1" style={{ height: "19px", float: "right", opacity: "800%" }}  src={TrashIcon}></img> </button>
                 
                 </ul>
 
@@ -208,9 +208,9 @@ const Users = () => {
 
 <div id = "patientSearchBoxDiv" className='px-4 pt-3 ' >
 
-<div className="input-group mb-0 mx-0  p-3 searchContainer" style={{maxWidth: "1200px"}} >
-<img src= {searchIcon} className = "searchIconUsers"></img>
-  <input type="text" className="form-control me-0 searchInput" style = {{ borderTopRightRadius: "7px", borderBottomRightRadius: "7px", }} placeholder="Pretraži" aria-label="Recipient's username" aria-describedby="basic-addon2" ></input>
+<div class="input-group mb-0 mx-0  p-3 searchContainer" style={{maxWidth: "1200px"}} >
+<img src= {searchIcon} class = "searchIconUsers"></img>
+  <input type="text" class="form-control me-0 searchInput" style = {{ borderTopRightRadius: "7px", borderBottomRightRadius: "7px", }} placeholder="Pretraži" aria-label="Recipient's email" aria-describedby="basic-addon2" ></input>
  
 </div>
 </div>
@@ -219,7 +219,7 @@ const Users = () => {
     
 
     <div className='px-4 pt-0'>
-     <table className="table  table-bordered " id= "usersTable" style={{maxWidth: "1200px"}}>
+     <table class="table  table-bordered " id= "usersTable" style={{maxWidth: "1200px"}}>
     
 
 
@@ -240,11 +240,11 @@ const Users = () => {
 
   </tbody>
 </table>
-<div className="input-group mb-0 mx-0  paginationContainer " style={{maxWidth: "1200px"}} >
+<div class="input-group mb-0 mx-0  paginationContainer " style={{maxWidth: "1200px"}} >
 
-<span className = "me-3">1-5 of 6</span>
-<img src= {chevronLeft} style={{float: "right"}} className = "chevronIcon"></img>
-<img src= {chevronRight} style={{float: "right"}} className = "chevronIcon"></img>
+<span class = "me-3">1-5 of 6</span>   
+<img src= {chevronLeft} style={{float: "right"}} class = "chevronIcon"></img>
+<img src= {chevronRight} style={{float: "right"}} class = "chevronIcon"></img>
 
 </div>
 </div>
