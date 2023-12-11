@@ -10,6 +10,7 @@ import SecondOpinions from './pages/SecondOpinions';
 import Bolovanja from './pages/Bolovanja';
 import ProfilePage from './pages/Profile.js';
 import Navbar from './components/Header.js';
+import Examinations from "./pages/Examinations";
 
 function App({wordIn}) {
   const [word, setWord] = useState(wordIn);
@@ -32,6 +33,7 @@ function App({wordIn}) {
           <Route path="/drugaMisljenja" element={<SecondOpinions />} />
           <Route path="/bolovanja" element={<Bolovanja />} />
           <Route path="/profil" element={<ProfilePage />} />
+          <Route path="/pregledi" element={<Examinations/>} />
         </Routes>
       </BrowserRouter>
     </div>

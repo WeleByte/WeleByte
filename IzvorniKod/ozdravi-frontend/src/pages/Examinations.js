@@ -12,7 +12,7 @@ import Plus2Icon from '../assets/icons/plus2.png'
 import NoviPregled from '../components/NoviPregled';
 
 
-const Users = () => {
+const Examinations = () => {
 
   const uloga = "doktor"
   const [selectedUsers, setSelectedUsers] = useState('svi')
@@ -184,7 +184,7 @@ const Users = () => {
     <div id = "usersWrapperInner">
    
 
-    <h3 className = "pt-3 px-4 mt-2 " style={{textAlign: "left", maxWidth: "1246px"}}>Pacijenti {/* <button className='btn btn-tertiary mt-1' style={{float: 'right'}}>Povijest </button>  */} <button class = "btn btn-primary" style={{float:"right"}} onClick= {toggleAddPatient}>Novi Pacijent +</button> </h3>
+    <h3 className = "pt-3 px-4 mt-2 " style={{textAlign: "left", maxWidth: "1246px"}}>Pregledi {/* <button className='btn btn-tertiary mt-1' style={{float: 'right'}}>Povijest </button>  */} <button class = "btn btn-primary" style={{float:"right"}} onClick= {toggleAddPatient}>Novi Pacijent +</button> </h3>
 {/* <p style={{textAlign: "left", maxWidth: "1200px"}} className = "px-4 mb-2 ">{odrasliCount + djecaCount} pacijenata</p> */}
 
 
@@ -253,4 +253,4 @@ const Users = () => {
   );
 };
 
-export default Users;
+export default Examinations;
