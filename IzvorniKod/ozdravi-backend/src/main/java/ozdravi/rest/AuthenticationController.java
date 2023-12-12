@@ -15,7 +15,6 @@ import ozdravi.domain.Role;
 import ozdravi.domain.User;
 import ozdravi.service.RoleService;
 import ozdravi.service.UserService;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -40,26 +39,28 @@ public class AuthenticationController {
 
     @PostMapping("/login")
     public ResponseEntity<?> authenticate(@RequestBody @Valid final AuthenticationRequest authenticationRequest) {
-        if(userService.findByUsername(authenticationRequest.getUsername()).isEmpty())
+        Optional<User> user = userService.findByEmail(authenticationRequest.getEmail());
+
+        if(user.isEmpty())
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not registered");
 
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
-                    authenticationRequest.getUsername(), authenticationRequest.getPassword()));
+                    authenticationRequest.getEmail(), authenticationRequest.getPassword()));
         } catch (final BadCredentialsException ex) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid user or password");
         }
 
-        final UserDetails userDetails = jwtUserDetailsService.loadUserByUsername(authenticationRequest.getUsername());
+        final UserDetails userDetails = jwtUserDetailsService.loadUserByUsername(authenticationRequest.getEmail());
 
         return ResponseEntity.ok(new AuthenticationResponse(
-                userDetails, tokenUtil.generateToken(userDetails)));
+                user.get(), tokenUtil.generateToken(userDetails)));
     }
 
     @PostMapping("/register")
     public ResponseEntity<String> register(@RequestBody User user) {
 
-        if(userService.findByUsername(user.getUsername()).isPresent())
+        if(userService.findByEmail(user.getEmail()).isPresent())
             return ResponseEntity.status(HttpStatus.CONFLICT).body("Email already registered");
 
         ResponseEntity<String> res = ValidityUtil.checkUserValidity(user);

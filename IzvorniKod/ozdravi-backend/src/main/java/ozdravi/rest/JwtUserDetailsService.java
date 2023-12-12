@@ -20,12 +20,12 @@ public class JwtUserDetailsService implements UserDetailsService {
     private UserService userService;
 
     @Override
-    public UserDetails loadUserByUsername(final String username) {
-        final User user = userService.findByUsername(username).orElseThrow(
-                () -> new UsernameNotFoundException("User " + username + " not found"));
+    public UserDetails loadUserByUsername(final String email) {
+        final User user = userService.findByEmai(email).orElseThrow(
+                () -> new UsernameNotFoundException("User " + email + " not found"));
 
 //        final List<SimpleGrantedAuthority> roles = Collections.singletonList(new SimpleGrantedAuthority("ADMIN"));
-        return new JwtUserDetails(user.getId(), username, user.getPassword(), authorities(username));
+        return new JwtUserDetails(user.getId(), email, user.getPassword(), authorities(email));
     }
 
     /**
@@ -33,11 +33,12 @@ public class JwtUserDetailsService implements UserDetailsService {
      * @param username username of a user
      * @return list of authorities
      */
-    private List<GrantedAuthority> authorities(String username) {
-        Optional<User> user = userService.findByUsername(username);
+    private List<GrantedAuthority> authorities(String email) {
+        Optional<User> user = userService.findByEmail(email);
         String roles = user.get().getRoles().stream()
                 .map(r -> "ROLE_" + r.getName().toUpperCase())
                 .collect(Collectors.joining(", "));
         return commaSeparatedStringToAuthorityList(roles);
+
     }
 }

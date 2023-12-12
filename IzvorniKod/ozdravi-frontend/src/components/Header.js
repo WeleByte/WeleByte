@@ -23,20 +23,19 @@ const Navbar = () => {
                 break
             case 'bolovanja': navigate('/bolovanja')
                 break
+            case 'profil': navigate('/profil')
+                break
         }
     }
 
-    const handleSignOut = () => {
-        sessionStorage.clear()
-        navigate('/signup')
-    }
+   
 
     return (
 
     
     <div id = "HomePageWrapper">
      
-        <nav className="navbar  navbar-expand-lg navbar-light  px-3 py-3 py-lg-0  " >
+        <nav className="navbar  navbar-expand-lg navbar-light  px-3 py-3 py-lg-0  col-12" >
         <img src = {logoPng} id ="navbarLogo" alt = "" style={{height: "40px !important"}} className='ms-2'></img>
         <button className="navbar-toggler " type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
                 aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
@@ -58,13 +57,13 @@ const Navbar = () => {
 
           { uloga === "roditelj" ? (  <button className="nav-item nav-link">Djeca</button> ) : null }
 
-          <button className="nav-item nav-link" onClick={handleSignOut}>Sign Out</button>
+
         </div>
       </div>
 
 
     
-      <button className="btn btn-secondary me-2 ps-3" id="logOutBtn">
+      <button className="btn btn-secondary me-2 ps-3" id="logOutBtn" onClick={(e) => handleItemClick(e, 'profil')}>
 
   Moj Profil
   <img src={userIcon} id="user-icon-navbar" alt="" width="19" className="ms-3 me-1 mb-0" style={{transform: "translateY(-2px)", display: "inline", opacity: "70%", verticalAlign: "middle" }} />
