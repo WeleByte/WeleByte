@@ -1,4 +1,4 @@
-package ozdravi.rest;
+package ozdravi.rest.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -7,7 +7,11 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import ozdravi.domain.User;
+import ozdravi.rest.ValidityUtil;
+import ozdravi.rest.dto.UserDTO;
 import ozdravi.service.UserService;
+import ozdravi.service.impl.DTOManager;
+
 import java.net.URI;
 import java.time.format.DateTimeParseException;
 import java.util.List;
@@ -18,12 +22,16 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private DTOManager dtoManager;
+
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/users")
     public List<User> getAllUsers() {
         return userService.listAll();
     }
-    
+
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/users")
     public ResponseEntity<User> createUser(@RequestBody User user) {
         User saved = userService.createUser(user);
@@ -42,25 +50,37 @@ public class UserController {
     }
 
     @PutMapping("user/{id}")
-    public ResponseEntity<String> modifyUser(@PathVariable("id") Long id, @RequestBody User userModified){
+    public ResponseEntity<?> modifyUser(@PathVariable("id") Long id, @RequestBody UserDTO userModifiedDTO){
+        userModifiedDTO.setId(id);
 
         Optional<User> optionalUser = userService.findById(id);
         if(optionalUser.isEmpty())
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User doesn't exist");
 
-        ResponseEntity<String> res = ValidityUtil.checkUserValidity(userModified);
-        if(res.getStatusCode()!= HttpStatus.OK)
-            return res;
+        ResponseEntity<String> controlRes = ValidityUtil.checkUserDTOForLoops(userModifiedDTO);
+        if(controlRes.getStatusCode()!= HttpStatus.OK)
+            return controlRes;
+
+        User userModified;
+        try{
+            userModified = dtoManager.userDTOToUser(userModifiedDTO);
+        } catch (IllegalArgumentException e){
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+
+        controlRes = ValidityUtil.checkUserValidity(userModified);
+        if(controlRes.getStatusCode()!= HttpStatus.OK)
+            return controlRes;
 
         try {
             userService.modifyUser(userModified, id);
         } catch (DateTimeParseException e){
             throw e;
-        }catch (Exception e){
+        } catch (Exception e){
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
 
-        return ResponseEntity.ok().body("User successfully modified");
+        return ResponseEntity.ok().body(optionalUser.get());
     }
 
 }

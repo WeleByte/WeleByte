@@ -1,4 +1,4 @@
-package ozdravi.rest;
+package ozdravi.rest.dto;
 
 import lombok.Getter;
 import org.springframework.security.core.userdetails.UserDetails;

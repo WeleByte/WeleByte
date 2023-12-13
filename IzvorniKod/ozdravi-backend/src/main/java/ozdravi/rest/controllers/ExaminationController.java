@@ -1,4 +1,4 @@
-package ozdravi.rest;
+package ozdravi.rest.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -6,8 +6,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ozdravi.domain.Examination;
 import ozdravi.domain.User;
+import ozdravi.rest.dto.ExaminationRequest;
 import ozdravi.service.ExaminationService;
 import ozdravi.service.UserService;
+import ozdravi.service.impl.DTOManager;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeParseException;
@@ -20,7 +22,7 @@ public class ExaminationController {
     private ExaminationService examinationService;
 
     @Autowired
-    private UserService userService;
+    private DTOManager dtoManager;
 
     @GetMapping("/examinations")
     public List<Examination> getAllExaminations() {
@@ -42,7 +44,7 @@ public class ExaminationController {
     public ResponseEntity<?> createExamination(@RequestBody ExaminationRequest examinationRequest) {
 
         try{
-            Examination examination = examRequestToExamination(examinationRequest);
+            Examination examination = dtoManager.examRequestToExamination(examinationRequest);
             return ResponseEntity.ok().body(examinationService.createExamination(examination));
         }catch (IllegalArgumentException e){
 //            ne hvatamo DateTimeParseException; s tim se bavi CustomExceptionHandler
@@ -58,7 +60,7 @@ public class ExaminationController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Examination doesn't exist");
 
         try{
-            Examination examination = examRequestToExamination(examinationRequest);
+            Examination examination = dtoManager.examRequestToExamination(examinationRequest);
             examinationService.modifyExamination(examination, id);
             return ResponseEntity.ok().body("Examination successfully modified");
         } catch(IllegalArgumentException e){
@@ -68,27 +70,5 @@ public class ExaminationController {
         } catch (Exception e){
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
-    }
-
-//    TODO popraviti za address nakon mergea
-//    TODO zamijeniti ovu metodu s klasnom metodom u ExaminationRequest klasi
-    Examination examRequestToExamination(ExaminationRequest examinationRequest) throws IllegalArgumentException, DateTimeParseException {
-        Optional<User> patient = userService.findById(examinationRequest.getPatient_id());
-        Optional<User> doctor = userService.findById(examinationRequest.getDoctor_id());
-        Optional<User> scheduler = userService.findById(examinationRequest.getScheduler_id());
-
-        if(patient.isEmpty() || doctor.isEmpty() || scheduler.isEmpty())
-            throw new IllegalArgumentException("Patient, doctor or scheduler ID not found");
-
-        LocalDateTime parsedDate = LocalDateTime.parse(examinationRequest.getDate());
-
-        return Examination.builder()
-                .patient(patient.get())
-                .doctor(doctor.get())
-                .scheduler(scheduler.get())
-                .address_id(examinationRequest.getAddress_id())
-                .report(examinationRequest.getReport())
-                .date(parsedDate)
-                .build();
     }
 }

@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 @Data
 @AllArgsConstructor
 @Builder
+@EqualsAndHashCode
 public class Examination {
     @Id
     @Setter(AccessLevel.NONE)
@@ -28,8 +29,9 @@ public class Examination {
     @JoinColumn(name = "scheduler_id", nullable = false)
     private User scheduler;
 
-    @Column
-    private Long address_id;
+    @ManyToOne
+    @JoinColumn(name = "address_id")
+    private Address address;
 
     @Column
     private String report;

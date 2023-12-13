@@ -1,4 +1,4 @@
-package ozdravi.rest;
+package ozdravi.rest.jwt;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -21,7 +21,7 @@ public class JwtUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(final String email) {
-        final User user = userService.findByEmai(email).orElseThrow(
+        final User user = userService.findByEmail(email).orElseThrow(
                 () -> new UsernameNotFoundException("User " + email + " not found"));
 
 //        final List<SimpleGrantedAuthority> roles = Collections.singletonList(new SimpleGrantedAuthority("ADMIN"));
