@@ -4,9 +4,9 @@ import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import Navbar from '../components/Header';
 
-const ProfilePage = () => {
+const ProfilePage = (props) => {
 
-  const backendRoute = process.env.REACT_APP_BACKEND_URL || 'http://localhost:8080'
+  const backendRoute = props.backendRoute
   const navigate = useNavigate();
   const user = JSON.parse(sessionStorage.userData)
   const [firstName, setFirstName] = useState(user.first_name)

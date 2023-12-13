@@ -16,8 +16,9 @@ const Users = () => {
 
   const uloga = "doktor"
   const [selectedUsers, setSelectedUsers] = useState('svi')
-  var currentOpenedOptions = null;
-  var optionsOpened= false;
+  let currentOpenedOptions = null;
+  let optionsOpened= false;
+  const [usersList, setUsersList] = useState(null)
 
   const [isAddPatientVisible, showAddPatient] = useState(false);
 
@@ -105,41 +106,47 @@ const Users = () => {
 
 
 
+/*--------------------------------------Hard kodirani useri--------------------------------------------*/
+  // const original = [
+  //     {
+  //         ime: 'Filip', prezime: 'Filipović', lastVisit: '12.1.2023.',
+  //         visitCount: 5, email: 'filip.filipovic@gmail.com', age: 12
+  //     }, {
+  //         ime: 'Ivan', prezime: 'Ivanovic', lastVisit: '25.6.2023.',
+  //         visitCount: 2, email: 'ivan.ivanovic@gmail.com', age: 69
+  //     }, {
+  //         ime: 'Milica', prezime: 'Srbić', lastVisit: '12.1.2023.',
+  //         visitCount: 7, email: 'milica.srbic@gmail.com', age: 23
+  //     }, {
+  //         ime: 'Joža', prezime: 'Mužić', lastVisit: '69.420.1337.',
+  //         visitCount: 89, email: 'jozica.muzic@gmail.com', age: 8
+  //     }, {
+  //         ime: 'Đurđa', prezime: 'Đurđić', lastVisit: '24.2.1923.',
+  //         visitCount: 257, email: 'jozica.muzic@gmail.com', age: 96
+  //     }
+  // ];
 
-  const original = [
-      {
-          ime: 'Filip', prezime: 'Filipović', lastVisit: '12.1.2023.',
-          visitCount: 5, email: 'filip.filipovic@gmail.com', age: 12
-      }, {
-          ime: 'Ivan', prezime: 'Ivanovic', lastVisit: '25.6.2023.',
-          visitCount: 2, email: 'ivan.ivanovic@gmail.com', age: 69
-      }, {
-          ime: 'Milica', prezime: 'Srbić', lastVisit: '12.1.2023.',
-          visitCount: 7, email: 'milica.srbic@gmail.com', age: 23
-      }, {
-          ime: 'Joža', prezime: 'Mužić', lastVisit: '69.420.1337.',
-          visitCount: 89, email: 'jozica.muzic@gmail.com', age: 8
-      }, {
-          ime: 'Đurđa', prezime: 'Đurđić', lastVisit: '24.2.1923.',
-          visitCount: 257, email: 'jozica.muzic@gmail.com', age: 96
-      }
-  ];
+  // let odrasliCount = original.filter(user => user.age >= 18).length
+  // let djecaCount = original.filter(user => user.age < 18).length
+  // let filteredUsers
+  //
+  //   switch(selectedUsers){
+  //       case 'svi' : filteredUsers = original
+  //           break
+  //       case 'odrasli' : filteredUsers = original.filter(user => user.age >= 18)
+  //           break
+  //       case 'djeca' : filteredUsers = original.filter(user => user.age < 18)
+  //           break
+  // }
+/*----------------------------------Kraj hard kodiranih usera------------------------------------*/
 
-  let odrasliCount = original.filter(user => user.age >= 18).length
-  let djecaCount = original.filter(user => user.age < 18).length
-  let filteredUsers
+    useEffect(async () => {
+        const response = await fetch("/users",)
 
-    switch(selectedUsers){
-        case 'svi' : filteredUsers = original
-            break
-        case 'odrasli' : filteredUsers = original.filter(user => user.age >= 18)
-            break
-        case 'djeca' : filteredUsers = original.filter(user => user.age < 18)
-            break
-  }
-
-
-  const finalUsersList = filteredUsers.map((user, index) =>
+    }, []);
+const filteredUsers = ''
+    const finalUsersList = ''
+  filteredUsers.map((user, index) =>
       (
           <tr  style={{ position: 'relative' }}>
               <td scope="row">

@@ -2,9 +2,9 @@ import React from 'react';
 import loginVector from '../assets/images/loginVector.png';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-const SignUpPage = () => {
+const SignUpPage = (props) => {
 
-  const backendRoute = process.env.REACT_APP_BACKEND_URL || 'http://localhost:8080'
+  const backendRoute = props.backendRoute
   const navigate = useNavigate();
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
