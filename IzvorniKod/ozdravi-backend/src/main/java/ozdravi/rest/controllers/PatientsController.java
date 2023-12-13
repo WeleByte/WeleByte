@@ -1,4 +1,4 @@
-package ozdravi.service.impl;
+package ozdravi.rest.controllers;
 
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
