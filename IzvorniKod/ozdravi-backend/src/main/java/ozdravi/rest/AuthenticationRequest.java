@@ -2,21 +2,15 @@ package ozdravi.rest;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import lombok.Getter;
 
+@Getter
 public class AuthenticationRequest {
     @NotNull
     @Size(max = 255)
-    private String username;
+    private String email;
 
     @NotNull
     @Size(max = 255)
     private String password;
-
-    public String getUsername() {
-        return username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
 }

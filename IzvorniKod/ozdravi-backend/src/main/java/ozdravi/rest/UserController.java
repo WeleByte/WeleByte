@@ -3,10 +3,13 @@ package ozdravi.rest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import ozdravi.domain.User;
 import ozdravi.service.UserService;
 import java.net.URI;
+import java.time.format.DateTimeParseException;
 import java.util.List;
 import java.util.Optional;
 
@@ -15,6 +18,7 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/users")
     public List<User> getAllUsers() {
         return userService.listAll();
@@ -50,7 +54,9 @@ public class UserController {
 
         try {
             userService.modifyUser(userModified, id);
-        } catch (Exception e){
+        } catch (DateTimeParseException e){
+            throw e;
+        }catch (Exception e){
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
 

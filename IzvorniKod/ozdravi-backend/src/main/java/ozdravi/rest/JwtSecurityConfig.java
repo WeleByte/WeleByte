@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
@@ -17,6 +18,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
+@EnableMethodSecurity  // omogucava anotacije za autorizaciju
 public class JwtSecurityConfig {
     @Autowired
     JwtRequestFilter jwtRequestFilter;
@@ -40,7 +42,7 @@ public class JwtSecurityConfig {
                         .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)))
                 .authorizeHttpRequests((authorize) -> authorize
                         .requestMatchers("/register", "/login").permitAll()
-                        .anyRequest().hasAuthority("ADMIN"))
+                        .anyRequest().authenticated())
                 .sessionManagement((session) -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
