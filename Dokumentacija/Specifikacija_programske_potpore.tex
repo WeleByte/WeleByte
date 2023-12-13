@@ -335,6 +335,11 @@
 								\item sustav usmjerava korisnika na ponovno ispunjavanje zahtjeva za drugim mišljenjem
 								\item nakon ispravnog unosa, korisnik odabire akciju 'Pošalji zahtjev' te se scenarij nastavlja od koraka 6
 							\end{packed_enum}
+							\item[5.b] korisnik odabire akciju 'Odustani'
+                            \item[] \begin{packed_enum}
+                            	\item sustav zatvara modalni ekran
+								\item prikazuje se prethodni ekran i završava izvođenje ovog scenarija
+							\end{packed_enum}
 						\end{packed_item}
 					\end{packed_item}
 
@@ -396,6 +401,11 @@
 							\item[2.a] ne postoji nijedan pacijent koji nema pridijeljenog liječnika
 							\item[] \begin{packed_enum}
 								\item sustav umjesto popisa pacijenata, prikazuje poruku 'Svi pacijenti imaju pridijeljenog liječnika'
+							\end{packed_enum}
+							\item[3.a] liječnik odustaje od prijave pacijenta
+							\item[] \begin{packed_enum}
+								\item sustav zatvara trenutni ekran
+								\item završava se izvođenje ovog scenarija
 							\end{packed_enum}
 							
 						\end{packed_item}
@@ -466,7 +476,11 @@
 								\item sustav vraća liječnika na izmjenu pogrešnih podataka o pregledu
 								\item scenarij se nastavlja od koraka 5
 							\end{packed_enum}
-							
+							\item [6.b] liječnik odabire opciju 'Odustani'
+							\item [] \begin{packed_enum}
+								\item sustav zatvara modalni ekran
+								\item prikazuje se prethodni ekran i završava izvođenje ovog scenarija
+							\end{packed_enum}
 						\end{packed_item}
 						
 					\end{packed_item}
@@ -491,6 +505,16 @@
 							\item sustav obavještava pedijatra da je preporuka uspješno unesena
 				
 						\end{packed_enum}
+						\item  \textbf{Opis mogućih odstupanja:}
+						
+						\item[] \begin{packed_item}
+	
+							\item[5.a] liječnik odabire opciju 'Odustani'
+							\item [] \begin{packed_enum}
+								\item sustav zatvara modalni ekran
+								\item prikazuje se prethodni ekran i završava izvođenje ovog scenarija
+							\end{packed_enum}
+						\end{packed_item}
                     \end{packed_item}
 						
                     \noindent \underbar{\textbf{UC14 - pošalji ispričnicu u vrtić/školu}}
@@ -523,6 +547,12 @@
 								\item pedijatra se vraća na ponovno popunjavanje ispričnice
 								\item scenarij se nastavlja od koraka 4
 							\end{packed_enum}
+
+							\item[5.b] liječnik odabire opciju 'Odustani'
+							\item [] \begin{packed_enum}
+								\item sustav zatvara modalni ekran
+								\item prikazuje se prethodni ekran i završava izvođenje ovog scenarija
+							\end{packed_enum}
 							
 						\end{packed_item}
 					\end{packed_item}
@@ -545,6 +575,16 @@
                             \item vrijeme i lokacija se šalju pacijenti te je vidljiv pod 'Moji pregledi'
 
 						\end{packed_enum}
+						\item  \textbf{Opis mogućih odstupanja:}
+						
+						\item[] \begin{packed_item}
+	
+							\item[5.a] liječnik odabire opciju 'Odustani'
+							\item [] \begin{packed_enum}
+								\item sustav zatvara modalni ekran
+								\item prikazuje se prethodni ekran i završava izvođenje ovog scenarija
+							\end{packed_enum}
+						\end{packed_item}
 					\end{packed_item}
 
 
@@ -672,6 +712,11 @@
 								\item sustav usmjerava admina na ponovno ispunjavanje podataka
 								\item nakon ispravnog unosa, scenarij se nastavlja od koraka 4
 							\end{packed_enum}
+							\item[3.b] administrator odabire opciju 'Odustani'
+							\item[] \begin{packed_enum}
+								\item sustav zatvara modalni ekran
+								\item prikazuje se prethodni ekran i završava izvođenje ovog scenarija
+							\end{packed_enum}
 						\end{packed_item}
 						
 					\end{packed_item}
@@ -697,7 +742,15 @@
 							\item sustav obavještava administratora da je roditelj uspješno povezan s djetetom
 						
 						\end{packed_enum}
+						\item  \textbf{Opis mogućih odstupanja:}
 						
+						\item[] \begin{packed_item}
+							\item[8.a] administrator odabire opciju 'Odustani'
+							\item [] \begin{packed_enum}
+								\item sustav zatvara modalni ekran
+								\item prikazuje se prethodni ekran i završava izvođenje ovog scenarija
+							\end{packed_enum}
+						\end{packed_item}
 					\end{packed_item}
                     
         
