@@ -1,9 +1,22 @@
+-- noinspection SqlNoDataSourceInspectionForFile
+
+-- noinspection SqlDialectInspectionForFile
+
+-- roles
+insert into roles (name) values ('admin');
+insert into roles (name) values ('child');
+insert into roles (name) values ('doctor');
+insert into roles (name) values ('parent');
+insert into roles (name) values ('pediatrician');
+
 insert into users (email, password, oib, first_name, last_name)
 values ('prvi@mail.com',
         '{bcrypt}$2a$12$vyhf.Rod8fQmYsXi7fooHOGIzq5gLXMZ5kQtzywRCiRrgCe41o9lq',
         '69435151530',
         'Ivan',
         'Horvat');
+
+insert into user_roles (user_id, role_id) values (1, 1);
 
 -- prvi korisnik ima parent, doctor i address id te institution email ==NULL
 -- to se moze lako promijeniti dodavanjem tih polja u prvu zagradu i njihovih vrijednosti u drugu zagradu
@@ -86,3 +99,4 @@ values(4, 2, 3, 3, 'gastroskopija.', '2023-12-25 18:30:00');
 insert into examinations(patient_id, doctor_id, scheduler_id, address_id, report, date)
 values(6, 3, 2, 3, 'pregled stitnjace.', '2023-02-13 14:30:00');
 
+-- pass je 'primus" TODO obrisati komentar u nekom trenutku
