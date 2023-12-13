@@ -20,6 +20,8 @@ const HomePage = () => {
     const user = JSON.parse(sessionStorage.userData);
 
     useEffect(() => {
+
+
         if(bearerToken === '' || bearerToken === null || bearerToken === undefined) {
             navigate('/login');
         }
