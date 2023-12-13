@@ -26,15 +26,6 @@ insert into user_roles (user_id, role_id) values (1, 1);
 
 -------------------------
 
--- roles
-insert into roles (name) values ('admin');
-insert into roles (name) values ('child');
-insert into roles (name) values ('doctor');
-insert into roles (name) values ('parent');
-insert into roles (name) values ('pediatrician');
-
-insert into user_roles(user_id, role_id) values(1, 1);
-
 insert into address(street, number, city, country) values ('Branimirova', '7', 'Zagreb', 'Hrvatska');
 insert into address(street, number, city, country) values ('Ulica Ivana Gundulica', '4', 'Osijek', 'Hrvatska');
 insert into address(street, number, city, country) values ('Petrova ulica', '53', 'Zagreb', 'Hrvatska');
