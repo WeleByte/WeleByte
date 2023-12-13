@@ -35,4 +35,12 @@ public interface UserService {
     void deleteById(Long id);
 
     void modifyUser(User newData, Long id);
+
+    List<User> listChildren(Long parentId);
+
+    List<User> listPatients(Long doctorId);
+
+    List<User> listAvailablePatientsDoctor();
+
+    List<User> listAvailablePatientsPediatrician();
 }

@@ -43,7 +43,6 @@ public class ValidityUtil {
 //            "^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@"
 //            + "[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$";
 
-//    TODO provjeriti je li okej set znakova koje se prihvaca
 //    TODO treba li provjeravati pocinje li ime velikim slovom ILI cemo ga na silu mijenjati u veliko slovo
     private static boolean isValidName(String name){
         return name.length() >= 2

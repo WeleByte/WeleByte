@@ -1,5 +1,6 @@
 package ozdravi.rest.controllers;
 
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import ozdravi.domain.User;
 import ozdravi.rest.ValidityUtil;
 import ozdravi.rest.dto.UserDTO;
+import ozdravi.rest.jwt.JwtTokenUtil;
 import ozdravi.service.UserService;
 import ozdravi.service.impl.DTOManager;
 
@@ -25,10 +27,28 @@ public class UserController {
     @Autowired
     private DTOManager dtoManager;
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @Autowired
+    JwtTokenUtil jwtTokenUtil;
+
     @GetMapping("/users")
-    public List<User> getAllUsers() {
-        return userService.listAll();
+    public ResponseEntity<?> getAllUsers(HttpServletRequest request) {
+        String token = jwtTokenUtil.extractToken(request);
+        String email = jwtTokenUtil.validateTokenAndGetEmail(token);
+        Optional<User> user = userService.findByEmail(email);
+        if(user.isEmpty())
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+
+        Long id = user.get().getId();
+
+        if (request.isUserInRole("ADMIN")) {
+            return ResponseEntity.ok(userService.listAll());
+        } else if (request.isUserInRole("PARENT")) {
+            return ResponseEntity.ok(userService.listChildren(id));
+        } else if (request.isUserInRole("DOCTOR") || request.isUserInRole("PEDIATRICIAN")) {
+            return ResponseEntity.ok(userService.listPatients(id));
+        }
+
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
     }
 
     @PreAuthorize("hasRole('ADMIN')")
