@@ -30,10 +30,10 @@ public class Address {
     private String country;
 
     @Column
-    private float latitude;
+    private Float latitude;
 
     @Column
-    private float longitude;
+    private Float longitude;
 
     public void copyDifferentAttributes(Address other) {
         String[] ignoreProperties = {"id"};
