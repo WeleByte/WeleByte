@@ -3,6 +3,7 @@ package ozdravi.rest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import ozdravi.domain.User;
 import ozdravi.service.UserService;
@@ -20,7 +21,8 @@ public class UserController {
     public List<User> getAllUsers() {
         return userService.listAll();
     }
-    
+
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/users")
     public ResponseEntity<User> createUser(@RequestBody User user) {
         User saved = userService.createUser(user);
