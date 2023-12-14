@@ -38,16 +38,16 @@ const Users = (props) => {
   };
 
   const closeUserOptions = (index) => {
-    console.log("closing")
-    for (var i=0; i <5; i++) {
-        const tbody = document.querySelector(`#usersTable tbody`);
-        const tr = tbody.querySelector(`#usersTable tr:nth-child(${i + 1})`);
-       
-        
-            const userOptions = tr.querySelector('.userOptions');
-           
+    
+    
+      const tbody = document.querySelector(`#usersTable tbody`);
+      const tr = tbody.querySelector(`#usersTable tr:nth-child(${index + 1})`);
+      
+      
+          const userOptions = tr.querySelector('.userOptions');
+          
               userOptions.style.display = 'none';
-    }
+    
    
         
     
@@ -55,9 +55,9 @@ const Users = (props) => {
 
   const openUserOptions = (index) => {
     console.log("opening")
-    for (var i=0; i <5; i++) {
+   /*  for (let i=0; i <users.length; i++) {
         closeUserOptions(i);
-    }
+    } */
 
     optionsOpened = true;
 
@@ -72,39 +72,6 @@ const Users = (props) => {
     currentOpenedOptions = index;
   }
 
-  useEffect(() => {
-    const handleClick = (event) => {
-      // Handle the click event here
-      console.log('Component clicked!', event);
-      const tbody = document.querySelector(`#usersTable tbody`);
-    const tr = tbody.querySelector(`#usersTable tr:nth-child(${currentOpenedOptions + 1})`);
-    
-    const userOptions = tr.querySelector('.userOptions');
-   
-   
-    if (!(userOptions.contains(event.target)) && optionsOpened) {
-       
-
-        
-            if (userOptions.style.display !== "none") {
-                console.log("closing")
-                /* closeUserOptions(currentOpenedOptions);
-                optionsOpened = false */;
-            }
-            
-        
-    }
-
-    };
-
-    // Add click event listener when the component mounts
-    document.addEventListener('click', handleClick);
-
-    // Remove the event listener when the component unmounts
-    return () => {
-      document.removeEventListener('click', handleClick);
-    };
-  }, []); // Empty dependency array ensures the effect runs only once on mount
 
 
 
@@ -144,53 +111,42 @@ const Users = (props) => {
 /*----------------------------------Kraj hard kodiranih usera------------------------------------*/
 
 
-    const response = fetch(backendRoute + "/users",{
-        method: 'GET',
-        headers: {
-            'Authorization' : `Bearer ${bearerToken}`,
-            'Content-Type' : 'application/json'
-        }
-    })
 
-    console.log(response)
-    if(!response.ok){
-        console.log("greska:", response.status, response.statusText)
-    }else{
-        response.json().then(parsedData => {
-         setUsers(parsedData)
-        })
-        console.log(response)
-    }
+// Import statements...
+
+
+  // State and other variables...
+
+  useEffect(() => {
+    fetch(backendRoute + "/users", {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${bearerToken}`,
+        'Content-Type': 'application/json'
+      }
+    })
+      .then(response => {
+        if (!response.ok) {
+          console.log("Error:", response.status, response.statusText);
+        } else {
+          return response.json();
+        }
+      })
+      .then(parsedData => {
+        setUsers(parsedData);
+      })
+      .catch(error => {
+        console.error('Fetch error:', error);
+      });
+  }, []); // Include dependencies in the array if needed
+
+
+
+
+
 
     //TODO rijesiti ispisivanje tablice
-  setFinalUsersList(users.map((user, index) =>
-      (
-          <tr  style={{ position: 'relative' }}>
-              <td scope="row">
-                  <img src = {userIcon} alt = "" width = "14" className='me-3' style={{opacity: "75%"}}></img>
-                  {user.ime + " " + user.prezime}
-              </td>
-              <td>visak</td>
-              <td>visak</td>
-              <td>visak</td>
-              <td>{user.email}</td>
-
-              <td className = "three-dot-td" >
-
-
-                <img width="18" height="18" onClick={() => openUserOptions(index)}  src="https://img.icons8.com/ios-glyphs/30/menu-2.png" alt="menu-2"/></td>
-
-                <ul className="list-group userOptions shadow-lg p-0 border" style={{display:"none"}}>
-                <p className ="mb-2 mt-2 ps-3 py-1" style={{textAlign: "left"}}>Akcije <img className =" mt-1 closeActionsIcon" style={{ height: "19px", float: "right", opacity: "80%"}} onClick={() => closeUserOptions(index)} src={CloseIcon}></img>  </p>
-                <hr className ="mt-0 mb-0" style={{opacity: "20%"}}></hr>
-                <button onClick={toggleNoviPregled} className =" ps-3 col-12 mb-2 mt-2 py-2 novi-pregled-btn" style={{opaciy: "80%",textAlign: "left", fontWeight:"500", border:"none", background:"none"}} > Novi pregled  <img class ="me-3 mt-1" style={{ height: "19px", float: "right", opacity: "80%" }} src={Plus2Icon}></img> </button>
-
-                <button className =" ps-3  col-12 mb-2 py-2 delete-btn" style={{opaciy: "80%",textAlign: "left", fontWeight:"500", border:"none", background:"none"}}> Izbriši <img class ="me-3 mt-1" style={{ height: "19px", float: "right", opacity: "800%" }}  src={TrashIcon}></img> </button>
-
-                </ul>
-
-          </tr>
-      )))
+  
 
 
 
@@ -208,7 +164,7 @@ const Users = (props) => {
     <div id = "usersWrapperInner">
    
 
-    <h3 className = "pt-3 px-4 mt-2 " style={{textAlign: "left", maxWidth: "1246px"}}>Pacijenti {/* <button className='btn btn-tertiary mt-1' style={{float: 'right'}}>Povijest </button>  */} <button class = "btn btn-primary" style={{float:"right"}} onClick= {toggleAddPatient}>Novi Pacijent +</button> </h3>
+    <h3 className = "pt-3 px-4 mt-2 " style={{textAlign: "left", maxWidth: "1246px"}}>Pacijenti {/* <button className='btn btn-tertiary mt-1' style={{float: 'right'}}>Povijest </button>  */} <button className = "btn btn-primary" style={{float:"right"}} onClick= {toggleAddPatient}>Novi Pacijent +</button> </h3>
 {/* <p style={{textAlign: "left", maxWidth: "1200px"}} className = "px-4 mb-2 ">{odrasliCount + djecaCount} pacijenata</p> */}
 
 
@@ -233,7 +189,7 @@ const Users = (props) => {
 <div id = "patientSearchBoxDiv" className='px-4 pt-3 ' >
 
 <div class="input-group mb-0 mx-0  p-3 searchContainer" style={{maxWidth: "1200px"}} >
-<img src= {searchIcon} class = "searchIconUsers"></img>
+<img src= {searchIcon} className = "searchIconUsers"></img>
   <input type="text" class="form-control me-0 searchInput" style = {{ borderTopRightRadius: "7px", borderBottomRightRadius: "7px", }} placeholder="Pretraži" aria-label="Recipient's email" aria-describedby="basic-addon2" ></input>
  
 </div>
@@ -260,13 +216,39 @@ const Users = (props) => {
     </tr>
   </thead>
   <tbody>
-    {finalUsersList}
+    {users.map((user, index) => (
+          <tr  style={{ position: 'relative' }}>
+          <td scope="row">
+              <img src = {userIcon} alt = "" width = "14" className='me-3' style={{opacity: "75%"}}></img>
+              {user.first_name + " " + user.last_name}
+          </td>
+          <td>visak</td>
+          <td>visak</td>
+          <td>visak</td>
+          <td>{user.email}</td>
+
+          <td className = "three-dot-td" >
+
+
+            <img width="18" height="18" onClick={() => openUserOptions(index)}  src="https://img.icons8.com/ios-glyphs/30/menu-2.png" alt="menu-2"/></td>
+
+            <ul className="list-group userOptions shadow-lg p-0 border" style={{display:"none"}}>
+            <p className ="mb-2 mt-2 ps-3 py-1" style={{textAlign: "left"}}>Akcije <img className =" mt-1 closeActionsIcon" style={{ height: "19px", float: "right", opacity: "80%"}} onClick={() => closeUserOptions(index)} src={CloseIcon}></img>  </p>
+            <hr className ="mt-0 mb-0" style={{opacity: "20%"}}></hr>
+            <button onClick={toggleNoviPregled} className =" ps-3 col-12 mb-2 mt-2 py-2 novi-pregled-btn" style={{opaciy: "80%",textAlign: "left", fontWeight:"500", border:"none", background:"none"}} > Novi pregled  <img class ="me-3 mt-1" style={{ height: "19px", float: "right", opacity: "80%" }} src={Plus2Icon}></img> </button>
+
+            <button className =" ps-3  col-12 mb-2 py-2 delete-btn" style={{opaciy: "80%",textAlign: "left", fontWeight:"500", border:"none", background:"none"}}> Izbriši <img class ="me-3 mt-1" style={{ height: "19px", float: "right", opacity: "800%" }}  src={TrashIcon}></img> </button>
+
+            </ul>
+
+      </tr>
+        ))}
 
   </tbody>
 </table>
 <div class="input-group mb-0 mx-0  paginationContainer " style={{maxWidth: "1200px"}} >
 
-<span class = "me-3">1-5 of 6</span>   
+<span className = "me-3">1-5 of 6</span>   
 <img src= {chevronLeft} style={{float: "right"}} class = "chevronIcon"></img>
 <img src= {chevronRight} style={{float: "right"}} class = "chevronIcon"></img>
 
