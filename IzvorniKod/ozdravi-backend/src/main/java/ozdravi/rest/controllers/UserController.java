@@ -4,7 +4,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import ozdravi.domain.User;
@@ -16,7 +15,6 @@ import ozdravi.service.impl.DTOManager;
 
 import java.net.URI;
 import java.time.format.DateTimeParseException;
-import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -32,9 +30,7 @@ public class UserController {
 
     @GetMapping("/users")
     public ResponseEntity<?> getAllUsers(HttpServletRequest request) {
-        String token = jwtTokenUtil.extractToken(request);
-        String email = jwtTokenUtil.validateTokenAndGetEmail(token);
-        Optional<User> user = userService.findByEmail(email);
+        Optional<User> user = jwtTokenUtil.getUserFromRequest(request);
         if(user.isEmpty())
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
 

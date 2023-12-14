@@ -4,8 +4,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import ozdravi.domain.User;
 import ozdravi.rest.jwt.JwtTokenUtil;
 import ozdravi.service.UserService;
@@ -22,9 +21,7 @@ public class PatientsController {
 
     @GetMapping("/patients/available")
     public ResponseEntity<?> getAllAvailablePatients(HttpServletRequest request) {
-        String token = jwtTokenUtil.extractToken(request);
-        String email = jwtTokenUtil.validateTokenAndGetEmail(token);
-        Optional<User> user = userService.findByEmail(email);
+        Optional<User> user = jwtTokenUtil.getUserFromRequest(request);
         if(user.isEmpty())
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
 
@@ -36,7 +33,45 @@ public class PatientsController {
             return ResponseEntity.ok(userService.listAvailablePatientsPediatrician());
         }
 
-        return ResponseEntity.status(HttpStatus.FORBIDDEN).body("You are not authorized to view this page");
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body("You are not authorized to view this info");
+    }
+
+    @PutMapping("/patients/{id}")
+    public ResponseEntity<?> addPatient(HttpServletRequest request, @PathVariable("id") Long id) {
+        Optional<User> optionalDoctor = jwtTokenUtil.getUserFromRequest(request);
+        if(optionalDoctor.isEmpty())
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+
+        if(request.isUserInRole("ADMIN")){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Admin cannot assign patients to self");
+        } else if(request.isUserInRole("DOCTOR") || request.isUserInRole("PEDIATRICIAN")){
+            Optional<User> optionalPatient = userService.findById(id);
+            if(optionalPatient.isEmpty())
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Patient with given id does not exist");
+            optionalPatient.get().setDoctor(optionalDoctor.get());
+            return ResponseEntity.ok("Patient successfully assigned to you");
+        }
+
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body("You are not authorized to assign patients");
+    }
+
+    @DeleteMapping("/patients/{id}")
+    public ResponseEntity<?> removePatient(HttpServletRequest request, @PathVariable("id") Long id){
+        Optional<User> optionalDoctor = jwtTokenUtil.getUserFromRequest(request);
+        if(optionalDoctor.isEmpty())
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+
+        if(request.isUserInRole("ADMIN")) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Admin cannot unassign patients from self");
+        } else if(request.isUserInRole("DOCTOR") || request.isUserInRole("PEDIATRICIAN")){
+            Optional<User> optionalPatient = userService.findById(id);
+            if(optionalPatient.isEmpty())
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Patient with given id does not exist");
+            optionalPatient.get().setDoctor(null);
+            return ResponseEntity.ok("Patient successfully unassigned to you");
+        }
+
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body("You are not authorized to unassign patients");
     }
 
 }
