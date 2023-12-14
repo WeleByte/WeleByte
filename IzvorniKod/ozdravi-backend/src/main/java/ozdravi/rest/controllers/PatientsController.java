@@ -3,6 +3,7 @@ package ozdravi.rest.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import ozdravi.domain.User;
 import ozdravi.service.UserService;
@@ -17,6 +18,7 @@ public class PatientsController {
     @Autowired
     SecurityContextService securityContextService;
 
+    @PreAuthorize("hasAnyRole('ADMIN', 'DOCTOR', 'PEDIATRICIAN')")
     @GetMapping("/patients/available")
     public ResponseEntity<?> getAllAvailablePatients() {
         Optional<User> user = securityContextService.getLoggedInUser();
@@ -34,6 +36,7 @@ public class PatientsController {
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body("You are not authorized to view this info");
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN', 'DOCTOR', 'PEDIATRICIAN')")
     @PutMapping("/patients/{id}")
     public ResponseEntity<?> addPatient(@PathVariable("id") Long id) {
         Optional<User> optionalDoctor = securityContextService.getLoggedInUser();
@@ -53,6 +56,7 @@ public class PatientsController {
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body("You are not authorized to assign patients");
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN', 'DOCTOR', 'PEDIATRICIAN')")
     @DeleteMapping("/patients/{id}")
     public ResponseEntity<?> removePatient(@PathVariable("id") Long id){
         Optional<User> optionalDoctor = securityContextService.getLoggedInUser();
