@@ -49,7 +49,21 @@ public class UserController {
 
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/users")
-    public ResponseEntity<User> createUser(@RequestBody User user) {
+    public ResponseEntity<?> createUser(@RequestBody UserDTO userDTO) {
+        ResponseEntity<String> controlRes = ValidityUtil.checkUserDTOForLoops(userDTO);
+        if(controlRes.getStatusCode()!= HttpStatus.OK)
+            return ResponseEntity.badRequest().body("User can't be own parent or doctor");
+
+        User user;
+        try {
+            user = dtoManager.userDTOToUser(userDTO);
+            controlRes = ValidityUtil.checkUserValidity(user);
+            if(controlRes.getStatusCode()!= HttpStatus.OK)
+                return controlRes;
+        } catch (IllegalArgumentException e){
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+
         User saved = userService.createUser(user);
         return ResponseEntity.created(URI.create("/users/" + saved.getId())).body(saved);
     }
