@@ -1,6 +1,5 @@
 package ozdravi.rest.controllers;
 
-import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -9,10 +8,9 @@ import org.springframework.web.bind.annotation.*;
 import ozdravi.domain.User;
 import ozdravi.rest.ValidityUtil;
 import ozdravi.rest.dto.UserDTO;
-import ozdravi.rest.jwt.JwtTokenUtil;
 import ozdravi.service.UserService;
 import ozdravi.service.impl.DTOManager;
-
+import ozdravi.service.impl.SecurityContextService;
 import java.net.URI;
 import java.time.format.DateTimeParseException;
 import java.util.Optional;
@@ -26,21 +24,21 @@ public class UserController {
     private DTOManager dtoManager;
 
     @Autowired
-    JwtTokenUtil jwtTokenUtil;
+    SecurityContextService securityContextService;
 
     @GetMapping("/users")
-    public ResponseEntity<?> getAllUsers(HttpServletRequest request) {
-        Optional<User> user = jwtTokenUtil.getUserFromRequest(request);
+    public ResponseEntity<?> getAllUsers() {
+        Optional<User> user = securityContextService.getLoggedInUser();
         if(user.isEmpty())
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
 
         Long id = user.get().getId();
 
-        if (request.isUserInRole("ADMIN")) {
+        if (securityContextService.isUserInRole("ADMIN")) {
             return ResponseEntity.ok(userService.listAll());
-        } else if (request.isUserInRole("PARENT")) {
+        } else if (securityContextService.isUserInRole("PARENT")) {
             return ResponseEntity.ok(userService.listChildren(id));
-        } else if (request.isUserInRole("DOCTOR") || request.isUserInRole("PEDIATRICIAN")) {
+        } else if (securityContextService.isUserInRole("DOCTOR") || securityContextService.isUserInRole("PEDIATRICIAN")) {
             return ResponseEntity.ok(userService.listPatients(id));
         }
 
@@ -69,11 +67,11 @@ public class UserController {
     }
 
     @GetMapping("/user/{id}")
-    public ResponseEntity<?> getUser(@PathVariable("id") Long id, HttpServletRequest request) {
-        Optional<User> workingUser = jwtTokenUtil.getUserFromRequest(request);
+    public ResponseEntity<?> getUser(@PathVariable("id") Long id) {
+        Optional<User> workingUser = securityContextService.getLoggedInUser();
         if(workingUser.isEmpty())
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        if(!workingUser.get().getId().equals(id) && !request.isUserInRole("ADMIN"))
+        if(!workingUser.get().getId().equals(id) && !securityContextService.isUserInRole("ADMIN"))
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body("You are not authorized to view this info");
 
         Optional<User> user = userService.findById(id);
@@ -86,12 +84,11 @@ public class UserController {
     }
 
     @PutMapping("user/{id}")
-    public ResponseEntity<?> modifyUser(@PathVariable("id") Long id, @RequestBody UserDTO userModifiedDTO,
-                                        HttpServletRequest request){
-        Optional<User> workingUser = jwtTokenUtil.getUserFromRequest(request);
+    public ResponseEntity<?> modifyUser(@PathVariable("id") Long id, @RequestBody UserDTO userModifiedDTO){
+        Optional<User> workingUser = securityContextService.getLoggedInUser();
         if(workingUser.isEmpty())
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        if(!workingUser.get().getId().equals(id) && !request.isUserInRole("ADMIN"))
+        if(!workingUser.get().getId().equals(id) && !securityContextService.isUserInRole("ADMIN"))
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body("You are not authorized to modify this user");
 
         userModifiedDTO.setId(id);

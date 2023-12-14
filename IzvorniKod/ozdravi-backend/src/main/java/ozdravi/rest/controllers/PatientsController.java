@@ -1,14 +1,12 @@
 package ozdravi.rest.controllers;
 
-import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ozdravi.domain.User;
-import ozdravi.rest.jwt.JwtTokenUtil;
 import ozdravi.service.UserService;
-
+import ozdravi.service.impl.SecurityContextService;
 import java.util.Optional;
 
 @RestController
@@ -17,19 +15,19 @@ public class PatientsController {
     private UserService userService;
 
     @Autowired
-    JwtTokenUtil jwtTokenUtil;
+    SecurityContextService securityContextService;
 
     @GetMapping("/patients/available")
-    public ResponseEntity<?> getAllAvailablePatients(HttpServletRequest request) {
-        Optional<User> user = jwtTokenUtil.getUserFromRequest(request);
+    public ResponseEntity<?> getAllAvailablePatients() {
+        Optional<User> user = securityContextService.getLoggedInUser();
         if(user.isEmpty())
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
 
-        if(request.isUserInRole("ADMIN")){
+        if(securityContextService.isUserInRole("ADMIN")){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Admin cannot have available patients");
-        } else if(request.isUserInRole("DOCTOR")){
+        } else if(securityContextService.isUserInRole("DOCTOR")){
             return ResponseEntity.ok(userService.listAvailablePatientsDoctor());
-        } else if(request.isUserInRole("PEDIATRICIAN")){
+        } else if(securityContextService.isUserInRole("PEDIATRICIAN")){
             return ResponseEntity.ok(userService.listAvailablePatientsPediatrician());
         }
 
@@ -37,14 +35,14 @@ public class PatientsController {
     }
 
     @PutMapping("/patients/{id}")
-    public ResponseEntity<?> addPatient(HttpServletRequest request, @PathVariable("id") Long id) {
-        Optional<User> optionalDoctor = jwtTokenUtil.getUserFromRequest(request);
+    public ResponseEntity<?> addPatient(@PathVariable("id") Long id) {
+        Optional<User> optionalDoctor = securityContextService.getLoggedInUser();
         if(optionalDoctor.isEmpty())
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
 
-        if(request.isUserInRole("ADMIN")){
+        if(securityContextService.isUserInRole("ADMIN")){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Admin cannot assign patients to self");
-        } else if(request.isUserInRole("DOCTOR") || request.isUserInRole("PEDIATRICIAN")){
+        } else if(securityContextService.isUserInRole("DOCTOR") || securityContextService.isUserInRole("PEDIATRICIAN")){
             Optional<User> optionalPatient = userService.findById(id);
             if(optionalPatient.isEmpty())
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Patient with given id does not exist");
@@ -56,14 +54,14 @@ public class PatientsController {
     }
 
     @DeleteMapping("/patients/{id}")
-    public ResponseEntity<?> removePatient(HttpServletRequest request, @PathVariable("id") Long id){
-        Optional<User> optionalDoctor = jwtTokenUtil.getUserFromRequest(request);
+    public ResponseEntity<?> removePatient(@PathVariable("id") Long id){
+        Optional<User> optionalDoctor = securityContextService.getLoggedInUser();
         if(optionalDoctor.isEmpty())
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
 
-        if(request.isUserInRole("ADMIN")) {
+        if(securityContextService.isUserInRole("ADMIN")) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Admin cannot unassign patients from self");
-        } else if(request.isUserInRole("DOCTOR") || request.isUserInRole("PEDIATRICIAN")){
+        } else if(securityContextService.isUserInRole("DOCTOR") || securityContextService.isUserInRole("PEDIATRICIAN")){
             Optional<User> optionalPatient = userService.findById(id);
             if(optionalPatient.isEmpty())
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Patient with given id does not exist");

@@ -48,19 +48,4 @@ public class JwtTokenUtil {
             return null;
         }
     }
-
-    public String extractToken(HttpServletRequest request) {
-        final String header = request.getHeader("Authorization");
-        if (header == null || !header.startsWith("Bearer ")) {
-            return null;
-        }
-        return header.substring(7);
-    }
-
-    //
-    public Optional<User> getUserFromRequest(HttpServletRequest request){
-        String token = extractToken(request);
-        String email = validateTokenAndGetEmail(token);
-        return userService.findByEmail(email);
-    }
 }
