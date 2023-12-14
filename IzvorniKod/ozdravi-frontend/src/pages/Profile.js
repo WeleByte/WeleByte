@@ -5,7 +5,6 @@ import { useState } from 'react';
 import Navbar from '../components/Header';
 
 const ProfilePage = (props) => {
-
   const backendRoute = props.backendRoute
   const navigate = useNavigate();
   const user = JSON.parse(sessionStorage.userData)

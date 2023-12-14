@@ -12,15 +12,18 @@ import Plus2Icon from '../assets/icons/plus2.png'
 import NoviPregled from '../components/NoviPregled';
 
 
-const Users = () => {
+const Users = (props) => {
 
+  const backendRoute = props.backendRoute
+  const bearerToken = sessionStorage.bearerToken
   const uloga = "doktor"
   const [selectedUsers, setSelectedUsers] = useState('svi')
   let currentOpenedOptions = null;
   let optionsOpened= false;
   const [usersList, setUsersList] = useState(null)
-
   const [isAddPatientVisible, showAddPatient] = useState(false);
+  const [finalUsersList, setFinalUsersList] = useState([])
+  const [users, setUsers] = useState([])
 
   const toggleAddPatient = () => {
     showAddPatient(!isAddPatientVisible);
@@ -140,40 +143,54 @@ const Users = () => {
   // }
 /*----------------------------------Kraj hard kodiranih usera------------------------------------*/
 
-    useEffect(async () => {
-        const response = await fetch("/users",)
 
-    }, []);
-const filteredUsers = ''
-    const finalUsersList = ''
-  filteredUsers.map((user, index) =>
+    const response = fetch(backendRoute + "/users",{
+        method: 'GET',
+        headers: {
+            'Authorization' : `Bearer ${bearerToken}`,
+            'Content-Type' : 'application/json'
+        }
+    })
+
+    console.log(response)
+    if(!response.ok){
+        console.log("greska:", response.status, response.statusText)
+    }else{
+        response.json().then(parsedData => {
+         setUsers(parsedData)
+        })
+        console.log(response)
+    }
+
+    //TODO rijesiti ispisivanje tablice
+  setFinalUsersList(users.map((user, index) =>
       (
           <tr  style={{ position: 'relative' }}>
               <td scope="row">
                   <img src = {userIcon} alt = "" width = "14" className='me-3' style={{opacity: "75%"}}></img>
                   {user.ime + " " + user.prezime}
               </td>
-              <td>{user.age}</td>
-              <td>{user.lastVisit}</td>
-              <td>{user.visitCount}</td>
+              <td>visak</td>
+              <td>visak</td>
+              <td>visak</td>
               <td>{user.email}</td>
 
-              <td class = "three-dot-td" >
-              
+              <td className = "three-dot-td" >
+
 
                 <img width="18" height="18" onClick={() => openUserOptions(index)}  src="https://img.icons8.com/ios-glyphs/30/menu-2.png" alt="menu-2"/></td>
 
-                <ul class="list-group userOptions shadow-lg p-0 border" style={{display:"none"}}>
-                <p class ="mb-2 mt-2 ps-3 py-1" style={{textAlign: "left"}}>Akcije <img class =" mt-1 closeActionsIcon" style={{ height: "19px", float: "right", opacity: "80%"}} onClick={() => closeUserOptions(index)} src={CloseIcon}></img>  </p>
-                <hr class ="mt-0 mb-0" style={{opacity: "20%"}}></hr>
-                <button onClick={toggleNoviPregled} class =" ps-3 col-12 mb-2 mt-2 py-2 novi-pregled-btn" style={{opaciy: "80%",textAlign: "left", fontWeight:"500", border:"none", background:"none"}} > Novi pregled  <img class ="me-3 mt-1" style={{ height: "19px", float: "right", opacity: "80%" }} src={Plus2Icon}></img> </button>
-                
-                <button class =" ps-3  col-12 mb-2 py-2 delete-btn" style={{opaciy: "80%",textAlign: "left", fontWeight:"500", border:"none", background:"none"}}> Izbriši <img class ="me-3 mt-1" style={{ height: "19px", float: "right", opacity: "800%" }}  src={TrashIcon}></img> </button>
-                
+                <ul className="list-group userOptions shadow-lg p-0 border" style={{display:"none"}}>
+                <p className ="mb-2 mt-2 ps-3 py-1" style={{textAlign: "left"}}>Akcije <img className =" mt-1 closeActionsIcon" style={{ height: "19px", float: "right", opacity: "80%"}} onClick={() => closeUserOptions(index)} src={CloseIcon}></img>  </p>
+                <hr className ="mt-0 mb-0" style={{opacity: "20%"}}></hr>
+                <button onClick={toggleNoviPregled} className =" ps-3 col-12 mb-2 mt-2 py-2 novi-pregled-btn" style={{opaciy: "80%",textAlign: "left", fontWeight:"500", border:"none", background:"none"}} > Novi pregled  <img class ="me-3 mt-1" style={{ height: "19px", float: "right", opacity: "80%" }} src={Plus2Icon}></img> </button>
+
+                <button className =" ps-3  col-12 mb-2 py-2 delete-btn" style={{opaciy: "80%",textAlign: "left", fontWeight:"500", border:"none", background:"none"}}> Izbriši <img class ="me-3 mt-1" style={{ height: "19px", float: "right", opacity: "800%" }}  src={TrashIcon}></img> </button>
+
                 </ul>
 
           </tr>
-      ))
+      )))
 
 
 
