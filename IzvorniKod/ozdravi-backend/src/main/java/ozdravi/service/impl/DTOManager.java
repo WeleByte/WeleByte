@@ -1,6 +1,7 @@
 package ozdravi.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import ozdravi.domain.Address;
 import ozdravi.domain.Examination;
@@ -28,6 +29,9 @@ public class DTOManager {
 
     @Autowired
     private AddressService addressService;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     public Examination examRequestToExamination(ExaminationRequest examinationRequest) throws IllegalArgumentException, DateTimeParseException {
         Optional<User> patient = userService.findById(examinationRequest.getPatient_id());
@@ -58,12 +62,14 @@ public class DTOManager {
 
     public User userDTOToUser(UserDTO userDTO) throws IllegalArgumentException {
         Long parent_id = userDTO.getParent_id();
-        Long doctor_id = userDTO.getDoctor_id();
+        Long doctor_id = userDTO.getDoctor_id();<
         Long address_id = userDTO.getAddress_id();
 
         Optional<User> parent = parent_id==null ? Optional.empty() : userService.findById(userDTO.getParent_id());
         Optional<User> doctor = doctor_id==null ? Optional.empty() : userService.findById(userDTO.getDoctor_id());
         Optional<Address> address = address_id==null ? Optional.empty() : addressService.findById(userDTO.getAddress_id());
+
+        userDTO.setPassword(passwordEncoder.encode(userDTO.getPassword()));
 
         return User.builder()
                 .email(userDTO.getEmail())
