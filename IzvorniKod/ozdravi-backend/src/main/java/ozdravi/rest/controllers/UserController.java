@@ -55,7 +55,13 @@ public class UserController {
     }
 
     @GetMapping("/user/{id}")
-    public ResponseEntity<?> getUser(@PathVariable("id") Long id) {
+    public ResponseEntity<?> getUser(@PathVariable("id") Long id, HttpServletRequest request) {
+        Optional<User> workingUser = jwtTokenUtil.getUserFromRequest(request);
+        if(workingUser.isEmpty())
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        if(!workingUser.get().getId().equals(id) && !request.isUserInRole("ADMIN"))
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("You are not authorized to view this info");
+
         Optional<User> user = userService.findById(id);
 
         if(user.isPresent()) {
@@ -66,7 +72,14 @@ public class UserController {
     }
 
     @PutMapping("user/{id}")
-    public ResponseEntity<?> modifyUser(@PathVariable("id") Long id, @RequestBody UserDTO userModifiedDTO){
+    public ResponseEntity<?> modifyUser(@PathVariable("id") Long id, @RequestBody UserDTO userModifiedDTO,
+                                        HttpServletRequest request){
+        Optional<User> workingUser = jwtTokenUtil.getUserFromRequest(request);
+        if(workingUser.isEmpty())
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        if(!workingUser.get().getId().equals(id) && !request.isUserInRole("ADMIN"))
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("You are not authorized to modify this user");
+
         userModifiedDTO.setId(id);
 
         Optional<User> optionalUser = userService.findById(id);
