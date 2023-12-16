@@ -39,7 +39,11 @@
 			%dio 2. revizije
 			
 			 %Potrebno je umetnuti specifikacijski dijagram razmještaja i opisati ga. Moguće je umjesto specifikacijskog dijagrama razmještaja umetnuti dijagram razmještaja instanci, pod uvjetom da taj dijagram bolje opisuje neki važniji dio sustava.
-			
+			 Dijagrami razmještaja prikazuju konfiguraciju sklopovlja i programske podrške koja se koristi za implementaciju sustava u njegovom operativnom okruženju. Na cloud platformi smješten je poslužitelj baze podataka te web poslužitelji za backend i frontend. Korisnici pristupaju web aplikaciji putem svog web preglednika. Sustav je baziran na arhitekturi "klijent - poslužitelj" s komunikacijom između korisničkih računala(roditelj, pedijatar, doktor, administrator) i poslužitelja putem HTTPS veze.
+			\begin{figure}[H]
+				\includegraphics[width=\textwidth]{slike/deploymentDiagram.png} 
+				\caption{Dijagram razmještaja} 
+			\end{figure}
 			\eject 
 		
 		\section{Upute za puštanje u pogon}
