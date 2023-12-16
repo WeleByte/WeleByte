@@ -1,4 +1,4 @@
-package ozdravi.rest;
+package ozdravi.rest.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

@@ -1,4 +1,4 @@
-package ozdravi.rest;
+package ozdravi.rest.controllers;
 
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,10 +13,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import ozdravi.domain.Role;
 import ozdravi.domain.User;
+import ozdravi.rest.dto.AuthenticationRequest;
+import ozdravi.rest.dto.AuthenticationResponse;
+import ozdravi.rest.ValidityUtil;
+import ozdravi.rest.jwt.JwtTokenUtil;
+import ozdravi.rest.jwt.JwtUserDetailsService;
 import ozdravi.service.RoleService;
 import ozdravi.service.UserService;
-import java.util.ArrayList;
-import java.util.Collection;
+
 import java.util.List;
 import java.util.Optional;
 

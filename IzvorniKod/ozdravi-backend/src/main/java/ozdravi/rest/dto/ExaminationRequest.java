@@ -1,4 +1,4 @@
-package ozdravi.rest;
+package ozdravi.rest.dto;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
@@ -15,19 +15,11 @@ import java.util.Optional;
 @Component
 @Data
 public class ExaminationRequest {
-    @NotNull
     Long patient_id;
-
-    @NotNull
     Long doctor_id;
-
-    @NotNull
     Long scheduler_id;
-
     Long address_id;
-
     String report;
-
     String date;
 
     public ExaminationRequest() {
@@ -37,7 +29,7 @@ public class ExaminationRequest {
         this.patient_id = examination.getPatient().getId();
         this.doctor_id = examination.getDoctor().getId();
         this.scheduler_id = examination.getScheduler().getId();
-        this.address_id = examination.getAddress_id();
+        this.address_id = examination.getAddress().getId();
         this.report = examination.getReport();
         this.date = examination.getDate().toString();
     }

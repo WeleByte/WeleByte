@@ -55,4 +55,24 @@ public class UserServiceJpa implements UserService {
             userRepository.save(existingUser);
         }
     }
+
+    @Override
+    public List<User> listChildren(Long parentId) {
+        return userRepository.listChildren(parentId);
+    }
+
+    @Override
+    public List<User> listPatients(Long doctorId) {
+        return userRepository.listPatients(doctorId);
+    }
+
+    @Override
+    public List<User> listAvailablePatientsDoctor() {
+        return userRepository.listAvailablePatientsDoctor();
+    }
+
+    @Override
+    public List<User> listAvailablePatientsPediatrician() {
+        return userRepository.listAvailablePatientsPediatrician();
+    }
 }
