@@ -5,8 +5,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import ozdravi.domain.Address;
 import ozdravi.domain.Examination;
+import ozdravi.domain.SLR;
 import ozdravi.domain.User;
 import ozdravi.rest.dto.ExaminationRequest;
+import ozdravi.rest.dto.SLRDTO;
 import ozdravi.rest.dto.UserDTO;
 import ozdravi.service.AddressService;
 import ozdravi.service.ExaminationService;
@@ -14,7 +16,6 @@ import ozdravi.service.UserService;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeParseException;
-import java.util.Objects;
 import java.util.Optional;
 
 //klasa zaduzena za prebacivanje DTO tipova podataka u domenske tipove podataka i obrnuto
@@ -42,7 +43,7 @@ public class DTOManager {
         Optional<Address> address = address_id==null ? Optional.empty() : addressService.findById(examinationRequest.getAddress_id());
 
         if(patient.isEmpty() || doctor.isEmpty() || scheduler.isEmpty())
-            throw new IllegalArgumentException("Patient, doctor or scheduler ID not found");
+            throw new IllegalArgumentException("Patient, doctor or scheduler ID doesn't exist in database");
 
         LocalDateTime parsedDate = LocalDateTime.parse(examinationRequest.getDate());
 
@@ -62,7 +63,7 @@ public class DTOManager {
 
     public User userDTOToUser(UserDTO userDTO) throws IllegalArgumentException {
         Long parent_id = userDTO.getParent_id();
-        Long doctor_id = userDTO.getDoctor_id();<
+        Long doctor_id = userDTO.getDoctor_id();
         Long address_id = userDTO.getAddress_id();
 
         Optional<User> parent = parent_id==null ? Optional.empty() : userService.findById(userDTO.getParent_id());
@@ -86,5 +87,29 @@ public class DTOManager {
 
     public UserDTO userToUserDTO(User user) {
         return new UserDTO(user);
+    }
+
+    public SLR slrdtoToSLR(SLRDTO slrDTO) throws IllegalArgumentException {
+        Optional<User> patient = userService.findById(slrDTO.getParent_id());
+        Optional<User> creator = userService.findById(slrDTO.getCreator_id());
+        Optional<User> approver = userService.findById(slrDTO.getApprover_id());
+        Optional<Examination> examination = examinationService.findById(slrDTO.getExamination_id());
+
+        if(!slrDTO.getStatus()) slrDTO.setStatus(false);
+
+        if(patient.isEmpty() || creator.isEmpty() || approver.isEmpty() || examination.isEmpty())
+            throw new IllegalArgumentException("Patient, creator, approver or examination ID doesn't exist in database");
+
+        return SLR.builder()
+                .parent(patient.get())
+                .creator(creator.get())
+                .approver(approver.get())
+                .examination(examination.get())
+                .status(slrDTO.getStatus())
+                .build();
+    }
+
+    public SLRDTO slrToSLRDTO(SLR slr) {
+        return new SLRDTO(slr);
     }
 }
