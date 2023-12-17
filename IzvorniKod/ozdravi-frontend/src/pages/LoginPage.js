@@ -2,9 +2,9 @@ import React, {useState} from 'react';
 import loginVector from '../assets/images/loginVector.png';
 import { useNavigate } from 'react-router-dom';
 
-const LoginPage = () => {
+const LoginPage = (props) => {
     const navigate = useNavigate();
-    const backendRoute = process.env.REACT_APP_BACKEND_URL || 'http://localhost:8080'
+    const backendRoute = props.backendRoute
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [loginFailed, setLoginFailed] = useState(false)
@@ -46,7 +46,7 @@ const LoginPage = () => {
             setLoginFailed(false)
             const responseData = await response.json()
             sessionStorage.setItem('bearerToken', responseData.accessToken)
-            sessionStorage.setItem('user', JSON.stringify(responseData.user))
+            sessionStorage.setItem('userData', JSON.stringify(responseData.user))
 
             navigate('/home');
         }

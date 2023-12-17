@@ -10,9 +10,10 @@ import SecondOpinions from './pages/SecondOpinions';
 import Bolovanja from './pages/Bolovanja';
 import ProfilePage from './pages/Profile.js';
 import Navbar from './components/Header.js';
+import Examinations from "./pages/Examinations";
 
 function App({wordIn}) {
-  const [word, setWord] = useState(wordIn);
+    const backendRoute = process.env.REACT_APP_BACKEND_URL || 'http://localhost:8080'
 
     useEffect(() => {
         document.title = "Ozdravi"
@@ -25,13 +26,14 @@ function App({wordIn}) {
        <BrowserRouter>
         <Routes>
           <Route path="/" element={<Navigate to="/home"/>}/>
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/signup" element={<SignUpPage />} />
-          <Route path="/home" element={<HomePage />} />
-          <Route path="/users" element={<Users />} />
-          <Route path="/drugaMisljenja" element={<SecondOpinions />} />
-          <Route path="/bolovanja" element={<Bolovanja />} />
-          <Route path="/profil" element={<ProfilePage />} />
+          <Route path="/login" element={<LoginPage backendRoute={backendRoute} />} />
+          <Route path="/signup" element={<SignUpPage backendRoute={backendRoute} />} />
+          <Route path="/home" element={<HomePage backendRoute={backendRoute} />} />
+          <Route path="/users" element={<Users backendRoute={backendRoute} />} />
+          <Route path="/drugaMisljenja" element={<SecondOpinions backendRoute={backendRoute} />} />
+          <Route path="/bolovanja" element={<Bolovanja backendRoute={backendRoute} />} />
+          <Route path="/profil" element={<ProfilePage backendRoute={backendRoute} />} />
+          <Route path="/pregledi" element={<Examinations backendRoute={backendRoute} />} />
         </Routes>
       </BrowserRouter>
     </div>
