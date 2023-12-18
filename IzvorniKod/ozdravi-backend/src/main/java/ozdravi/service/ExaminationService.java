@@ -17,5 +17,15 @@ public interface ExaminationService {
 
     List<Examination> listAll();
 
+    /*
+        vraca listu Examinationa za roditelja s danim id-em i za njegovu djecu
+     */
+    List<Examination> listParentExaminations(Long id);
+
+    /*
+        vraca listu Examinationa za doktora/pedijatra s danim id-em
+     */
+    List<Examination> listDoctorExaminations(Long id);
+
     List<ExaminationRequest> listAllRequests();
 }
