@@ -88,16 +88,7 @@ public class SLRController {
 
         SLRDTO slrDTO = dtoManager.slrToSLRDTO(slr);
 
-        if(securityContextService.isUserInRole("PARENT"))
-            return ResponseEntity.ok().body(slrDTO);
-
-        if(securityContextService.isUserInRole("PEDIATRICIAN"))
-            return ResponseEntity.ok().body(slrDTO);
-
-        if(securityContextService.isUserInRole("DOCTOR"))
-            return ResponseEntity.ok().body(slrDTO);
-
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Something went wrong");
+        return ResponseEntity.ok(slrDTO);
     }
 
     @PreAuthorize("hasAnyRole('ADMIN', 'PEDIATRICIAN')")
