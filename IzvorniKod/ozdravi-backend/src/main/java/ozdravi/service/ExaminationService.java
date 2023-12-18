@@ -1,7 +1,7 @@
 package ozdravi.service;
 
 import ozdravi.domain.Examination;
-import ozdravi.rest.ExaminationRequest;
+import ozdravi.rest.dto.ExaminationRequest;
 
 import java.util.List;
 import java.util.Optional;

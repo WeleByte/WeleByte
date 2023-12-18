@@ -1,4 +1,4 @@
-package ozdravi.rest;
+package ozdravi.rest.jwt;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

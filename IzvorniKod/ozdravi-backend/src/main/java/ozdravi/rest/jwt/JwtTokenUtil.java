@@ -1,15 +1,20 @@
-package ozdravi.rest;
+package ozdravi.rest.jwt;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.JWTVerifier;
+import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
+import ozdravi.domain.User;
+import ozdravi.service.UserService;
 
 import java.time.Duration;
 import java.time.Instant;
+import java.util.Optional;
 
 @Service
 public class JwtTokenUtil {
@@ -17,6 +22,9 @@ public class JwtTokenUtil {
 
     private final Algorithm hmac512;
     private final JWTVerifier verifier;
+
+    @Autowired
+    UserService userService;
 
     public JwtTokenUtil(@Value("${jwt.secret}") final String secret) {
         this.hmac512 = Algorithm.HMAC512(secret);
@@ -40,5 +48,4 @@ public class JwtTokenUtil {
             return null;
         }
     }
-
 }

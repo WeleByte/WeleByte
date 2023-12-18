@@ -2,9 +2,9 @@ import React from 'react';
 import loginVector from '../assets/images/loginVector.png';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-const SignUpPage = () => {
+const SignUpPage = (props) => {
 
-  const backendRoute = process.env.REACT_APP_BACKEND_URL || 'http://localhost:8080'
+  const backendRoute = props.backendRoute
   const navigate = useNavigate();
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -115,21 +115,24 @@ const SignUpPage = () => {
               <div className="mb-3">
                 <label htmlFor="first_name" className="form-label" style={{float: 'left'}}>IME</label>
                 <input type="text" className="form-control" id="firt_name" value={firstName}
-                       onChange={(e) => setFirstName(e.target.value)}/>
+                       onChange={(e) =>
+                           setFirstName(e.target.value.replace(/[^a-zA-ZščćžđöüäŠČĆŽĐÖÜÄ\\s]/, ''))}/>
               </div>
 
               {/*----------------------------LAST NAME-----------------------------*/}
               <div className="mb-3">
                 <label htmlFor="last_name" className="form-label" style={{float: 'left'}}>PREZIME</label>
                 <input type="text" className="form-control" id="last_name" value={lastName}
-                       onChange={(e) => setLastName(e.target.value)}/>
+                       onChange={(e) =>
+                           setLastName(e.target.value.replace(/[^a-zA-ZščćžđöüäŠČĆŽĐÖÜÄ\\s]/, ''))}/>
               </div>
 
               {/*-------------------------------OIB--------------------------------*/}
               <div className="mb-3">
                 <label htmlFor="oib" className="form-label" style={{float: 'left'}}>OIB</label>
                 <input type="text" className="form-control" id="oib" value={OIB}
-                       onChange={(e) => setOIB(e.target.value)}/>
+                       onChange={(e) =>
+                           setOIB(e.target.value.replace(/\D/g, ''))}/>
               </div>
 
               

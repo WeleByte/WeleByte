@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ozdravi.dao.ExaminationRepository;
 import ozdravi.domain.Examination;
-import ozdravi.rest.ExaminationRequest;
+import ozdravi.rest.dto.ExaminationRequest;
 import ozdravi.service.ExaminationService;
 import java.util.List;
 import java.util.Optional;

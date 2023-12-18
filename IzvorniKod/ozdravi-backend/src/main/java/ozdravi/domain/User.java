@@ -1,9 +1,7 @@
 package ozdravi.domain;
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Data;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.beans.BeanUtils;
 
@@ -18,6 +16,9 @@ import java.util.List;
 @Entity
 @Table(name = "users")
 @Data
+@Builder
+@AllArgsConstructor
+@EqualsAndHashCode
 public class User {
     @Id
     @Setter(AccessLevel.NONE)
@@ -46,11 +47,13 @@ public class User {
     @Column(nullable = false)
     private String last_name;
 
-    @Column
-    private Long parent_id;
+    @ManyToOne
+    @JoinColumn(name = "parent_id")
+    private User parent;
 
-    @Column
-    private Long doctor_id;
+    @ManyToOne
+    @JoinColumn(name = "doctor_id")
+    private User doctor;
 
     @ManyToOne
     @JoinColumn(name = "address_id")
