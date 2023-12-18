@@ -62,7 +62,7 @@ public class DTOManager {
 
     public User userDTOToUser(UserDTO userDTO) throws IllegalArgumentException {
         Long parent_id = userDTO.getParent_id();
-        Long doctor_id = userDTO.getDoctor_id();<
+        Long doctor_id = userDTO.getDoctor_id();
         Long address_id = userDTO.getAddress_id();
 
         Optional<User> parent = parent_id==null ? Optional.empty() : userService.findById(userDTO.getParent_id());
