@@ -163,7 +163,7 @@ const Examinations = (props) => {
                 if (response.status === 401) {
                     handleLogOut()
                 } else if(!response.ok){
-                    console.log("Error:", response.status, response.statusText);
+                    console.log("Error:", response, response.status, response.statusText);
                 } else {
                     return response.json();
                 }
@@ -172,9 +172,9 @@ const Examinations = (props) => {
                 console.log(parsedData)
                 setExaminations(parsedData);
             })
-            .catch(error => {
-                console.error('Fetch error:', error);
-            });
+            // .catch(error => {
+            //     console.error('Fetch error:', error);
+            // });
     }, []);
 
     if(!bearerToken){

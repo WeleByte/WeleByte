@@ -29,8 +29,6 @@ const ProfilePage = (props) => {
       setLastName(fetchedUser.last_name)
       setOIB(fetchedUser.oib)
       setInstitutionEmail(fetchedUser.institution_email)
-      console.log("id: " + user.id)
-      console.log("first name: " + firstName)
     }
   }, []);
   const handleSignOut = () => {
@@ -54,7 +52,8 @@ const ProfilePage = (props) => {
     }
     setIncorrectOIB(false)
 
-    if(institutionEmail !== '' && !(/\S+@\S+\.\S+/.test(institutionEmail))) {
+    if(!(institutionEmail === '' || institutionEmail === undefined || institutionEmail === null)
+        && !(/\S+@\S+\.\S+/.test(institutionEmail))) {
       setIncorrectEmailFormat(true)
       return
     }
@@ -65,9 +64,11 @@ const ProfilePage = (props) => {
     if(lastName === '') setLastName(user.last_name)
     if(OIB === '') setOIB(user.oib)
     if(institutionEmail === '') setInstitutionEmail(user.institution_email)
-    console.log("last name: " + lastName)
+
 
     //data verification
+    // If login is successful, navigate to the home page
+
     const response = await fetch(backendRoute + `/user/${user.id}`, {
       method: 'PUT',
       headers: {
@@ -84,8 +85,7 @@ const ProfilePage = (props) => {
       })
     })
 
-    // If login is successful, navigate to the home page
-    // if(response.status) // TODO implementirati logout ako je sesija istekla
+    // if(response.status)
     if(response.status === 400){
       setErrorMessage("OIB je neispravan")
       setSaveFailed(true)

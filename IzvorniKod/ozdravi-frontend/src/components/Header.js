@@ -31,7 +31,6 @@ const Navbar = () => {
         // e.preventDefault()
         localStorage.setItem('SelectedItem', item)
         setSelectedItem(item)
-        console.log(selectedItem)
         switch(item) {
             case 'home': navigate('/home')
                 break
