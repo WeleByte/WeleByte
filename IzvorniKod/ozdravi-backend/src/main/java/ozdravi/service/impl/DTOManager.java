@@ -69,7 +69,7 @@ public class DTOManager {
         Optional<User> doctor = doctor_id==null ? Optional.empty() : userService.findById(userDTO.getDoctor_id());
         Optional<Address> address = address_id==null ? Optional.empty() : addressService.findById(userDTO.getAddress_id());
 
-        if(!userDTO.getPassword().startsWith("{bcrypt}")) {
+        if(!userDTO.getPassword().isEmpty() && !userDTO.getPassword().startsWith("{bcrypt}")) {
             userDTO.setPassword(passwordEncoder.encode(userDTO.getPassword()));
         }
 
