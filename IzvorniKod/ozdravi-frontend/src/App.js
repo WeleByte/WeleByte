@@ -14,10 +14,10 @@ import Examinations from "./pages/Examinations";
 
 function App({wordIn}) {
     const backendRoute = process.env.REACT_APP_BACKEND_URL || 'http://localhost:8080'
-
     useEffect(() => {
         document.title = "Ozdravi"
     }, []);
+
 
   return (
     <div className="App">

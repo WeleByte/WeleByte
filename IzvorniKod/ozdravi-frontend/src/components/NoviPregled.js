@@ -61,14 +61,14 @@ var finalUsersList = filteredUsers.map((user) =>
              
               <td>{user.email}</td>
 
-              <td class ="text-center"> <button class =" btn btn-tertiary">Dodaj </button> </td>
+              <td className ="text-center"> <button className =" btn btn-tertiary">Dodaj </button> </td>
 
           </tr>
       ))
 
 
   return (
-    <div id = "addPatientsWrapper" class = "shadow-lg">
+    <div id = "addPatientsWrapper" className = "shadow-lg">
 
 
     <div id = "addPatientsInner">
@@ -77,7 +77,7 @@ var finalUsersList = filteredUsers.map((user) =>
     <h5 className = "pt-3 px-4 mt-2 mb-3 " style={{textAlign: "left"}}>Dodaj pregled {/* <button className='btn btn-tertiary mt-1' style={{float: 'right'}}>Povijest </button>  */} <img style={{ height: "23px", float: "right" }} onClick = {closeModal} src={CloseIcon}></img>  </h5>
   
 
-<hr class = "mb-1 mt-4" style={{opacity: "20%"}}></hr>
+<hr className = "mb-1 mt-4" style={{opacity: "20%"}}></hr>
 
 
 

@@ -30,6 +30,7 @@ const HomePage = (props) => {
         }
     }, []);
 
+    console.log(user)
     return (
         <div id="HomePageWrapper">
             <Navbar />
