@@ -22,6 +22,7 @@ const Users = (props) => {
     const uloga = "doktor"
     let currentOpenedOptions = null;
     let optionsOpened= false;
+    const [refreshUsers, setRefreshUsers] = useState(false)
     const [isAddPatientVisible, showAddPatient] = useState(false);
     const [users, setUsers] = useState([])
 
@@ -39,6 +40,11 @@ const Users = (props) => {
         }
 
     }, []);
+
+    const toggleRefreshUsers = () => {
+        setRefreshUsers((prev) => !prev);
+    }
+
     const toggleAddPatient = () => {
         showAddPatient(!isAddPatientVisible);
     };
@@ -159,7 +165,7 @@ const Users = (props) => {
             .catch(error => {
                 console.error('Fetch error:', error);
             });
-    }, []); // Include dependencies in the array if needed
+    }, [refreshUsers]); // Include dependencies in the array if needed
 
 
 
@@ -174,7 +180,8 @@ const Users = (props) => {
             {isAddPatientVisible && <AddPatient closeAddPatient = {toggleAddPatient}
                                                 backendRoute={backendRoute}
                                                 bearerToken={bearerToken}
-                                                handleLogOut={handleLogOut}/>}
+                                                handleLogOut={handleLogOut}
+                                                refreshUsers={toggleRefreshUsers}/>}
             {noviPregledOtvoren && <NoviPregled closeNoviPregled = {toggleNoviPregled}/>}
 
 
