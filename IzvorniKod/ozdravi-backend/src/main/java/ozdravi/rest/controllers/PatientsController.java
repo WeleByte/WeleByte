@@ -50,6 +50,7 @@ public class PatientsController {
             if(optionalPatient.isEmpty())
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Patient with given id does not exist");
             optionalPatient.get().setDoctor(optionalDoctor.get());
+            userService.save(optionalPatient.get());
             return ResponseEntity.ok("Patient successfully assigned to you");
         }
 
@@ -70,6 +71,7 @@ public class PatientsController {
             if(optionalPatient.isEmpty())
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Patient with given id does not exist");
             optionalPatient.get().setDoctor(null);
+            userService.save(optionalPatient.get());
             return ResponseEntity.ok("Patient successfully unassigned to you");
         }
 
