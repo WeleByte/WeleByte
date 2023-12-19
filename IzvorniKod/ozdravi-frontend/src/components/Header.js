@@ -7,8 +7,8 @@ import {useNavigate} from "react-router-dom";
 const Navbar = () => {
     const uloga = "doktor"
     const navigate = useNavigate()
-
     const [selectedItem, setSelectedItem] = useState(localStorage.getItem('SelectedItem'))
+
     let userData = JSON.parse(sessionStorage.userData)
     let roles = userData.roles
     const [doctorRole, setDoctorRole] = useState(false)
@@ -25,6 +25,7 @@ const Navbar = () => {
 
         })
     }, []);
+
 
     const handleItemClick = (e, item) => {
         // e.preventDefault()

@@ -25,6 +25,7 @@ const Examinations = (props) => {
     const [examinations, setExaminations] = useState([])
     const [isAddPatientVisible, showAddPatient] = useState(false);
 
+
     const toggleAddPatient = () => {
         showAddPatient(!isAddPatientVisible);
 
@@ -176,7 +177,9 @@ const Examinations = (props) => {
             });
     }, []);
 
-
+    if(!bearerToken){
+        return null
+    }
 
     return (
 

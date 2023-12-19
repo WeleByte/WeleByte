@@ -17,23 +17,22 @@ const HomePage = (props) => {
     //     sessionStorage.userData = JSON.stringify({first_name: 'a'})
     // }
 
-
     const [user, setUser] = useState('')
-    useEffect(() => {
-        if(sessionStorage.userData === undefined) {
-            sessionStorage.userData = JSON.stringify({first_name: 'a'})
-        }
 
-        setUser(JSON.parse(sessionStorage.userData))
+    useEffect(() => {
         if(bearerToken === '' || bearerToken === null || bearerToken === undefined) {
-            navigate('/login');
+            navigate('/login')
+        }else{
+            setUser(JSON.parse(sessionStorage.userData))
         }
     }, []);
 
-    console.log(user)
+    if(!bearerToken){
+        return null
+    }
     return (
         <div id="HomePageWrapper">
-            <Navbar />
+            <Navbar></Navbar>
             <div id="homePageWrapperInner">
                 <h3 className="pt-4 px-4 mt-2" style={{textAlign: "left"}}>
                     Dobrodošao nazad, {user.first_name} {user.last_name}.

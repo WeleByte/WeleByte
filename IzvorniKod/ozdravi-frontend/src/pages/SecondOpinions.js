@@ -1,12 +1,15 @@
 import React, {useState} from 'react';
 import Navbar from '../components/Header';
 import ArrowRightIcon from '../assets/icons/arrow-right.png'
+import {useNavigate} from "react-router-dom";
 
 const SecondOpinions = () => {
 
   const uloga = "doktor"
 
   const [selectedStatus, setSelectedStatus] = useState('svi')
+  const bearerToken = sessionStorage.bearerToken
+
   const original = [
       {
           ime: 'Filip', prezime: 'Filipović', lastVisit: '12.1.2023.',
@@ -65,6 +68,9 @@ const SecondOpinions = () => {
   ) )
 
 
+  if(!bearerToken){
+      return null
+  }
   return (
       
     
