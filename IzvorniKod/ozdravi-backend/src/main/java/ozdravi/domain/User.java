@@ -63,7 +63,7 @@ public class User {
     private String institution_email;
 
     public void copyDifferentAttributes(User other) {
-        String[] ignoreProperties = {"id"};
+        String[] ignoreProperties = {"id", "password"};
         BeanUtils.copyProperties(other, this, ignoreProperties);
     }
 
