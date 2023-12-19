@@ -78,7 +78,28 @@ const AddPatient = ({closeAddPatient, handleLogOut, backendRoute, bearerToken}) 
       setSearchedUsers(filtered)
   }
 
-  return (
+    function addPatient(user) {
+        fetch(backendRoute + `/patients/${user.id}`, {
+            method: 'PUT',
+            headers: {
+                'Authorization': `Bearer ${bearerToken}`,
+                'Content-Type': 'application/json'
+            }
+        }).then(response => {
+            if(response.status === 401){
+                handleLogOut()
+            } else if(!response.ok){
+                console.log('greska:' + response)
+            } else{
+                console.log(response)
+                return response
+            }
+        }).catch(e => {
+            console.error('Error:' + e)
+        })
+     }
+
+    return (
     <div id = "addPatientsWrapper" className = "shadow-lg">
 
 
@@ -113,7 +134,7 @@ const AddPatient = ({closeAddPatient, handleLogOut, backendRoute, bearerToken}) 
   <thead>
     <tr>
       <th scope="col" >PATIENT</th>
-      <th scope="col">AGE</th>
+      <th scope="col">OIB</th>
       
       <th scope="col">EMAIL</th>
       <th scope="col"></th>
@@ -122,8 +143,8 @@ const AddPatient = ({closeAddPatient, handleLogOut, backendRoute, bearerToken}) 
     </tr>
   </thead>
   <tbody >
-  {searchedUsers.map((user, index) => (
-      <tr key={index}>
+  {searchedUsers.map((user) => (
+      <tr key={user.id}>
         <td>
           <img src={userIcon} alt="" width="14" className="me-3" style={{ opacity: "75%" }} />
           {user.first_name} {user.last_name}
@@ -131,7 +152,7 @@ const AddPatient = ({closeAddPatient, handleLogOut, backendRoute, bearerToken}) 
         <td>{user.oib}</td>
         <td>{user.email}</td>
         <td className="text-center">
-          <button className="btn btn-tertiary">Dodaj</button>
+          <button onClick={() => addPatient(user)} className="btn btn-tertiary">Dodaj</button>
         </td>
       </tr>
     ))}
