@@ -45,6 +45,16 @@ public class ExaminationServiceJpa implements ExaminationService {
     }
 
     @Override
+    public List<Examination> listParentExaminations(Long id) {
+        return examinationRepository.listParentExamination(id);
+    }
+
+    @Override
+    public List<Examination> listDoctorExaminations(Long id) {
+        return examinationRepository.listDoctorExamination(id);
+    }
+
+    @Override
     public List<ExaminationRequest> listAllRequests() {
         return listAll().stream().map((examination -> new ExaminationRequest(examination))).toList();
     }

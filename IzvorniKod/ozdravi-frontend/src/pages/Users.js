@@ -8,188 +8,194 @@ import chevronRight from '../assets/icons/chevron-right.png'
 import CloseIcon from '../assets/icons/x2.png'
 import TrashIcon from '../assets/icons/trash.png'
 import Plus2Icon from '../assets/icons/plus2.png'
-
+import { useNavigate } from "react-router-dom";
 import NoviPregled from '../components/NoviPregled';
 
 
-const Users = () => {
+const Users = (props) => {
 
-  const uloga = "doktor"
-  const [selectedUsers, setSelectedUsers] = useState('svi')
-  var currentOpenedOptions = null;
-  var optionsOpened= false;
+    const backendRoute = props.backendRoute
+    const bearerToken = sessionStorage.bearerToken
+    const user = JSON.parse(sessionStorage.userData)
+    const roles = user.roles
+    const navigate = useNavigate()
+    const uloga = "doktor"
+    let currentOpenedOptions = null;
+    let optionsOpened= false;
+    const [refreshUsers, setRefreshUsers] = useState(false)
+    const [isAddPatientVisible, showAddPatient] = useState(false);
+    const [users, setUsers] = useState([])
 
-  const [isAddPatientVisible, showAddPatient] = useState(false);
-
-  const toggleAddPatient = () => {
-    showAddPatient(!isAddPatientVisible);
-    
-  };
-
-  const [noviPregledOtvoren, setNoviPregledOtvoren] = useState(false);
-
-  const toggleNoviPregled = () => {
-    setNoviPregledOtvoren(!noviPregledOtvoren);
-    closeUserOptions(currentOpenedOptions)
-  };
-
-  const closeUserOptions = (index) => {
-    console.log("closing")
-    for (var i=0; i <5; i++) {
-        const tbody = document.querySelector(`#usersTable tbody`);
-        const tr = tbody.querySelector(`#usersTable tr:nth-child(${i + 1})`);
-       
-        
-            const userOptions = tr.querySelector('.userOptions');
-           
-              userOptions.style.display = 'none';
-    }
-   
-        
-    
-  }
-
-  const openUserOptions = (index) => {
-    console.log("opening")
-    for (var i=0; i <5; i++) {
-        closeUserOptions(i);
-    }
-
-    optionsOpened = true;
-
-    const tbody = document.querySelector(`#usersTable tbody`);
-    const tr = tbody.querySelector(`#usersTable tr:nth-child(${index + 1})`);
-   
-    
-        const userOptions = tr.querySelector('.userOptions');
-      
-          userOptions.style.display = 'block';
-        
-    currentOpenedOptions = index;
-  }
-
-  useEffect(() => {
-    const handleClick = (event) => {
-      // Handle the click event here
-      console.log('Component clicked!', event);
-      const tbody = document.querySelector(`#usersTable tbody`);
-    const tr = tbody.querySelector(`#usersTable tr:nth-child(${currentOpenedOptions + 1})`);
-    
-    const userOptions = tr.querySelector('.userOptions');
-   
-   
-    if (!(userOptions.contains(event.target)) && optionsOpened) {
-       
-
-        
-            if (userOptions.style.display !== "none") {
-                console.log("closing")
-                /* closeUserOptions(currentOpenedOptions);
-                optionsOpened = false */;
+    //go to /home if not admin/doctor/pediatrician
+    useEffect(() => {
+        let containsValidRole = false
+        roles.forEach(role => {
+            if(role.name === "admin" || role.name === "pediatrician" || role.name === "doctor"){
+                containsValidRole = true
             }
-            
-        
+        })
+
+        if(!containsValidRole){
+            navigate("/home")
+        }
+
+    }, []);
+
+    const toggleRefreshUsers = () => {
+        setRefreshUsers((prev) => !prev);
     }
 
+    const toggleAddPatient = () => {
+        showAddPatient(!isAddPatientVisible);
     };
 
-    // Add click event listener when the component mounts
-    document.addEventListener('click', handleClick);
+    const [noviPregledOtvoren, setNoviPregledOtvoren] = useState(false);
 
-    // Remove the event listener when the component unmounts
-    return () => {
-      document.removeEventListener('click', handleClick);
+    const toggleNoviPregled = () => {
+        setNoviPregledOtvoren(!noviPregledOtvoren);
+        closeUserOptions(currentOpenedOptions)
     };
-  }, []); // Empty dependency array ensures the effect runs only once on mount
+
+    const closeUserOptions = (index) => {
+
+
+        const tbody = document.querySelector(`#usersTable tbody`);
+        const tr = tbody.querySelector(`#usersTable tr:nth-child(${index + 1})`);
+
+
+        const userOptions = tr.querySelector('.userOptions');
+
+        userOptions.style.display = 'none';
+
+
+
+
+    }
+
+    const openUserOptions = (index) => {
+        console.log("opening")
+        /*  for (let i=0; i <users.length; i++) {
+             closeUserOptions(i);
+         } */
+
+        optionsOpened = true;
+
+        const tbody = document.querySelector(`#usersTable tbody`);
+        const tr = tbody.querySelector(`#usersTable tr:nth-child(${index + 1})`);
+
+
+        const userOptions = tr.querySelector('.userOptions');
+
+        userOptions.style.display = 'block';
+
+        currentOpenedOptions = index;
+    }
 
 
 
 
 
-  const original = [
-      {
-          ime: 'Filip', prezime: 'Filipović', lastVisit: '12.1.2023.',
-          visitCount: 5, email: 'filip.filipovic@gmail.com', age: 12
-      }, {
-          ime: 'Ivan', prezime: 'Ivanovic', lastVisit: '25.6.2023.',
-          visitCount: 2, email: 'ivan.ivanovic@gmail.com', age: 69
-      }, {
-          ime: 'Milica', prezime: 'Srbić', lastVisit: '12.1.2023.',
-          visitCount: 7, email: 'milica.srbic@gmail.com', age: 23
-      }, {
-          ime: 'Joža', prezime: 'Mužić', lastVisit: '69.420.1337.',
-          visitCount: 89, email: 'jozica.muzic@gmail.com', age: 8
-      }, {
-          ime: 'Đurđa', prezime: 'Đurđić', lastVisit: '24.2.1923.',
-          visitCount: 257, email: 'jozica.muzic@gmail.com', age: 96
-      }
-  ];
+    /*--------------------------------------Hard kodirani useri--------------------------------------------*/
+    // const original = [
+    //     {
+    //         ime: 'Filip', prezime: 'Filipović', lastVisit: '12.1.2023.',
+    //         visitCount: 5, email: 'filip.filipovic@gmail.com', age: 12
+    //     }, {
+    //         ime: 'Ivan', prezime: 'Ivanovic', lastVisit: '25.6.2023.',
+    //         visitCount: 2, email: 'ivan.ivanovic@gmail.com', age: 69
+    //     }, {
+    //         ime: 'Milica', prezime: 'Srbić', lastVisit: '12.1.2023.',
+    //         visitCount: 7, email: 'milica.srbic@gmail.com', age: 23
+    //     }, {
+    //         ime: 'Joža', prezime: 'Mužić', lastVisit: '69.420.1337.',
+    //         visitCount: 89, email: 'jozica.muzic@gmail.com', age: 8
+    //     }, {
+    //         ime: 'Đurđa', prezime: 'Đurđić', lastVisit: '24.2.1923.',
+    //         visitCount: 257, email: 'jozica.muzic@gmail.com', age: 96
+    //     }
+    // ];
 
-  let odrasliCount = original.filter(user => user.age >= 18).length
-  let djecaCount = original.filter(user => user.age < 18).length
-  let filteredUsers
-
-    switch(selectedUsers){
-        case 'svi' : filteredUsers = original
-            break
-        case 'odrasli' : filteredUsers = original.filter(user => user.age >= 18)
-            break
-        case 'djeca' : filteredUsers = original.filter(user => user.age < 18)
-            break
-  }
-
-
-  const finalUsersList = filteredUsers.map((user, index) =>
-      (
-          <tr  style={{ position: 'relative' }}>
-              <td scope="row">
-                  <img src = {userIcon} alt = "" width = "14" className='me-3' style={{opacity: "75%"}}></img>
-                  {user.ime + " " + user.prezime}
-              </td>
-              <td>{user.age}</td>
-              <td>{user.lastVisit}</td>
-              <td>{user.visitCount}</td>
-              <td>{user.email}</td>
-
-              <td class = "three-dot-td" >
-              
-
-                <img width="18" height="18" onClick={() => openUserOptions(index)}  src="https://img.icons8.com/ios-glyphs/30/menu-2.png" alt="menu-2"/></td>
-
-                <ul class="list-group userOptions shadow-lg p-0 border" style={{display:"none"}}>
-                <p class ="mb-2 mt-2 ps-3 py-1" style={{textAlign: "left"}}>Akcije <img class =" mt-1 closeActionsIcon" style={{ height: "19px", float: "right", opacity: "80%"}} onClick={() => closeUserOptions(index)} src={CloseIcon}></img>  </p>
-                <hr class ="mt-0 mb-0" style={{opacity: "20%"}}></hr>
-                <button onClick={toggleNoviPregled} class =" ps-3 col-12 mb-2 mt-2 py-2 novi-pregled-btn" style={{opaciy: "80%",textAlign: "left", fontWeight:"500", border:"none", background:"none"}} > Novi pregled  <img class ="me-3 mt-1" style={{ height: "19px", float: "right", opacity: "80%" }} src={Plus2Icon}></img> </button>
-                
-                <button class =" ps-3  col-12 mb-2 py-2 delete-btn" style={{opaciy: "80%",textAlign: "left", fontWeight:"500", border:"none", background:"none"}}> Izbriši <img class ="me-3 mt-1" style={{ height: "19px", float: "right", opacity: "800%" }}  src={TrashIcon}></img> </button>
-                
-                </ul>
-
-          </tr>
-      ))
+    // let odrasliCount = original.filter(user => user.age >= 18).length
+    // let djecaCount = original.filter(user => user.age < 18).length
+    // let filteredUsers
+    //
+    //   switch(selectedUsers){
+    //       case 'svi' : filteredUsers = original
+    //           break
+    //       case 'odrasli' : filteredUsers = original.filter(user => user.age >= 18)
+    //           break
+    //       case 'djeca' : filteredUsers = original.filter(user => user.age < 18)
+    //           break
+    // }
+    /*----------------------------------Kraj hard kodiranih usera------------------------------------*/
 
 
 
-  return (
-      
-    
-    <div id = "UsersWrapper">
-     <Navbar></Navbar>
-
-     {isAddPatientVisible && <AddPatient closeAddPatient = {toggleAddPatient}/>}
-     {noviPregledOtvoren && <NoviPregled closeNoviPregled = {toggleNoviPregled}/>}
-     
+// Import statements...
 
 
-    <div id = "usersWrapperInner">
-   
+    // State and other variables...
 
-    <h3 className = "pt-3 px-4 mt-2 " style={{textAlign: "left", maxWidth: "1246px"}}>Pacijenti {/* <button className='btn btn-tertiary mt-1' style={{float: 'right'}}>Povijest </button>  */} <button class = "btn btn-primary" style={{float:"right"}} onClick= {toggleAddPatient}>Novi Pacijent +</button> </h3>
-{/* <p style={{textAlign: "left", maxWidth: "1200px"}} className = "px-4 mb-2 ">{odrasliCount + djecaCount} pacijenata</p> */}
+    function handleLogOut() {
+        sessionStorage.clear()
+        localStorage.clear()
+        navigate('/login')
+    }
+
+    useEffect(() => {
+        fetch(backendRoute + "/users", {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${bearerToken}`,
+                'Content-Type': 'application/json'
+            }
+        })
+            .then(response => {
+                if (response.status === 401) {
+                    handleLogOut()
+                } else if(!response.ok){
+                    console.log("Error:", response.status, response.statusText);
+                } else {
+                    return response.json();
+                }
+            })
+            .then(parsedData => {
+                setUsers(parsedData);
+            })
+            .catch(error => {
+                console.error('Fetch error:', error);
+            });
+    }, [refreshUsers]); // Include dependencies in the array if needed
 
 
 
-{/* <div id = "usersSelectorDiv" className = "px-4 pb-1 pt-0 " style={{display: "flex", justifyContent: "left", flexWrap: "wrap"}}>
+
+
+    return (
+
+
+        <div id = "UsersWrapper">
+            <Navbar></Navbar>
+
+            {isAddPatientVisible && <AddPatient closeAddPatient = {toggleAddPatient}
+                                                backendRoute={backendRoute}
+                                                bearerToken={bearerToken}
+                                                handleLogOut={handleLogOut}
+                                                refreshUsers={toggleRefreshUsers}/>}
+            {noviPregledOtvoren && <NoviPregled closeNoviPregled = {toggleNoviPregled}/>}
+
+
+
+            <div id = "usersWrapperInner">
+
+
+                <h3 className = "pt-3 px-4 mt-2 " style={{textAlign: "left", maxWidth: "1246px"}}>Pacijenti {/* <button className='btn btn-tertiary mt-1' style={{float: 'right'}}>Povijest </button>  */}
+                    <button className = "btn btn-primary" style={{float:"right"}} onClick= {toggleAddPatient}>Novi Pacijent +</button> </h3>
+                {/* <p style={{textAlign: "left", maxWidth: "1200px"}} className = "px-4 mb-2 ">{odrasliCount + djecaCount} pacijenata</p> */}
+
+
+
+                {/* <div id = "usersSelectorDiv" className = "px-4 pb-1 pt-0 " style={{display: "flex", justifyContent: "left", flexWrap: "wrap"}}>
 
     <button className = {selectedUsers === 'svi' ?
         "btn btn-primary me-2 mt-2" : "btn btn-secondary me-2 mt-2"}
@@ -206,51 +212,91 @@ const Users = () => {
 </div> */}
 
 
-<div id = "patientSearchBoxDiv" className='px-4 pt-3 ' >
+                <div id = "patientSearchBoxDiv" className='px-4 pt-3 ' >
 
-<div class="input-group mb-0 mx-0  p-3 searchContainer" style={{maxWidth: "1200px"}} >
-<img src= {searchIcon} class = "searchIconUsers"></img>
-  <input type="text" class="form-control me-0 searchInput" style = {{ borderTopRightRadius: "7px", borderBottomRightRadius: "7px", }} placeholder="Pretraži" aria-label="Recipient's email" aria-describedby="basic-addon2" ></input>
- 
-</div>
-</div>
+                    <div className="input-group mb-0 mx-0  p-3 searchContainer" style={{maxWidth: "1200px"}} >
+                        <img src= {searchIcon} className = "searchIconUsers"></img>
+                        <input type="text" className="form-control me-0 searchInput" style = {{ borderTopRightRadius: "7px", borderBottomRightRadius: "7px", }} placeholder="Pretraži" aria-label="Recipient's email" aria-describedby="basic-addon2" ></input>
 
-
-    
-
-    <div className='px-4 pt-0'>
-     <table class="table  table-bordered " id= "usersTable" style={{maxWidth: "1200px"}}>
-    
+                    </div>
+                </div>
 
 
-  <thead>
-    <tr>
-      <th scope="col" >PATIENT</th>
-      <th scope="col">AGE</th>
-      <th scope="col">LAST VISIT</th>
-      <th scope="col">NO. VISITS</th>
-      <th scope="col">EMAIL</th>
-      <th scope="col"></th>
 
 
-    </tr>
-  </thead>
-  <tbody>
-    {finalUsersList}
+                <div className='px-4 pt-0'>
+                    <table className="table  table-bordered " id= "usersTable" style={{maxWidth: "1200px"}}>
 
-  </tbody>
-</table>
-<div class="input-group mb-0 mx-0  paginationContainer " style={{maxWidth: "1200px"}} >
 
-<span class = "me-3">1-5 of 6</span>   
-<img src= {chevronLeft} style={{float: "right"}} class = "chevronIcon"></img>
-<img src= {chevronRight} style={{float: "right"}} class = "chevronIcon"></img>
 
-</div>
-</div>
-</div>
-    </div>
-  );
+                        <thead>
+                        <tr>
+                            <th scope="col" >PATIENT</th>
+                            <th scope="col">AGE</th>
+                            <th scope="col">LAST VISIT</th>
+                            <th scope="col">NO. VISITS</th>
+                            <th scope="col">EMAIL</th>
+                            <th scope="col"></th>
+
+
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {users.map((user, index) => (
+                            <tr key={user.id} style={{ position: 'relative' }}>
+                                <td scope="row">
+                                    <img src = {userIcon} alt = "" width = "14" className='me-3' style={{opacity: "75%"}}></img>
+                                    {user.first_name + " " + user.last_name}
+                                </td>
+                                <td>visak</td>
+                                <td>visak</td>
+                                <td>visak</td>
+                                <td>{user.email}</td>
+
+                                <td className = "three-dot-td" >
+
+
+                                    <img width="18" height="18" onClick={() => openUserOptions(index)}
+                                         src="https://img.icons8.com/ios-glyphs/30/menu-2.png" alt="menu-2"/></td>
+
+                                <td>
+                                    <ul className="list-group userOptions shadow-lg p-0 border" style={{display:"none"}}>
+                                        <p className ="mb-2 mt-2 ps-3 py-1" style={{textAlign: "left"}}>Akcije
+                                            <img className =" mt-1 closeActionsIcon" style={{ height: "19px", float: "right", opacity: "80%"}}
+                                                 onClick={() => closeUserOptions(index)} src={CloseIcon}></img>
+                                        </p>
+                                        <hr className ="mt-0 mb-0" style={{opacity: "20%"}}></hr>
+                                        <button onClick={toggleNoviPregled} className =" ps-3 col-12 mb-2 mt-2 py-2 novi-pregled-btn"
+                                                style={{opaciy: "80%",textAlign: "left", fontWeight:"500", border:"none", background:"none"}} > Novi pregled
+                                            <img className ="me-3 mt-1"
+                                                 style={{ height: "19px", float: "right", opacity: "80%" }} src={Plus2Icon}>
+                                            </img>
+                                        </button>
+
+                                        <button className =" ps-3  col-12 mb-2 py-2 delete-btn"
+                                                style={{opaciy: "80%",textAlign: "left", fontWeight:"500", border:"none", background:"none"}}> Izbriši
+                                            <img className ="me-3 mt-1"
+                                                 style={{ height: "19px", float: "right", opacity: "800%" }}  src={TrashIcon}></img>
+                                        </button>
+                                    </ul>
+                                </td>
+
+                            </tr>
+                        ))}
+
+                        </tbody>
+                    </table>
+                    <div className="input-group mb-0 mx-0  paginationContainer " style={{maxWidth: "1200px"}} >
+
+                        <span className = "me-3">{users === [] ? (0) : (users.length % 6 + '-' + users.length)} of {users.length}</span>
+                        <img src= {chevronLeft} style={{float: "right"}} className = "chevronIcon"></img>
+                        <img src= {chevronRight} style={{float: "right"}} className = "chevronIcon"></img>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
 };
 
 export default Users;

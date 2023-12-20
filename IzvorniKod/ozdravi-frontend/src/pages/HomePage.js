@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import Navbar from '../components/Header';
 import patientsImage from '../assets/images/patientsNo2.png'
 import drugoMisljenje from '../assets/images/drugoMisljenje.png'
@@ -7,30 +7,37 @@ import djeca from '../assets/images/kids2.png'
 import HomeCard from '../components/HomeCard';
 import {useNavigate} from "react-router-dom";
 
-const HomePage = () => {
+const HomePage = (props) => {
 
     const uloga = "doktor"
     const navigate = useNavigate()
     const bearerToken = sessionStorage.getItem('bearerToken');
 
-    if(sessionStorage.userData === undefined) {
-        sessionStorage.userData = JSON.stringify({first_name: 'a'})
-    }
+    // if(sessionStorage.userData === undefined) {
+    //     sessionStorage.userData = JSON.stringify({first_name: 'a'})
+    // }
 
-    const user = JSON.parse(sessionStorage.userData);
+    const [user, setUser] = useState('')
 
     useEffect(() => {
         if(bearerToken === '' || bearerToken === null || bearerToken === undefined) {
-            navigate('/login');
+            navigate('/login')
+        }else{
+            setUser(JSON.parse(sessionStorage.userData))
+            // const logUser = JSON.parse(sessionStorage.userData)
+            // console.log(logUser)
         }
     }, []);
 
+    if(!bearerToken){
+        return null
+    }
     return (
         <div id="HomePageWrapper">
-            <Navbar />
+            <Navbar></Navbar>
             <div id="homePageWrapperInner">
                 <h3 className="pt-4 px-4 mt-2" style={{textAlign: "left"}}>
-                    Dobrodošao nazad, {user.first_name}.
+                    Dobrodošao nazad, {user.first_name} {user.last_name}.
                 </h3>
                 <p style={{textAlign: "left"}} className="px-4">Što ćemo raditi danas?</p>
                 <div className='homePageCardSection p-4 pt-0 ps-3' >

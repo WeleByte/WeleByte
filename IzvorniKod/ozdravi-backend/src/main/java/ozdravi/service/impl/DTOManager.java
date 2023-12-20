@@ -16,6 +16,7 @@ import ozdravi.service.UserService;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeParseException;
+import java.util.Objects;
 import java.util.Optional;
 
 //klasa zaduzena za prebacivanje DTO tipova podataka u domenske tipove podataka i obrnuto
@@ -43,7 +44,7 @@ public class DTOManager {
         Optional<Address> address = address_id==null ? Optional.empty() : addressService.findById(examinationRequest.getAddress_id());
 
         if(patient.isEmpty() || doctor.isEmpty() || scheduler.isEmpty())
-            throw new IllegalArgumentException("Patient, doctor or scheduler ID doesn't exist in database");
+            throw new IllegalArgumentException("Patient, doctor or scheduler ID not found");
 
         LocalDateTime parsedDate = LocalDateTime.parse(examinationRequest.getDate());
 
@@ -70,7 +71,9 @@ public class DTOManager {
         Optional<User> doctor = doctor_id==null ? Optional.empty() : userService.findById(userDTO.getDoctor_id());
         Optional<Address> address = address_id==null ? Optional.empty() : addressService.findById(userDTO.getAddress_id());
 
-        userDTO.setPassword(passwordEncoder.encode(userDTO.getPassword()));
+        if(userDTO.getPassword()!=null && !userDTO.getPassword().isEmpty() && !userDTO.getPassword().startsWith("{bcrypt}")) {
+            userDTO.setPassword(passwordEncoder.encode(userDTO.getPassword()));
+        }
 
         return User.builder()
                 .email(userDTO.getEmail())
