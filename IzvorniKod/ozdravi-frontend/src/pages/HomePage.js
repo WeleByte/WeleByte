@@ -24,6 +24,8 @@ const HomePage = (props) => {
             navigate('/login')
         }else{
             setUser(JSON.parse(sessionStorage.userData))
+            // const logUser = JSON.parse(sessionStorage.userData)
+            // console.log(logUser)
         }
     }, []);
 

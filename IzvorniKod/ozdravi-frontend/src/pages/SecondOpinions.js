@@ -65,8 +65,7 @@ const SecondOpinions = () => {
 
           </div>
       </div>
-  ) )
-
+  ))
 
   if(!bearerToken){
       return null
