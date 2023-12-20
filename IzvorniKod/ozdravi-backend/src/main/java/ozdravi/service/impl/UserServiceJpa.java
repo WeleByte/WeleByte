@@ -31,6 +31,11 @@ public class UserServiceJpa implements UserService {
     }
 
     @Override
+    public User save(User user){
+        return userRepository.save(user);
+    }
+
+    @Override
     public List<User> listAll() {
         return userRepository.findAll();
     }
@@ -58,12 +63,12 @@ public class UserServiceJpa implements UserService {
 
     @Override
     public List<User> listChildren(Long parentId) {
-        return userRepository.listChildren(parentId);
+        return userRepository.findUsersByParent_Id(parentId);
     }
 
     @Override
     public List<User> listPatients(Long doctorId) {
-        return userRepository.listPatients(doctorId);
+        return userRepository.findUsersByDoctor_Id(doctorId);
     }
 
     @Override

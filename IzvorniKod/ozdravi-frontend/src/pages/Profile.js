@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import loginVector from '../assets/images/loginVector.png';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
@@ -7,7 +7,7 @@ import Navbar from '../components/Header';
 const ProfilePage = (props) => {
   const backendRoute = props.backendRoute
   const navigate = useNavigate();
-  const user = JSON.parse(sessionStorage.userData)
+  const [user, setUser] = useState('')
   const [firstName, setFirstName] = useState(user.first_name)
   const [lastName, setLastName] = useState(user.last_name)
   const [OIB, setOIB] = useState(user.oib)
@@ -19,10 +19,22 @@ const ProfilePage = (props) => {
   const bearerToken = sessionStorage.bearerToken
   const [errorMessage, setErrorMessage] = useState('')
 
+  useEffect(() => {
+    if(bearerToken === '' || bearerToken === null || bearerToken === undefined) {
+      navigate('/login')
+    } else {
+      const fetchedUser = (JSON.parse(sessionStorage.userData))
+      setUser(fetchedUser)
+      setFirstName(fetchedUser.first_name)
+      setLastName(fetchedUser.last_name)
+      setOIB(fetchedUser.oib)
+      setInstitutionEmail(fetchedUser.institution_email)
+    }
+  }, []);
   const handleSignOut = () => {
     sessionStorage.clear()
     localStorage.clear()
-    navigate('/signup')
+    navigate('/login')
 }
 
   const handleSave = async (e) => {
@@ -40,7 +52,8 @@ const ProfilePage = (props) => {
     }
     setIncorrectOIB(false)
 
-    if(institutionEmail !== '' && !(/\S+@\S+\.\S+/.test(institutionEmail))) {
+    if(!(institutionEmail === '' || institutionEmail === undefined || institutionEmail === null)
+        && !(/\S+@\S+\.\S+/.test(institutionEmail))) {
       setIncorrectEmailFormat(true)
       return
     }
@@ -52,7 +65,10 @@ const ProfilePage = (props) => {
     if(OIB === '') setOIB(user.oib)
     if(institutionEmail === '') setInstitutionEmail(user.institution_email)
 
+
     //data verification
+    // If login is successful, navigate to the home page
+
     const response = await fetch(backendRoute + `/user/${user.id}`, {
       method: 'PUT',
       headers: {
@@ -69,13 +85,13 @@ const ProfilePage = (props) => {
       })
     })
 
-    // If login is successful, navigate to the home page
-    // if(response.status) // TODO implementirati logout ako je sesija istekla
+    // if(response.status)
     if(response.status === 400){
       setErrorMessage("OIB je neispravan")
       setSaveFailed(true)
-    }
-    else if(!response.ok) {
+    } else if(response.status === 401){
+      handleSignOut()
+    } else if(!response.ok) {
       setSaveFailed(true)
       setErrorMessage("Dogodila se pogreska")
     } else {
@@ -90,16 +106,15 @@ const ProfilePage = (props) => {
     }
   };
 
-  const navigateLogIn = () => {
-    navigate('/login');
-  };
-
+  if(!bearerToken){
+    return null
+  }
   return (
 
   
     <div id = "HomePageWrapper">
-     
-        <Navbar></Navbar>
+
+      <Navbar></Navbar>
         <div className="row" id = "loginRow"  style={{paddingTop: "50px"}}>
 
           <div className="col-12 mx-auto " >
