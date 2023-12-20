@@ -1,4 +1,4 @@
-package ozdravi.rest;
+package ozdravi.rest.jwt;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -34,15 +34,15 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         }
 
         final String token = header.substring(7);
-        final String username = jwtTokenUtil.validateTokenAndGetUsername(token);
-        if (username == null) {
+        final String email = jwtTokenUtil.validateTokenAndGetEmail(token);
+        if (email == null) {
             // validation failed or token expired
             chain.doFilter(request, response);
             return;
         }
 
         // set user details on spring security context
-        final UserDetails userDetails = jwtUserDetailsService.loadUserByUsername(username);
+        final UserDetails userDetails = jwtUserDetailsService.loadUserByUsername(email);
         final UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
                 userDetails, null, userDetails.getAuthorities());
         authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));

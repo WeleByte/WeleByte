@@ -3,12 +3,14 @@ package ozdravi.domain;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.Setter;
 import org.springframework.beans.BeanUtils;
 
 @Entity
 @Table(name = "address")
 @Data
+@EqualsAndHashCode
 public class Address {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,10 +30,10 @@ public class Address {
     private String country;
 
     @Column
-    private float latitude;
+    private Float latitude;
 
     @Column
-    private float longitude;
+    private Float longitude;
 
     public void copyDifferentAttributes(Address other) {
         String[] ignoreProperties = {"id"};

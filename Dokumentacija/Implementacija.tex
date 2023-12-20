@@ -39,7 +39,11 @@
 			%dio 2. revizije
 			
 			 %Potrebno je umetnuti specifikacijski dijagram razmještaja i opisati ga. Moguće je umjesto specifikacijskog dijagrama razmještaja umetnuti dijagram razmještaja instanci, pod uvjetom da taj dijagram bolje opisuje neki važniji dio sustava.
-			
+			 Dijagrami razmještaja prikazuju konfiguraciju sklopovlja i programske podrške koja se koristi za implementaciju sustava u njegovom operativnom okruženju. Na cloud platformi smješten je poslužitelj baze podataka te web poslužitelji za backend i frontend. Korisnici pristupaju web aplikaciji putem svog web preglednika. Sustav je baziran na arhitekturi "klijent - poslužitelj" s komunikacijom između korisničkih računala(roditelj, pedijatar, doktor, administrator) i poslužitelja putem HTTPS veze.
+			\begin{figure}[H]
+				\includegraphics[width=\textwidth]{slike/deploymentDiagram.png} 
+				\caption{Dijagram razmještaja} 
+			\end{figure}
 			\eject 
 		
 		\section{Upute za puštanje u pogon}
@@ -51,6 +55,56 @@
 			
 			 %Dovršenu aplikaciju potrebno je pokrenuti na javno dostupnom poslužitelju. Studentima se preporuča korištenje neke od sljedećih besplatnih usluga: https://aws.amazon.com/ {Amazon AWS}, https://azure.microsoft.com/en-us/ Microsoft Azure ili https://www.heroku.com/ Heroku. 
     %Mobilne aplikacije trebaju biti objavljene na F-Droid, Google Play ili Amazon App trgovini.}
-			
-			
-			\eject 
+	\textbf{Postavljanje baze podataka} \\		
+	U procesu postavljanja baze podataka za aplikaciju "Ozdravi", prvi korak je preuzimanje 
+	\href{https://www.postgresql.org/download/}{PostgreSQL-a} s ovdje dostupne poveznice za operacijski 
+	sustav Windows. Ovaj instalacijski paket obuhvaća PostgreSQL poslužitelj, pgAdmin 
+	(grafički alat za upravljanje i razvoj baza podataka) te StackBuilder (upravitelj paketa koji 
+	olakšava preuzimanje i instalaciju dodatnih PostgreSQL alata i upravljačkih programa). Nakon završetka 
+	instalacije, slijedi standardni postupak postavljanja korisničkog imena i lozinke (neobavezno). \\
+	Nakon uspješne instalacije, pokreće se SQL Shell aplikacija.	\\
+	
+	\begin{figure}[H]
+		\includegraphics[width=\textwidth]{slike/sqlshell1.png} 
+		\caption{SQL Shell aplikacija} 
+	\end{figure}
+	 Kako bi se pristupilo komandnoj liniji, potrebno je pritisnuti tipku Enter dok linija ne započne s \textit{postgres=\#}
+	(ako je postavljena lozinka tijekom konfiguracije PostgreSQL-a, onda ju treba unijeti kada sustav zatraži: \textit{Password for user postgres:}). 
+	Nakon toga, izvršavaju se sljedeće naredbe:\\
+	\textit{create user welebyte with password 'welebyte';\\
+	create database ozdravi owner welebyte;}\\
+	Sada bi trebala biti stvorena baza podataka "ozdravi", čiji je vlasnik korisnik "welebyte". Naredbom \textit{\textbackslash l} može se provjeriti lista svih postojećih 
+	baza podataka i njihovih vlasnika. \\
+	\begin{figure}[H]
+		\includegraphics[width=\textwidth]{slike/sqlshell2.png} 
+		\caption{Postavljanje baze podataka} 
+	\end{figure}
+	\noindent\textbf{Pokretanje aplikacije koristeći Intellij} \\
+	Nakon uspješne konfiguracije baze podataka, prelazi se na postavljanje aplikacije koristeći IntelliJ IDE. Potrebno je otvoriti mapu \textit{IzvorniKod\textbackslash ozdravi-backend} kao 
+	novi projekt u IntelliJ-u, a aplikacija se dalje pokreće jednostavnim pokretanjem datoteke \textit{OzdraviBackendApplication.java}. Aplikacija je sada dostupna na adresi:
+	\url{http://localhost:8000}.\\
+	\\
+	\textbf{Postavljanje frontenda}\\
+	Sljedeći korak uključuje postavljanje frontenda. Prvotno se preuzima okruženje za izvršavanje JavaScript koda, Node.js, s ovdje dostupne 
+	\href{https://nodejs.org/en/download/}{poveznice}, slijedeći standardne korake instalacije. Zatim, u naredbenom retku (terminalu), potrebno se pozicionirati 
+	u direktorij u kojem je spremljen izvorni kod za frontend: \textit{...IzvorniKod\textbackslash ozdravi-frontend}. Prilikom prvog pokretanja, izvršava se naredba \textit{npm install} kako bi se 
+	preuzeli svi potrebni paketi, a zatim se aplikacija pokreće naredbom \textit{npm start}.
+	\begin{figure}[H]
+		\includegraphics[width=\textwidth]{slike/npmin.png} 
+		\caption{Preuzimanje paketa} 
+	\end{figure}
+	\begin{figure}[H]
+		\includegraphics[width=\textwidth]{slike/npmst.png} 
+		\caption{Pokretanje aplikacije} 
+	\end{figure}
+	
+	\newpage \noindent Nakon pokretanja, aplikaciju je moguće vidjeti na adresi: \url{http://localhost:3000.}\\
+	\begin{figure}[H]
+		\includegraphics[width=\textwidth]{slike/loc3000.png} 
+		\caption{Aplikacija na portu 3000} 
+	   \end{figure}
+	Nakon svake promjene i spremanja koda, stranica se automatski ponovno učitava. Osim toga, postoji mogućnost promjene porta aplikacije uređivanjem datoteke 
+	\textit{package.json}, 
+	gdje se u liniji koda 
+	\textit{"start": set PORT=3006 \&\& react-scripts start} može izmijeniti broj porta prema želji.
+	\eject 

@@ -41,8 +41,8 @@ public class UserServiceJpa implements UserService {
     }
 
     @Override
-    public Optional<User> findByUsername(String username) {
-        return userRepository.findByUsername(username);
+    public Optional<User> findByEmail(String email) {
+        return userRepository.findByEmail(email);
     }
 
     @Override
@@ -54,5 +54,25 @@ public class UserServiceJpa implements UserService {
             existingUser.copyDifferentAttributes(newData);
             userRepository.save(existingUser);
         }
+    }
+
+    @Override
+    public List<User> listChildren(Long parentId) {
+        return userRepository.listChildren(parentId);
+    }
+
+    @Override
+    public List<User> listPatients(Long doctorId) {
+        return userRepository.listPatients(doctorId);
+    }
+
+    @Override
+    public List<User> listAvailablePatientsDoctor() {
+        return userRepository.listAvailablePatientsDoctor();
+    }
+
+    @Override
+    public List<User> listAvailablePatientsPediatrician() {
+        return userRepository.listAvailablePatientsPediatrician();
     }
 }
