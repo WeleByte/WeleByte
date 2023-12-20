@@ -254,3 +254,48 @@ Leon Cvetkovski i Krešimir Valečić moraju završiti ekrane koji su im ostali 
 ekranima za preglede i spajanje doktora i pacijenata.
 
 Mia Vidaković će nastaviti s implementacijama uloga, a Mihael Lešković će nastaviti rad na korisnicima i pregledima.
+
+-------------------------------------------------------------------------------------------------------------------
+Mid-spring Sync - 11.12.2023.
+
+Dnevni red:
+- Koordinacija o napretku unutar jednog sprinta.
+
+Prisutni: D. Matić, M. Lešković, K. Valečić, V. Kumanović, L. Crvelin, M. Vidaković
+Neprisutni: L. Cvetkovski
+
+Diskusija i rješavanje tehničkh problema vezanih uz dodjeljene zadatke na frontendu i backendu.
+
+-------------------------------------------------------------------------------------------------------------------
+Planiranje sprinta i pregled napretka - 14.12.2023.
+
+Dnevni red:
+- Tjedni sastanak za planiranje i praćenje napretka.
+
+Prisutni: D. Matić, M. Lešković, K. Valečić, V. Kumanović, L. Crvelin, L. Cvetkovski, M. Vidaković
+Neprisutni: -
+
+Zapisnik:
+
+Tim za dokumentaciju će pripremiti radionicu vezanu uz dijagrame stanja i komponenti, a Lucia Crvelin će napisati i
+odlomak "Korištene tehnologije i alati".
+
+Dorian Matić će provesti reviziju dokumentacije kako bismo utvrdili u koji dijelovi dokumentacije se razlikuju od
+implementacije.
+
+Frontend tim će integrirati ekrane vezane u korisnike s backendom.
+
+Backend tim će nastaviti rad na novim entitetima i otvarati API endpointe koji su definirani u specifikaciji API-ja.
+
+-------------------------------------------------------------------------------------------------------------------
+Mid-spring Sync - 18.12.2023.
+
+Dnevni red:
+- Koordinacija o napretku unutar jednog sprinta.
+
+Prisutni: D. Matić, M. Lešković, K. Valečić, V. Kumanović, L. Crvelin, M. Vidaković
+Neprisutni: L. Cvetkovski
+
+Diskusija i rješavanje tehničkh problema vezanih uz dodjeljene zadatke na frontendu i backendu.
+
+-------------------------------------------------------------------------------------------------------------------
