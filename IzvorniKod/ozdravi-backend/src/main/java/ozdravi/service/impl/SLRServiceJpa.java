@@ -31,17 +31,17 @@ public class SLRServiceJpa implements SLRService {
 
     @Override
     public List<SLR> listByParent(Long id) {
-        return slrRepository.findAll().stream().filter(slr -> slr.getParent().getId().equals(id)).toList();
+        return slrRepository.findAllByParentId(id);
     }
 
     @Override
     public List<SLR> listByCreator(Long id) {
-        return slrRepository.findAll().stream().filter(slr -> slr.getCreator().getId().equals(id)).toList();
+        return slrRepository.findAllByCreatorId(id);
     }
 
     @Override
     public List<SLR> listByApprover(Long id) {
-        return slrRepository.findAll().stream().filter(slr -> slr.getApprover().getId().equals(id)).toList();
+        return slrRepository.findAllByApproverId(id);
     }
 
     @Override
