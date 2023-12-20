@@ -19,5 +19,7 @@ public interface SLRService {
 
     List<SLR> listByApprover(Long id);
 
-    void modifyUser(SLR newData, Long id);
+    void modifySLR(SLR newData, Long id);
+
+    SLR save(SLR slr);
 }

@@ -38,7 +38,7 @@ public class SLR {
     }
 
     public void copyDifferentAttributes(SLR other) {
-        String[] ignoreProperties = {"id"};
+        String[] ignoreProperties = {"id", "status"};
         BeanUtils.copyProperties(other, this, ignoreProperties);
     }
 }

@@ -45,7 +45,12 @@ public class SLRServiceJpa implements SLRService {
     }
 
     @Override
-    public void modifyUser(SLR newData, Long id) {
+    public SLR save(SLR slr) {
+        return slrRepository.save(slr);
+    }
+
+    @Override
+    public void modifySLR(SLR newData, Long id) {
         Optional<SLR> optionalSLR = slrRepository.findById(id);
 
         if(optionalSLR.isPresent()){

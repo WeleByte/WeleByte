@@ -38,7 +38,7 @@ public class SLRController {
 
         try{
             SLR slr = dtoManager.slrdtoToSLR(slrDTO);
-            return ResponseEntity.ok().body(slr);
+            return ResponseEntity.ok().body(slrService.createSLR(slr));
         } catch (Exception e){
             return ResponseEntity.badRequest().body(e.getMessage());
         }
@@ -81,8 +81,8 @@ public class SLRController {
         SLR slr = slrOptional.get();
 
         if(!slr.getParent().getId().equals(user.get().getId())
-                || !slr.getCreator().getId().equals(user.get().getId())
-                || !slr.getApprover().getId().equals(user.get().getId())) {
+                && !slr.getCreator().getId().equals(user.get().getId())
+                && !slr.getApprover().getId().equals(user.get().getId())) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body("You are not authorized to view this info");
         }
 
@@ -104,7 +104,7 @@ public class SLRController {
 
         try{
             SLR slrModified = dtoManager.slrdtoToSLR(slrDTO);
-            slrService.modifyUser(slrModified, id);
+            slrService.modifySLR(slrModified, id);
             return ResponseEntity.ok().body("Sick leave recommendation with id: " + id.toString() + " successfully updated");
         } catch (Exception e){
             return ResponseEntity.badRequest().body(e.getMessage());
@@ -130,6 +130,8 @@ public class SLRController {
         slr.setStatus(approved);
 
         String approvalString = approved ? "approved" : "rejected";
+
+        slrService.save(slr);
         return ResponseEntity.ok().body("Sick leave recommendation with id: " + id.toString() + " successfully " + approvalString);
     }
 }
