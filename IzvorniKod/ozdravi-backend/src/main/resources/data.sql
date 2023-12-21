@@ -75,6 +75,23 @@ values ('djete2@mail.com',
         4, 3);
 insert into user_roles(user_id, role_id) values (6, 2);
 
+insert into users (email, password, oib, first_name, last_name)
+values ('roditeljBezDoktora@mail.com',
+        '{bcrypt}$2a$12$vyhf.Rod8fQmYsXi7fooHOGIzq5gLXMZ5kQtzywRCiRrgCe41o9lq',
+        '09163624639',
+        'Jasenka',
+        'Bilic');
+insert into user_roles(user_id, role_id) values (7, 4);
+
+insert into users (email, password, oib, first_name, last_name, parent_id)
+values ('djeteBezPedijatra@mail.com',
+        '{bcrypt}$2a$12$vyhf.Rod8fQmYsXi7fooHOGIzq5gLXMZ5kQtzywRCiRrgCe41o9lq',
+        '67023616685',
+        'Milko',
+        'Kvrzic',
+        4);
+insert into user_roles(user_id, role_id) values (8, 2);
+
 insert into examinations(patient_id, doctor_id, scheduler_id, address_id, report, date)
 values(6, 3, 3, 3, 'pacijent ima upalu grla.', CURRENT_DATE + CURRENT_TIME);
 
@@ -85,9 +102,9 @@ insert into examinations(patient_id, doctor_id, scheduler_id, address_id, report
 values(4, 2, 2, 3, 'pacijent ima upalu uha.', '2023-01-11 14:30:00');
 
 insert into examinations(patient_id, doctor_id, scheduler_id, address_id, report, date)
-values(4, 2, 3, 3, 'gastroskopija.', '2023-12-25 18:30:00');
+values(4, 3, 2, 3, 'gastroskopija.', '2023-12-25 18:30:00');
 
 insert into examinations(patient_id, doctor_id, scheduler_id, address_id, report, date)
-values(6, 3, 2, 3, 'pregled stitnjace.', '2023-02-13 14:30:00');
+values(6, 2, 3, 3, 'pregled stitnjace.', '2023-02-13 14:30:00');
 
 -- pass je 'primus" TODO obrisati komentar u nekom trenutku

@@ -5,8 +5,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import ozdravi.domain.Address;
 import ozdravi.domain.Examination;
+import ozdravi.domain.SLR;
 import ozdravi.domain.User;
 import ozdravi.rest.dto.ExaminationRequest;
+import ozdravi.rest.dto.SLRDTO;
 import ozdravi.rest.dto.UserDTO;
 import ozdravi.service.AddressService;
 import ozdravi.service.ExaminationService;
@@ -69,7 +71,9 @@ public class DTOManager {
         Optional<User> doctor = doctor_id==null ? Optional.empty() : userService.findById(userDTO.getDoctor_id());
         Optional<Address> address = address_id==null ? Optional.empty() : addressService.findById(userDTO.getAddress_id());
 
-        userDTO.setPassword(passwordEncoder.encode(userDTO.getPassword()));
+        if(userDTO.getPassword()!=null && !userDTO.getPassword().isEmpty() && !userDTO.getPassword().startsWith("{bcrypt}")) {
+            userDTO.setPassword(passwordEncoder.encode(userDTO.getPassword()));
+        }
 
         return User.builder()
                 .email(userDTO.getEmail())
@@ -86,5 +90,29 @@ public class DTOManager {
 
     public UserDTO userToUserDTO(User user) {
         return new UserDTO(user);
+    }
+
+    public SLR slrdtoToSLR(SLRDTO slrDTO) throws IllegalArgumentException {
+        Optional<User> patient = userService.findById(slrDTO.getParent_id());
+        Optional<User> creator = userService.findById(slrDTO.getCreator_id());
+        Optional<User> approver = userService.findById(slrDTO.getApprover_id());
+        Optional<Examination> examination = examinationService.findById(slrDTO.getExamination_id());
+
+        if(!slrDTO.getStatus()) slrDTO.setStatus(false);
+
+        if(patient.isEmpty() || creator.isEmpty() || approver.isEmpty() || examination.isEmpty())
+            throw new IllegalArgumentException("Patient, creator, approver or examination ID doesn't exist in database");
+
+        return SLR.builder()
+                .parent(patient.get())
+                .creator(creator.get())
+                .approver(approver.get())
+                .examination(examination.get())
+                .status(slrDTO.getStatus())
+                .build();
+    }
+
+    public SLRDTO slrToSLRDTO(SLR slr) {
+        return new SLRDTO(slr);
     }
 }

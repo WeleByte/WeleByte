@@ -30,7 +30,7 @@ public class JwtUserDetailsService implements UserDetailsService {
 
     /**
      * returns authorities (roles) for given user, with a prefix ROLE_
-     * @param username username of a user
+     * @param email username of a user
      * @return list of authorities
      */
     private List<GrantedAuthority> authorities(String email) {
@@ -39,6 +39,5 @@ public class JwtUserDetailsService implements UserDetailsService {
                 .map(r -> "ROLE_" + r.getName().toUpperCase())
                 .collect(Collectors.joining(", "));
         return commaSeparatedStringToAuthorityList(roles);
-
     }
 }

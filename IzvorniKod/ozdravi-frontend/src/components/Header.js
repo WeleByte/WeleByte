@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import logoPng from '../assets/images/logo.png';
 import userIcon from '../assets/images/userIcon.png'
 import {useState} from 'react';
@@ -7,13 +7,44 @@ import {useNavigate} from "react-router-dom";
 const Navbar = () => {
     const uloga = "doktor"
     const navigate = useNavigate()
-
     const [selectedItem, setSelectedItem] = useState(localStorage.getItem('SelectedItem'))
+    let userData = JSON.parse(sessionStorage.userData)
+    let roles = userData.roles
+    // const [doctorRole, setDoctorRole] = useState(false)
+    // const [parentRole, setParentRole] = useState(false)
+    // const [adminRole, setAdminRole] = useState(false)
+    // const [pediatricianRole, setPediatricianRole] = useState(false)
+    //
+    // useEffect(() => {
+    //     roles.forEach(role => {
+    //         if(role.name === "admin") setAdminRole(true)
+    //         if(role.name === "pediatrician") setPediatricianRole(true)
+    //         if(role.name === "parent") setParentRole(true)
+    //         if(role.name === "doctor") setDoctorRole(true)
+    //
+    //     })
+    // }, []);
+
+    // let selectedItem = localStorage.selectedItem
+    let doctorRole = false
+    let parentRole = false
+    let adminRole = false
+    let pediatricianRole = false
+
+
+    roles.forEach(role => {
+        if(role.name === "admin") adminRole = true
+        if(role.name === "pediatrician") pediatricianRole = true
+        if(role.name === "parent") parentRole = true
+        if(role.name === "doctor") doctorRole = true
+
+    })
+
     const handleItemClick = (e, item) => {
         // e.preventDefault()
         localStorage.setItem('SelectedItem', item)
         setSelectedItem(item)
-        console.log(selectedItem)
+        // selectedItem = item
         switch(item) {
             case 'home': navigate('/home')
                 break
@@ -45,9 +76,10 @@ const Navbar = () => {
         </button>
         <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div className="navbar-nav ">
+
                 <button className={selectedItem === 'home' ? "nav-item nav-link active" : "nav-item nav-link"}
                     onClick={(e)  => handleItemClick(e, 'home')}> Početna </button>
-          { uloga === "doktor" || uloga === "pedijatar" ? (  <button
+          {doctorRole || adminRole || pediatricianRole ? (  <button
               className={selectedItem === 'pacijenti' ? "nav-item nav-link active" : "nav-item nav-link"}
               onClick={(e) => handleItemClick(e, 'pacijenti')}>Pacijenti</button> ) : null }
 
@@ -78,7 +110,7 @@ const Navbar = () => {
 
     </nav>
     </div>
-  );
-};
+  )
+}
 
 export default Navbar;
