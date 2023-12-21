@@ -10,7 +10,8 @@ import SecondOpinions from './pages/SecondOpinions';
 import Bolovanja from './pages/Bolovanja';
 import ProfilePage from './pages/Profile.js';
 import Navbar from './components/Header.js';
-import Examinations from "./pages/Examinations";
+import Examinations from './pages/Examinations.js';
+
 
 function App({wordIn}) {
     const backendRoute = process.env.REACT_APP_BACKEND_URL || 'http://localhost:8080'

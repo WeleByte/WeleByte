@@ -20,7 +20,7 @@ const Users = (props) => {
     const roles = user.roles
     const navigate = useNavigate()
     const uloga = "doktor"
-    let currentOpenedOptions = null;
+    var [currentOpenedOptions, setCurrentOpenedOptions] = useState(null);
     let optionsOpened= false;
     const [refreshUsers, setRefreshUsers] = useState(false)
     const [isAddPatientVisible, showAddPatient] = useState(false);
@@ -58,9 +58,10 @@ const Users = (props) => {
 
     const closeUserOptions = (index) => {
 
-
+        console.log("closing")
+        console.log(index)
         const tbody = document.querySelector(`#usersTable tbody`);
-        const tr = tbody.querySelector(`#usersTable tr:nth-child(${index + 1})`);
+        const tr = tbody.querySelector(`tr:nth-child(${index + 1})`);
 
 
         const userOptions = tr.querySelector('.userOptions');
@@ -68,29 +69,29 @@ const Users = (props) => {
         userOptions.style.display = 'none';
 
 
-
-
     }
 
     const openUserOptions = (index) => {
-        console.log("opening")
-        /*  for (let i=0; i <users.length; i++) {
-             closeUserOptions(i);
-         } */
-
+        console.log("opening");
+        console.log(currentOpenedOptions);
+    
+        // Close previously opened options if any
+        if (currentOpenedOptions !== null && currentOpenedOptions !== index) {
+            closeUserOptions(currentOpenedOptions);
+        }
+    
         optionsOpened = true;
-
+    
         const tbody = document.querySelector(`#usersTable tbody`);
-        const tr = tbody.querySelector(`#usersTable tr:nth-child(${index + 1})`);
-
-
+        const tr = tbody.querySelector(`tr:nth-child(${index + 1})`);
         const userOptions = tr.querySelector('.userOptions');
-
+    
         userOptions.style.display = 'block';
-
-        currentOpenedOptions = index;
+    
+        setCurrentOpenedOptions(index);
     }
-
+    
+    
 
 
 
@@ -232,9 +233,7 @@ const Users = (props) => {
                         <thead>
                         <tr>
                             <th scope="col" >PATIENT</th>
-                            <th scope="col">AGE</th>
-                            <th scope="col">LAST VISIT</th>
-                            <th scope="col">NO. VISITS</th>
+                            <th scope="col">OIB</th>
                             <th scope="col">EMAIL</th>
                             <th scope="col"></th>
 
@@ -248,18 +247,17 @@ const Users = (props) => {
                                     <img src = {userIcon} alt = "" width = "14" className='me-3' style={{opacity: "75%"}}></img>
                                     {user.first_name + " " + user.last_name}
                                 </td>
-                                <td>visak</td>
-                                <td>visak</td>
-                                <td>visak</td>
+                              
+                                <td>{user.oib}</td>
                                 <td>{user.email}</td>
+                               
 
                                 <td className = "three-dot-td" >
 
-
                                     <img width="18" height="18" onClick={() => openUserOptions(index)}
-                                         src="https://img.icons8.com/ios-glyphs/30/menu-2.png" alt="menu-2"/></td>
+                                         src="https://img.icons8.com/ios-glyphs/30/menu-2.png" alt="menu-2"/>
 
-                                <td>
+                               
                                     <ul className="list-group userOptions shadow-lg p-0 border" style={{display:"none"}}>
                                         <p className ="mb-2 mt-2 ps-3 py-1" style={{textAlign: "left"}}>Akcije
                                             <img className =" mt-1 closeActionsIcon" style={{ height: "19px", float: "right", opacity: "80%"}}

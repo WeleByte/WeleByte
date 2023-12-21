@@ -319,7 +319,7 @@ tr {
 .three-dot-td { 
   width: 40px;
   padding-right: 14px;
-  opacity: 70%;
+ 
 
 }
 
@@ -333,18 +333,11 @@ tr {
 }
 
 
-#usersTable tr td:nth-child(3),
-  #usersTable tr td:nth-child(4),
-  #usersTable tr th:nth-child(3),
-  #usersTable tr th:nth-child(4) {
-    display: none !important;
-  }
 
 @media (max-width: 750px) {
   #usersTable tr td:nth-child(3),
-  #usersTable tr td:nth-child(4),
-  #usersTable tr th:nth-child(3),
-  #usersTable tr th:nth-child(4) {
+  #usersTable tr th:nth-child(3)
+  {
     display: none !important;
   }
   #addPatientTable tr td:nth-child(2),

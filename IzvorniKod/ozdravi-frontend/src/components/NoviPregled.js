@@ -5,6 +5,7 @@ import PlusIcon from '../assets/icons/plus.png'
 import searchIcon from '../assets/icons/search.png'
 import Navbar from './Header';
 import userIcon from '../assets/images/userIcon.png'
+import Select from 'react-select'
 
 const NoviPregled = ({closeNoviPregled}) => {
 
@@ -37,6 +38,18 @@ const NoviPregled = ({closeNoviPregled}) => {
   }
     // ... rest of your original array
   ];
+
+  const doktori = [
+    { value: '1', label: 'Chocolate' },
+    { value: '2', label: 'Marta Martovič' },
+    { value: '3', label: 'Vanilla' }
+  ]
+
+  const pacijenti = [
+    { value: '1', label: 'Chocolate' },
+    { value: '2', label: 'Marta Martovič' },
+    { value: '3', label: 'Vanilla' }
+  ]
 
   const [filteredUsers, setFilteredUsers] = useState(originalUsers);
 
@@ -91,37 +104,32 @@ var finalUsersList = filteredUsers.map((user) =>
 
 <div style={{display: "grid", gridTemplateColumns: "1fr 1fr", gridColumnGap: "20px"}} class ="mt-4">
 
-{/*----------------------------FIRST NAME-----------------------------*/}
-
-<div className="mb-3">
-  <label htmlFor="username" className="form-label" style={{float: 'left'}}>IME</label>
-  <input type="text" className="form-control" id="username" 
-        />
-</div>
-
-{/*----------------------------LAST NAME-----------------------------*/}
-<div className="mb-3">
-  <label htmlFor="username" className="form-label" style={{float: 'left'}}>PREZIME</label>
-  <input type="text" className="form-control" id="username"
-        />
-</div>
 
 
 <div className="mb-3">
-  <label htmlFor="username" className="form-label" style={{float: 'left'}}>OIB</label>
-  <input type="text" className="form-control" id="username" 
-        />
+
+<Select options={doktori} placeholder = "Odaberite doktora..." />
+
 </div>
 
 
 
+<div className="mb-4">
+
+<Select options={pacijenti} placeholder = "Odaberite pacijenta..."/>
+</div>
 
 
-
-
-<div className="mb-3">
+<div className="mb-4">
   <label htmlFor="username" className="form-label" style={{float: 'left'}}>DATUM</label>
   <input type="date" className="form-control" id="username" 
+        />
+</div>
+
+
+<div className="mb-3">
+  <label htmlFor="username" className="form-label" style={{float: 'left'}}>LOKACIJA</label>
+  <input type="text" className="form-control" id="username" 
         />
 </div>
 

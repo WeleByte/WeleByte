@@ -24,6 +24,7 @@ const Examinations = (props) => {
     let optionsOpened= false;
     const [examinations, setExaminations] = useState([])
     const [isAddPatientVisible, showAddPatient] = useState(false);
+    const [isPregledDetailVisible, setIsPregledDetailVisible] = useState(false);
 
 
     const toggleAddPatient = () => {
@@ -35,76 +36,59 @@ const Examinations = (props) => {
 
     const toggleNoviPregled = () => {
         setNoviPregledOtvoren(!noviPregledOtvoren);
-        closeUserOptions(currentOpenedOptions)
+        if (currentOpenedOptions) {
+            closeUserOptions(currentOpenedOptions)
+        }
+       
+    };
+
+    const togglePregledDetail = () => {
+        setIsPregledDetailVisible(!isPregledDetailVisible);
+        if (currentOpenedOptions) {
+            closeUserOptions(currentOpenedOptions)
+        }
+       
     };
 
     const closeUserOptions = (index) => {
         console.log("closing")
-        for (let i=0; i <5; i++) {
+        
             const tbody = document.querySelector(`#usersTable tbody`);
-            const tr = tbody.querySelector(`#usersTable tr:nth-child(${i + 1})`);
+            const tr = tbody.querySelector(`#usersTable tr:nth-child(${index + 1})`);
 
 
             const userOptions = tr.querySelector('.userOptions');
 
             userOptions.style.display = 'none';
-        }
-
-
 
     }
 
+    
     const openUserOptions = (index) => {
-        console.log("opening")
-        for (let i=0; i <5; i++) {
-            closeUserOptions(i);
+        console.log("opening");
+        console.log(currentOpenedOptions);
+    
+        // Close previously opened options if any
+        if (currentOpenedOptions !== null && currentOpenedOptions !== index) {
+            closeUserOptions(currentOpenedOptions);
         }
-
+    
         optionsOpened = true;
-
+    
         const tbody = document.querySelector(`#usersTable tbody`);
-        const tr = tbody.querySelector(`#usersTable tr:nth-child(${index + 1})`);
-
-
+        const tr = tbody.querySelector(`tr:nth-child(${index + 1})`);
         const userOptions = tr.querySelector('.userOptions');
-
+    
         userOptions.style.display = 'block';
-
+    
         currentOpenedOptions = index;
     }
 
     useEffect(() => {
-        const handleClick = (event) => {
-            // Handle the click event here
-            console.log('Component clicked!', event);
-            const tbody = document.querySelector(`#usersTable tbody`);
-            const tr = tbody.querySelector(`#usersTable tr:nth-child(${currentOpenedOptions + 1})`);
+        
 
-            const userOptions = tr.querySelector('.userOptions');
-
-
-            if (!(userOptions.contains(event.target)) && optionsOpened) {
-
-
-
-                if (userOptions.style.display !== "none") {
-                    console.log("closing")
-                    /* closeUserOptions(currentOpenedOptions);
-                    optionsOpened = false */;
-                }
-
-
-            }
-
-        };
-
-        // Add click event listener when the component mounts
-        document.addEventListener('click', handleClick);
-
-        // Remove the event listener when the component unmounts
-        return () => {
-            document.removeEventListener('click', handleClick);
-        };
+       
+        
     }, []); // Empty dependency array ensures the effect runs only once on mount
 
 
@@ -171,6 +155,7 @@ const Examinations = (props) => {
             .then(parsedData => {
                 console.log(parsedData)
                 setExaminations(parsedData);
+                
             })
             // .catch(error => {
             //     console.error('Fetch error:', error);
@@ -188,6 +173,7 @@ const Examinations = (props) => {
             <Navbar></Navbar>
 
             {noviPregledOtvoren && <NoviPregled closeNoviPregled = {toggleNoviPregled}/>}
+            
 
 
 
