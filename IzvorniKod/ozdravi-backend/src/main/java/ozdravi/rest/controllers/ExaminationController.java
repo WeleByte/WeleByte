@@ -60,7 +60,7 @@ public class ExaminationController {
             return ResponseEntity.notFound().build();
     }
 
-//        primjer datuma za POST
+    //        primjer datuma za POST
 //        "date":"2023-12-06T20:18:37.3933286"
     @PreAuthorize("hasAnyRole('PEDIATRICIAN', 'DOCTOR')")
     // samo doktori i pedijatri mogu stvarati examinatione
