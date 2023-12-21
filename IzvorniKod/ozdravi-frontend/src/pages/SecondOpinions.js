@@ -1,7 +1,9 @@
 import React, {useState} from 'react';
 import Navbar from '../components/Header';
-import ArrowRightIcon from '../assets/icons/arrow-right.png'
+import ArrowRightIcon from '../assets/icons/arrow-right-blue.png'
 import {useNavigate} from "react-router-dom";
+import SeccondOpinnionForm from '../components/SeccondOpinnionForm';
+import SeccondOpinnionResponse from '../components/SeccondOpinnionResponse';
 
 const SecondOpinions = () => {
 
@@ -9,6 +11,20 @@ const SecondOpinions = () => {
 
   const [selectedStatus, setSelectedStatus] = useState('svi')
   const bearerToken = sessionStorage.bearerToken
+ const [novoMisljenjeOpen, setNovoMisljenjeOpen] = useState(false)
+ const [novoMisljenjeDetail, setNovoMisljenjeDetail] = useState(false)
+
+  const toggleNovoMisljenje = () => {
+        
+    setNovoMisljenjeOpen(!novoMisljenjeOpen);
+    
+   
+};
+  const toggleMisljenjeDetail = () => {
+    console.log("hello")
+    setNovoMisljenjeDetail(!novoMisljenjeDetail);
+   
+};
 
   const original = [
       {
@@ -53,18 +69,20 @@ const SecondOpinions = () => {
   }
 
   const finalSecondOpinionsList = filteredSecondOpinions.map((secondOpinion) => (
-      <div className = "card mb-2" style={{textAlign: "left"}}>
+   
+      <div className = "card mb-0" style={{textAlign: "left"}}>
           <div className="card-body pregledajCardBody" style={{paddingRight: "130px"}}>
               <h5 className="card-title ">Moguća dijagnoza: {secondOpinion.ime + " " + secondOpinion.prezime}</h5>
               <p style={{fontSize: "13px"}}
                  className='mb-1'>{secondOpinion.bolnica} • {secondOpinion.status}</p>
-              <button className='btn btn-primary pregledajGumbPc'  style={{position:"absolute", right:"1rem", top: "30%"}}>Pregledaj           <img width="14" height="14" className = "ms-2  " src={ArrowRightIcon} style={{marginBottom: "2px"}}  alt="right"/>
+              <button className='btn btn-secondary pregledajGumbPc'  style={{position:"absolute", right:"1rem", top: "30%"}} onClick = {toggleMisljenjeDetail}>Pregledaj   <img width="14" height="14" className = "ms-1 pregledaj-btn  " src={ArrowRightIcon} style={{marginBottom: "2px"}}  alt="right"/>       {/*  <img width="14" height="14" className = "ms-2  " src={ArrowRightIcon} style={{marginBottom: "2px"}}  alt="right"/> */}
               </button>
-              <button className='btn btn-primary pregledajGumbMobile mt-3 col-12'  >Pregledaj <img width="14" height="14" className = "ms-2  " src={ArrowRightIcon} style={{marginBottom: "2px"}}  alt="right"/>
+              <button className='btn btn-secondary pregledajGumbMobile mt-3 '  onClick = {toggleMisljenjeDetail} style={{zIndex: "100"}}>Pregledaj <img width="14" height="14" className = "ms-1 pregledaj-btn  " src={ArrowRightIcon} style={{marginBottom: "2px"}}  alt="right"/>
               </button>
 
           </div>
       </div>
+    
   ))
 
   if(!bearerToken){
@@ -76,30 +94,40 @@ const SecondOpinions = () => {
     <div id = "HomePageWrapper">
      <Navbar></Navbar>
 
+     {novoMisljenjeOpen && <SeccondOpinnionForm closeSeccondOpinnionForm = {toggleNovoMisljenje}/>}
+     {novoMisljenjeDetail && <SeccondOpinnionResponse closeSeccondOpinnionForm = {toggleMisljenjeDetail}/>}
   
      <div id = "seccondOppWrapper">
-<h3 className = "pt-3 px-4 mt-2 " style={{textAlign: "left"}}>Druga Mišljenja {/* <button className='btn btn-tertiary mt-1' style={{float: 'right'}}>Povijest </button>  */} </h3>
-<p style={{textAlign: "left"}} className = "px-4 mb-2 ">{nepregledanoCount} nepregledanih</p>
+
+        {/*     <p style={{textAlign: "left", fontSize: "13px"}} className='px-4 mb-2 mt-2 mb-1'>4 nepregledanih - 7 pregledanih</p> */}
+<h5 className = "pt-3 px-4 mt-4 mb-4" style={{textAlign: "left", color: "#212529f1",}}>Druga Mišljenja    <button className = "btn btn-primary" style={{float:"right"}} onClick={toggleNovoMisljenje}>Dodaj +</button> </h5> 
 
 
+{/*     <p style={{textAlign: "left", fontSize: "13px"}} className='px-4 mb-2 mt-2 mb-1'>4 nepregledanih - 7 pregledanih</p> */}
 
-<div id = "usersSelectorDiv" className = "px-4 pb-1 pt-0 " style={{display: "flex", justifyContent: "left", flexWrap: "wrap"}}>
+
+{/* <div id = "usersSelectorDiv" className = "px-4 pb-1 pt-0 " style={{display: "flex", justifyContent: "left", flexWrap: "wrap"}}>
     <button className = {selectedStatus === 'svi' ?
-        "btn btn-primary me-2 mt-2" : "btn btn-secondary me-2 mt-2"}
-            id = "nepregledano" onClick={() => setSelectedStatus('svi')}>SVI</button>
+        "btn btn-primary chip-selected  me-2 mt-2" : "btn btn-secondary chip-unselected me-2 mt-2"}
+            id = "nepregledano" onClick={() => setSelectedStatus('svi')}>Sve</button>
 
     <button className = {selectedStatus === 'nepregledano' ?
-        "btn btn-primary me-2 mt-2" : "btn btn-secondary me-2 mt-2"}
-            id = "nepregledano" onClick={() => setSelectedStatus('nepregledano')}>NEPREGLEDANO</button>
+        "btn btn-primary chip-selected  me-2 mt-2" : "btn btn-secondary chip-unselected  me-2 mt-2"}
+            id = "nepregledano" onClick={() => setSelectedStatus('nepregledano')}>Nepregledano</button>
 
     <button className = {selectedStatus === 'pregledano' ?
-        "btn btn-primary me-2 mt-2" : "btn btn-secondary me-2 mt-2"}
-            id = "pregledano" onClick={() => setSelectedStatus('pregledano')}>PREGLEDANO</button>
-    </div>
+        "btn btn-primary chip-selected  me-2 mt-2" : "btn btn-secondary chip-unselected  me-2 mt-2"}
+            id = "pregledano" onClick={() => setSelectedStatus('pregledano')}>Pregledano</button>
+    </div> */}
 
-    <p style={{textAlign: "left", fontSize: "13px"}} className='px-4 mb-0 mt-4 mb-1'>INBOX</p>
+
+
     
-    <div class = "px-4 pt-1 ">
+    <div class = "px-4 pt-1 " id = "secondOppinionList">
+        <div class = "selectorHeader">
+            <button class ="btn selector-btn selector-btn-selected col-6">Nepregledano ({nepregledanoCount})</button>
+            <button class ="btn selector-btn selector-btn-unselected col-6">Pregledano ({nepregledanoCount + 3})</button>
+        </div>
         {finalSecondOpinionsList}
     </div>
 

@@ -66,7 +66,7 @@ const Navbar = () => {
     return (
 
     
-    <div id = "HomePageWrapper">
+ 
      
         <nav className="navbar  navbar-expand-lg navbar-light  px-3 py-3 py-lg-0  col-12" >
         <img src = {logoPng} id ="navbarLogo" alt = "" style={{height: "40px !important"}} className='ms-2'></img>
@@ -109,7 +109,7 @@ const Navbar = () => {
 
 
     </nav>
-    </div>
+  
   )
 }
 

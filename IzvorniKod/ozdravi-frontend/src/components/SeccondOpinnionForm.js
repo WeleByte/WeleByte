@@ -56,14 +56,14 @@ const SeccondOpinnionForm = ({closeSeccondOpinnionForm}) => {
 
 <div className="mb-4">
 
-<Select options={doktori} placeholder = "Odaberite pacijenta..."/>
+<Select options={doktori} placeholder = "Doktor kojem šaljete drugo mišljenje..."/>
 </div>
 
 
 </div>
 
 <div className="mb-3">
-  <label htmlFor="username" className="form-label" style={{float: 'left'}}>OPIS DRUGOG MIŠLJENJA</label>
+  <label htmlFor="username" className="form-label" style={{float: 'left'}}>OPIS</label>
   <textarea rows = "7" type="date" className="form-control" id="username" 
         />
 </div>

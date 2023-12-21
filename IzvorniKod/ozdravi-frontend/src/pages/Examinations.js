@@ -8,9 +8,11 @@ import chevronRight from '../assets/icons/chevron-right.png'
 import CloseIcon from '../assets/icons/x2.png'
 import TrashIcon from '../assets/icons/trash.png'
 import Plus2Icon from '../assets/icons/plus2.png'
+import InfoIcon from '../assets/icons/info.png'
 import { useNavigate } from "react-router-dom";
 
 import NoviPregled from '../components/NoviPregled';
+import PregledDetail from '../components/PregledDetail';
 
 
 const Examinations = (props) => {
@@ -35,6 +37,7 @@ const Examinations = (props) => {
     const [noviPregledOtvoren, setNoviPregledOtvoren] = useState(false);
 
     const toggleNoviPregled = () => {
+        
         setNoviPregledOtvoren(!noviPregledOtvoren);
         if (currentOpenedOptions) {
             closeUserOptions(currentOpenedOptions)
@@ -43,6 +46,7 @@ const Examinations = (props) => {
     };
 
     const togglePregledDetail = () => {
+        
         setIsPregledDetailVisible(!isPregledDetailVisible);
         if (currentOpenedOptions) {
             closeUserOptions(currentOpenedOptions)
@@ -173,8 +177,8 @@ const Examinations = (props) => {
             <Navbar></Navbar>
 
             {noviPregledOtvoren && <NoviPregled closeNoviPregled = {toggleNoviPregled}/>}
-            
-
+            {isPregledDetailVisible && <PregledDetail closeNoviPregled = {togglePregledDetail}/>}
+        
 
 
             <div id = "usersWrapperInner">
@@ -225,9 +229,9 @@ const Examinations = (props) => {
                         <thead>
                         <tr>
                             <th scope="col" >PACIJENT</th>
-                            <th scope="col">DOKTOR</th>
-                            <th scope="col">LAST VISIT</th>
-                            <th scope="col">NO. VISITS</th>
+                            {/* <th scope="col">DOKTOR</th>
+                            <th scope="col">EMAIL PACIJENTA</th> */}
+                            <th scope="col">OPIS PREGLEDA</th>
                             <th scope="col">ADRESA</th>
                             <th scope="col"></th>
 
@@ -242,8 +246,8 @@ const Examinations = (props) => {
                                         <img src = {userIcon} alt = "" width = "14" className='me-3' style={{opacity: "75%"}}></img>
                                         {examination.patient.first_name + " " + examination.patient.last_name}
                                     </td>
-                                    <td>{examination.doctor.first_name + " " + examination.doctor.last_name}</td>
-                                    <td>{examination.patient.email}</td>
+                                    {/* <td>{examination.doctor.first_name + " " + examination.doctor.last_name}</td>
+                                    <td>{examination.patient.email}</td> */}
                                     <td>{examination.report}</td>
                                     <td>{examination.address.street}</td>
 
@@ -255,7 +259,7 @@ const Examinations = (props) => {
                                     <ul className="list-group userOptions shadow-lg p-0 border" style={{display:"none"}}>
                                         <p className ="mb-2 mt-2 ps-3 py-1" style={{textAlign: "left"}}>Akcije <img className =" mt-1 closeActionsIcon" style={{ height: "19px", float: "right", opacity: "80%"}} onClick={() => closeUserOptions(index)} src={CloseIcon}></img>  </p>
                                         <hr className ="mt-0 mb-0" style={{opacity: "20%"}}></hr>
-                                        <button onClick={toggleNoviPregled} className =" ps-3 col-12 mb-2 mt-2 py-2 novi-pregled-btn" style={{opaciy: "80%",textAlign: "left", fontWeight:"500", border:"none", background:"none"}} > Novi pregled  <img className ="me-3 mt-1" style={{ height: "19px", float: "right", opacity: "80%" }} src={Plus2Icon}></img> </button>
+                                        <button onClick={togglePregledDetail} className =" ps-3 col-12 mb-2 mt-2 py-2 novi-pregled-btn" style={{opaciy: "80%",textAlign: "left", fontWeight:"500", border:"none", background:"none"}} > Detalji  <img className ="me-3 mt-1" style={{ height: "19px", float: "right", opacity: "80%" }} src={InfoIcon}></img> </button>
 
                                         <button className =" ps-3  col-12 mb-2 py-2 delete-btn" style={{opaciy: "80%",textAlign: "left", fontWeight:"500", border:"none", background:"none"}}> Izbriši <img className ="me-3 mt-1" style={{ height: "19px", float: "right", opacity: "800%" }}  src={TrashIcon}></img> </button>
 
