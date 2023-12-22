@@ -3,6 +3,7 @@ package ozdravi.dao;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import ozdravi.domain.Role;
 import ozdravi.domain.User;
 
 import java.util.List;
@@ -14,6 +15,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
     List<User> findUsersByParent_Id(Long parent_id);
 
     List<User> findUsersByDoctor_Id(Long doctor_id);
+
+    List<User> findUsersByRolesContains(Role role);
 
     @Query("select user from User user join user.roles role where user.doctor is null and role.name = 'parent'")
     List<User> listAvailablePatientsDoctor();
