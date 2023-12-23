@@ -108,7 +108,7 @@ const SignUpPage = (props) => {
             }
             <form onSubmit={handleSignUp}>
 
-              <div style={{display: "grid", gridTemplateColumns: "1fr 1fr", gridColumnGap: "20px"}} class ="mt-4">
+              <div style={{display: "grid", gridTemplateColumns: "1fr 1fr", gridColumnGap: "20px"}} className ="mt-4">
 
               {/*----------------------------FIRST NAME-----------------------------*/}
 

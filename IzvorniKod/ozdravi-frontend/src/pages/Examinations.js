@@ -176,9 +176,14 @@ const Examinations = (props) => {
         <div id = "UsersWrapper">
             <Navbar></Navbar>
 
-            {noviPregledOtvoren && <NoviPregled closeNoviPregled = {toggleNoviPregled}/>}
+            {noviPregledOtvoren && <NoviPregled closeNoviPregled = {toggleNoviPregled}
+                                                backendRoute={backendRoute}
+                                                bearerToken={bearerToken}
+                                                handleLogOut={handleLogOut}/>}
             {isPregledDetailVisible && <PregledDetail closeNoviPregled = {togglePregledDetail}/>}
-        
+
+            
+
 
 
             <div id = "usersWrapperInner">
@@ -229,8 +234,8 @@ const Examinations = (props) => {
                         <thead>
                         <tr>
                             <th scope="col" >PACIJENT</th>
-                            {/* <th scope="col">DOKTOR</th>
-                            <th scope="col">EMAIL PACIJENTA</th> */}
+                            <th scope="col">DOKTOR</th>
+                            <th scope="col">EMAIL</th>
                             <th scope="col">OPIS PREGLEDA</th>
                             <th scope="col">ADRESA</th>
                             <th scope="col"></th>
@@ -246,8 +251,8 @@ const Examinations = (props) => {
                                         <img src = {userIcon} alt = "" width = "14" className='me-3' style={{opacity: "75%"}}></img>
                                         {examination.patient.first_name + " " + examination.patient.last_name}
                                     </td>
-                                    {/* <td>{examination.doctor.first_name + " " + examination.doctor.last_name}</td>
-                                    <td>{examination.patient.email}</td> */}
+                                    <td>{examination.doctor.first_name + " " + examination.doctor.last_name}</td>
+                                    <td>{examination.patient.email}</td>
                                     <td>{examination.report}</td>
                                     <td>{examination.address.street}</td>
 
