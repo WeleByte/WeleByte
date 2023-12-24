@@ -1,5 +1,7 @@
 package ozdravi.rest.controllers;
 
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -7,7 +9,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,10 +17,12 @@ import ozdravi.domain.User;
 import ozdravi.rest.dto.AuthenticationRequest;
 import ozdravi.rest.dto.AuthenticationResponse;
 import ozdravi.rest.ValidityUtil;
+import ozdravi.rest.dto.ChangeRoleRequest;
 import ozdravi.rest.jwt.JwtTokenUtil;
 import ozdravi.rest.jwt.JwtUserDetailsService;
 import ozdravi.service.RoleService;
 import ozdravi.service.UserService;
+import ozdravi.service.impl.SecurityContextService;
 
 import java.util.List;
 import java.util.Optional;
@@ -41,6 +44,12 @@ public class AuthenticationController {
     @Autowired
     private RoleService roleService;
 
+    @Autowired
+    private SecurityContextService securityContextService;
+
+    @Autowired
+    private ObjectMapper objectMapper;
+
     @PostMapping("/login")
     public ResponseEntity<?> authenticate(@RequestBody @Valid final AuthenticationRequest authenticationRequest) {
         Optional<User> user = userService.findByEmail(authenticationRequest.getEmail());
@@ -55,10 +64,10 @@ public class AuthenticationController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid user or password");
         }
 
-        final UserDetails userDetails = jwtUserDetailsService.loadUserByUsername(authenticationRequest.getEmail());
-
+        Long role = user.get().getRoles().get(0).getId();
         return ResponseEntity.ok(new AuthenticationResponse(
-                user.get(), tokenUtil.generateToken(userDetails)));
+                user.get(), tokenUtil.generateToken(authenticationRequest.getEmail(), role),
+                user.get().getRoles().get(0).getName()));
     }
 
     @PostMapping("/register")
@@ -77,5 +86,26 @@ public class AuthenticationController {
         userService.createUser(user);
 
         return ResponseEntity.ok("Successfully registered");
+    }
+
+    @PostMapping("/change_role")
+    public ResponseEntity<?> change_role(@RequestBody final ChangeRoleRequest changeRoleRequest) {
+        Optional<User> user = securityContextService.getLoggedInUser();
+        Optional<Role> role = roleService.findById(changeRoleRequest.getRoleId());
+
+        if(user.isEmpty())
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+
+        if(role.isEmpty())
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+
+        List<Role> userRoles = user.get().getRoles();
+        if(userRoles.contains(role.get())) {
+            return ResponseEntity.ok(new AuthenticationResponse(
+                    user.get(), tokenUtil.generateToken(user.get().getEmail(), changeRoleRequest.getRoleId()),
+                    role.get().getName()));
+        } else {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
     }
 }

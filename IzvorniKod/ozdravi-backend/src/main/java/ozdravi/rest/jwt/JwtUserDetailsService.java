@@ -1,43 +1,42 @@
 package ozdravi.rest.jwt;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import ozdravi.domain.Role;
 import ozdravi.domain.User;
+import ozdravi.service.RoleService;
 import ozdravi.service.UserService;
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
-
-import static org.springframework.security.core.authority.AuthorityUtils.commaSeparatedStringToAuthorityList;
 
 @Service
 public class JwtUserDetailsService implements UserDetailsService {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private RoleService roleService;
+
     @Override
     public UserDetails loadUserByUsername(final String email) {
         final User user = userService.findByEmail(email).orElseThrow(
                 () -> new UsernameNotFoundException("User " + email + " not found"));
 
-//        final List<SimpleGrantedAuthority> roles = Collections.singletonList(new SimpleGrantedAuthority("ADMIN"));
-        return new JwtUserDetails(user.getId(), email, user.getPassword(), authorities(email));
+
+        return new JwtUserDetails(user.getId(), email, user.getPassword(),
+                new SimpleGrantedAuthority("ROLE_" + user.getRoles().get(0).getName().toUpperCase()));
     }
 
-    /**
-     * returns authorities (roles) for given user, with a prefix ROLE_
-     * @param email username of a user
-     * @return list of authorities
-     */
-    private List<GrantedAuthority> authorities(String email) {
-        Optional<User> user = userService.findByEmail(email);
-        String roles = user.get().getRoles().stream()
-                .map(r -> "ROLE_" + r.getName().toUpperCase())
-                .collect(Collectors.joining(", "));
-        return commaSeparatedStringToAuthorityList(roles);
+    public UserDetails loadUserByUsername(String email, Long roleId) {
+        final User user = userService.findByEmail(email).orElseThrow(
+                () -> new UsernameNotFoundException("User " + email + " not found"));
+
+        final Role role = roleService.findById(roleId).orElseThrow(
+                () -> new UsernameNotFoundException("Role " + roleId + " not found"));
+
+        return new JwtUserDetails(user.getId(), user.getEmail(), user.getPassword(),
+                new SimpleGrantedAuthority("ROLE_" + role.getName().toUpperCase()));
     }
 }

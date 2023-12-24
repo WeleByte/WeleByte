@@ -92,6 +92,16 @@ values ('djeteBezPedijatra@mail.com',
         4);
 insert into user_roles(user_id, role_id) values (8, 2);
 
+
+insert into users (email, password, oib, first_name, last_name)
+values ('roditeljDoktor@mail.com',
+        '{bcrypt}$2a$12$vyhf.Rod8fQmYsXi7fooHOGIzq5gLXMZ5kQtzywRCiRrgCe41o9lq',
+        '25768672773',
+        'Lukas',
+        'Aca');
+insert into user_roles(user_id, role_id) values (9, 3);
+insert into user_roles(user_id, role_id) values (9, 4);
+
 insert into examinations(patient_id, doctor_id, scheduler_id, address_id, report, date)
 values(6, 3, 3, 3, 'pacijent ima upalu grla.', CURRENT_DATE + CURRENT_TIME);
 
