@@ -97,8 +97,9 @@ insert into users (email, password, oib, first_name, last_name)
 values ('roditeljDoktor@mail.com',
         '{bcrypt}$2a$12$vyhf.Rod8fQmYsXi7fooHOGIzq5gLXMZ5kQtzywRCiRrgCe41o9lq',
         '25768672773',
-        'Lukas',
-        'Aca');
+        'Tomislav',
+        'Lukas');
+
 insert into user_roles(user_id, role_id) values (9, 3);
 insert into user_roles(user_id, role_id) values (9, 4);
 
