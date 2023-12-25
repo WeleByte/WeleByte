@@ -107,4 +107,11 @@ values(4, 3, 2, 3, 'gastroskopija.', '2023-12-25 18:30:00');
 insert into examinations(patient_id, doctor_id, scheduler_id, address_id, report, date)
 values(6, 2, 3, 3, 'pregled stitnjace.', '2023-02-13 14:30:00');
 
+insert into second_opinions(requester_id, doctor_id, opinion, content)
+values(4, 2, 'Nalaz ukazuje na moguću hemofiliju.', 'Nalaz iz AnalizaLAb-a od 12.12.2023.');
+
+insert into second_opinions(requester_id, doctor_id, opinion, content)
+values(4, 2, 'Uredan nalaz', 'Nalaz iz AnalizaLAB-a od 20.12.2020.');
+
+
 -- pass je 'primus" TODO obrisati komentar u nekom trenutku

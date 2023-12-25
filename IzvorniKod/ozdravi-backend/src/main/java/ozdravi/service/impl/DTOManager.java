@@ -127,7 +127,7 @@ public class DTOManager {
         return SecondOpinion.builder()
                 .requester(requester.get())
                 .doctor(doctor.get())
-                .description(description)
+                .opinion(description)
                 .content(secondOpinionDTO.getContent())
                 .build();
     }
