@@ -14,7 +14,6 @@ import ozdravi.service.UserService;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeParseException;
-import java.util.Objects;
 import java.util.Optional;
 
 //klasa zaduzena za prebacivanje DTO tipova podataka u domenske tipove podataka i obrnuto
@@ -117,7 +116,7 @@ public class DTOManager {
     public SecondOpinion secondOpinionDTOToSecondOpinion(SecondOpinionDTO secondOpinionDTO) throws IllegalArgumentException{
         Optional<User> requester = userService.findById(secondOpinionDTO.getRequester_id());
         Optional<User> doctor = userService.findById(secondOpinionDTO.getDoctor_id());
-        String description = secondOpinionDTO.getDescription();
+        String description = secondOpinionDTO.getOpinion();
 
         if(requester.isEmpty() || doctor.isEmpty())
             throw new IllegalArgumentException("Requester or doctor ID doesn't exist in the database");

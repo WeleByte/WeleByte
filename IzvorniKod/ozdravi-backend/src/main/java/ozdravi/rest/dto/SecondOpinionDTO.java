@@ -8,7 +8,7 @@ public class SecondOpinionDTO {
     private Long id;
     private Long requester_id;
     private Long doctor_id;
-    private String description;
+    private String opinion;
     private String content;
 
     public SecondOpinionDTO() {
@@ -18,7 +18,7 @@ public class SecondOpinionDTO {
         setId(secondOpinion.getId());
         setRequester_id(secondOpinion.getRequester().getId());
         setDoctor_id(secondOpinion.getDoctor().getId());
-        setDescription(secondOpinion.getDescription());
+        setOpinion(secondOpinion.getOpinion());
         setContent(secondOpinion.getContent());
     }
 }

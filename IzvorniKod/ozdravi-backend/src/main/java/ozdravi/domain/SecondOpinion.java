@@ -27,7 +27,7 @@ public class SecondOpinion {
     private User doctor;
 
     @Column(nullable = false)
-    private String description;
+    private String opinion;
 
     @Column
     private String content;
