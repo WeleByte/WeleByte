@@ -3,12 +3,10 @@ package ozdravi.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import ozdravi.domain.Address;
-import ozdravi.domain.Examination;
-import ozdravi.domain.SLR;
-import ozdravi.domain.User;
+import ozdravi.domain.*;
 import ozdravi.rest.dto.ExaminationRequest;
 import ozdravi.rest.dto.SLRDTO;
+import ozdravi.rest.dto.SecondOpinionDTO;
 import ozdravi.rest.dto.UserDTO;
 import ozdravi.service.AddressService;
 import ozdravi.service.ExaminationService;
@@ -16,7 +14,6 @@ import ozdravi.service.UserService;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeParseException;
-import java.util.Objects;
 import java.util.Optional;
 
 //klasa zaduzena za prebacivanje DTO tipova podataka u domenske tipove podataka i obrnuto
@@ -101,7 +98,7 @@ public class DTOManager {
         if(!slrDTO.getStatus()) slrDTO.setStatus(false);
 
         if(patient.isEmpty() || creator.isEmpty() || approver.isEmpty() || examination.isEmpty())
-            throw new IllegalArgumentException("Patient, creator, approver or examination ID doesn't exist in database");
+            throw new IllegalArgumentException("Patient, creator, approver or examination ID doesn't exist in the database");
 
         return SLR.builder()
                 .parent(patient.get())
@@ -114,5 +111,28 @@ public class DTOManager {
 
     public SLRDTO slrToSLRDTO(SLR slr) {
         return new SLRDTO(slr);
+    }
+
+    public SecondOpinion secondOpinionDTOToSecondOpinion(SecondOpinionDTO secondOpinionDTO) throws IllegalArgumentException{
+        Optional<User> requester = userService.findById(secondOpinionDTO.getRequester_id());
+        Optional<User> doctor = userService.findById(secondOpinionDTO.getDoctor_id());
+        String content = secondOpinionDTO.getContent();
+
+        if(requester.isEmpty() || doctor.isEmpty())
+            throw new IllegalArgumentException("Requester or doctor ID doesn't exist in the database");
+
+        if(content.isBlank())
+            throw new IllegalArgumentException("Content cannot be blank");
+
+        return SecondOpinion.builder()
+                .requester(requester.get())
+                .doctor(doctor.get())
+                .opinion(secondOpinionDTO.getOpinion())
+                .content(content)
+                .build();
+    }
+
+    public SecondOpinionDTO secondOpinionToSecondOpinionDTO(SecondOpinion secondOpinion) {
+        return new SecondOpinionDTO(secondOpinion);
     }
 }
