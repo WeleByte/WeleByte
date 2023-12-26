@@ -26,10 +26,10 @@ public class SecondOpinion {
     @JoinColumn(name = "doctor_id", nullable = false)
     private User doctor;
 
-    @Column(nullable = false)
+    @Column
     private String opinion;
 
-    @Column
+    @Column(nullable = false)
     private String content;
 
     public void copyDifferentAttributes(SecondOpinion newData) {

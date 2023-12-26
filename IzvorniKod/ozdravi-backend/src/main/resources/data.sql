@@ -111,7 +111,7 @@ insert into second_opinions(requester_id, doctor_id, opinion, content)
 values(4, 2, 'Nalaz ukazuje na moguću hemofiliju.', 'Nalaz iz AnalizaLAb-a od 12.12.2023.');
 
 insert into second_opinions(requester_id, doctor_id, opinion, content)
-values(4, 2, 'Uredan nalaz', 'Nalaz iz AnalizaLAB-a od 20.12.2020.');
+values(4, 2, null, 'Nalaz iz AnalizaLAB-a od 20.12.2020.');
 
 
 -- pass je 'primus" TODO obrisati komentar u nekom trenutku

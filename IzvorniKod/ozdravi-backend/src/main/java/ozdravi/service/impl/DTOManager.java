@@ -116,19 +116,19 @@ public class DTOManager {
     public SecondOpinion secondOpinionDTOToSecondOpinion(SecondOpinionDTO secondOpinionDTO) throws IllegalArgumentException{
         Optional<User> requester = userService.findById(secondOpinionDTO.getRequester_id());
         Optional<User> doctor = userService.findById(secondOpinionDTO.getDoctor_id());
-        String description = secondOpinionDTO.getOpinion();
+        String content = secondOpinionDTO.getContent();
 
         if(requester.isEmpty() || doctor.isEmpty())
             throw new IllegalArgumentException("Requester or doctor ID doesn't exist in the database");
 
-        if(description.isBlank())
-            throw new IllegalArgumentException("Description cannot be blank");
+        if(content.isBlank())
+            throw new IllegalArgumentException("Content cannot be blank");
 
         return SecondOpinion.builder()
                 .requester(requester.get())
                 .doctor(doctor.get())
-                .opinion(description)
-                .content(secondOpinionDTO.getContent())
+                .opinion(secondOpinionDTO.getOpinion())
+                .content(content)
                 .build();
     }
 
