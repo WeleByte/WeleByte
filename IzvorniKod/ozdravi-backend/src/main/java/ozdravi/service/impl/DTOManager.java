@@ -3,11 +3,9 @@ package ozdravi.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import ozdravi.domain.Address;
-import ozdravi.domain.Examination;
-import ozdravi.domain.SLR;
-import ozdravi.domain.User;
+import ozdravi.domain.*;
 import ozdravi.rest.dto.ExaminationRequest;
+import ozdravi.rest.dto.InstructionDTO;
 import ozdravi.rest.dto.SLRDTO;
 import ozdravi.rest.dto.UserDTO;
 import ozdravi.service.AddressService;
@@ -114,5 +112,25 @@ public class DTOManager {
 
     public SLRDTO slrToSLRDTO(SLR slr) {
         return new SLRDTO(slr);
+    }
+
+    public Instruction InstructionDTOtoInstruction(InstructionDTO instructionDTO) {
+        Optional<User> doctor = userService.findById(instructionDTO.getDoctor_id());
+        Optional<User> patient = userService.findById(instructionDTO.getPatient_id());
+
+        if(patient.isEmpty() || doctor.isEmpty()) {
+            throw new IllegalArgumentException("Doctor or patient ID not found");
+        }
+
+        return Instruction.builder()
+                .doctor(doctor.get())
+                .patient(patient.get())
+                .date(instructionDTO.getDate())
+                .content(instructionDTO.getContent())
+                .build();
+    }
+
+    public InstructionDTO instructionToInstructionDTO(Instruction instruction) {
+        return new InstructionDTO(instruction);
     }
 }
