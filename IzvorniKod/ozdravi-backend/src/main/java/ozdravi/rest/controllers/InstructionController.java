@@ -73,7 +73,7 @@ public class InstructionController {
             //doktror mora biti bas odgovoran za tog pacijenta
             if(instruction.getPatient().getDoctor() == null ||
                     !Objects.equals(instruction.getPatient().getDoctor().getId(), instruction.getDoctor().getId())) {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Doctor can give instructions only for his patients");
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Doctor can give instructions only for his patients");
             }
 
             return ResponseEntity.ok().body(instructionService.createInstruction(instruction));
@@ -134,7 +134,7 @@ public class InstructionController {
                 if(user.isEmpty())
                     return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
                 if(!instructionService.listForDoctor(user.get().getId()).contains(prevInstruction.get())) {
-                    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("doctor can modify only his instructions");
+                    return ResponseEntity.status(HttpStatus.FORBIDDEN).body("doctor can modify only his instructions");
                 }
 
                 //ne smiju se mijenjati doctor_id i patient_id

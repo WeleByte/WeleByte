@@ -122,3 +122,11 @@ values(2, 4, '2023-12-11 14:30:00', 'pacijent treba odmarati');
 
 insert into instructions(doctor_id, patient_id, date, content)
 values(3, 5, '2024-01-10 10:00:00', 'pacijent treba piti ovaj znj antibiotik');
+
+--sick leave recommendation
+
+insert into sick_leave_recommendations(parent_id, creator_id, approver_id, examination_id, status)
+values(4, 2, 2, 3, false);
+
+insert into sick_leave_recommendations(parent_id, creator_id, approver_id, examination_id, status)
+values(4, 3, 2, 1, true);
