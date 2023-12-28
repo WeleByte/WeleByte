@@ -1,9 +1,13 @@
 package ozdravi.rest.controllers;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import ozdravi.domain.User;
 import ozdravi.service.UserService;
@@ -18,9 +22,15 @@ public class PatientsController {
     @Autowired
     SecurityContextService securityContextService;
 
+    @Autowired
+    private ObjectMapper objectMapper;
+
     @PreAuthorize("hasAnyRole('ADMIN', 'DOCTOR', 'PEDIATRICIAN')")
     @GetMapping("/patients/available")
-    public ResponseEntity<?> getAllAvailablePatients() {
+    public ResponseEntity<?> getAllAvailablePatients() throws JsonProcessingException {
+
+        System.out.println(
+                objectMapper.writeValueAsString(SecurityContextHolder.getContext().getAuthentication().getPrincipal()));
         Optional<User> user = securityContextService.getLoggedInUser();
         if(user.isEmpty())
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();

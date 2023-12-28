@@ -17,4 +17,7 @@ public class RoleServiceJpa implements RoleService {
     public Optional<Role> findByName(String name) {
         return roleRepo.findByName(name);
     }
+
+    @Override
+    public Optional<Role> findById(Long id) { return roleRepo.findById(id); }
 }

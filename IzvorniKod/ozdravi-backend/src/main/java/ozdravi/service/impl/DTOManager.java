@@ -7,6 +7,7 @@ import ozdravi.domain.*;
 import ozdravi.rest.dto.ExaminationRequest;
 import ozdravi.rest.dto.InstructionDTO;
 import ozdravi.rest.dto.SLRDTO;
+import ozdravi.rest.dto.SecondOpinionDTO;
 import ozdravi.rest.dto.UserDTO;
 import ozdravi.service.AddressService;
 import ozdravi.service.ExaminationService;
@@ -99,7 +100,7 @@ public class DTOManager {
         if(!slrDTO.getStatus()) slrDTO.setStatus(false);
 
         if(patient.isEmpty() || creator.isEmpty() || approver.isEmpty() || examination.isEmpty())
-            throw new IllegalArgumentException("Patient, creator, approver or examination ID doesn't exist in database");
+            throw new IllegalArgumentException("Patient, creator, approver or examination ID doesn't exist in the database");
 
         return SLR.builder()
                 .parent(patient.get())
@@ -132,5 +133,28 @@ public class DTOManager {
 
     public InstructionDTO instructionToInstructionDTO(Instruction instruction) {
         return new InstructionDTO(instruction);
+    }
+
+    public SecondOpinion secondOpinionDTOToSecondOpinion(SecondOpinionDTO secondOpinionDTO) throws IllegalArgumentException{
+        Optional<User> requester = userService.findById(secondOpinionDTO.getRequester_id());
+        Optional<User> doctor = userService.findById(secondOpinionDTO.getDoctor_id());
+        String content = secondOpinionDTO.getContent();
+
+        if(requester.isEmpty() || doctor.isEmpty())
+            throw new IllegalArgumentException("Requester or doctor ID doesn't exist in the database");
+
+        if(content.isBlank())
+            throw new IllegalArgumentException("Content cannot be blank");
+
+        return SecondOpinion.builder()
+                .requester(requester.get())
+                .doctor(doctor.get())
+                .opinion(secondOpinionDTO.getOpinion())
+                .content(content)
+                .build();
+    }
+
+    public SecondOpinionDTO secondOpinionToSecondOpinionDTO(SecondOpinion secondOpinion) {
+        return new SecondOpinionDTO(secondOpinion);
     }
 }
