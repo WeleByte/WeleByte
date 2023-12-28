@@ -2,10 +2,13 @@ import React, {useState} from 'react';
 import Navbar from '../components/Header';
 import ArrowRightIcon from '../assets/icons/arrow-right-blue.png'
 import {useNavigate} from "react-router-dom";
-import SeccondOpinnionForm from '../components/SeccondOpinnionForm';
-import SeccondOpinnionResponse from '../components/UputaDetail';
 
-const SecondOpinions = () => {
+import SeccondOpinnionResponse from '../components/UputaDetail';
+import SickLeaveRecommendationForm from '../components/NovaUputa';
+import NovaUputa from '../components/NovaUputa';
+import UputaDetail from '../components/UputaDetail';
+
+const Upute = () => {
 
   const uloga = "doktor"
 
@@ -94,13 +97,13 @@ const SecondOpinions = () => {
     <div id = "HomePageWrapper">
      <Navbar></Navbar>
 
-     {novoMisljenjeOpen && <SeccondOpinnionForm closeSeccondOpinnionForm = {toggleNovoMisljenje}/>}
-     {novoMisljenjeDetail && <SeccondOpinnionResponse closeSeccondOpinnionForm = {toggleMisljenjeDetail}/>}
+     {novoMisljenjeOpen && <NovaUputa closeSeccondOpinnionForm = {toggleNovoMisljenje}/>}
+     {novoMisljenjeDetail && <UputaDetail closeSeccondOpinnionForm = {toggleMisljenjeDetail}/>}
   
      <div id = "seccondOppWrapper">
 
         {/*     <p style={{textAlign: "left", fontSize: "13px"}} className='px-4 mb-2 mt-2 mb-1'>4 nepregledanih - 7 pregledanih</p> */}
-<h5 className = "pt-3 px-4 mt-4 mb-4" style={{textAlign: "left", color: "#212529f1",}}>Druga Mišljenja    <button className = "btn btn-primary" style={{float:"right"}} onClick={toggleNovoMisljenje}>Dodaj +</button> </h5> 
+<h5 className = "pt-3 px-4 mt-4 mb-4 " style={{textAlign: "left", color: "#212529f1",}}>Upute    <button className = "btn btn-primary" style={{float:"right"}} onClick={toggleNovoMisljenje}>Dodaj +</button> </h5> 
 
 
 {/*     <p style={{textAlign: "left", fontSize: "13px"}} className='px-4 mb-2 mt-2 mb-1'>4 nepregledanih - 7 pregledanih</p> */}
@@ -124,10 +127,7 @@ const SecondOpinions = () => {
 
     
     <div class = "px-4 pt-1 " id = "secondOppinionList">
-        <div class = "selectorHeader">
-            <button class ="btn selector-btn selector-btn-selected col-6">Nepregledano ({nepregledanoCount})</button>
-            <button class ="btn selector-btn selector-btn-unselected col-6">Pregledano ({nepregledanoCount + 3})</button>
-        </div>
+        
         {finalSecondOpinionsList}
     </div>
 
@@ -137,4 +137,4 @@ const SecondOpinions = () => {
   );
 };
 
-export default SecondOpinions;
+export default Upute;

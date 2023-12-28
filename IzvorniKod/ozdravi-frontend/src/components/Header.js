@@ -58,6 +58,8 @@ const Navbar = () => {
                 break
             case 'pregledi': navigate('/pregledi')
                 break
+            case 'upute': navigate('/upute')
+                break
         }
     }
 
@@ -91,6 +93,9 @@ const Navbar = () => {
 
           <button className={selectedItem === 'bolovanja' ? "nav-item nav-link active" : "nav-item nav-link"}
               onClick={(e) => handleItemClick(e, 'bolovanja')}>Bolovanja</button>
+
+          <button className={selectedItem === 'upute' ? "nav-item nav-link active" : "nav-item nav-link"}
+              onClick={(e) => handleItemClick(e, 'upute')}>Upute</button>
 
           { uloga === "roditelj" ? (  <button className="nav-item nav-link">Djeca</button> ) : null }
 
