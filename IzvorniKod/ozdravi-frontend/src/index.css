@@ -339,8 +339,7 @@ code {
 .table {
   border-radius: 15px !important;
   font-family: 'Inter', sans-serif;
-}
-
+}   
 thead th {
  
   font-weight: 600;
@@ -348,7 +347,8 @@ thead th {
   padding-top: 10px !important;
   padding-bottom: 10px !important;
   letter-spacing: 1px;
-  color: rgba(0, 0, 0, 0.75) !important
+  color: rgba(0, 0, 0, 0.75) !important;
+  background-color: #1b2b440e !important;
 }
 
 th, td {
@@ -489,6 +489,7 @@ tr {
   border: 1px solid rgb(222, 226, 230);
   border-bottom:none;
   background-color: white !important;
+  
 }
 
 .paginationContainer {

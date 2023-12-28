@@ -10,6 +10,7 @@ import TrashIcon from '../assets/icons/trash.png'
 import Plus2Icon from '../assets/icons/plus2.png'
 import { useNavigate } from "react-router-dom";
 import NoviPregled from '../components/NoviPregled';
+import UserForm from '../components/UserForm';
 
 
 const Users = (props) => {
@@ -24,6 +25,7 @@ const Users = (props) => {
     let optionsOpened= false;
     const [refreshUsers, setRefreshUsers] = useState(false)
     const [isAddPatientVisible, showAddPatient] = useState(false);
+    const [addUserVisible, setAddUserVisible] = useState(false);
     const [users, setUsers] = useState([])
 
     //go to /home if not admin/doctor/pediatrician
@@ -47,6 +49,9 @@ const Users = (props) => {
 
     const toggleAddPatient = () => {
         showAddPatient(!isAddPatientVisible);
+    };
+    const toggleAddUser = () => {
+        setAddUserVisible(!addUserVisible);
     };
 
     const [noviPregledOtvoren, setNoviPregledOtvoren] = useState(false);
@@ -185,13 +190,21 @@ const Users = (props) => {
                                                 refreshUsers={toggleRefreshUsers}/>}
             {noviPregledOtvoren && <NoviPregled closeNoviPregled = {toggleNoviPregled}/>}
 
+            {addUserVisible && <UserForm closeNoviPregled = {toggleAddUser}/>}
+
 
 
             <div id = "usersWrapperInner">
 
 
-                <h3 className = "pt-3 px-4 mt-2 " style={{textAlign: "left", maxWidth: "1246px"}}>Pacijenti {/* <button className='btn btn-tertiary mt-1' style={{float: 'right'}}>Povijest </button>  */}
-                    <button className = "btn btn-primary" style={{float:"right"}} onClick= {toggleAddPatient}>Novi Pacijent +</button> </h3>
+          
+            <h5 className = "pt-3 px-4 mt-2 " style={{textAlign: "left", maxWidth: "1246px"}}>Pacijenti
+                    {/* <button className='btn btn-tertiary mt-1' style={{float: 'right'}}>Povijest </button>  */}
+                    <button className = "btn btn-primary ms-2" style={{float:"right"}} onClick= {toggleAddPatient}>Novi Pacijent +</button> 
+                    <button className = "btn btn-primary " style={{float:"right"}} onClick= {toggleAddUser}>Novi Korisnik +</button> </h5>
+                    
+                 <p style={{textAlign: "left", maxWidth: "1200px"}} className = "px-4 mb-2 ">{28} pacijenata</p> 
+
                 {/* <p style={{textAlign: "left", maxWidth: "1200px"}} className = "px-4 mb-2 ">{odrasliCount + djecaCount} pacijenata</p> */}
 
 

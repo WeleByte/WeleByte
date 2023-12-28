@@ -184,10 +184,10 @@ const Examinations = (props) => {
             <div id = "usersWrapperInner">
 
 
-                <h3 className = "pt-3 px-4 mt-2 " style={{textAlign: "left", maxWidth: "1246px"}}>Pregledi
+                <h5 className = "pt-3 px-4 mt-2 " style={{textAlign: "left", maxWidth: "1246px"}}>Pregledi
                     {/* <button className='btn btn-tertiary mt-1' style={{float: 'right'}}>Povijest </button>  */}
-                    <button className = "btn btn-primary" style={{float:"right"}} onClick= {toggleNoviPregled}>Novi Pregled +</button> </h3>
-                {/* <p style={{textAlign: "left", maxWidth: "1200px"}} className = "px-4 mb-2 ">{odrasliCount + djecaCount} pacijenata</p> */}
+                    <button className = "btn btn-primary" style={{float:"right"}} onClick= {toggleNoviPregled}>Novi Pregled +</button> </h5>
+                 <p style={{textAlign: "left", maxWidth: "1200px"}} className = "px-4 mb-2 ">{15} pregleda</p> 
 
 
 

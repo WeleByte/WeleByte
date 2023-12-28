@@ -100,10 +100,10 @@ const SecondOpinions = () => {
      <div id = "seccondOppWrapper">
 
         {/*     <p style={{textAlign: "left", fontSize: "13px"}} className='px-4 mb-2 mt-2 mb-1'>4 nepregledanih - 7 pregledanih</p> */}
-<h5 className = "pt-3 px-4 mt-4 mb-4" style={{textAlign: "left", color: "#212529f1",}}>Druga Mišljenja    <button className = "btn btn-primary" style={{float:"right"}} onClick={toggleNovoMisljenje}>Dodaj +</button> </h5> 
-
-
-{/*     <p style={{textAlign: "left", fontSize: "13px"}} className='px-4 mb-2 mt-2 mb-1'>4 nepregledanih - 7 pregledanih</p> */}
+        <h5 className = "pt-3 px-4 mt-2 " style={{textAlign: "left", maxWidth: "1246px"}}>Druga Mišljenja
+                    {/* <button className='btn btn-tertiary mt-1' style={{float: 'right'}}>Povijest </button>  */}
+                    <button className = "btn btn-primary" style={{float:"right"}} onClick= {toggleNovoMisljenje}>Dodaj Mišljenje +</button> </h5>
+                 <p style={{textAlign: "left", maxWidth: "1200px"}} className = "px-4 mb-4 ">{15} nepregladnih</p> 
 
 
 {/* <div id = "usersSelectorDiv" className = "px-4 pb-1 pt-0 " style={{display: "flex", justifyContent: "left", flexWrap: "wrap"}}>
@@ -124,10 +124,10 @@ const SecondOpinions = () => {
 
     
     <div class = "px-4 pt-1 " id = "secondOppinionList">
-        <div class = "selectorHeader">
+       {/*  <div class = "selectorHeader">
             <button class ="btn selector-btn selector-btn-selected col-6">Nepregledano ({nepregledanoCount})</button>
             <button class ="btn selector-btn selector-btn-unselected col-6">Pregledano ({nepregledanoCount + 3})</button>
-        </div>
+        </div> */}
         {finalSecondOpinionsList}
     </div>
 

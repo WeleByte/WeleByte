@@ -103,7 +103,10 @@ const Upute = () => {
      <div id = "seccondOppWrapper">
 
         {/*     <p style={{textAlign: "left", fontSize: "13px"}} className='px-4 mb-2 mt-2 mb-1'>4 nepregledanih - 7 pregledanih</p> */}
-<h5 className = "pt-3 px-4 mt-4 mb-4 " style={{textAlign: "left", color: "#212529f1",}}>Upute    <button className = "btn btn-primary" style={{float:"right"}} onClick={toggleNovoMisljenje}>Dodaj +</button> </h5> 
+        <h5 className = "pt-3 px-4 mt-2 " style={{textAlign: "left", maxWidth: "1246px"}}>Upute
+                    {/* <button className='btn btn-tertiary mt-1' style={{float: 'right'}}>Povijest </button>  */}
+                    <button className = "btn btn-primary" style={{float:"right"}} onClick= {toggleNovoMisljenje}>Dodaj Uputu +</button> </h5>
+                 <p style={{textAlign: "left", maxWidth: "1200px"}} className = "px-4 mb-4 ">{12} nepregladnih</p> 
 
 
 {/*     <p style={{textAlign: "left", fontSize: "13px"}} className='px-4 mb-2 mt-2 mb-1'>4 nepregledanih - 7 pregledanih</p> */}
