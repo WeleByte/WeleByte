@@ -67,7 +67,7 @@ public class InstructionController {
 
             //predani doctor_id treba biti isti kao id osobe trenutno ulogirane
             if (!Objects.equals(instruction.getDoctor().getId(), doctor.get().getId())) {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Doctors can't give instructions on behalf of other doctors");
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Doctors can't give instructions on behalf of other doctors");
             }
 
             //doktror mora biti bas odgovoran za tog pacijenta
@@ -121,13 +121,12 @@ public class InstructionController {
             Instruction instruction = dtoManager.InstructionDTOtoInstruction(instructionDTO);
 
             //PROVJERE
+            Optional<Instruction> prevInstruction = instructionService.findById(id);
+            if (prevInstruction.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("instruction doesn't exist.");
+            }
             //admin smije sve promjenitit pa se ove sve provjere ne odnose na njega
             if(!securityContextService.isUserInRole("ADMIN")) {
-                Optional<Instruction> prevInstruction = instructionService.findById(id);
-                if (prevInstruction.isEmpty()) {
-                    return ResponseEntity.status(HttpStatus.NOT_FOUND).body("instruction doesn't exist.");
-                }
-
                 //doktor smije modifyjati samo svoje instructione
                 //provjerava se jel pathVariable id postoji u listi instructiona za tog doktora
                 Optional<User> user = securityContextService.getLoggedInUser();
