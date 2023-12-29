@@ -58,6 +58,8 @@ const Navbar = () => {
                 break
             case 'pregledi': navigate('/pregledi')
                 break
+            case 'upute': navigate('/upute')
+                break
         }
     }
 
@@ -66,7 +68,7 @@ const Navbar = () => {
     return (
 
     
-    <div id = "HomePageWrapper">
+ 
      
         <nav className="navbar  navbar-expand-lg navbar-light  px-3 py-3 py-lg-0  col-12" >
         <img src = {logoPng} id ="navbarLogo" alt = "" style={{height: "40px !important"}} className='ms-2'></img>
@@ -92,6 +94,9 @@ const Navbar = () => {
           <button className={selectedItem === 'bolovanja' ? "nav-item nav-link active" : "nav-item nav-link"}
               onClick={(e) => handleItemClick(e, 'bolovanja')}>Bolovanja</button>
 
+          <button className={selectedItem === 'upute' ? "nav-item nav-link active" : "nav-item nav-link"}
+              onClick={(e) => handleItemClick(e, 'upute')}>Upute</button>
+
           { uloga === "roditelj" ? (  <button className="nav-item nav-link">Djeca</button> ) : null }
 
 
@@ -109,7 +114,7 @@ const Navbar = () => {
 
 
     </nav>
-    </div>
+  
   )
 }
 

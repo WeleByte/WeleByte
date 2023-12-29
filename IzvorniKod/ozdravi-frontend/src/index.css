@@ -6,6 +6,17 @@ body {
   font-family: 'Inter', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: #1b2b44;
+}
+
+html {
+  height: 100vh;
+  background-color: #ffffff
+;
+}
+
+.navbar  {
+  background-color: white !important;
 }
 
 h2 {
@@ -35,9 +46,25 @@ code {
   letter-spacing: 1px;
   background-color: #283953 !important;
   border-color: #283953 !important;
- 
+  font-family: 'Inter', sans-serif !important
   
 }
+
+.chip-selected {
+  /* color: #283953 !important;
+  background-color: #c7d9ef !important;
+  font-weight: bold !important;
+  border: none !important; */
+  font-size: 13px !important;
+  /* border-radius: 12px !important;
+  letter-spacing: 1px;
+  padding: 10px !important;
+  padding-left: 15px !important;
+  padding-right: 15px !important; */
+
+}
+
+
 
 #loginVectorMobile {
   height: auto !important; 
@@ -166,7 +193,21 @@ code {
     letter-spacing: 1px;
     background-color: #ffffff !important;
     color: #1b2b44 !important;
-    border-color: #283953 !important;
+    border-color: #28395346 !important;
+    font-family: 'Inter', sans-serif !important;
+}
+
+
+
+.chip-unselected {
+  border:none !important;
+  font-family: 'Inter', sans-serif !important;
+  font-size: 13px !important;
+  background-color: rgba(128, 128, 128, 0.144) !important;
+  
+  padding: 10px !important;
+  padding-left: 15px !important;
+  padding-right: 15px !important;
 }
 
 #user-icon-navbar {
@@ -175,9 +216,10 @@ code {
 
 @media (min-width: 990px) {
 #seccondOppWrapper {
-  margin-left: 4.1rem !important;
-  margin-right: 4.1rem !important;
-  max-width: 700px;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  max-width: 800px;
+  
  }
 
  #user-icon-navbar {
@@ -195,13 +237,18 @@ code {
 }
 
 #usersWrapperInner {
-  margin-left: 4.1rem !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  max-width: 1200px !important;
 }
 #homePageWrapperInner {
   margin-left: 4.1rem !important;
   margin-right: 4.1rem !important;
   
 }
+
+
+
 
 .navbar {
   padding-right: 4.1rem !important;
@@ -292,16 +339,16 @@ code {
 .table {
   border-radius: 15px !important;
   font-family: 'Inter', sans-serif;
-}
-
+}   
 thead th {
-  background-color: #dbdbdb48 !important;
+ 
   font-weight: 600;
   font-size: 12px;
   padding-top: 10px !important;
   padding-bottom: 10px !important;
   letter-spacing: 1px;
-  color: rgba(0, 0, 0, 0.75) !important
+  color: rgba(0, 0, 0, 0.75) !important;
+  background-color: #1b2b440e !important;
 }
 
 th, td {
@@ -319,7 +366,7 @@ tr {
 .three-dot-td { 
   width: 40px;
   padding-right: 14px;
-  opacity: 70%;
+ 
 
 }
 
@@ -333,18 +380,11 @@ tr {
 }
 
 
-#usersTable tr td:nth-child(3),
-  #usersTable tr td:nth-child(4),
-  #usersTable tr th:nth-child(3),
-  #usersTable tr th:nth-child(4) {
-    display: none !important;
-  }
 
 @media (max-width: 750px) {
   #usersTable tr td:nth-child(3),
-  #usersTable tr td:nth-child(4),
-  #usersTable tr th:nth-child(3),
-  #usersTable tr th:nth-child(4) {
+  #usersTable tr th:nth-child(3)
+  {
     display: none !important;
   }
   #addPatientTable tr td:nth-child(2),
@@ -396,7 +436,8 @@ tr {
   background-color: rgba(0, 0, 0, 0.3);
   z-index: 10;
   padding:0px !important;
-  margin: 0px !important
+  margin: 0px !important;
+  
 }
 
 #addPatientsInner {
@@ -445,8 +486,10 @@ tr {
   border-bottom-right-radius: 0px;
   border-top-left-radius: 8px;
   border-top-right-radius: 8px;
-  border: 1px solid rgba(128, 128, 128, 0.4);
-  border-bottom:none
+  border: 1px solid rgb(222, 226, 230);
+  border-bottom:none;
+  background-color: white !important;
+  
 }
 
 .paginationContainer {
@@ -454,13 +497,14 @@ tr {
   border-bottom-right-radius: 8px;
   border-top-left-radius: 0px;
   border-top-right-radius: 0px;
-  border: 1px solid rgba(128, 128, 128, 0.4);
+  border: 1px solid rgb(222, 226, 230);
   border-top:none;
   display:flex;
   justify-content: flex-end;
   padding-top: 1.15rem;
   padding-bottom: 1.15rem;
-  padding-right: 1.15rem
+  padding-right: 1.15rem;
+  background-color: white !important;
 }
 
 .paginationContainer span {
@@ -494,4 +538,93 @@ tr {
 
 .closeActionsIcon {
   margin-right: 1.35rem !important
+}
+
+
+
+.material-symbols-rounded {
+  font-variation-settings:
+  'FILL' 0,
+  'wght' 400,
+  'GRAD' 0,
+  'opsz' 24
+}
+
+.text-label {
+  font-size: 16px !important;
+  margin-bottom: 13px !important;
+ 
+  color: #212529 !important;
+}
+
+.text {
+  font-weight: 500 !important;
+  font-size: 14px
+}
+
+#secondOppinionList {
+  padding-bottom: 30px !important
+}
+
+#secondOppinionList .card {
+  border-top: none ;
+  border-radius: 0px !important
+}
+
+#secondOppinionList .card:first-child {
+  border-top: 1px solid rgba(33, 37, 41, 0.205) !important;
+  border-top-right-radius: 10px !important;
+  border-top-left-radius: 10px !important;
+}
+#secondOppinionList .card:last-child {
+
+  border-bottom-right-radius: 10px !important;
+  border-bottom-left-radius: 10px !important;
+}
+
+#HomePageWrapper {
+  background-color:#ffffff
+;
+}
+
+#UsersWrapper {
+  background-color:#ffffff
+ !important;
+}
+
+.selectorHeader {
+  border: 1px solid rgba(33, 37, 41, 0.205) !important;
+padding-top: 13px;
+
+  background-color: white !important;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+
+.selector-btn {
+  font-weight: 500 !important;
+  padding-bottom: 19px !important;
+  border-radius: 0px !important
+}
+
+.selector-btn-selected {
+  
+border-bottom: 1px solid #283953  !important
+}
+
+.selector-btn-unselected {
+  opacity: 80%
+}
+
+.card-title {
+  font-size: 1.05rem !important
+}
+
+.pregledajCardBody {
+  padding-top: 20px !important;
+  padding-bottom: 20px !important;
+}
+
+textarea {
+  border-color: rgba(0, 0, 0, 0.22) !important
 }
