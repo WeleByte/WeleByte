@@ -176,9 +176,11 @@ const Examinations = (props) => {
         <div id = "UsersWrapper">
             <Navbar></Navbar>
 
-            {noviPregledOtvoren && <NoviPregled closeNoviPregled = {toggleNoviPregled}/>}
+            {noviPregledOtvoren && <NoviPregled closeNoviPregled = {toggleNoviPregled}
+                                                backendRoute={backendRoute}
+                                                bearerToken={bearerToken}
+                                                handleLogOut={handleLogOut}/>}
             {isPregledDetailVisible && <PregledDetail closeNoviPregled = {togglePregledDetail}/>}
-        
 
 
             <div id = "usersWrapperInner">
@@ -187,7 +189,7 @@ const Examinations = (props) => {
                 <h5 className = "pt-3 px-4 mt-2 " style={{textAlign: "left", maxWidth: "1246px"}}>Pregledi
                     {/* <button className='btn btn-tertiary mt-1' style={{float: 'right'}}>Povijest </button>  */}
                     <button className = "btn btn-primary" style={{float:"right"}} onClick= {toggleNoviPregled}>Novi Pregled +</button> </h5>
-                 <p style={{textAlign: "left", maxWidth: "1200px"}} className = "px-4 mb-2 ">{15} pregleda</p> 
+                 <p style={{textAlign: "left", maxWidth: "1200px"}} className = "px-4 mb-2 ">{examinations.length} pregleda</p>
 
 
 

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import ArrowRightIcon from '../assets/icons/arrow-right.png'
 import CloseIcon from '../assets/icons/x2.png'
 import PlusIcon from '../assets/icons/plus.png'
@@ -7,77 +7,120 @@ import Navbar from './Header';
 import userIcon from '../assets/images/userIcon.png'
 import Select from 'react-select'
 
-const NoviPregled = ({closeNoviPregled}) => {
+const NoviPregled = (props) => {
+
+    const [patients, setPatients] = useState([])
+    const [allDoctors, setAllDoctors] = useState([])
+    const [pediatricians, setPediatricians] = useState([])
+    const [doctors, setDoctors] = useState([])
+    const [allDoctorsFormatted, setAllDoctorsFormatted] = useState([])
+    const [patientsFormatted, setPatientsFormatted] = useState([])
 
   const closeModal = () => {
-    closeNoviPregled()
+    props.closeNoviPregled()
   }
 
-  const originalUsers = [
-    {
-      ime: 'Filip',
-      prezime: 'Filipović',
-      lastVisit: '12.1.2023.',
-      visitCount: 5,
-      email: 'filip.filipovic@gmail.com',
-      age: 12,
-      id: 1,
-    },
-    {
-      ime: 'Ivan', prezime: 'Ivanovic', lastVisit: '25.6.2023.',
-      visitCount: 2, email: 'ivan.ivanovic@gmail.com', age: 69
-  }, {
-      ime: 'Milica', prezime: 'Srbić', lastVisit: '12.1.2023.',
-      visitCount: 7, email: 'milica.srbic@gmail.com', age: 23
-  }, {
-      ime: 'Joža', prezime: 'Mužić', lastVisit: '69.420.1337.',
-      visitCount: 89, email: 'jozica.muzic@gmail.com', age: 8
-  }, {
-      ime: 'Đurđa', prezime: 'Đurđić', lastVisit: '24.2.1923.',
-      visitCount: 257, email: 'jozica.muzic@gmail.com', age: 96
-  }
-    // ... rest of your original array
-  ];
+  // const originalUsers = [
+  //   {
+  //     ime: 'Filip',
+  //     prezime: 'Filipović',
+  //     lastVisit: '12.1.2023.',
+  //     visitCount: 5,
+  //     email: 'filip.filipovic@gmail.com',
+  //     age: 12,
+  //     id: 1,
+  //   },
+  //   {
+  //     ime: 'Ivan', prezime: 'Ivanovic', lastVisit: '25.6.2023.',
+  //     visitCount: 2, email: 'ivan.ivanovic@gmail.com', age: 69
+  // }, {
+  //     ime: 'Milica', prezime: 'Srbić', lastVisit: '12.1.2023.',
+  //     visitCount: 7, email: 'milica.srbic@gmail.com', age: 23
+  // }, {
+  //     ime: 'Joža', prezime: 'Mužić', lastVisit: '69.420.1337.',
+  //     visitCount: 89, email: 'jozica.muzic@gmail.com', age: 8
+  // }, {
+  //     ime: 'Đurđa', prezime: 'Đurđić', lastVisit: '24.2.1923.',
+  //     visitCount: 257, email: 'jozica.muzic@gmail.com', age: 96
+  // }
+  //   // ... rest of your original array
+  // ];
+  //
+  // const doktori = [
+  //   { value: '1', label: 'Chocolate' },
+  //   { value: '2', label: 'Marta Martovič' },
+  //   { value: '3', label: 'Vanilla' }
+  // ]
+  //
+  // const pacijenti = [
+  //   { value: '1', label: 'Chocolate' },
+  //   { value: '2', label: 'Marta Martovič' },
+  //   { value: '3', label: 'Vanilla' }
+  // ]
 
-  const doktori = [
-    { value: '1', label: 'Chocolate' },
-    { value: '2', label: 'Marta Martovič' },
-    { value: '3', label: 'Vanilla' }
-  ]
+    useEffect(() => {
+        Promise.all([
+            fetch(props.backendRoute + '/users/pediatricians', {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${props.bearerToken}`,
+                    'Content-Type': 'application/json'
+                }
+            }),
+            fetch(props.backendRoute + '/users/doctors', {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${props.bearerToken}`,
+                    'Content-Type': 'application/json'
+                }
+            }),
+            fetch(props.backendRoute + '/users', {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${props.bearerToken}`,
+                    'Content-Type': 'application/json'
+                }
+            })
+        ])
+            .then(([pediatriciansPromise, doctorsPromise, patientsPromise]) => {
 
-  const pacijenti = [
-    { value: '1', label: 'Chocolate' },
-    { value: '2', label: 'Marta Martovič' },
-    { value: '3', label: 'Vanilla' }
-  ]
+                // if (pediatriciansPromise.status === 401 || doctorsPromise.status === 401 || patientsPromise.status === 401) {
+                //     props.handleLogOut()
+                //
+                // } else
+                if (!pediatriciansPromise.ok || !doctorsPromise.ok || !patientsPromise.ok) {
+                    console.log('Error: ', pediatriciansPromise, doctorsPromise)
 
-  const [filteredUsers, setFilteredUsers] = useState(originalUsers);
+                } else {
+                    console.log(pediatriciansPromise, doctorsPromise, patientsPromise)
+                    return Promise.all([pediatriciansPromise.json(), doctorsPromise.json(), patientsPromise.json()])
+                }
+            }).then(([parsedPediatricians, parsedDoctors, parsedPatients]) =>{
 
-  const filterPatients = (e) => {
-    const inputValue = e.target.value.toLowerCase();
-    const filtered = originalUsers.filter(
-      (user) =>
-        (user.ime + user.prezime).toLowerCase().includes(inputValue)
-    );
-    setFilteredUsers(filtered);
-  };
+            console.log(parsedPediatricians, parsedDoctors, parsedPatients);
+                setPediatricians([parsedPediatricians]);
+                setDoctors([parsedDoctors]);
+                setPatients([parsedPatients])
+                setAllDoctors([...parsedPediatricians, ...parsedDoctors]);const allDoctorsTemp= [...parsedPediatricians, ...parsedDoctors]
 
-var finalUsersList = filteredUsers.map((user) =>
-      (
-          <tr>
-              <td>
-                  <img src = {userIcon} alt = "" width = "14" className='me-3' style={{opacity: "75%"}}></img>
-                  {user.ime + " " + user.prezime}
-              </td>
-              <td>{user.age}</td>
-             
-             
-              <td>{user.email}</td>
+                setAllDoctorsFormatted(allDoctorsTemp.map(doctor => ({
+                    label: `${doctor.first_name} ${doctor.last_name}`,
+                    value: `${doctor.id}`
+                })))
 
-              <td className ="text-center"> <button className =" btn btn-tertiary">Dodaj </button> </td>
+                setPatientsFormatted(parsedPatients.map(patient => ({
+                    label: `${patient.first_name} ${patient.last_name}`,
+                    value: `${patient.id}`
+                })))
 
-          </tr>
-      ))
+            console.log(allDoctorsFormatted, patientsFormatted);
+
+                console.log(allDoctorsFormatted, patientsFormatted)
+            })
+            .catch(error => {
+                console.error(error)
+            })
+    }, [])
 
 
   return (
@@ -108,7 +151,7 @@ var finalUsersList = filteredUsers.map((user) =>
 
 <div className="mb-3">
 
-<Select options={doktori} placeholder = "Odaberite doktora..." />
+<Select options={allDoctorsFormatted} placeholder = "Odaberite doktora..." />
 
 </div>
 
@@ -116,7 +159,7 @@ var finalUsersList = filteredUsers.map((user) =>
 
 <div className="mb-4">
 
-<Select options={pacijenti} placeholder = "Odaberite pacijenta..."/>
+<Select options={patientsFormatted} placeholder = "Odaberite pacijenta..."/>
 </div>
 
 
