@@ -11,7 +11,7 @@ import Bolovanja from './pages/Bolovanja';
 import ProfilePage from './pages/Profile.js';
 import Navbar from './components/Header.js';
 import Examinations from './pages/Examinations.js';
-import Upute from './pages/Upute.js';
+import Upute from './pages/Upute.js'
 
 
 function App({wordIn}) {

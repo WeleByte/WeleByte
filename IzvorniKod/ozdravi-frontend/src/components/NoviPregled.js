@@ -124,7 +124,6 @@ const NoviPregled = (props) => {
             // })
     }, [])
 
-
   return (
     <div id = "addPatientsWrapper" className = "shadow-lg">
 
