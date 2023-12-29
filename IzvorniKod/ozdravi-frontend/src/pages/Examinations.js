@@ -28,6 +28,17 @@ const Examinations = (props) => {
     const [isAddPatientVisible, showAddPatient] = useState(false);
     const [isPregledDetailVisible, setIsPregledDetailVisible] = useState(false);
 
+    const [user, setUser] = useState('')
+
+    useEffect(() => {
+        if(bearerToken === '' || bearerToken === null || bearerToken === undefined) {
+            navigate('/login')
+        }else{
+            setUser(JSON.parse(sessionStorage.userData))
+            // const logUser = JSON.parse(sessionStorage.userData)
+            // console.log(logUser)
+        }
+    }, []);
 
     const toggleAddPatient = () => {
         showAddPatient(!isAddPatientVisible);
@@ -179,7 +190,8 @@ const Examinations = (props) => {
             {noviPregledOtvoren && <NoviPregled closeNoviPregled = {toggleNoviPregled}
                                                 backendRoute={backendRoute}
                                                 bearerToken={bearerToken}
-                                                handleLogOut={handleLogOut}/>}
+                                                handleLogOut={handleLogOut}
+                                                user={user}/>}
             {isPregledDetailVisible && <PregledDetail closeNoviPregled = {togglePregledDetail}/>}
 
 
@@ -243,7 +255,7 @@ const Examinations = (props) => {
                         <tbody>
                         {examinations.map((examination, index) =>
                             (
-                                <tr  style={{ position: 'relative' }}>
+                                <tr key={examination.id} style={{ position: 'relative' }}>
                                     <td scope="row">
                                         <img src = {userIcon} alt = "" width = "14" className='me-3' style={{opacity: "75%"}}></img>
                                         {examination.patient.first_name + " " + examination.patient.last_name}
