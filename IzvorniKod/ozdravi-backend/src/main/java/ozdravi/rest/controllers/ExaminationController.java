@@ -52,28 +52,55 @@ public class ExaminationController {
     }
 
     @GetMapping("/examination/{id}")
-    public ResponseEntity<?> getExamination(Long id) {
+    public ResponseEntity<?> getExamination(@PathVariable("id") Long id) {
         Optional<Examination> examination = examinationService.findById(id);
-        if(examination.isPresent())
+        if(examination.isEmpty())
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Examination doesn't exist");
+
+        Optional<User> user = securityContextService.getLoggedInUser();
+        if(user.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+        Long user_id = user.get().getId();
+
+        if(securityContextService.isUserInRole("PARENT") && examinationService.listParentExaminations(user_id).contains(examination.get()) ||
+                securityContextService.isUserInRole("ADMIN") ||
+                (securityContextService.isUserInRole("DOCTOR") || securityContextService.isUserInRole("PEDIATRICIAN")) &&
+                    examinationService.listDoctorExaminations(user_id).contains(examination.get()))
             return ResponseEntity.ok().body(examination.get());
-        else
-            return ResponseEntity.notFound().build();
+
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body("You are not authorized to view this info");
     }
 
     //        primjer datuma za POST
 //        "date":"2023-12-06T20:18:37.3933286"
-    @PreAuthorize("hasAnyRole('PEDIATRICIAN', 'DOCTOR')")
+    @PreAuthorize("hasAnyRole('PEDIATRICIAN', 'DOCTOR', 'ADMIN')")
     // samo doktori i pedijatri mogu stvarati examinatione
     @PostMapping("/examinations")
     public ResponseEntity<?> createExamination(@RequestBody ExaminationRequest examinationRequest) {
-        Optional<User> scheduler = securityContextService.getLoggedInUser();
-        if(scheduler.isEmpty())
+        Optional<User> user = securityContextService.getLoggedInUser();
+        if(user.isEmpty())
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
 
-        // TODO scheduler_id je id onoga tko je poslao zahtjev? jel to na frontendu?
-        // ovdje se pretpostavlja da je, onda automatski scheduler ne moze biti nitko tko niej pediatrician ili doctor
+
         try{
             Examination examination = dtoManager.examRequestToExamination(examinationRequest);
+            Optional<User> scheduler;
+
+            //onaj koji je sad ulogiran mora biti naveden kao scheduler ILI ako se radi o adminu, on mora navesti schedulera koji
+            // mora moc biti scheduler
+            if (securityContextService.isUserInRole("ADMIN")) {
+                scheduler = userService.findById(examination.getScheduler().getId());
+                if (scheduler.isEmpty()) return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+                if (scheduler.get().getRoles().stream().noneMatch(role -> Objects.equals(role.getName(), "doctor") || Objects.equals(role.getName(), "pediatrician"))) {
+                    return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No doctor with such ID.");
+                }
+            } else {
+                if (!Objects.equals(examination.getScheduler().getId(), user.get().getId())) {
+                    return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Doctors can't schedule examinations on behalf of other doctors");
+                }
+                scheduler = user;
+            }
 
             //provjere da su svi id-evi odgovarajuci (ne moze se za id doktroa stavit id roditelja npr)
             Optional<User> patient = userService.findById(examination.getPatient().getId());
@@ -85,12 +112,14 @@ public class ExaminationController {
                 if (doctor.get().getRoles().stream().noneMatch(role -> Objects.equals(role.getName(), "doctor") || Objects.equals(role.getName(), "pediatrician"))) {
                     return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No doctor with such ID.");
                 }
+            } else {
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
             }
 
             //provjera da onaj koji zakazuje pregled (scheduler) mora biti doktor zaduzen za tog pacijenta
             User requiredDoctor = patient.get().getDoctor();
             if (requiredDoctor == null || !Objects.equals(requiredDoctor.getId(), scheduler.get().getId())) {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Doctor can schedule examinations only for his patients");
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Doctor can schedule examinations only for his patients");
             }
 
             return ResponseEntity.ok().body(examinationService.createExamination(examination));
@@ -100,36 +129,37 @@ public class ExaminationController {
         }
     }
 
-    @PreAuthorize("hasAnyRole('PEDIATRICIAN', 'DOCTOR')")
+    @PreAuthorize("hasAnyRole('PEDIATRICIAN', 'DOCTOR', 'ADMIN')")
     // samo doktori i pedijatri smiju mjenjati examinatione
     @PutMapping("/examination/{id}")
-    public ResponseEntity<String> modifyExamination(@PathVariable("id") Long id, @RequestBody ExaminationRequest examinationRequest){
-        Optional<Examination> optionalExamination = examinationService.findById(id);
-
-        if(optionalExamination.isEmpty())
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Examination doesn't exist");
-
-        Optional<User> user = securityContextService.getLoggedInUser();
-        if(user.isEmpty())
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-
-        // provjera da id doktora koji pokusava urediti examination odgovara id-u doktora navedenog na examinationu (u sustavu!!)
-        if(!Objects.equals(optionalExamination.get().getDoctor().getId(), user.get().getId())) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Doctor can modify only his examinations.");
-        }
-
+    public ResponseEntity<?> modifyExamination(@PathVariable("id") Long id, @RequestBody ExaminationRequest examinationRequest){
         try{
             Examination examination = dtoManager.examRequestToExamination(examinationRequest);
 
-            //doctor_id, patient_id, scheduler_id, address_id se ne smiju moci mjenjati
-            Examination prevExamination = optionalExamination.get();
-            if(!Objects.equals(prevExamination.getDoctor().getId(), examination.getDoctor().getId()) ||
-                    !Objects.equals(prevExamination.getPatient().getId(), examination.getPatient().getId()) ||
-                    !Objects.equals(prevExamination.getScheduler().getId(), examination.getScheduler().getId()) ||
-                    !Objects.equals(prevExamination.getAddress().getId(), examination.getAddress().getId())) {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("doctor_id, patient_id, scheduler_id and address_id can't be modified.");
-            }
+            Optional<Examination> prevExamination = examinationService.findById(id);
 
+            if(prevExamination.isEmpty())
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Examination doesn't exist");
+
+            //admin smije sve mjenjati
+            if(!securityContextService.isUserInRole("ADMIN")) {
+                Optional<User> user = securityContextService.getLoggedInUser();
+                if (user.isEmpty())
+                    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+
+                // doktor mora moci vidjeti pregled ciji je id naveden u pathu
+                if (!examinationService.listDoctorExaminations(user.get().getId()).contains(prevExamination.get())) {
+                    return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Doctor can modify only his examinations.");
+                }
+
+                //doctor_id, patient_id, scheduler_id, address_id se ne smiju moci mjenjati
+                if (!Objects.equals(prevExamination.get().getDoctor().getId(), examination.getDoctor().getId()) ||
+                        !Objects.equals(prevExamination.get().getPatient().getId(), examination.getPatient().getId()) ||
+                        !Objects.equals(prevExamination.get().getScheduler().getId(), examination.getScheduler().getId()) ||
+                        !Objects.equals(prevExamination.get().getAddress().getId(), examination.getAddress().getId())) {
+                    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("doctor_id, patient_id, scheduler_id and address_id can't be modified.");
+                }
+            }
             examinationService.modifyExamination(examination, id);
             return ResponseEntity.ok().body("Examination successfully modified");
         } catch(IllegalArgumentException e){
