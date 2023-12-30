@@ -7,7 +7,7 @@ import Navbar from './Header';
 import userIcon from '../assets/images/userIcon.png'
 import Select from 'react-select'
 
-const SeccondOpinnionForm = ({closeSeccondOpinnionForm}) => {
+const SecondOpinionForm = ({closeSeccondOpinnionForm}) => {
 
   const closeModal = () => {
     closeSeccondOpinnionForm()
@@ -77,4 +77,4 @@ const SeccondOpinnionForm = ({closeSeccondOpinnionForm}) => {
   );
 };
 
-export default SeccondOpinnionForm;
+export default SecondOpinionForm;

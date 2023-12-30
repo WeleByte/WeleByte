@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import ArrowRightIcon from '../assets/icons/arrow-right.png'
 import CloseIcon from '../assets/icons/x2.png'
 import PlusIcon from '../assets/icons/plus.png'
@@ -7,21 +7,39 @@ import Navbar from './Header';
 import userIcon from '../assets/images/userIcon.png'
 import Select from 'react-select'
 
-const SeccondOpinnionResponse = ({closeSeccondOpinnionForm}) => {
+const SecondOpinionResponse = (props) => {
 
+    const [secondOpinion, setSecondOpinion] = useState(null)
   const closeModal = () => {
-    closeSeccondOpinnionForm()
+    props.closeSeccondOpinnionForm()
   }
 
- 
-
-  const doktori = [
-    { value: '1', label: 'Chocolate' },
-    { value: '2', label: 'Marta Martovič' },
-    { value: '3', label: 'Vanilla' }
-  ]
-
-
+  useEffect(() => {
+    fetch(props.backendRoute + `/second_opinions/${props.opinionId}`, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${props.bearerToken}`,
+        'Content-Type': 'application/json'
+      }
+    })
+        .then(response => {
+          // if (response.status === 401) {
+          //   props.handleLogOut()
+          // } else
+          if(!response.ok){
+            console.log("Error:", response.status, response.statusText);
+          } else {
+            return response.json();
+          }
+        })
+        .then(parsedData => {
+          console.log(parsedData)
+            setSecondOpinion(parsedData);
+        })
+        .catch(error => {
+          console.error('Fetch error:', error);
+        });
+  }, []);
 
 
 
@@ -58,7 +76,7 @@ const SeccondOpinnionResponse = ({closeSeccondOpinnionForm}) => {
 
 <div className="mb-3">
   <label htmlFor="username" className=" col-12 text-label" style={{float: 'left', textAlign:"left"}}>Pacijent</label>
-  <p style={{textAlign:"left"}} class ="text">Marko Marković</p>
+  <p style={{textAlign:"left"}} class ="text">{secondOpinion.requester.first_name + " " + secondOpinion.requester.last_name}</p>
 </div>
 </div>
 
@@ -85,4 +103,4 @@ const SeccondOpinnionResponse = ({closeSeccondOpinnionForm}) => {
   );
 };
 
-export default SeccondOpinnionResponse;
+export default SecondOpinionResponse;
