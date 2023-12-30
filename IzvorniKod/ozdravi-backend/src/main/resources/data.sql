@@ -35,7 +35,6 @@ insert into address(street, number, city, country) values ('Ulica Ivana Gundulic
 insert into address(street, number, city, country) values ('Petrova ulica', '53', 'Zagreb', 'Hrvatska');
 
 --users
-
 insert into users (email, password, oib, first_name, last_name, address_id)
 values ('doktor@mail.com',
         '{bcrypt}$2a$12$vyhf.Rod8fQmYsXi7fooHOGIzq5gLXMZ5kQtzywRCiRrgCe41o9lq',
@@ -98,8 +97,17 @@ values ('djeteBezPedijatra@mail.com',
         4);
 insert into user_roles(user_id, role_id) values (8, 2);
 
---examinations
+insert into users (email, password, oib, first_name, last_name)
+values ('roditeljDoktor@mail.com',
+        '{bcrypt}$2a$12$vyhf.Rod8fQmYsXi7fooHOGIzq5gLXMZ5kQtzywRCiRrgCe41o9lq',
+        '25768672773',
+        'Tomislav',
+        'Lukas');
 
+insert into user_roles(user_id, role_id) values (9, 3);
+insert into user_roles(user_id, role_id) values (9, 4);
+
+--examinations
 insert into examinations(patient_id, doctor_id, scheduler_id, address_id, report, date)
 values(6, 3, 3, 3, 'pacijent ima upalu grla.', CURRENT_DATE + CURRENT_TIME);
 
@@ -130,3 +138,13 @@ values(4, 2, 2, 3, false);
 
 insert into sick_leave_recommendations(parent_id, creator_id, approver_id, examination_id, status)
 values(4, 3, 2, 1, true);
+
+-- second opinios
+insert into second_opinions(requester_id, doctor_id, opinion, content)
+values(4, 2, 'Nalaz ukazuje na moguću hemofiliju.', 'Nalaz iz AnalizaLAb-a od 12.12.2023.');
+
+insert into second_opinions(requester_id, doctor_id, opinion, content)
+values(4, 2, null, 'Nalaz iz AnalizaLAB-a od 20.12.2020.');
+
+
+-- pass je 'primus" TODO obrisati komentar u nekom trenutku
