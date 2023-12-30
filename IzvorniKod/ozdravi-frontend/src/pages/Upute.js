@@ -5,9 +5,10 @@ import {useNavigate} from "react-router-dom";
 
 import SeccondOpinnionResponse from '../components/UputaDetail';
 import SickLeaveRecommendationForm from '../components/NovaUputa';
-import SickLeaveRecommendationDetail from '../components/SickLeaveRecommendationDetail copy';
+import NovaUputa from '../components/NovaUputa';
+import UputaDetail from '../components/UputaDetail';
 
-const Bolovanja = () => {
+const Upute = () => {
 
   const uloga = "doktor"
 
@@ -23,7 +24,9 @@ const Bolovanja = () => {
    
 };
   const toggleMisljenjeDetail = () => {
+    console.log("hello")
     setNovoMisljenjeDetail(!novoMisljenjeDetail);
+   
 };
 
   const original = [
@@ -94,16 +97,16 @@ const Bolovanja = () => {
     <div id = "HomePageWrapper">
      <Navbar></Navbar>
 
-     {novoMisljenjeOpen && <SickLeaveRecommendationForm closeSeccondOpinnionForm = {toggleNovoMisljenje}/>}
-     {novoMisljenjeDetail && <SickLeaveRecommendationDetail closeSeccondOpinnionForm = {toggleMisljenjeDetail}/>}
+     {novoMisljenjeOpen && <NovaUputa closeSeccondOpinnionForm = {toggleNovoMisljenje}/>}
+     {novoMisljenjeDetail && <UputaDetail closeSeccondOpinnionForm = {toggleMisljenjeDetail}/>}
   
      <div id = "seccondOppWrapper">
 
         {/*     <p style={{textAlign: "left", fontSize: "13px"}} className='px-4 mb-2 mt-2 mb-1'>4 nepregledanih - 7 pregledanih</p> */}
-        <h5 className = "pt-3 px-4 mt-2 " style={{textAlign: "left", maxWidth: "1246px"}}>Preporuke za bolovanja
+        <h5 className = "pt-3 px-4 mt-2 " style={{textAlign: "left", maxWidth: "1246px"}}>Upute
                     {/* <button className='btn btn-tertiary mt-1' style={{float: 'right'}}>Povijest </button>  */}
-                    <button className = "btn btn-primary" style={{float:"right"}} onClick= {toggleNovoMisljenje}>Dodaj Preporuku +</button> </h5>
-                 <p style={{textAlign: "left", maxWidth: "1200px"}} className = "px-4 mb-4 ">{10} nepregladnih</p> 
+                    <button className = "btn btn-primary" style={{float:"right"}} onClick= {toggleNovoMisljenje}>Dodaj Uputu +</button> </h5>
+                 <p style={{textAlign: "left", maxWidth: "1200px"}} className = "px-4 mb-4 ">{12} nepregladnih</p> 
 
 
 {/*     <p style={{textAlign: "left", fontSize: "13px"}} className='px-4 mb-2 mt-2 mb-1'>4 nepregledanih - 7 pregledanih</p> */}
@@ -127,10 +130,7 @@ const Bolovanja = () => {
 
     
     <div class = "px-4 pt-1 " id = "secondOppinionList">
-       {/*  <div class = "selectorHeader">
-            <button class ="btn selector-btn selector-btn-selected col-6">Nepregledano ({nepregledanoCount})</button>
-            <button class ="btn selector-btn selector-btn-unselected col-6">Pregledano ({nepregledanoCount + 3})</button>
-        </div> */}
+        
         {finalSecondOpinionsList}
     </div>
 
@@ -140,4 +140,4 @@ const Bolovanja = () => {
   );
 };
 
-export default Bolovanja;
+export default Upute;

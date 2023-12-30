@@ -3,7 +3,9 @@ package ozdravi.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import ozdravi.dao.RoleRepository;
 import ozdravi.dao.UserRepository;
+import ozdravi.domain.Role;
 import ozdravi.domain.User;
 import ozdravi.service.UserService;
 
@@ -15,6 +17,9 @@ public class UserServiceJpa implements UserService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private RoleRepository roleRepository;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -79,5 +84,19 @@ public class UserServiceJpa implements UserService {
     @Override
     public List<User> listAvailablePatientsPediatrician() {
         return userRepository.listAvailablePatientsPediatrician();
+    }
+
+    @Override
+    public List<User> listAllDoctors() throws Exception{
+        Optional<Role> doctorRole = roleRepository.findByName("doctor");
+        if(doctorRole.isEmpty()) throw new Exception("UserService listAllDoctors method error!");
+        return userRepository.findUsersByRolesContains(doctorRole.get());
+    }
+
+    @Override
+    public List<User> listAllPediatricians() throws Exception{
+        Optional<Role> pediatricianRole = roleRepository.findByName("pediatrician");
+        if(pediatricianRole.isEmpty()) throw new Exception("UserService listAllPediatricians method error!");
+        return userRepository.findUsersByRolesContains(pediatricianRole.get());
     }
 }
