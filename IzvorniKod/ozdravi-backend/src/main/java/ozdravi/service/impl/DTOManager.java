@@ -66,7 +66,16 @@ public class DTOManager {
             userDTO.setPassword(passwordEncoder.encode(userDTO.getPassword()));
         }
 
-        return User.builder().email(userDTO.getEmail()).first_name(userDTO.getFirst_name()).last_name(userDTO.getLast_name()).oib(userDTO.getOib()).password(userDTO.getPassword()).parent(parent.orElse(null)).doctor(doctor.orElse(null)).address(address.orElse(null)).institution_email(userDTO.getInstitution_email()).build();
+        return User.builder()
+                .email(userDTO.getEmail())
+                .first_name(userDTO.getFirst_name())
+                .last_name(userDTO.getLast_name())
+                .oib(userDTO.getOib())
+                .password(userDTO.getPassword())
+                .parent(parent.orElse(null))
+                .doctor(doctor.orElse(null))
+                .address(address.orElse(null))
+                .institution_email(userDTO.getInstitution_email()).build();
     }
 
     public UserDTO userToUserDTO(User user) {
