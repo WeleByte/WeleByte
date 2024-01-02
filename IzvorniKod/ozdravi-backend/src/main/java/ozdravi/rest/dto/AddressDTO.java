@@ -12,6 +12,7 @@ public class AddressDTO {
     private String street;
     private String number;
     private String country;
+    private String city;
     private Float latitude;
     private Float longitude;
 
@@ -20,6 +21,7 @@ public class AddressDTO {
         setStreet(address.getStreet());
         setNumber(address.getNumber());
         setCountry(address.getCountry());
+        setCity(address.getCity());
         setLatitude(address.getLatitude());
         setLongitude(address.getLongitude());
     }

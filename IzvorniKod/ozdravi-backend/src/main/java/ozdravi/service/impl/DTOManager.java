@@ -4,11 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import ozdravi.domain.*;
-import ozdravi.rest.dto.ExaminationRequest;
-import ozdravi.rest.dto.InstructionDTO;
-import ozdravi.rest.dto.SLRDTO;
-import ozdravi.rest.dto.SecondOpinionDTO;
-import ozdravi.rest.dto.UserDTO;
+import ozdravi.rest.dto.*;
 import ozdravi.service.AddressService;
 import ozdravi.service.ExaminationService;
 import ozdravi.service.UserService;
@@ -38,15 +34,24 @@ public class DTOManager {
         Optional<User> doctor = userService.findById(examinationRequest.getDoctor_id());
         Optional<User> scheduler = userService.findById(examinationRequest.getScheduler_id());
 
-        Long address_id = examinationRequest.getAddress_id();
-        Optional<Address> address = address_id == null ? Optional.empty() : addressService.findById(examinationRequest.getAddress_id());
+        Address address = null;
+
+        if(examinationRequest.getAddress() != null){
+            address = addressDTOToAddress(examinationRequest.getAddress());
+        }
 
         if (patient.isEmpty() || doctor.isEmpty() || scheduler.isEmpty())
             throw new IllegalArgumentException("Patient, doctor or scheduler ID not found");
 
         LocalDateTime parsedDate = LocalDateTime.parse(examinationRequest.getDate());
 
-        return Examination.builder().patient(patient.get()).doctor(doctor.get()).scheduler(scheduler.get()).address(address.orElse(null)).report(examinationRequest.getReport()).date(parsedDate).build();
+        return Examination.builder()
+                .patient(patient.get()).doctor(doctor.get())
+                .scheduler(scheduler.get())
+                .address(address)
+                .report(examinationRequest.getReport())
+                .date(parsedDate)
+                .build();
     }
 
     public ExaminationRequest examinationToExamRequest(Examination examination) {
@@ -56,11 +61,14 @@ public class DTOManager {
     public User userDTOToUser(UserDTO userDTO) throws IllegalArgumentException {
         Long parent_id = userDTO.getParent_id();
         Long doctor_id = userDTO.getDoctor_id();
-        Long address_id = userDTO.getAddress_id();
+        Address address = null;
+
+        if(userDTO.getAddress() != null){
+            address = addressDTOToAddress(userDTO.getAddress());
+        }
 
         Optional<User> parent = parent_id == null ? Optional.empty() : userService.findById(userDTO.getParent_id());
         Optional<User> doctor = doctor_id == null ? Optional.empty() : userService.findById(userDTO.getDoctor_id());
-        Optional<Address> address = address_id == null ? Optional.empty() : addressService.findById(userDTO.getAddress_id());
 
         if (userDTO.getPassword() != null && !userDTO.getPassword().isEmpty() && !userDTO.getPassword().startsWith("{bcrypt}")) {
             userDTO.setPassword(passwordEncoder.encode(userDTO.getPassword()));
@@ -74,7 +82,7 @@ public class DTOManager {
                 .password(userDTO.getPassword())
                 .parent(parent.orElse(null))
                 .doctor(doctor.orElse(null))
-                .address(address.orElse(null))
+                .address(address)
                 .institution_email(userDTO.getInstitution_email()).build();
     }
 
@@ -129,5 +137,33 @@ public class DTOManager {
     public SecondOpinionDTO secondOpinionToSecondOpinionDTO(SecondOpinion secondOpinion) {
 //        return SecondOpinion.builder().requester(requester.get()).doctor(doctor.get()).opinion(secondOpinionDTO.getOpinion()).content(content).build();
         return new SecondOpinionDTO(secondOpinion);
+    }
+
+    public Address addressDTOToAddress(AddressDTO addressDTO) throws IllegalArgumentException{
+        if(addressDTO.getCity().isBlank()) throw new IllegalArgumentException("Address: City cannot be blank");
+        if(addressDTO.getCountry().isBlank()) throw new IllegalArgumentException("Address: Country cannot be blank");
+        if(addressDTO.getNumber().isBlank()) throw new IllegalArgumentException("Address: Number cannot be blank");
+        if(addressDTO.getStreet().isBlank()) throw new IllegalArgumentException("Address: Street cannot be blank");
+
+        Address address =  Address.builder()
+                .id(addressDTO.getId())
+                .city(addressDTO.getCity())
+                .country(addressDTO.getCountry())
+                .street(addressDTO.getStreet())
+                .number(addressDTO.getNumber())
+                .latitude(addressDTO.getLatitude())
+                .longitude(addressDTO.getLongitude())
+                .build();
+
+        Optional<Address> optionalAddress = addressService.getSavedInstance(address);
+        if(optionalAddress.isEmpty()){
+            return addressService.createAddress(address);
+        } else {
+            return optionalAddress.get();
+        }
+    }
+
+    public AddressDTO addressToAddressDTO(Address address){
+        return new AddressDTO(address);
     }
 }
