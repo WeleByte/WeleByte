@@ -45,4 +45,8 @@ public interface UserService {
     List<User> listAvailablePatientsDoctor();
 
     List<User> listAvailablePatientsPediatrician();
+
+    List<User> listAllDoctors() throws Exception;
+
+    List<User> listAllPediatricians() throws Exception;
 }

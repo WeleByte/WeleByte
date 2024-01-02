@@ -114,6 +114,11 @@ public class DTOManager {
 
         if (content.isBlank()) throw new IllegalArgumentException("Content cannot be blank");
 
+
         return SecondOpinion.builder().requester(requester.get()).doctor(doctor.get()).opinion(secondOpinionDTO.getOpinion()).content(content).build();
+    }
+
+    public SecondOpinionDTO secondOpinionToSecondOpinionDTO(SecondOpinion secondOpinion) {
+        return new SecondOpinionDTO(secondOpinion);
     }
 }
