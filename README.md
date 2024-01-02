@@ -8,7 +8,18 @@ URL aplikacije na javnom poslužitelju: https://welebyte-ozdravi-frontend-8717d3
 
 **NAPOMENA:** Potrebno je pričekati pola minute prije nego što aplikacija postane dostupna. To je zbog činjenice da 
 Heroku uspava aplikacije nakon nekog perioda nekorištenja. Slično se ponaša i backend aplikacija, pa će 
-biti potreno više vremena da se obradi prvi zahtjev prema backendu. Nakon toga, aplikacija radi normalnom brzinom. 
+biti potreno više vremena da se obradi prvi zahtjev prema backendu. Nakon toga, aplikacija radi normalnom brzinom.
+
+U aplikaciji, za potrebe testiranja već postoji set podataka (dummy data), to uključuje i korisnike:
+
+* prvi@mail.com - admin
+* doktor@mail.com - liječnik OM
+* pedijatar@mail.com - pedijatar
+* roditelj@mail.com - roditelj
+* roditaljBezDoktora@mail.com - roditelj
+* roditeljDoktor@mail.com - roditelj i doktor OM
+
+Svi korisnici imaju istu lozinku.
 
 ## Backend
 

@@ -1,5 +1,6 @@
 package ozdravi.rest.jwt;
 
+import com.auth0.jwt.interfaces.DecodedJWT;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -34,7 +35,11 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         }
 
         final String token = header.substring(7);
-        final String email = jwtTokenUtil.validateTokenAndGetEmail(token);
+        final DecodedJWT decodedJWT = jwtTokenUtil.validateToken(token);
+
+        final String email = decodedJWT.getSubject();
+        final Long role = decodedJWT.getClaim("role_id").asLong();
+
         if (email == null) {
             // validation failed or token expired
             chain.doFilter(request, response);
@@ -42,7 +47,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         }
 
         // set user details on spring security context
-        final UserDetails userDetails = jwtUserDetailsService.loadUserByUsername(email);
+        final UserDetails userDetails = jwtUserDetailsService.loadUserByUsername(email, role);
         final UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
                 userDetails, null, userDetails.getAuthorities());
         authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
