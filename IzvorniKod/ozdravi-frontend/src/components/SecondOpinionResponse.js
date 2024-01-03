@@ -16,7 +16,7 @@ const SecondOpinionResponse = (props) => {
 
     useEffect(() => {
         if(props.currentOpinionId !== null && props.currentOpinionId !== undefined) {
-            fetch(props.backendRoute + `/second_opinions/${props.currentOpinionId}`, {
+            fetch(props.backendRoute + `/second_opinion/${props.currentOpinionId}`, {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${props.bearerToken}`,

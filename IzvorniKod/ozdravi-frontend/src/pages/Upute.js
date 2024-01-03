@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import Navbar from '../components/Header';
 import ArrowRightIcon from '../assets/icons/arrow-right-blue.png'
 import {useNavigate} from "react-router-dom";
@@ -8,85 +8,82 @@ import SickLeaveRecommendationForm from '../components/NovaUputa';
 import NovaUputa from '../components/NovaUputa';
 import UputaDetail from '../components/UputaDetail';
 
-const Upute = () => {
+const Upute = (props) => {
 
   const uloga = "doktor"
 
-  const [selectedStatus, setSelectedStatus] = useState('svi')
-  const bearerToken = sessionStorage.bearerToken
- const [novoMisljenjeOpen, setNovoMisljenjeOpen] = useState(false)
- const [novoMisljenjeDetail, setNovoMisljenjeDetail] = useState(false)
+    const navigate = useNavigate()
+    const bearerToken = sessionStorage.bearerToken
+    const backendRoute = props.backendRoute
+    const [instructions, setInstructions] = useState([])
+    const [novoMisljenjeOpen, setNovoMisljenjeOpen] = useState(false)
+    const [novoMisljenjeDetail, setNovoMisljenjeDetail] = useState(false)
+    const [currentInstructionId, setCurrentInstructionId] = useState(null)
+    const [user, setUser] = useState('')
 
-  const toggleNovoMisljenje = () => {
+    useEffect(() => {
+        if(bearerToken === '' || bearerToken === null || bearerToken === undefined) {
+            navigate('/login')
+        }else{
+            setUser(JSON.parse(sessionStorage.userData))
+            // const logUser = JSON.parse(sessionStorage.userData)
+            // console.log(logUser)
+        }
+    }, []);
+
+
+    const toggleNovaUputa = () => {
         
     setNovoMisljenjeOpen(!novoMisljenjeOpen);
     
    
 };
-  const toggleMisljenjeDetail = () => {
+  const toggleInstructionDetail = () => {
     console.log("hello")
     setNovoMisljenjeDetail(!novoMisljenjeDetail);
    
 };
 
-  const original = [
-      {
-          ime: 'Filip', prezime: 'Filipović', lastVisit: '12.1.2023.',
-          visitCount: 5, email: 'filip.filipovic@gmail.com', age: 12,
-          bolnica: 'Moje ime je Veronika', status: 'nepregledano'
-      }, {
-          ime: 'Ivan', prezime: 'Ivanovic', lastVisit: '25.6.2023.',
-          visitCount: 2, email: 'ivan.ivanovic@gmail.com', age: 69,
-          bolnica: 'Vinogradska', status: 'pregledano'
-      }, {
-          ime: 'Milica', prezime: 'Srbić', lastVisit: '12.1.2023.',
-          visitCount: 7, email: 'milica.srbic@gmail.com', age: 23,
-          bolnica: 'Rebro', status: 'nepregledano'
-      }, {
-          ime: 'Joža', prezime: 'Mužić', lastVisit: '69.420.1337.',
-          visitCount: 89, email: 'jozica.muzic@gmail.com', age: 8,
-          bolnica: 'Trauma', status: 'pregledano'
-      }, {
-          ime: 'Đurđa', prezime: 'Đurđić', lastVisit: '24.2.1923.',
-          visitCount: 257, email: 'jozica.muzic@gmail.com', age: 96,
-          bolnica: 'Bolnica Sunce', status: 'nepregledano'
-      }, {
-          ime: 'Đurđa', prezime: 'Đurđić', lastVisit: '24.2.1923.',
-          visitCount: 257, email: 'jozica.muzic@gmail.com', age: 96,
-          bolnica: 'Bolnica Sunce', status: 'nepregledano'
-      }
-  ];
-  let nepregledanoCount = original.filter(item => item.status === 'nepregledano').length
-  let pregledanoCount = original.filter(item => item.status === 'pregledano').length
-  let filteredSecondOpinions
-
-  switch(selectedStatus) {
-      case 'svi' :
-          filteredSecondOpinions = original
-          break
-      case 'nepregledano' :
-          filteredSecondOpinions = original.filter(user => user.status === 'nepregledano')
-          break
-      case 'pregledano' :
-          filteredSecondOpinions = original.filter(user => user.status === 'pregledano')
+  const handleInstructionDetail = (id) => {
+      setCurrentInstructionId(id)
+      console.log("passed id: ", id)
+      console.log("set id: ", currentInstructionId)
+      toggleInstructionDetail()
   }
 
-  const finalSecondOpinionsList = filteredSecondOpinions.map((secondOpinion) => (
-   
-      <div className = "card mb-0" style={{textAlign: "left"}}>
-          <div className="card-body pregledajCardBody" style={{paddingRight: "130px"}}>
-              <h5 className="card-title ">Moguća dijagnoza: {secondOpinion.ime + " " + secondOpinion.prezime}</h5>
-              <p style={{fontSize: "13px"}}
-                 className='mb-1'>{secondOpinion.bolnica} • {secondOpinion.status}</p>
-              <button className='btn btn-secondary pregledajGumbPc'  style={{position:"absolute", right:"1rem", top: "30%"}} onClick = {toggleMisljenjeDetail}>Pregledaj   <img width="14" height="14" className = "ms-1 pregledaj-btn  " src={ArrowRightIcon} style={{marginBottom: "2px"}}  alt="right"/>       {/*  <img width="14" height="14" className = "ms-2  " src={ArrowRightIcon} style={{marginBottom: "2px"}}  alt="right"/> */}
-              </button>
-              <button className='btn btn-secondary pregledajGumbMobile mt-3 '  onClick = {toggleMisljenjeDetail} style={{zIndex: "100"}}>Pregledaj <img width="14" height="14" className = "ms-1 pregledaj-btn  " src={ArrowRightIcon} style={{marginBottom: "2px"}}  alt="right"/>
-              </button>
+    useEffect(() => {
+        fetch(backendRoute + "/instructions", {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${bearerToken}`,
+                'Content-Type': 'application/json'
+            }
+        })
+            .then(response => {
+                if (response.status === 401) {
+                    handleLogOut()
+                } else
+                if(!response.ok){
+                    console.log("Error:", response.status, response.statusText);
+                } else {
+                    return response.json();
+                }
+            })
+            .then(parsedData => {
+                console.log(parsedData)
+                setInstructions(parsedData)
 
-          </div>
-      </div>
-    
-  ))
+            })
+            .catch(error => {
+                console.error('Fetch error:', error);
+            });
+    }, []);
+
+    function handleLogOut() {
+        sessionStorage.clear()
+        localStorage.clear()
+        navigate('/login')
+    }
 
   if(!bearerToken){
       return null
@@ -97,15 +94,24 @@ const Upute = () => {
     <div id = "HomePageWrapper">
      <Navbar></Navbar>
 
-     {novoMisljenjeOpen && <NovaUputa closeSeccondOpinnionForm = {toggleNovoMisljenje}/>}
-     {novoMisljenjeDetail && <UputaDetail closeSeccondOpinnionForm = {toggleMisljenjeDetail}/>}
+     {novoMisljenjeOpen && <NovaUputa closeUputaForm = {toggleNovaUputa}
+                                      backendRoute={backendRoute}
+                                      bearerToken={bearerToken}
+                                      handleLogOut={handleLogOut}
+                                      user={user}/>}
+
+     {novoMisljenjeDetail && <UputaDetail closeInstructionDetail = {toggleInstructionDetail}
+                                          currentInstructionId={currentInstructionId}
+                                          backendRoute={backendRoute}
+                                          bearerToken={bearerToken}
+                                          handleLogOut={handleLogOut}/>}
   
      <div id = "seccondOppWrapper">
 
         {/*     <p style={{textAlign: "left", fontSize: "13px"}} className='px-4 mb-2 mt-2 mb-1'>4 nepregledanih - 7 pregledanih</p> */}
         <h5 className = "pt-3 px-4 mt-2 " style={{textAlign: "left", maxWidth: "1246px"}}>Upute
                     {/* <button className='btn btn-tertiary mt-1' style={{float: 'right'}}>Povijest </button>  */}
-                    <button className = "btn btn-primary" style={{float:"right"}} onClick= {toggleNovoMisljenje}>Dodaj Uputu +</button> </h5>
+                    <button className = "btn btn-primary" style={{float:"right"}} onClick= {toggleNovaUputa}>Dodaj Uputu +</button> </h5>
                  <p style={{textAlign: "left", maxWidth: "1200px"}} className = "px-4 mb-4 ">{12} nepregladnih</p> 
 
 
@@ -129,9 +135,26 @@ const Upute = () => {
 
 
     
-    <div class = "px-4 pt-1 " id = "secondOppinionList">
+    <div className = "px-4 pt-1 " id = "secondOppinionList">
         
-        {finalSecondOpinionsList}
+        {instructions.map((instruction) => {
+            const formattedDate = new Date(instruction.date).toLocaleDateString()
+
+            return(
+            <div key={instruction.id} className = "card mb-0" style={{textAlign: "left"}}>
+                <div className="card-body pregledajCardBody" style={{paddingRight: "130px"}}>
+                    <h5 className="card-title ">Pacijent: {instruction.patient.first_name + " " + instruction.patient.last_name}</h5>
+                    <p style={{fontSize: "13px"}}
+                       className='mb-1'>{formattedDate} • {instruction.doctor.first_name + " " + instruction.doctor.last_name}</p>
+                    <button className='btn btn-secondary pregledajGumbPc'  style={{position:"absolute", right:"1rem", top: "30%"}} onClick={() => handleInstructionDetail(instruction.id)}>Pregledaj   <img width="14" height="14" className = "ms-1 pregledaj-btn  " src={ArrowRightIcon} style={{marginBottom: "2px"}}  alt="right"/>       {/*  <img width="14" height="14" className = "ms-2  " src={ArrowRightIcon} style={{marginBottom: "2px"}}  alt="right"/> */}
+                    </button>
+                    <button className='btn btn-secondary pregledajGumbMobile mt-3 '  onClick={() => handleInstructionDetail(instruction.id)} style={{zIndex: "100"}}>Pregledaj <img width="14" height="14" className = "ms-1 pregledaj-btn  " src={ArrowRightIcon} style={{marginBottom: "2px"}}  alt="right"/>
+                    </button>
+
+                </div>
+            </div>
+
+        )})}
     </div>
 
     </div>

@@ -20,7 +20,6 @@ const Users = (props) => {
     const user = JSON.parse(sessionStorage.userData)
     const roles = user.roles
     const navigate = useNavigate()
-    const uloga = "doktor"
     var [currentOpenedOptions, setCurrentOpenedOptions] = useState(null);
     let optionsOpened= false;
     const [refreshUsers, setRefreshUsers] = useState(false)

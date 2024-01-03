@@ -145,6 +145,7 @@ const NoviPregled = (props) => {
             fetch(props.backendRoute + "/examinations", {
                 method: 'POST',
                 headers: {
+                    'Authorization' : `Bearer ${props.bearerToken}`,
                     "Content-Type": 'application/json'
                 },
                 body: JSON.stringify({
