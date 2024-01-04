@@ -3,6 +3,7 @@ package ozdravi.rest.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import ozdravi.domain.Address;
 import ozdravi.domain.User;
@@ -26,12 +27,15 @@ public class AddressController {
     SecurityContextService securityContextService;
 
     //list all addresses
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/addresses")
     public List<Address> listAllAddresses() {
         return addressService.listAll();
     }
 
     //create an address
+    @PreAuthorize("hasRole('ADMIN')")
+
     @PostMapping("/addresses")
     public ResponseEntity<?> createAddress(AddressDTO addressDTO){
         Optional<User> optUser = securityContextService.getLoggedInUser();
@@ -47,6 +51,7 @@ public class AddressController {
     }
 
     //return address with given id
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/address/{id}")
     public ResponseEntity<?> listUserAddresses(@PathVariable("id") Long id) {
         Optional<Address> address = addressService.findById(id);
