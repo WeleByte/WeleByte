@@ -252,12 +252,14 @@
 			%dio 2. revizije
 			
 			%Potrebno je priložiti dijagram stanja i opisati ga. Dovoljan je jedan dijagram stanja koji prikazuje značajan dio funkcionalnosti sustava. Na primjer, stanja korisničkog sučelja i tijek korištenja neke ključne funkcionalnosti jesu značajan dio sustava, a registracija i prijava nisu.
-			\begin{figure}[H]
-				\includegraphics[width=\textwidth]{slike/DijagramStanja.png} 
-				\caption{Dijagram stanja} 
-		    \end{figure}
-						
-			\eject 
+
+			UML dijagram stanja je vrsta dijagrama koja prikazuje različita stanja kroz koje objekt ili sustav prolazi tokom svog životnog ciklusa. Na slici 4.6 prikazan je dijagram stanja za registriranog korisnika koji ima ulogu roditelja. Nakon što se korisnik prijavi, prikazuje mu se početna stranica. Korisnik u Izborniku može odabrati neku od ponuđenih opcija. Klikom na „Moj profil“ prikazuju se podatci korisnika koje može urediti. Također, korisnik ima mogućnost odjave klikom na „Odjavi se“. Odabirom „Moja djeca“ prikazuje se lista korisnikove djece, a klikom na neko od ponuđenih imena djece otvara se profil odabranog djeteta. Klikom na „Uredi“ moguće je izmijeniti djetetove podatke. U izborniku, klikom na „ Druga mišljenja“ moguće je stvoriti zahtjev za novim mišljenjem klikom na „Zatraži drugo mišljenje“ ili pregledati listu zahtjeva klikom na „Moji zahtjevi“ te vidjeti detalje zahtjeva odabirom željenog zahtjeva. Odabirom „Moji pregledi“ otvaramo povijest svih pregleda korisnika, klikom na određeni pregled prikazuju se detalji istog. Klikom na karticu s imenom djeteta, moguće je vidjeti povijest pregleda odabranog djeteta te kao i kod osobnih pregleda vidjeti detalje pregleda odabirom specifičnog pregleda.
+			
+				\begin{figure}[H]
+					\includegraphics[width=\textwidth]{slike/DijagramStanja.png} 
+					\caption{Dijagram stanja} 
+				\end{figure}
+				\eject 
 		
 		\section{Dijagram aktivnosti}
 			
@@ -282,6 +284,9 @@
 			%dio 2. revizije
 		
 			 %Potrebno je priložiti dijagram komponenti s pripadajućim opisom. Dijagram komponenti treba prikazivati strukturu cijele aplikacije.
+		
+		UML dijagrami komponenata pružaju vizualni prikaz modularne strukture i međusobnih odnosa između komponenata u programskoj potpori. Na slici 4.8. prikazan je dijagram komponenti web-aplikacije Ozdravi. Sastoji se od 4 komponente: Controllers, Services, Repos i Entities. Controllers pružaju REST\_API sučelje na koje vanjski web-preglednik može slati zahtjeve. Komponenta Controllers je zadužena za obradu HTTPS zahtjeva na temelju kojih poziva operacije komponente Services. Komponenta Services za izvođenje pojedinih operacija treba pristup podacima iz baze, za što koristi operacije komponente Repos koja ostvaruje sučelje JDBC. Repos upisuju podatke iz baze podataka u komponentu Entities.
+		
 			 \begin{figure}[H]
 				\includegraphics[width=\textwidth]{slike/DijagramKomponenti.png} 
 				\caption{Dijagram komponenti} 
