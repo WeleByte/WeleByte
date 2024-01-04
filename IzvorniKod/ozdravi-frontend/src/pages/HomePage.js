@@ -12,6 +12,7 @@ const HomePage = (props) => {
     const uloga = "doktor"
     const navigate = useNavigate()
     const bearerToken = sessionStorage.getItem('bearerToken');
+    var [roles, setRoles] = useState([""]);
 
     // if(sessionStorage.userData === undefined) {
     //     sessionStorage.userData = JSON.stringify({first_name: 'a'})
@@ -24,8 +25,11 @@ const HomePage = (props) => {
             navigate('/login')
         }else{
             setUser(JSON.parse(sessionStorage.userData))
-            // const logUser = JSON.parse(sessionStorage.userData)
-            // console.log(logUser)
+            const logUser = JSON.parse(sessionStorage.userData)
+            console.log(logUser)
+            setRoles(logUser.roles.map(obj => obj.name))
+            console.log(roles)
+
         }
     }, []);
 
@@ -41,15 +45,18 @@ const HomePage = (props) => {
                 </h3>
                 <p style={{textAlign: "left"}} className="px-4">Što ćemo raditi danas?</p>
                 <div className='homePageCardSection p-4 pt-0 ps-3' >
-                    {(uloga === "doktor" || uloga === "pedijatar") && (
-                        <HomeCard title="Moji Pacijenti" description="34 odraslih • 4 djece" image={patientsImage} buttonText="Vidi sve"/>
+                    {(roles.includes("doctor") || roles.includes("pediatrician")) && (
+                        <HomeCard title="Moji Pacijenti" description="34 pacijenata" image={patientsImage} buttonText="Vidi sve"/>
+                    )}
+                    {(roles.includes("admin")) && (
+                        <HomeCard title="Korisnici" description="34 korisnika" image={patientsImage} buttonText="Vidi sve"/>
                     )}
                     <HomeCard title="Druga Mišljenja" description="3 za pregled" image={drugoMisljenje} buttonText="Pregledaj"/>
                     <HomeCard title="Preporuke za bolovanje" description="7 za pregled" image={bolovanje} buttonText="Pregledaj"/>
-                    {uloga !== "roditelj" && (
+                    {(roles.includes("parent"))  && (
                         <HomeCard title="Moja djeca" description="3 prijavljenje djece" image={djeca} buttonText="Vidi sve"/>
                     )}
-                </div>
+                </div>w
             </div>
         </div>
     );

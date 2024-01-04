@@ -92,7 +92,8 @@ const NoviPregled = (props) => {
             .then(([pediatriciansPromise, doctorsPromise, patientsPromise]) => {
 
                 if (pediatriciansPromise.status === 401 || doctorsPromise.status === 401 || patientsPromise.status === 401) {
-                    props.handleLogOut()
+                    /* props.handleLogOut() */
+                    console.log("unauthorized!!")
 
                 } else
                 if (!pediatriciansPromise.ok || !doctorsPromise.ok || !patientsPromise.ok) {

@@ -26,7 +26,8 @@ const SecondOpinions = (props) => {
         })
             .then(response => {
                 if (response.status === 401) {
-                    handleLogOut()
+                    console.log("unauthorized!!")
+                    /* handleLogOut() */
                 } else
                 if(!response.ok){
                     console.log("Error:", response.status, response.statusText);
@@ -97,7 +98,7 @@ const SecondOpinions = (props) => {
                 <h5 className = "pt-3 px-4 mt-2 " style={{textAlign: "left", maxWidth: "1246px"}}>Druga Mišljenja
                     {/* <button className='btn btn-tertiary mt-1' style={{float: 'right'}}>Povijest </button>  */}
                     <button className = "btn btn-primary" style={{float:"right"}} onClick= {toggleNovoMisljenje}>Dodaj Mišljenje +</button> </h5>
-                <p style={{textAlign: "left", maxWidth: "1200px"}} className = "px-4 mb-4 ">{secondOpinions.length} dostupna</p>
+                <p style={{textAlign: "left", maxWidth: "1200px"}} className = "px-4 mb-4 ">{secondOpinions?.length} dostupna</p>
 
 
                 {/* <div id = "usersSelectorDiv" className = "px-4 pb-1 pt-0 " style={{display: "flex", justifyContent: "left", flexWrap: "wrap"}}>
@@ -122,7 +123,7 @@ const SecondOpinions = (props) => {
             <button class ="btn selector-btn selector-btn-selected col-6">Nepregledano ({nepregledanoCount})</button>
             <button class ="btn selector-btn selector-btn-unselected col-6">Pregledano ({nepregledanoCount + 3})</button>
         </div> */}
-                    {secondOpinions.map((secondOpinion) => (
+                    {secondOpinions?.map((secondOpinion) => (
                         <div key={secondOpinion.id} className="card mb-0" style={{textAlign: "left"}}>
                             <div className="card-body pregledajCardBody" style={{paddingRight: "130px"}}>
                                 <h5 className="card-title ">Pacijent: {secondOpinion.requester.first_name + " " + secondOpinion.requester.last_name}</h5>
