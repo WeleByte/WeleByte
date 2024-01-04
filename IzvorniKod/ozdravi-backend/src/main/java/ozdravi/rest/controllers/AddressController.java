@@ -35,7 +35,6 @@ public class AddressController {
 
     //create an address
     @PreAuthorize("hasRole('ADMIN')")
-
     @PostMapping("/addresses")
     public ResponseEntity<?> createAddress(AddressDTO addressDTO){
         Optional<User> optUser = securityContextService.getLoggedInUser();
