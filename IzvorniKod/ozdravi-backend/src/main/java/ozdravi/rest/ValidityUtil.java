@@ -1,10 +1,12 @@
 package ozdravi.rest;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import ozdravi.domain.User;
 import ozdravi.rest.dto.UserDTO;
+import ozdravi.service.UserService;
 
 import java.util.regex.Pattern;
 
@@ -12,6 +14,9 @@ import java.util.regex.Pattern;
 //public metode su za koristenje van klase, a privatne su pomocne metode
 @Service
 public class ValidityUtil {
+
+    @Autowired
+    private UserService userService;
 
     public static ResponseEntity<String> checkUserDTOForLoops(UserDTO userDTO){
         if(userDTO.getParent_id()!=null && userDTO.getParent_id().equals(userDTO.getId()))

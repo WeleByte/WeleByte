@@ -7,10 +7,13 @@ import ozdravi.domain.*;
 import ozdravi.rest.dto.*;
 import ozdravi.service.AddressService;
 import ozdravi.service.ExaminationService;
+import ozdravi.service.RoleService;
 import ozdravi.service.UserService;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeParseException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 //klasa zaduzena za prebacivanje DTO tipova podataka u domenske tipove podataka i obrnuto
@@ -28,6 +31,9 @@ public class DTOManager {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private RoleService roleService;
 
     public Examination examRequestToExamination(ExaminationRequest examinationRequest) throws IllegalArgumentException, DateTimeParseException {
         Optional<User> patient = userService.findById(examinationRequest.getPatient_id());
@@ -165,5 +171,16 @@ public class DTOManager {
 
     public AddressDTO addressToAddressDTO(Address address){
         return new AddressDTO(address);
+    }
+
+    public List<Role> roleStringListToRoleList(List<String> roleStringList){
+        List<Role> roleRoles = new ArrayList<>();
+        for(String roleString : roleStringList){
+            Optional<Role> roleOptional = roleService.findByName(roleString);
+            if(roleOptional.isEmpty())
+                throw new IllegalArgumentException("Role '" + roleString + "' does not exist");
+            roleRoles.add(roleOptional.get());
+        }
+        return roleRoles;
     }
 }
