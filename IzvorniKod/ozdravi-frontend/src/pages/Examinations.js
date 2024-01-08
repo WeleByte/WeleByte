@@ -24,6 +24,7 @@ const Examinations = (props) => {
     const [selectedUsers, setSelectedUsers] = useState('svi')
     let currentOpenedOptions = null;
     let optionsOpened= false;
+    const [refreshExaminations, setRefreshExaminations] = useState(false)
     const [examinations, setExaminations] = useState([])
     const [isAddPatientVisible, showAddPatient] = useState(false);
     const [isPregledDetailVisible, setIsPregledDetailVisible] = useState(false);
@@ -44,6 +45,9 @@ const Examinations = (props) => {
         }
     }, []);
 
+    const toggleRefreshExaminations = () => {
+        setRefreshExaminations((prev) => !prev);
+    }
     const toggleAddPatient = () => {
         showAddPatient(!isAddPatientVisible);
 
@@ -179,7 +183,7 @@ const Examinations = (props) => {
             // .catch(error => {
             //     console.error('Fetch error:', error);
             // });
-    }, []);
+    }, [refreshExaminations]);
 
     if(!bearerToken){
         return null
@@ -195,7 +199,8 @@ const Examinations = (props) => {
                                                 backendRoute={backendRoute}
                                                 bearerToken={bearerToken}
                                                 handleLogOut={handleLogOut}
-                                                user={user}/>}
+                                                user={user}
+                                                refreshExaminations={toggleRefreshExaminations}/>}
             {isPregledDetailVisible && <PregledDetail backendRoute={backendRoute}
                                                 bearerToken={bearerToken}
                                                 handleLogOut={handleLogOut}
@@ -281,7 +286,7 @@ const Examinations = (props) => {
                                     </td>
                                     {/* <td>{examination.doctor.first_name + " " + examination.doctor.last_name}</td>
                                     <td>{examination.patient.email}</td> */}
-                                    <td>{examination.report}</td>
+                                    <td>{examination.report.length >= 30 ? examination.report.substring(0, 30) + "..." : examination.report}</td>
                                     <td>{examination.address.street}</td>
 
                                     <td className = "three-dot-td" >

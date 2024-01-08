@@ -24,8 +24,18 @@ const NoviPregled = (props) => {
     const [number, setNumber] = useState(null)
     const [allDoctorsFormatted, setAllDoctorsFormatted] = useState([])
     const [patientsFormatted, setPatientsFormatted] = useState([])
+    const [isDoctor, setIsDoctor] = useState(true)
 
-
+    // useEffect(() => {
+    //     props.user.roles.forEach(role => {
+    //         if(role.name === 'doctor')
+    //             setIsDoctor(true)
+    //     })
+    //     if(isDoctor){
+    //         setSelectedDoctor(props.user.id)
+    //     }
+    //     console.log(isDoctor)
+    // }, []);
 
     const closeModal = () => {
         props.closeNoviPregled()
@@ -145,8 +155,7 @@ const NoviPregled = (props) => {
         console.log("Location: ", country, city, street, number)
 
         if (selectedDoctor && selectedPatient && report && date) {
-            const formattedDate = new Date(date).toISOString();
-            console.log("Formatted Date:", formattedDate);
+            console.log("Date:", date);
 
             fetch(props.backendRoute + "/examinations", {
                 method: 'POST',
@@ -166,11 +175,12 @@ const NoviPregled = (props) => {
                         'latitude' : null,
                         'longitude' : null
                     },
-                    'date': formattedDate,
+                    'date': date,
                     'report': report
                 })
             })
                 .then(response => {
+                    props.refreshExaminations()
                     console.log(response);
                 })
         } else {
@@ -205,10 +215,11 @@ const NoviPregled = (props) => {
 
 
                             <div className="mb-3">
-
                                 <Select options={allDoctorsFormatted} placeholder = "Odaberite doktora..."
                                         onChange={selectedOption =>
                                             setSelectedDoctor(selectedOption)}/>
+
+
 
                             </div>
 
@@ -224,7 +235,7 @@ const NoviPregled = (props) => {
 
                             <div className="mb-4">
                                 <label htmlFor="examination-date" className="form-label" style={{float: 'left'}}>DATUM</label>
-                                <input type="date" className="form-control" id="date"
+                                <input type="datetime-local" className="form-control" id="date"
                                        onChange={selectedDate => setDate(selectedDate.target.value)}/>
                             </div>
 
