@@ -18,6 +18,10 @@ const NoviPregled = (props) => {
     const [selectedPatient, setSelectedPatient] = useState(null);
     const [report, setReport] = useState(null)
     const [date, setDate] = useState(null)
+    const [country, setCountry] = useState('Hrvatska')
+    const [city, setCity] = useState(null)
+    const [street, setStreet] = useState(null)
+    const [number, setNumber] = useState(null)
     const [allDoctorsFormatted, setAllDoctorsFormatted] = useState([])
     const [patientsFormatted, setPatientsFormatted] = useState([])
 
@@ -115,12 +119,12 @@ const NoviPregled = (props) => {
 
             setAllDoctorsFormatted(allDoctorsTemp.map(doctor => ({
                 label: `${doctor.first_name} ${doctor.last_name}`,
-                value: `${doctor.id}`
+                value: doctor.id
             })))
 
             setPatientsFormatted(parsedPatients.map(patient => ({
                 label: `${patient.first_name} ${patient.last_name}`,
-                value: `${patient.id}`
+                value: patient.id
             })))
 
             console.log(allDoctorsFormatted, patientsFormatted);
@@ -138,6 +142,7 @@ const NoviPregled = (props) => {
         console.log("Selected Patient:", selectedPatient);
         console.log("Date:", date);
         console.log("Report:", report);
+        console.log("Location: ", country, city, street, number)
 
         if (selectedDoctor && selectedPatient && report && date) {
             const formattedDate = new Date(date).toISOString();
@@ -153,7 +158,14 @@ const NoviPregled = (props) => {
                     'doctor_id': selectedDoctor.value,
                     'patient_id': selectedPatient.value,
                     'scheduler_id': props.user.id,
-                    'address_id': 1,
+                    'address' : {
+                        'country' : country,
+                        'city' : city,
+                        'street' : street,
+                        'number' : number,
+                        'latitude' : null,
+                        'longitude' : null
+                    },
                     'date': formattedDate,
                     'report': report
                 })
@@ -211,16 +223,35 @@ const NoviPregled = (props) => {
 
 
                             <div className="mb-4">
-                                <label htmlFor="username" className="form-label" style={{float: 'left'}}>DATUM</label>
+                                <label htmlFor="examination-date" className="form-label" style={{float: 'left'}}>DATUM</label>
                                 <input type="date" className="form-control" id="date"
                                        onChange={selectedDate => setDate(selectedDate.target.value)}/>
                             </div>
 
+                            <div></div>
 
                             <div className="mb-3">
-                                <label htmlFor="username" className="form-label" style={{float: 'left'}}>LOKACIJA</label>
+                                <label htmlFor="examination-country" className="form-label" style={{float: 'left'}}>DRZAVA</label>
+                                <input type="text" className="form-control" id="location" value={country}
+                                       onChange={e => setCountry(e.target.value)} />
+                            </div>
+
+                            <div className="mb-3">
+                                <label htmlFor="examination-city" className="form-label" style={{float: 'left'}}>GRAD</label>
                                 <input type="text" className="form-control" id="location"
-                                />
+                                       onChange={e => setCity(e.target.value)}/>
+                            </div>
+
+                            <div className="mb-3">
+                                <label htmlFor="examination-address" className="form-label" style={{float: 'left'}}>ADRESA</label>
+                                <input type="text" className="form-control" id="location"
+                                       onChange={e => setStreet(e.target.value)}/>
+                            </div>
+
+                            <div className="mb-3">
+                                <label htmlFor="examination-number" className="form-label" style={{float: 'left'}}>BROJ</label>
+                                <input type="text" className="form-control" id="location"
+                                       onChange={e => setNumber(e.target.value)}/>
                             </div>
 
 

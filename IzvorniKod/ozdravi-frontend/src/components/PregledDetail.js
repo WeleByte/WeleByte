@@ -16,8 +16,9 @@ const PregledDetail = ({closeNoviPregled, pregledId, backendRoute, bearerToken, 
 
   
 
-useEffect(() => {console.log(examination)});
-
+  useEffect(() => {
+    console.log(examination)
+  }, []);
 
   return (
     <div id = "addPatientsWrapper" className = "shadow-lg">

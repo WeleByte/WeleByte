@@ -196,7 +196,11 @@ const Examinations = (props) => {
             {isPregledDetailVisible && <PregledDetail backendRoute={backendRoute}
                                                 bearerToken={bearerToken}
                                                 handleLogOut={handleLogOut}
-                                                user={user} closeNoviPregled = {togglePregledDetail} pregledId = {selectedPregledId} examination = {examinations[selectedPregledId]} />}
+                                                user={user}
+                                                closeNoviPregled = {togglePregledDetail}
+                                                pregledId = {selectedPregledId}
+                                                examination = {examinations[selectedPregledId]}
+                                                closeUserOptions={closeUserOptions}/>}
 
 
             <div id = "usersWrapperInner">
