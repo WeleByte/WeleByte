@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import ozdravi.domain.Address;
+import ozdravi.domain.Instruction;
 import ozdravi.domain.User;
 import ozdravi.rest.dto.AddressDTO;
 import ozdravi.service.AddressService;
@@ -20,44 +21,25 @@ public class AddressController {
     @Autowired
     private AddressService addressService;
 
-    @Autowired
-    private DTOManager dtoManager;
-
-    @Autowired
-    SecurityContextService securityContextService;
-
     //list all addresses
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/addresses")
-    public List<Address> listAllAddresses() {
-        return addressService.listAll();
+    public ResponseEntity<List<Address>> listAllAddresses() {
+        return new ResponseEntity<>(addressService.listAll(), HttpStatus.OK);
     }
 
     //create an address
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/addresses")
-    public ResponseEntity<?> createAddress(AddressDTO addressDTO){
-        Optional<User> optUser = securityContextService.getLoggedInUser();
-        if(optUser.isEmpty())
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-
-        try{
-            Address address = dtoManager.addressDTOToAddress(addressDTO);
-            return ResponseEntity.ok(addressService.createAddress(address));
-        } catch (IllegalArgumentException e){
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+    public ResponseEntity<Address> createAddress(AddressDTO addressDTO){
+        return new ResponseEntity<>(addressService.createAddress(addressDTO), HttpStatus.CREATED);
     }
 
     //return address with given id
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/address/{id}")
-    public ResponseEntity<?> listUserAddresses(@PathVariable("id") Long id) {
-        Optional<Address> address = addressService.findById(id);
-        if (address.isPresent())
-            return ResponseEntity.ok(address);
-        //inace
-        return ResponseEntity.notFound().build();
+    public ResponseEntity<Address> listUserAddresses(@PathVariable("id") Long id) {
+        return new ResponseEntity<>(addressService.findById(id), HttpStatus.OK);
     }
 
 }
