@@ -85,11 +85,9 @@ public class UserServiceJpa implements UserService {
 
     @Override
     public List<User> list() {
-        Optional<User> user = securityContextService.getLoggedInUser();
-        if(user.isEmpty())
-            throw new LoggedUserException("bla");
+        User user = securityContextService.getLoggedInUser();
 
-        Long id = user.get().getId();
+        Long id = user.getId();
 
         if (securityContextService.isUserInRole("PARENT")) {
             return listChildren(id);
@@ -100,11 +98,15 @@ public class UserServiceJpa implements UserService {
     }
 
     @Override
+    public List<User> listDoctors() {
+        //todo finish
+        return null;
+    }
+
+    @Override
     public User findById(Long id) {
-        Optional<User> workingUser = securityContextService.getLoggedInUser();
-        if (workingUser.isEmpty())
-            throw new LoggedUserException("bla");
-        if (!workingUser.get().getId().equals(id) && !securityContextService.isUserInRole("ADMIN"))
+        User workingUser = securityContextService.getLoggedInUser();
+        if (!workingUser.getId().equals(id) && !securityContextService.isUserInRole("ADMIN"))
             throw new RequestDeniedException("You are not authorized to view this info");
 
         Optional<User> user = userRepository.findById(id);
@@ -122,9 +124,8 @@ public class UserServiceJpa implements UserService {
 
     @Override
     public void modifyUser(UserDTO userDTO, Long id){
-        Optional<User> workingUser = securityContextService.getLoggedInUser();
-        if(workingUser.isEmpty()) throw new LoggedUserException("bla");
-        if(!workingUser.get().getId().equals(id) && !securityContextService.isUserInRole("ADMIN"))
+        User workingUser = securityContextService.getLoggedInUser();
+        if(!workingUser.getId().equals(id) && !securityContextService.isUserInRole("ADMIN"))
             throw new RequestDeniedException("You are not authorized to modify this user");
 
         userDTO.setId(id);

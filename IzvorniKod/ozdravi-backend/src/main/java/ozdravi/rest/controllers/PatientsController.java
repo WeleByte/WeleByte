@@ -31,9 +31,7 @@ public class PatientsController {
 
         System.out.println(
                 objectMapper.writeValueAsString(SecurityContextHolder.getContext().getAuthentication().getPrincipal()));
-        Optional<User> user = securityContextService.getLoggedInUser();
-        if(user.isEmpty())
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        User user = securityContextService.getLoggedInUser();
 
         if(securityContextService.isUserInRole("ADMIN")){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Admin cannot have available patients");
@@ -49,18 +47,14 @@ public class PatientsController {
     @PreAuthorize("hasAnyRole('ADMIN', 'DOCTOR', 'PEDIATRICIAN')")
     @PutMapping("/patients/{id}")
     public ResponseEntity<?> addPatient(@PathVariable("id") Long id) {
-        Optional<User> optionalDoctor = securityContextService.getLoggedInUser();
-        if(optionalDoctor.isEmpty())
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        User optionalDoctor = securityContextService.getLoggedInUser();
 
         if(securityContextService.isUserInRole("ADMIN")){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Admin cannot assign patients to self");
         } else if(securityContextService.isUserInRole("DOCTOR") || securityContextService.isUserInRole("PEDIATRICIAN")){
-            Optional<User> optionalPatient = userService.findById(id);
-            if(optionalPatient.isEmpty())
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Patient with given id does not exist");
-            optionalPatient.get().setDoctor(optionalDoctor.get());
-            userService.save(optionalPatient.get());
+            User optionalPatient = userService.findById(id);
+            optionalPatient.setDoctor(optionalDoctor);
+            userService.save(optionalPatient);
             return ResponseEntity.ok("Patient successfully assigned to you");
         }
 
@@ -70,18 +64,14 @@ public class PatientsController {
     @PreAuthorize("hasAnyRole('ADMIN', 'DOCTOR', 'PEDIATRICIAN')")
     @DeleteMapping("/patients/{id}")
     public ResponseEntity<?> removePatient(@PathVariable("id") Long id){
-        Optional<User> optionalDoctor = securityContextService.getLoggedInUser();
-        if(optionalDoctor.isEmpty())
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        User optionalDoctor = securityContextService.getLoggedInUser();
 
         if(securityContextService.isUserInRole("ADMIN")) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Admin cannot unassign patients from self");
         } else if(securityContextService.isUserInRole("DOCTOR") || securityContextService.isUserInRole("PEDIATRICIAN")){
-            Optional<User> optionalPatient = userService.findById(id);
-            if(optionalPatient.isEmpty())
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Patient with given id does not exist");
-            optionalPatient.get().setDoctor(null);
-            userService.save(optionalPatient.get());
+            User optionalPatient = userService.findById(id);
+            optionalPatient.setDoctor(null);
+            userService.save(optionalPatient);
             return ResponseEntity.ok("Patient successfully unassigned to you");
         }
 

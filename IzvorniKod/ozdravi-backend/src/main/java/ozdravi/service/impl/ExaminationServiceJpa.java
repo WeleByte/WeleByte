@@ -38,11 +38,8 @@ public class ExaminationServiceJpa implements ExaminationService {
         if(examination.isEmpty())
             throw new EntityMissingException("No Examination with such id");
 
-        Optional<User> user = securityContextService.getLoggedInUser();
-        if(user.isEmpty()) {
-            throw new LoggedUserException("bla");
-        }
-        Long user_id = user.get().getId();
+        User user = securityContextService.getLoggedInUser();
+        Long user_id = user.getId();
 
         if(securityContextService.isUserInRole("PARENT") && listParentExaminations(user_id).contains(examination.get()) ||
                 securityContextService.isUserInRole("ADMIN") ||
@@ -60,10 +57,7 @@ public class ExaminationServiceJpa implements ExaminationService {
 
     @Override
     public Examination createExamination(ExaminationDTO examinationDTO) {
-        Optional<User> user = securityContextService.getLoggedInUser();
-        if(user.isEmpty())
-            throw new LoggedUserException("bla");
-
+        User user = securityContextService.getLoggedInUser();
         Examination examination = dtoManager.examDTOToExamination(examinationDTO);
         User scheduler;
 
@@ -76,10 +70,10 @@ public class ExaminationServiceJpa implements ExaminationService {
                 throw new IllegalArgumentException("No doctor with such ID.");
             }
         } else { //trenutni mora biti scheduler
-            if (!Objects.equals(examination.getScheduler().getId(), user.get().getId())) {
+            if (!Objects.equals(examination.getScheduler().getId(), user.getId())) {
                 throw new RequestDeniedException("Doctors can't schedule examinations on behalf of other doctors");
             }
-            scheduler = user.get();
+            scheduler = user;
         }
 
         //provjere da su svi id-evi odgovarajuci (ne moze se za id doktroa stavit id roditelja npr)
@@ -113,12 +107,9 @@ public class ExaminationServiceJpa implements ExaminationService {
 
         //admin smije sve mjenjati
         if(!securityContextService.isUserInRole("ADMIN")) {
-            Optional<User> user = securityContextService.getLoggedInUser();
-            if (user.isEmpty())
-                throw new LoggedUserException("bla");
-
+            User user = securityContextService.getLoggedInUser();
             // doktor mora moci vidjeti pregled ciji je id naveden u pathu
-            if (!listDoctorExaminations(user.get().getId()).contains(prevExamination.get())) {
+            if (!listDoctorExaminations(user.getId()).contains(prevExamination.get())) {
                 throw new RequestDeniedException("Doctor can modify only his examinations.");
             }
 
@@ -141,10 +132,8 @@ public class ExaminationServiceJpa implements ExaminationService {
 
     @Override
     public List<Examination> list() {
-        Optional<User> user = securityContextService.getLoggedInUser();
-        if(user.isEmpty())
-            throw new LoggedUserException("blabla");
-        Long id = user.get().getId();
+        User user = securityContextService.getLoggedInUser();
+        Long id = user.getId();
 
         if(securityContextService.isUserInRole("PARENT")){
             return listParentExaminations(id);

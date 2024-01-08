@@ -33,11 +33,8 @@ public class InstructionServiceJpa implements InstructionService {
 
     @Override
     public List<Instruction> list() {
-        Optional<User> user = securityContextService.getLoggedInUser();
-        if(user.isEmpty())
-            throw new LoggedUserException("get logged in user exception");
-
-        Long id = user.get().getId();
+        User user = securityContextService.getLoggedInUser();
+        Long id = user.getId();
         if(securityContextService.isUserInRole("PARENT")) {
             return listForParent(id);
         } else if(securityContextService.isUserInRole("PEDIATRICIAN") || securityContextService.isUserInRole("DOCTOR")) {
@@ -59,10 +56,7 @@ public class InstructionServiceJpa implements InstructionService {
 
     @Override
     public Instruction createInstruction(InstructionDTO instructionDTO) {
-        Optional<User> doctor = securityContextService.getLoggedInUser();
-        if (doctor.isEmpty()){
-            throw new LoggedUserException("logged in user exception");
-        }
+        User doctor = securityContextService.getLoggedInUser();
 
         Instruction instruction = dtoManager.InstructionDTOtoInstruction(instructionDTO);
 
@@ -73,7 +67,7 @@ public class InstructionServiceJpa implements InstructionService {
             return instructionRepository.save(instruction);
 
         //predani doctor_id treba biti isti kao id osobe trenutno ulogirane
-        if (!Objects.equals(instruction.getDoctor().getId(), doctor.get().getId())) {
+        if (!Objects.equals(instruction.getDoctor().getId(), doctor.getId())) {
             throw new RequestDeniedException("Doctors can't give instructions on behalf of other doctors");
         }
 
@@ -96,11 +90,9 @@ public class InstructionServiceJpa implements InstructionService {
         if(securityContextService.isUserInRole("ADMIN"))
             return instruction.get();
 
-        Optional<User> user = securityContextService.getLoggedInUser();
-        if(user.isEmpty()) {
-            throw new LoggedUserException("get logged in user exception");
-        }
-        Long user_id = user.get().getId();
+        User user = securityContextService.getLoggedInUser();
+
+        Long user_id = user.getId();
         //smije vidjeti ako je njegov id naveden kao patient, doktor ILI
         // ako navedeni id ima parent_id == user_id
         if(Objects.equals(user_id, instruction.get().getPatient().getId()) ||
@@ -122,10 +114,8 @@ public class InstructionServiceJpa implements InstructionService {
         if(!securityContextService.isUserInRole("ADMIN")) {
             //doktor smije modifyjati samo svoje instructione
             //provjerava se jel pathVariable id postoji u listi instructiona za tog doktora
-            Optional<User> user = securityContextService.getLoggedInUser();
-            if(user.isEmpty())
-                throw new LoggedUserException("logged in user exception");
-            if(!listForDoctor(user.get().getId()).contains(prevInstruction)) {
+            User user = securityContextService.getLoggedInUser();
+            if(!listForDoctor(user.getId()).contains(prevInstruction)) {
                 throw new RequestDeniedException("doctor can modify only his instructions");
             }
 

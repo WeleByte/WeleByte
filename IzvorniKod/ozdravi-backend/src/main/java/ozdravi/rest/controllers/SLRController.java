@@ -31,10 +31,8 @@ public class SLRController {
         if(securityContextService.isUserInRole("ADMIN"))
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Admin can't create SLR");
 
-        Optional<User> currentUser = securityContextService.getLoggedInUser();
-        if(currentUser.isEmpty()) return ResponseEntity.internalServerError().build();
-
-        slrDTO.setCreator_id(currentUser.get().getId());
+        User currentUser = securityContextService.getLoggedInUser();
+        slrDTO.setCreator_id(currentUser.getId());
 
         try{
             SLR slr = dtoManager.slrdtoToSLR(slrDTO);
@@ -49,18 +47,15 @@ public class SLRController {
         if(securityContextService.isUserInRole("ADMIN"))
             return ResponseEntity.status(HttpStatus.OK).body(slrService.listAll());
 
-        Optional<User> user = securityContextService.getLoggedInUser();
-        if(user.isEmpty())
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-
+        User user = securityContextService.getLoggedInUser();
         if(securityContextService.isUserInRole("PARENT"))
-            return ResponseEntity.ok().body(slrService.listByParent(user.get().getId()));
+            return ResponseEntity.ok().body(slrService.listByParent(user.getId()));
 
         if(securityContextService.isUserInRole("PEDIATRICIAN"))
-            return ResponseEntity.ok().body(slrService.listByCreator(user.get().getId()));
+            return ResponseEntity.ok().body(slrService.listByCreator(user.getId()));
 
         if(securityContextService.isUserInRole("DOCTOR"))
-            return ResponseEntity.ok().body(slrService.listByApprover(user.get().getId()));
+            return ResponseEntity.ok().body(slrService.listByApprover(user.getId()));
 
         return ResponseEntity.ok().body(slrService.listAll());
     }
@@ -74,15 +69,12 @@ public class SLRController {
         if(securityContextService.isUserInRole("ADMIN"))
             return ResponseEntity.status(HttpStatus.OK).body(slrOptional.get());
 
-        Optional<User> user = securityContextService.getLoggedInUser();
-        if(user.isEmpty())
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-
+        User user = securityContextService.getLoggedInUser();
         SLR slr = slrOptional.get();
 
-        if(!slr.getParent().getId().equals(user.get().getId())
-                && !slr.getCreator().getId().equals(user.get().getId())
-                && !slr.getApprover().getId().equals(user.get().getId())) {
+        if(!slr.getParent().getId().equals(user.getId())
+                && !slr.getCreator().getId().equals(user.getId())
+                && !slr.getApprover().getId().equals(user.getId())) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body("You are not authorized to view this info");
         }
 
@@ -121,10 +113,8 @@ public class SLRController {
 
         SLR slr = slrOptional.get();
 
-        Optional<User> currentUserOptional = securityContextService.getLoggedInUser();
-        if(currentUserOptional.isEmpty()) return ResponseEntity.internalServerError().build();
-
-        if(securityContextService.isUserInRole("DOCTOR") && slr.getApprover().getId().equals(currentUserOptional.get().getId()))
+        User currentUserOptional = securityContextService.getLoggedInUser();
+        if(securityContextService.isUserInRole("DOCTOR") && slr.getApprover().getId().equals(currentUserOptional.getId()))
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body("You are not authorized to approve or reject this SLR");
 
         slr.setStatus(approved);

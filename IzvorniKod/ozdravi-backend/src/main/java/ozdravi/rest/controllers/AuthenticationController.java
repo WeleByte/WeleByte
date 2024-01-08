@@ -88,19 +88,16 @@ public class AuthenticationController {
 
     @PostMapping("/change_role")
     public ResponseEntity<?> change_role(@RequestBody final ChangeRoleRequest changeRoleRequest) {
-        Optional<User> user = securityContextService.getLoggedInUser();
+        User user = securityContextService.getLoggedInUser();
         Optional<Role> role = roleService.findById(changeRoleRequest.getRoleId());
-
-        if(user.isEmpty())
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
 
         if(role.isEmpty())
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 
-        List<Role> userRoles = user.get().getRoles();
+        List<Role> userRoles = user.getRoles();
         if(userRoles.contains(role.get())) {
             return ResponseEntity.ok(new AuthenticationResponse(
-                    user.get(), tokenUtil.generateToken(user.get().getEmail(), changeRoleRequest.getRoleId()),
+                    user, tokenUtil.generateToken(user.getEmail(), changeRoleRequest.getRoleId()),
                     role.get().getName()));
         } else {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();

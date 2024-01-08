@@ -29,10 +29,7 @@ public class AddressServiceJpa implements AddressService {
 
     @Override
     public Address createAddress(AddressDTO addressDTO) {
-        Optional<User> optUser = securityContextService.getLoggedInUser();
-        if(optUser.isEmpty())
-            throw new LoggedUserException("logged in user exception");
-
+        User optUser = securityContextService.getLoggedInUser();
         Address address = dtoManager.addressDTOToAddress(addressDTO);
         return addressRepository.save(address);
     }

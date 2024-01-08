@@ -27,16 +27,13 @@ public class SecondOpinionController {
 
     @GetMapping("/second_opinions")
     public ResponseEntity<?> listSecondOpinions(){
-        Optional<User> user = securityContextService.getLoggedInUser();
-        if(user.isEmpty())
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-
+        User user = securityContextService.getLoggedInUser();
         if(securityContextService.isUserInRole("PARENT"))
-            return ResponseEntity.ok().body(secondOpinionService.listByRequester(user.get().getId()));
+            return ResponseEntity.ok().body(secondOpinionService.listByRequester(user.getId()));
 
         if(securityContextService.isUserInRole("DOCTOR")
             || securityContextService.isUserInRole("PEDIATRICIAN"))
-            return ResponseEntity.ok().body(secondOpinionService.listByDoctor(user.get().getId()));
+            return ResponseEntity.ok().body(secondOpinionService.listByDoctor(user.getId()));
 
         if(!securityContextService.isUserInRole("ADMIN"))
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Authorization error, please login again");
@@ -47,11 +44,8 @@ public class SecondOpinionController {
     @PreAuthorize("hasAnyRole('PARENT', 'ADMIN')")
     @PostMapping("/second_opinions")
     public ResponseEntity<?> createSecondOpinion(@RequestBody SecondOpinionDTO secondOpinionDTO){
-        Optional<User> user = securityContextService.getLoggedInUser();
-        if(user.isEmpty())
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-
-        secondOpinionDTO.setRequester_id(user.get().getId());
+        User user = securityContextService.getLoggedInUser();
+        secondOpinionDTO.setRequester_id(user.getId());
 
         try{
             SecondOpinion secondOpinion = dtoManager.secondOpinionDTOToSecondOpinion(secondOpinionDTO);
@@ -64,16 +58,13 @@ public class SecondOpinionController {
 
     @GetMapping("/second_opinion/{id}")
     public ResponseEntity<?> getSecondOpinion(@PathVariable("id") Long id){
-        Optional<User> user = securityContextService.getLoggedInUser();
-        if(user.isEmpty())
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-
+        User user = securityContextService.getLoggedInUser();
         Optional<SecondOpinion> secondOpinion = secondOpinionService.findById(id);
         if(secondOpinion.isEmpty())
             return ResponseEntity.notFound().build();
 
-        if(secondOpinion.get().getDoctor().getId().equals(user.get().getId())
-            || secondOpinion.get().getRequester().getId().equals(user.get().getId())
+        if(secondOpinion.get().getDoctor().getId().equals(user.getId())
+            || secondOpinion.get().getRequester().getId().equals(user.getId())
             || securityContextService.isUserInRole("ADMIN"))
             return ResponseEntity.ok().body(secondOpinion.get());
 
@@ -82,16 +73,13 @@ public class SecondOpinionController {
 
     @PutMapping("/second_opinion/{id}")
     public ResponseEntity<?> updateSecondOpinion(@PathVariable("id") Long id, @RequestBody SecondOpinionDTO secondOpinionDTO){
-        Optional<User> user = securityContextService.getLoggedInUser();
-        if(user.isEmpty())
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-
+        User user = securityContextService.getLoggedInUser();
         Optional<SecondOpinion> secondOpinionOptional = secondOpinionService.findById(id);
         if(secondOpinionOptional.isEmpty())
             return ResponseEntity.notFound().build();
 
         SecondOpinion secondOpinion = secondOpinionOptional.get();
-        if(!secondOpinion.getRequester().getId().equals(user.get().getId())
+        if(!secondOpinion.getRequester().getId().equals(user.getId())
             && !securityContextService.isUserInRole("ADMIN"))
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body("You are not authorized to update this second opinion");
 

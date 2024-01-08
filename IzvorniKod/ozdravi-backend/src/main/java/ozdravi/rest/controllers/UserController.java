@@ -49,9 +49,7 @@ public class UserController {
 //    GET mapping for doctors or pediatricians
     @GetMapping("/users/{role}s")
     public ResponseEntity<?> getDoctors(@PathVariable("role") String role){
-        Optional<User> workingUserOptional = securityContextService.getLoggedInUser();
-        if(workingUserOptional.isEmpty())
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        User workingUserOptional = securityContextService.getLoggedInUser();
 
         if(securityContextService.isUserInRole("USER")) return ResponseEntity.status(HttpStatus.FORBIDDEN).body("You don't have the permissions to do this");
 
