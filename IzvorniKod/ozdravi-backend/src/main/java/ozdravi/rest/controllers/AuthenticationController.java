@@ -76,9 +76,7 @@ public class AuthenticationController {
         if(userService.findByEmail(user.getEmail()).isPresent())
             return ResponseEntity.status(HttpStatus.CONFLICT).body("Email already registered");
 
-        ResponseEntity<String> res = ValidityUtil.checkUserValidity(user);
-        if(res.getStatusCode()!= HttpStatus.OK)
-            return res;
+        ValidityUtil.checkUserValidity(user);
 
         Optional<Role> role = roleService.findByName("parent");
         user.setRoles(List.of(role.get()));

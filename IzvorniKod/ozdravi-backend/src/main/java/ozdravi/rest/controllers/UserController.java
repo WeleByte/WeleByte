@@ -31,62 +31,19 @@ public class UserController {
     @Autowired
     SecurityContextService securityContextService;
 
-    @GetMapping("/users")
-    public ResponseEntity<?> getAllUsers() {
-        Optional<User> user = securityContextService.getLoggedInUser();
-        if(user.isEmpty())
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-
-        Long id = user.get().getId();
-
-        if (securityContextService.isUserInRole("ADMIN")) {
-            return ResponseEntity.ok(userService.listAll());
-        } else if (securityContextService.isUserInRole("PARENT")) {
-            return ResponseEntity.ok(userService.listChildren(id));
-        } else if (securityContextService.isUserInRole("DOCTOR") || securityContextService.isUserInRole("PEDIATRICIAN")) {
-            return ResponseEntity.ok(userService.listPatients(id));
-        }
-
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-    }
-
     @Autowired
     private RoleService roleService;
+
+    @GetMapping("/users")
+    public ResponseEntity<?> getAllUsers() {
+        return new ResponseEntity<>(userService.list(), HttpStatus.OK);
+    }
 
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/users")
     public ResponseEntity<?> createUser(@RequestBody CreateUserRequest createUserRequest) {
-        UserDTO userDTO = createUserRequest.getUserDTO();
-        List<String> roles = createUserRequest.getRoles();
-
-        ResponseEntity<String> controlRes = ValidityUtil.checkUserDTOForLoops(userDTO);
-        if(controlRes.getStatusCode()!= HttpStatus.OK)
-            return ResponseEntity.badRequest().body("User can't be own parent or doctor");
-
-        User user;
-        try {
-            user = dtoManager.userDTOToUser(userDTO);
-
-            controlRes = ValidityUtil.checkUserValidity(user);
-            if(controlRes.getStatusCode()!= HttpStatus.OK)
-                return controlRes;
-
-            if(userService.findByEmail(user.getEmail()).isPresent())
-                return ResponseEntity.badRequest().body("Email already in use");
-
-        } catch (IllegalArgumentException e){
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
-
-        try {
-            List<Role> roleList = dtoManager.roleStringListToRoleList(roles);
-            user.setRoles(roleList);
-        } catch (IllegalArgumentException e){
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
-
-        User saved = userService.createUser(user);
-        return ResponseEntity.created(URI.create("/users/" + saved.getId())).body(saved);
+        User user = userService.createUser(createUserRequest);
+        return ResponseEntity.created(URI.create("/users/" + user.getId())).body(user);
     }
 
 //    GET mapping for doctors or pediatricians
@@ -117,59 +74,15 @@ public class UserController {
 
     @GetMapping("/user/{id}")
     public ResponseEntity<?> getUser(@PathVariable("id") Long id) {
-        Optional<User> workingUser = securityContextService.getLoggedInUser();
-        if(workingUser.isEmpty())
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        if(!workingUser.get().getId().equals(id) && !securityContextService.isUserInRole("ADMIN"))
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("You are not authorized to view this info");
-
-        Optional<User> user = userService.findById(id);
-
-        if(user.isPresent()) {
-            return ResponseEntity.ok(user.get());
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+        return new ResponseEntity<>(userService.findById(id), HttpStatus.OK);
     }
 
     @PutMapping("user/{id}")
     public ResponseEntity<?> modifyUser(@PathVariable("id") Long id, @RequestBody UserDTO userModifiedDTO){
-        Optional<User> workingUser = securityContextService.getLoggedInUser();
-        if(workingUser.isEmpty())
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        if(!workingUser.get().getId().equals(id) && !securityContextService.isUserInRole("ADMIN"))
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("You are not authorized to modify this user");
-
-        userModifiedDTO.setId(id);
-
-        Optional<User> optionalUser = userService.findById(id);
-        if(optionalUser.isEmpty())
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User doesn't exist");
-
-        ResponseEntity<String> controlRes = ValidityUtil.checkUserDTOForLoops(userModifiedDTO);
-        if(controlRes.getStatusCode()!= HttpStatus.OK)
-            return controlRes;
-
-        User userModified;
-        try{
-            userModified = dtoManager.userDTOToUser(userModifiedDTO);
-        } catch (IllegalArgumentException e){
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
-
-        controlRes = ValidityUtil.checkUserValidity(userModified);
-        if(controlRes.getStatusCode()!= HttpStatus.OK)
-            return controlRes;
-
-        try {
-            userService.modifyUser(userModified, id);
-        } catch (DateTimeParseException e){
-            throw e;
-        } catch (Exception e){
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
-        }
-
-        return ResponseEntity.ok().body(optionalUser.get());
+        userService.modifyUser(userModifiedDTO, id);
+        return new ResponseEntity<>("User successfully modified", HttpStatus.OK);
     }
-
 }
+
+
+

@@ -28,8 +28,8 @@ public class RestExceptionHandler {
         return new ResponseEntity<>(props, HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler(UnauthorizedException.class)
-    public ResponseEntity<?> handleUnauthorizedException(UnauthorizedException e) {
+    @ExceptionHandler(RequestDeniedException.class)
+    public ResponseEntity<?> handleUnauthorizedException(RequestDeniedException e) {
         Map<String, String> props = new HashMap<>();
         props.put("message", e.getMessage());
         props.put("status", "403");

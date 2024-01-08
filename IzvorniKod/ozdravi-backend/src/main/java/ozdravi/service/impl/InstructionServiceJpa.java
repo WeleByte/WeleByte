@@ -1,15 +1,13 @@
 package ozdravi.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import ozdravi.dao.InstructionRepository;
 import ozdravi.domain.Instruction;
 import ozdravi.domain.User;
 import ozdravi.exceptions.LoggedUserException;
 import ozdravi.exceptions.EntityMissingException;
-import ozdravi.exceptions.UnauthorizedException;
+import ozdravi.exceptions.RequestDeniedException;
 import ozdravi.rest.dto.InstructionDTO;
 import ozdravi.service.InstructionService;
 
@@ -76,13 +74,13 @@ public class InstructionServiceJpa implements InstructionService {
 
         //predani doctor_id treba biti isti kao id osobe trenutno ulogirane
         if (!Objects.equals(instruction.getDoctor().getId(), doctor.get().getId())) {
-            throw new UnauthorizedException("Doctors can't give instructions on behalf of other doctors");
+            throw new RequestDeniedException("Doctors can't give instructions on behalf of other doctors");
         }
 
         //doktror mora biti bas odgovoran za tog pacijenta
         if(instruction.getPatient().getDoctor() == null ||
                 !Objects.equals(instruction.getPatient().getDoctor().getId(), instruction.getDoctor().getId())) {
-            throw new UnauthorizedException("Doctor can give instructions only for his patients");
+            throw new RequestDeniedException("Doctor can give instructions only for his patients");
         }
         return instructionRepository.save(instruction);
     }
@@ -110,7 +108,7 @@ public class InstructionServiceJpa implements InstructionService {
                 (instruction.get().getPatient().getParent() != null && Objects.equals(instruction.get().getPatient().getParent().getId(), user_id)))
             return instruction.get();
         else
-            throw new UnauthorizedException("You are not authorized to view this info");
+            throw new RequestDeniedException("You are not authorized to view this info");
     }
 
     @Override
@@ -128,7 +126,7 @@ public class InstructionServiceJpa implements InstructionService {
             if(user.isEmpty())
                 throw new LoggedUserException("logged in user exception");
             if(!listForDoctor(user.get().getId()).contains(prevInstruction)) {
-                throw new UnauthorizedException("doctor can modify only his instructions");
+                throw new RequestDeniedException("doctor can modify only his instructions");
             }
 
             //ne smiju se mijenjati doctor_id i patient_id

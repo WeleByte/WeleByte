@@ -1,14 +1,24 @@
 package ozdravi.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import ozdravi.dao.RoleRepository;
 import ozdravi.dao.UserRepository;
 import ozdravi.domain.Role;
 import ozdravi.domain.User;
+import ozdravi.exceptions.LoggedUserException;
+import ozdravi.exceptions.RequestDeniedException;
+import ozdravi.exceptions.UserDoesNotExistException;
+import ozdravi.rest.ValidityUtil;
+import ozdravi.rest.dto.CreateUserRequest;
+import ozdravi.rest.dto.UserDTO;
 import ozdravi.service.UserService;
 
+import java.net.URI;
+import java.time.format.DateTimeParseException;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,15 +34,42 @@ public class UserServiceJpa implements UserService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Autowired
+    private SecurityContextService securityContextService;
+
+    @Autowired
+    private DTOManager dtoManager;
+
     @Override
     public void deleteById(Long id) {
         userRepository.deleteById(id);
     }
 
+
     @Override
     public User createUser(User user) {
         if(!user.getPassword().startsWith("{bcrypt}"))
             user.setPassword(passwordEncoder.encode(user.getPassword()));
+        return userRepository.save(user);
+    }
+
+    @Override
+    public User createUser(CreateUserRequest createUserRequest) {
+        UserDTO userDTO = createUserRequest.getUserDTO();
+        List<String> roles = createUserRequest.getRoles();
+
+        ValidityUtil.checkUserDTOForLoops(userDTO);
+
+        User user = dtoManager.userDTOToUser(userDTO);
+
+        ValidityUtil.checkUserValidity(user);
+
+        if(findByEmail(user.getEmail()).isPresent())
+            throw new IllegalArgumentException("Email already in use");
+
+        List<Role> roleList = dtoManager.roleStringListToRoleList(roles);
+        user.setRoles(roleList);
+
         return userRepository.save(user);
     }
 
@@ -47,8 +84,35 @@ public class UserServiceJpa implements UserService {
     }
 
     @Override
-    public Optional<User> findById(Long id) {
-        return userRepository.findById(id);
+    public List<User> list() {
+        Optional<User> user = securityContextService.getLoggedInUser();
+        if(user.isEmpty())
+            throw new LoggedUserException("bla");
+
+        Long id = user.get().getId();
+
+        if (securityContextService.isUserInRole("PARENT")) {
+            return listChildren(id);
+        } else if (securityContextService.isUserInRole("DOCTOR") || securityContextService.isUserInRole("PEDIATRICIAN")) {
+            return listPatients(id);
+        } else //admin
+            return listAll();
+    }
+
+    @Override
+    public User findById(Long id) {
+        Optional<User> workingUser = securityContextService.getLoggedInUser();
+        if (workingUser.isEmpty())
+            throw new LoggedUserException("bla");
+        if (!workingUser.get().getId().equals(id) && !securityContextService.isUserInRole("ADMIN"))
+            throw new RequestDeniedException("You are not authorized to view this info");
+
+        Optional<User> user = userRepository.findById(id);
+
+        if (user.isEmpty())
+            throw new UserDoesNotExistException("No user with such id");
+
+        return user.get();
     }
 
     @Override
@@ -57,14 +121,25 @@ public class UserServiceJpa implements UserService {
     }
 
     @Override
-    public void modifyUser(User newData, Long id){
-        Optional<User> optionalUser = userRepository.findById(id);
+    public void modifyUser(UserDTO userDTO, Long id){
+        Optional<User> workingUser = securityContextService.getLoggedInUser();
+        if(workingUser.isEmpty()) throw new LoggedUserException("bla");
+        if(!workingUser.get().getId().equals(id) && !securityContextService.isUserInRole("ADMIN"))
+            throw new RequestDeniedException("You are not authorized to modify this user");
 
-        if(optionalUser.isPresent()){
-            User existingUser = optionalUser.get();
-            existingUser.copyDifferentAttributes(newData);
-            userRepository.save(existingUser);
-        }
+        userDTO.setId(id);
+
+        Optional<User> optionalUser = userRepository.findById(id);
+        if(optionalUser.isEmpty()) throw new UserDoesNotExistException("User doesn't exist");
+
+        ValidityUtil.checkUserDTOForLoops(userDTO);
+
+        User user = dtoManager.userDTOToUser(userDTO);
+
+        ValidityUtil.checkUserValidity(user);
+
+        optionalUser.get().copyDifferentAttributes(user);
+        userRepository.save(optionalUser.get());
     }
 
     @Override

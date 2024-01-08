@@ -12,6 +12,7 @@ import ozdravi.exceptions.LoggedUserException;
 import ozdravi.exceptions.RequestDeniedException;
 import ozdravi.rest.dto.ExaminationDTO;
 import ozdravi.service.ExaminationService;
+import ozdravi.service.UserService;
 
 import java.util.List;
 import java.util.Objects;
@@ -27,6 +28,9 @@ public class ExaminationServiceJpa implements ExaminationService {
 
     @Autowired
     private DTOManager dtoManager;
+
+    @Autowired
+    private UserService userService;
 
     @Override
     public Examination findById(Long id) {
@@ -162,6 +166,6 @@ public class ExaminationServiceJpa implements ExaminationService {
 
     @Override
     public List<ExaminationDTO> listAllRequests() {
-        return listAll().stream().map((examination -> new ExaminationDTO(examination))).toList();
+        return listAll().stream().map((ExaminationDTO::new)).toList();
     }
 }
