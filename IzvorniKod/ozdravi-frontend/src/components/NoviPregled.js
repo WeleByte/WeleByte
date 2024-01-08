@@ -269,7 +269,7 @@ const NoviPregled = (props) => {
                         </div>
 
                         <button type="submit" className="btn btn-primary col-12 col-md-2 py-2 mb-4" style={{float:"right"}}
-                                onClick={handleSubmit}>Prijavi</button>
+                                onClick={handleSubmit}>Dodaj</button>
                     </form>
                 </div>
             </div>

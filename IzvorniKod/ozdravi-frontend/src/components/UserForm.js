@@ -19,7 +19,7 @@ const UserForm = ({closeNoviPregled}) => {
     { value: '1', label: 'Roditelj' },
     { value: '2', label: 'Dijete' },
     { value: '3', label: 'Doktor' },
-    { value: '3', label: 'Pedijatar' },
+    { value: '4', label: 'Pedijatar' }
 
   ]
 
@@ -98,7 +98,7 @@ const UserForm = ({closeNoviPregled}) => {
 
 <div className="mb-3">
 
-<Select options={uloge} placeholder = "Odaberite ulogu..." />
+<Select options={uloge} isMulti={true} placeholder = "Odaberite ulogu..." />
 
 </div>
 

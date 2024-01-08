@@ -15,6 +15,17 @@ const SecondOpinions = (props) => {
     const [currentDetailId, setCurrentDetailId] = useState(null)
     const [novoMisljenjeOpen, setNovoMisljenjeOpen] = useState(false)
     const [novoMisljenjeDetail, setNovoMisljenjeDetail] = useState(false)
+    const [uloga, setUloga] = useState()
+        
+
+    useEffect(() => {
+        if(bearerToken === '' || bearerToken === null || bearerToken === undefined) {
+            navigate('/login')
+        }else{
+            const logUser = JSON.parse(sessionStorage.userData)
+            setUloga(logUser.roles[0].name)
+        }
+    }, []);
 
     useEffect(() => {
         fetch(backendRoute + "/second_opinions", {
@@ -89,7 +100,9 @@ const SecondOpinions = (props) => {
                                                            currentOpinionId={currentDetailId}
                                                            backendRoute={backendRoute}
                                                            bearerToken={bearerToken}
-                                                           handleLogOut={handleLogOut}/>}
+                                                           handleLogOut={handleLogOut}
+                                                           role = {uloga}
+                                                           />}
 
             <div id = "seccondOppWrapper">
 
@@ -97,7 +110,10 @@ const SecondOpinions = (props) => {
 
                 <h5 className = "pt-3 px-4 mt-2 " style={{textAlign: "left", maxWidth: "1246px"}}>Druga Mišljenja
                     {/* <button className='btn btn-tertiary mt-1' style={{float: 'right'}}>Povijest </button>  */}
-                    <button className = "btn btn-primary" style={{float:"right"}} onClick= {toggleNovoMisljenje}>Dodaj Mišljenje +</button> </h5>
+                    {(uloga === "parent" || uloga === "admin") && (
+                    <button className = "btn btn-primary" style={{float:"right"}} onClick= {toggleNovoMisljenje}>Dodaj Mišljenje +</button> 
+                    )} 
+                    </h5>
                 <p style={{textAlign: "left", maxWidth: "1200px"}} className = "px-4 mb-4 ">{secondOpinions?.length} dostupna</p>
 
 
@@ -129,6 +145,8 @@ const SecondOpinions = (props) => {
                                 <h5 className="card-title ">Pacijent: {secondOpinion.requester.first_name + " " + secondOpinion.requester.last_name}</h5>
                                 <p style={{fontSize: "13px"}}
                                    className='mb-1'>{secondOpinion.content} • {secondOpinion.doctor.first_name + " " + secondOpinion.doctor.last_name}</p>
+                               
+                               
                                 <button className='btn btn-secondary pregledajGumbPc'
                                         style={{position: "absolute", right: "1rem", top: "30%"}}
                                         onClick={() => handleMisljenjeDetail(secondOpinion.id)}>Pregledaj <img width="14" height="14"

@@ -10,7 +10,8 @@ import UputaDetail from '../components/UputaDetail';
 
 const Upute = (props) => {
 
-  const uloga = "doktor"
+    const [uloga, setUloga] = useState()
+
 
     const navigate = useNavigate()
     const bearerToken = sessionStorage.bearerToken
@@ -21,11 +22,14 @@ const Upute = (props) => {
     const [currentInstructionId, setCurrentInstructionId] = useState(null)
     const [user, setUser] = useState('')
 
+
+
     useEffect(() => {
         if(bearerToken === '' || bearerToken === null || bearerToken === undefined) {
             navigate('/login')
         }else{
             setUser(JSON.parse(sessionStorage.userData))
+            setUloga(JSON.parse(sessionStorage.userData).roles[0].name)
             // const logUser = JSON.parse(sessionStorage.userData)
             // console.log(logUser)
         }
@@ -111,8 +115,10 @@ const Upute = (props) => {
         {/*     <p style={{textAlign: "left", fontSize: "13px"}} className='px-4 mb-2 mt-2 mb-1'>4 nepregledanih - 7 pregledanih</p> */}
         <h5 className = "pt-3 px-4 mt-2 " style={{textAlign: "left", maxWidth: "1246px"}}>Upute
                     {/* <button className='btn btn-tertiary mt-1' style={{float: 'right'}}>Povijest </button>  */}
-                    <button className = "btn btn-primary" style={{float:"right"}} onClick= {toggleNovaUputa}>Dodaj Uputu +</button> </h5>
-                 <p style={{textAlign: "left", maxWidth: "1200px"}} className = "px-4 mb-4 ">{12} nepregladnih</p> 
+                    {(uloga === "admin" || uloga == "doctor" || uloga == "pediatrician") && (
+                    <button className = "btn btn-primary" style={{float:"right"}} onClick= {toggleNovaUputa}>Dodaj Uputu +</button> 
+                    )}</h5>
+                    <p style={{textAlign: "left", maxWidth: "1200px"}} className = "px-4 mb-4 ">{12} nepregladnih</p> 
 
 
 {/*     <p style={{textAlign: "left", fontSize: "13px"}} className='px-4 mb-2 mt-2 mb-1'>4 nepregledanih - 7 pregledanih</p> */}

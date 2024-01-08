@@ -532,7 +532,8 @@ tr {
 }
 
 .novi-pregled-btn {
-  color: rgba(0, 0, 0, 0.684) !important
+  color: rgba(0, 0, 0, 0.684) !important;
+  min-width: 170px;
 }
 
 .closeActionsIcon {

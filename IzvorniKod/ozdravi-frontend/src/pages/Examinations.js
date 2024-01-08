@@ -20,7 +20,7 @@ const Examinations = (props) => {
     const backendRoute = props.backendRoute
     const navigate = useNavigate()
     const bearerToken = sessionStorage.bearerToken
-    const uloga = "doktor"
+    const [uloga, setUloga] = useState()
     const [selectedUsers, setSelectedUsers] = useState('svi')
     let currentOpenedOptions = null;
     let optionsOpened= false;
@@ -30,14 +30,17 @@ const Examinations = (props) => {
     const [selectedPregledId, setSelectedPregledId] = useState("")
 
     const [user, setUser] = useState('')
+    const [roles, setRoles] = useState([""])
+
 
     useEffect(() => {
         if(bearerToken === '' || bearerToken === null || bearerToken === undefined) {
             navigate('/login')
         }else{
             setUser(JSON.parse(sessionStorage.userData))
-            // const logUser = JSON.parse(sessionStorage.userData)
-            // console.log(logUser)
+           
+            const logUser = JSON.parse(sessionStorage.userData)
+            setUloga(logUser.roles[0].name)
         }
     }, []);
 
@@ -206,28 +209,36 @@ const Examinations = (props) => {
             <div id = "usersWrapperInner">
 
 
-                <h5 className = "pt-3 px-4 mt-2 " style={{textAlign: "left", maxWidth: "1246px"}}>Pregledi
-                    {/* <button className='btn btn-tertiary mt-1' style={{float: 'right'}}>Povijest </button>  */}
-                    <button className = "btn btn-primary" style={{float:"right"}} onClick= {toggleNoviPregled}>Novi Pregled +</button> </h5>
+            <h5 className="pt-3 px-4 mt-2" style={{textAlign: "left", maxWidth: "1246px"}}>Pregledi
+    {/* <button className='btn btn-tertiary mt-1' style={{float: 'right'}}>Povijest </button> */}
+    
+                {(uloga === "doctor" || uloga === "pediatrician" || uloga === "admin") && (
+                    <button className="btn btn-primary" style={{float:"right"}} onClick={toggleNoviPregled}>
+                        Novi Pregled +
+                    </button>
+                )}
+            </h5>
+
                  <p style={{textAlign: "left", maxWidth: "1200px"}} className = "px-4 mb-2 ">{examinations.length} pregleda</p>
 
 
 
                 {/* <div id = "usersSelectorDiv" className = "px-4 pb-1 pt-0 " style={{display: "flex", justifyContent: "left", flexWrap: "wrap"}}>
+    
 
     <button className = {selectedUsers === 'svi' ?
         "btn btn-primary me-2 mt-2" : "btn btn-secondary me-2 mt-2"}
-            id = "nepregledano" onClick={() => setSelectedUsers('svi')}>SVI</button>
+            id = "nepregledano" onClick={() => setSelectedUsers('svi')}>Svi</button>
 
     <button className = {selectedUsers === 'odrasli' ?
         "btn btn-primary me-2 mt-2" : "btn btn-secondary me-2 mt-2"}
-            id = "nepregledano" onClick={() => setSelectedUsers('odrasli')}> ODRASLI</button>
+            id = "nepregledano" onClick={() => setSelectedUsers('odrasli')}> Odrasli</button>
 
     <button className = {selectedUsers === 'djeca' ?
         "btn btn-primary me-2 mt-2" : "btn btn-secondary me-2 mt-2"}
-            id = "pregledano" onClick={() => setSelectedUsers('djeca')}> DJECA</button>
+            id = "pregledano" onClick={() => setSelectedUsers('djeca')}> Djeca</button>
 
-</div> */}
+</div>  */}
 
 
                 <div id = "patientSearchBoxDiv" className='px-4 pt-3 ' >
@@ -283,8 +294,16 @@ const Examinations = (props) => {
                                         <hr className ="mt-0 mb-0" style={{opacity: "20%"}}></hr>
                                         <button onClick={() => togglePregledDetail(index)}  className =" ps-3 col-12 mb-2 mt-2 py-2 novi-pregled-btn" style={{opaciy: "80%",textAlign: "left", fontWeight:"500", border:"none", background:"none"}} > Detalji  <img className ="me-3 mt-1" style={{ height: "19px", float: "right", opacity: "80%" }} src={InfoIcon}></img> </button>
 
-                                        <button className =" ps-3  col-12 mb-2 py-2 delete-btn" style={{opaciy: "80%",textAlign: "left", fontWeight:"500", border:"none", background:"none"}}> Izbriši <img className ="me-3 mt-1" style={{ height: "19px", float: "right", opacity: "800%" }}  src={TrashIcon}></img> </button>
-
+                                        {/* {(uloga === "doctor" || uloga === "pediatrician" || uloga === "admin") && (
+                                        <button className="ps-3 col-12 mb-2 py-2 delete-btn" 
+                                                style={{opacity: "0.8", textAlign: "left", fontWeight:"500", border:"none", background:"none"}}>
+                                            Izbriši 
+                                            <img className="me-3 mt-1" 
+                                                style={{height: "19px", float: "right", opacity: "0.8"}} 
+                                                src={TrashIcon}>
+                                            </img> 
+                                        </button>
+                                    )} */}
                                     </ul>
 
                                 </tr>

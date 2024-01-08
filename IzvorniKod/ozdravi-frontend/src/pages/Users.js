@@ -11,6 +11,8 @@ import Plus2Icon from '../assets/icons/plus2.png'
 import { useNavigate } from "react-router-dom";
 import NoviPregled from '../components/NoviPregled';
 import UserForm from '../components/UserForm';
+import UserDetail from '../components/UserDetail';
+import InfoIcon from '../assets/icons/info.png'
 
 
 const Users = (props) => {
@@ -19,6 +21,7 @@ const Users = (props) => {
     const bearerToken = sessionStorage.bearerToken
     const user = JSON.parse(sessionStorage.userData)
     const roles = user.roles
+    
     const [rolesMapped, setRolesMapped] = useState([""])
     const navigate = useNavigate()
     var [currentOpenedOptions, setCurrentOpenedOptions] = useState(null);
@@ -26,7 +29,9 @@ const Users = (props) => {
     const [refreshUsers, setRefreshUsers] = useState(false)
     const [isAddPatientVisible, showAddPatient] = useState(false);
     const [addUserVisible, setAddUserVisible] = useState(false);
+    const [userDetailVisible, setUserDetailVisible] = useState(false);
     const [users, setUsers] = useState([])
+    const [selectedUserIndex, setselectedUserIndex] = useState(false)
 
     //go to /home if not admin/doctor/pediatrician
     useEffect(() => {
@@ -39,9 +44,9 @@ const Users = (props) => {
         
         setRolesMapped(user.roles.map(obj => obj.name))
 
-        if(!containsValidRole){
+        /* if(!containsValidRole){
             navigate("/home")
-        }
+        } */
 
     }, []);
 
@@ -54,6 +59,11 @@ const Users = (props) => {
     };
     const toggleAddUser = () => {
         setAddUserVisible(!addUserVisible);
+    };
+    const toggleUserDetail = (index) => {
+        setselectedUserIndex(index)
+        closeUserOptions(currentOpenedOptions)
+        setUserDetailVisible(!userDetailVisible);
     };
 
     const [noviPregledOtvoren, setNoviPregledOtvoren] = useState(false);
@@ -187,9 +197,11 @@ const Users = (props) => {
                                                 bearerToken={bearerToken}
                                                 handleLogOut={handleLogOut}
                                                 refreshUsers={toggleRefreshUsers}/>}
+
             {noviPregledOtvoren && <NoviPregled closeNoviPregled = {toggleNoviPregled}/>}
 
             {addUserVisible && <UserForm closeNoviPregled = {toggleAddUser}/>}
+            {userDetailVisible && <UserDetail close = {toggleUserDetail} role = {roles.map(obj => obj.name)[0]} user = {users[selectedUserIndex]}  />}
 
 
 
@@ -199,12 +211,12 @@ const Users = (props) => {
           
             <h5 className = "pt-3 px-4 mt-2 " style={{textAlign: "left", maxWidth: "1246px"}}>
             {(rolesMapped.includes("admin") ? ("Korisnici") : null)}
-            {(rolesMapped.includes("doctor") || rolesMapped.includes("pediatrician") ? ("Pacijenti") : null)}
+            {(rolesMapped.includes("doctor") || rolesMapped.includes("pediatrician") ? ("Moji Pacijenti") : null)}
             {(rolesMapped.includes("parent") ? ("Moja Djeca") : null)}
 
                     {/* <button className='btn btn-tertiary mt-1' style={{float: 'right'}}>Povijest </button>  */}
                    
-                    {(rolesMapped.includes("doctor") || roles.includes("pediatrician") ? (
+                    {(rolesMapped.includes("doctor") || rolesMapped.includes("pediatrician")  ? (
                     <button className = "btn btn-primary ms-2" style={{float:"right"}} onClick= {toggleAddPatient}>Novi Pacijent +</button>  ) : null)}
                    
                     {(rolesMapped.includes("admin") ? 
@@ -214,7 +226,13 @@ const Users = (props) => {
                     : null)} </h5>
 
 
-                 <p style={{textAlign: "left", maxWidth: "1200px"}} className = "px-4 mb-2 ">{users.length}</p> 
+                 <p style={{textAlign: "left", maxWidth: "1200px"}} className = "px-4 mb-2 ">{users.length} 
+                 
+                {(rolesMapped.includes("admin") ? (" korisnika") : null)}
+                {(rolesMapped.includes("doctor") || rolesMapped.includes("pediatrician") ? (" pacijenata") : null)}
+                {(rolesMapped.includes("parent") ? (" djece") : null)}
+
+                 </p> 
 
                 {/* <p style={{textAlign: "left", maxWidth: "1200px"}} className = "px-4 mb-2 ">{odrasliCount + djecaCount} pacijenata</p> */}
 
@@ -282,24 +300,35 @@ const Users = (props) => {
                                          src="https://img.icons8.com/ios-glyphs/30/menu-2.png" alt="menu-2"/>
 
                                
-                                    <ul className="list-group userOptions shadow-lg p-0 border" style={{display:"none"}}>
+                                    <ul className="list-group userOptions shadow-lg p-0 border" style={{display:"none", maxWidth: "220px"}}>
                                         <p className ="mb-2 mt-2 ps-3 py-1" style={{textAlign: "left"}}>Akcije
                                             <img className =" mt-1 closeActionsIcon" style={{ height: "19px", float: "right", opacity: "80%"}}
                                                  onClick={() => closeUserOptions(index)} src={CloseIcon}></img>
                                         </p>
                                         <hr className ="mt-0 mb-0" style={{opacity: "20%"}}></hr>
-                                        <button onClick={toggleNoviPregled} className =" ps-3 col-12 mb-2 mt-2 py-2 novi-pregled-btn"
+                                        {/* <button onClick={toggleNoviPregled} className =" ps-3 col-12 mb-2 mt-2 py-2 novi-pregled-btn"
                                                 style={{opaciy: "80%",textAlign: "left", fontWeight:"500", border:"none", background:"none"}} > Novi pregled
                                             <img className ="me-3 mt-1"
                                                  style={{ height: "19px", float: "right", opacity: "80%" }} src={Plus2Icon}>
                                             </img>
+                                        </button> */}
+                                        <button onClick={() => toggleUserDetail(index)}  className =" ps-3 col-12 mb-2 mt-2  py-2 novi-pregled-btn" style={{opaciy: "80%",textAlign: "left", fontWeight:"500", border:"none", background:"none"}} > Detalji  <img className ="me-3 mt-1" style={{ height: "19px", float: "right", opacity: "80%" }} src={InfoIcon}></img> </button>
+                                        
+                                        {rolesMapped.includes("doctor") || rolesMapped.includes("pediatrician") ? (
+                                        <button className =" ps-3  col-12 mb-2 py-2 delete-btn"
+                                                style={{opaciy: "80%",textAlign: "left", fontWeight:"500", border:"none", background:"none"}}> Ukloni
+                                            <img className ="me-3 mt-1"
+                                                 style={{ height: "19px", float: "right", opacity: "800%" }}  src={TrashIcon}></img>
                                         </button>
-
+                                        ): null}
+                                        {rolesMapped.includes("admin")  ? (
                                         <button className =" ps-3  col-12 mb-2 py-2 delete-btn"
                                                 style={{opaciy: "80%",textAlign: "left", fontWeight:"500", border:"none", background:"none"}}> Izbriši
                                             <img className ="me-3 mt-1"
                                                  style={{ height: "19px", float: "right", opacity: "800%" }}  src={TrashIcon}></img>
                                         </button>
+                                        ): null}
+
                                     </ul>
                                 </td>
 
