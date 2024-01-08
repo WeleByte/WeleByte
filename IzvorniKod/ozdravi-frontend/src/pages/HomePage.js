@@ -56,7 +56,7 @@ const HomePage = (props) => {
                     {(roles.includes("parent"))  && (
                         <HomeCard title="Moja djeca" description="3 prijavljenje djece" image={djeca} buttonText="Vidi sve"/>
                     )}
-                </div>w
+                </div>
             </div>
         </div>
     );

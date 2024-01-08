@@ -218,7 +218,17 @@ const NoviPregled = (props) => {
 
 
                             <div className="mb-3">
-                                <label htmlFor="username" className="form-label" style={{float: 'left'}}>LOKACIJA</label>
+                                <label htmlFor="username" className="form-label" style={{float: 'left'}}>Grad</label>
+                                <input type="text" className="form-control" id="location"
+                                />
+                            </div>
+                            <div className="mb-3">
+                                <label htmlFor="username" className="form-label" style={{float: 'left'}}>Ulica</label>
+                                <input type="text" className="form-control" id="location"
+                                />
+                            </div>
+                            <div className="mb-3">
+                                <label htmlFor="username" className="form-label" style={{float: 'left'}}>Ulični broj</label>
                                 <input type="text" className="form-control" id="location"
                                 />
                             </div>
@@ -238,7 +248,7 @@ const NoviPregled = (props) => {
                         </div>
 
                         <button type="submit" className="btn btn-primary col-12 col-md-2 py-2 mb-4" style={{float:"right"}}
-                                onClick={handleSubmit}>Prijavi</button>
+                                onClick={handleSubmit}>Dodaj</button>
                     </form>
                 </div>
             </div>

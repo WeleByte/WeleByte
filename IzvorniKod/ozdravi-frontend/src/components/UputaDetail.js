@@ -77,9 +77,14 @@ const UputaDetail = (props) => {
 
 
 <div className="mb-3">
+  <label htmlFor="username" className=" col-12 text-label" style={{float: 'left', textAlign:"left"}}>Pacijent </label>
+  <p style={{textAlign:"left"}} class ="text">{instruction.patient.first_name + " " + instruction.patient.last_name}</p>
+</div>
+<div className="mb-3">
   <label htmlFor="username" className=" col-12 text-label" style={{float: 'left', textAlign:"left"}}>Uputa</label>
   <p style={{textAlign:"left"}} class ="text">{instruction.content}</p>
 </div>
+
 </div>
 
 

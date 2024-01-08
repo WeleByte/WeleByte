@@ -14,6 +14,8 @@ const SecondOpinionResponse = (props) => {
         props.closeSeccondOpinnionForm()
     }
 
+    const role = props.role;
+
     useEffect(() => {
         if(props.currentOpinionId !== null && props.currentOpinionId !== undefined) {
             fetch(props.backendRoute + `/second_opinion/${props.currentOpinionId}`, {
@@ -53,14 +55,10 @@ const SecondOpinionResponse = (props) => {
             <div id = "addPatientsInner">
 
 
-                <h5 className = "pt-3 px-4 mt-2 mb-3 " style={{textAlign: "left"}}>Odgovori na drugo mišljenje {/* <button className='btn btn-tertiary mt-1' style={{float: 'right'}}>Povijest </button>  */} <img style={{ height: "23px", float: "right" }} onClick = {closeModal} src={CloseIcon}></img>  </h5>
+                <h5 className = "pt-3 px-4 mt-2 mb-3 " style={{textAlign: "left"}}>Drugo mišljenje {/* <button className='btn btn-tertiary mt-1' style={{float: 'right'}}>Povijest </button>  */} <img style={{ height: "23px", float: "right" }} onClick = {closeModal} src={CloseIcon}></img>  </h5>
 
 
                 <hr className = "mb-1 mt-4" style={{opacity: "20%"}}></hr>
-
-
-
-
 
 
 
@@ -91,13 +89,23 @@ const SecondOpinionResponse = (props) => {
                                 <p style={{textAlign:"left"}} class ="text mb-5">Na današnjem pregledu kod doktora, pacijent je opisao svoje simptome i medicinsku povijest. Doktor je pažljivo pregledao pacijenta, mjerio vitalne znakove i postavljao relevantna pitanja. Nakon toga, doktor je postavio preliminarnu dijagnozu i preporučio određene terapijske mjere. Pacijentu su dana dodatna uputstva i naloženo je da slijedi propisani tretman te da se pridržava zakazanih kontrolnih termina. Pregled je završen, a pacijent je napustio ordinaciju sa svim potrebnim informacijama i uputama.</p>
                             </div>
 
-                            <div className="mb-3">
+
+                            {role == "doctor" || role == "pediatrician" || role == "admin" ? (<div className="mb-3">
                                 <label htmlFor="username" className="text-label" style={{float: 'left', fontWeight: "600"}}>Odgovor</label>
                                 <textarea rows = "7" type="date" className="form-control" id="username"
                                 />
-                            </div>
+                            </div>): null}
+                            {role == "parent" ? (<div className="mb-3">
+                                <label htmlFor="username" className=" col-12 text-label" style={{float: 'left', textAlign:"left"}}>Odgovor </label>
+                                
+                                {secondOpinion.content != "" && secondOpinion.content !== null ? (
+                                <p style={{textAlign:"left"}} class ="text mb-5"> {secondOpinion.content} </p> ): null}
 
+                            </div>): null}
+                            
+                            { role == "doctor" || role == "pediatrician" || role == "admin" ? (       
                             <button type="submit" className="btn btn-primary col-12 col-md-2 py-2 mb-4" style={{float:"right"}} >Spremi </button>
+                            ): null}
                         </form>
                     </div>
                 ) : (<p>Loading...</p>)
