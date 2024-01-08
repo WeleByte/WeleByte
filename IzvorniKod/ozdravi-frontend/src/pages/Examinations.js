@@ -27,6 +27,7 @@ const Examinations = (props) => {
     const [examinations, setExaminations] = useState([])
     const [isAddPatientVisible, showAddPatient] = useState(false);
     const [isPregledDetailVisible, setIsPregledDetailVisible] = useState(false);
+    const [selectedPregledId, setSelectedPregledId] = useState("")
 
     const [user, setUser] = useState('')
 
@@ -56,8 +57,8 @@ const Examinations = (props) => {
        
     };
 
-    const togglePregledDetail = () => {
-        
+    const togglePregledDetail = (id) => {
+        setSelectedPregledId(id);
         setIsPregledDetailVisible(!isPregledDetailVisible);
         if (currentOpenedOptions) {
             closeUserOptions(currentOpenedOptions)
@@ -192,7 +193,10 @@ const Examinations = (props) => {
                                                 bearerToken={bearerToken}
                                                 handleLogOut={handleLogOut}
                                                 user={user}/>}
-            {isPregledDetailVisible && <PregledDetail closeNoviPregled = {togglePregledDetail}/>}
+            {isPregledDetailVisible && <PregledDetail backendRoute={backendRoute}
+                                                bearerToken={bearerToken}
+                                                handleLogOut={handleLogOut}
+                                                user={user} closeNoviPregled = {togglePregledDetail} pregledId = {selectedPregledId} examination = {examinations[selectedPregledId]} />}
 
 
             <div id = "usersWrapperInner">
@@ -273,7 +277,7 @@ const Examinations = (props) => {
                                     <ul className="list-group userOptions shadow-lg p-0 border" style={{display:"none"}}>
                                         <p className ="mb-2 mt-2 ps-3 py-1" style={{textAlign: "left"}}>Akcije <img className =" mt-1 closeActionsIcon" style={{ height: "19px", float: "right", opacity: "80%"}} onClick={() => closeUserOptions(index)} src={CloseIcon}></img>  </p>
                                         <hr className ="mt-0 mb-0" style={{opacity: "20%"}}></hr>
-                                        <button onClick={togglePregledDetail} className =" ps-3 col-12 mb-2 mt-2 py-2 novi-pregled-btn" style={{opaciy: "80%",textAlign: "left", fontWeight:"500", border:"none", background:"none"}} > Detalji  <img className ="me-3 mt-1" style={{ height: "19px", float: "right", opacity: "80%" }} src={InfoIcon}></img> </button>
+                                        <button onClick={() => togglePregledDetail(index)}  className =" ps-3 col-12 mb-2 mt-2 py-2 novi-pregled-btn" style={{opaciy: "80%",textAlign: "left", fontWeight:"500", border:"none", background:"none"}} > Detalji  <img className ="me-3 mt-1" style={{ height: "19px", float: "right", opacity: "80%" }} src={InfoIcon}></img> </button>
 
                                         <button className =" ps-3  col-12 mb-2 py-2 delete-btn" style={{opaciy: "80%",textAlign: "left", fontWeight:"500", border:"none", background:"none"}}> Izbriši <img className ="me-3 mt-1" style={{ height: "19px", float: "right", opacity: "800%" }}  src={TrashIcon}></img> </button>
 

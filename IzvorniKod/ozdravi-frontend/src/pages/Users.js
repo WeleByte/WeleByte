@@ -19,8 +19,8 @@ const Users = (props) => {
     const bearerToken = sessionStorage.bearerToken
     const user = JSON.parse(sessionStorage.userData)
     const roles = user.roles
+    const [rolesMapped, setRolesMapped] = useState([""])
     const navigate = useNavigate()
-    const uloga = "doktor"
     var [currentOpenedOptions, setCurrentOpenedOptions] = useState(null);
     let optionsOpened= false;
     const [refreshUsers, setRefreshUsers] = useState(false)
@@ -36,6 +36,8 @@ const Users = (props) => {
                 containsValidRole = true
             }
         })
+        
+        setRolesMapped(user.roles.map(obj => obj.name))
 
         if(!containsValidRole){
             navigate("/home")
@@ -174,9 +176,6 @@ const Users = (props) => {
     }, [refreshUsers]); // Include dependencies in the array if needed
 
 
-
-
-
     return (
 
 
@@ -198,12 +197,24 @@ const Users = (props) => {
 
 
           
-            <h5 className = "pt-3 px-4 mt-2 " style={{textAlign: "left", maxWidth: "1246px"}}>Pacijenti
+            <h5 className = "pt-3 px-4 mt-2 " style={{textAlign: "left", maxWidth: "1246px"}}>
+            {(rolesMapped.includes("admin") ? ("Korisnici") : null)}
+            {(rolesMapped.includes("doctor") || rolesMapped.includes("pediatrician") ? ("Pacijenti") : null)}
+            {(rolesMapped.includes("parent") ? ("Moja Djeca") : null)}
+
                     {/* <button className='btn btn-tertiary mt-1' style={{float: 'right'}}>Povijest </button>  */}
-                    <button className = "btn btn-primary ms-2" style={{float:"right"}} onClick= {toggleAddPatient}>Novi Pacijent +</button> 
-                    <button className = "btn btn-primary " style={{float:"right"}} onClick= {toggleAddUser}>Novi Korisnik +</button> </h5>
-                    
-                 <p style={{textAlign: "left", maxWidth: "1200px"}} className = "px-4 mb-2 ">{28} pacijenata</p> 
+                   
+                    {(rolesMapped.includes("doctor") || roles.includes("pediatrician") ? (
+                    <button className = "btn btn-primary ms-2" style={{float:"right"}} onClick= {toggleAddPatient}>Novi Pacijent +</button>  ) : null)}
+                   
+                    {(rolesMapped.includes("admin") ? 
+                        <button className="btn btn-primary" style={{float: "right"}} onClick={toggleAddUser}>
+                            Novi Korisnik +
+                        </button> 
+                    : null)} </h5>
+
+
+                 <p style={{textAlign: "left", maxWidth: "1200px"}} className = "px-4 mb-2 ">{users.length}</p> 
 
                 {/* <p style={{textAlign: "left", maxWidth: "1200px"}} className = "px-4 mb-2 ">{odrasliCount + djecaCount} pacijenata</p> */}
 
