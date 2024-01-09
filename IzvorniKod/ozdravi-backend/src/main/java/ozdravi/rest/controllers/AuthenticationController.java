@@ -73,15 +73,16 @@ public class AuthenticationController {
     @PostMapping("/register")
     public ResponseEntity<String> register(@RequestBody User user) {
 
+        //todo fix
         if(userService.findByEmail(user.getEmail()).isPresent())
             return ResponseEntity.status(HttpStatus.CONFLICT).body("Email already registered");
 
         ValidityUtil.checkUserValidity(user);
 
-        Optional<Role> role = roleService.findByName("parent");
-        user.setRoles(List.of(role.get()));
+        Role role = roleService.findByName("parent");
+        user.setRoles(List.of(role));
 
-        userService.createUser(user);
+        User registeredUser = userService.createUser(user);
 
         return ResponseEntity.ok("Successfully registered");
     }
@@ -89,16 +90,13 @@ public class AuthenticationController {
     @PostMapping("/change_role")
     public ResponseEntity<?> change_role(@RequestBody final ChangeRoleRequest changeRoleRequest) {
         User user = securityContextService.getLoggedInUser();
-        Optional<Role> role = roleService.findById(changeRoleRequest.getRoleId());
-
-        if(role.isEmpty())
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        Role role = roleService.findById(changeRoleRequest.getRoleId());
 
         List<Role> userRoles = user.getRoles();
-        if(userRoles.contains(role.get())) {
+        if(userRoles.contains(role)) {
             return ResponseEntity.ok(new AuthenticationResponse(
                     user, tokenUtil.generateToken(user.getEmail(), changeRoleRequest.getRoleId()),
-                    role.get().getName()));
+                    role.getName()));
         } else {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }

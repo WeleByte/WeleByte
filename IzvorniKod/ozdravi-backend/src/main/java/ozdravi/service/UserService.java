@@ -24,16 +24,16 @@ public interface UserService {
     List<User> listAll();
 
     /**
-     * lists Users depending on role
+     * lists Users depending on currently logged user role
      * @return list of users
      */
     List<User> list();
 
     /**
      * lists all doctors or all pediatricians (depending on role)
-     * @return
+     * @return list
      */
-    List<User> listDoctors();
+    List<User> listDoctors(String role);
 
     /**
      * nalazi korisnika po njegovom identifikatoru ako postoji u bazi
@@ -49,32 +49,46 @@ public interface UserService {
      */
     Optional<User> findByEmail(String email);
 
-    User save(User user);
-
     void deleteById(Long id);
 
     void modifyUser(UserDTO newData, Long id);
 
+    /**
+     *
+     * @param parentId
+     * @return list of parents children
+     */
     List<User> listChildren(Long parentId);
 
+    /**
+     *
+     * @param doctorId
+     * @return list of doctors patients
+     */
     List<User> listPatients(Long doctorId);
 
+    /**
+     *
+     * @return list of patients with no doctor
+     */
     List<User> listAvailablePatientsDoctor();
 
+    /**
+     *
+     * @return list of children with no pediatrician
+     */
     List<User> listAvailablePatientsPediatrician();
 
 
     /**
-     * lists all doctors
-     * @return
-     * @throws Exception
+     *
+     * @return list of all doctors in db
      */
-    List<User> listAllDoctors() throws Exception;
+    List<User> listAllDoctors();
 
     /**
-     * lists all pediatricians
-     * @return
-     * @throws Exception
+     *
+     * @return list of all pediatricians in db
      */
-    List<User> listAllPediatricians() throws Exception;
+    List<User> listAllPediatricians();
 }

@@ -47,27 +47,13 @@ public class UserController {
     }
 
 //    GET mapping for doctors or pediatricians
+    @PreAuthorize("hasAnyRole('ADMIN', 'DOCTOR', 'PEDIATRICIAN')")
     @GetMapping("/users/{role}s")
     public ResponseEntity<?> getDoctors(@PathVariable("role") String role){
-        User workingUserOptional = securityContextService.getLoggedInUser();
+        if(!role.equals("doctor") && !role.equals("pediatrician"))
+            return ResponseEntity.badRequest().body("Only doctors or pediatricians can be fetched");
 
-        if(securityContextService.isUserInRole("USER")) return ResponseEntity.status(HttpStatus.FORBIDDEN).body("You don't have the permissions to do this");
-
-        if(!role.equals("doctor") && !role.equals("pediatrician")) return ResponseEntity.badRequest().body("Only doctors or pediatricians can be fetched");
-
-        if(securityContextService.isUserInRole("ADMIN")
-            || securityContextService.isUserInRole("DOCTOR")
-            || securityContextService.isUserInRole("PEDIATRICIAN")){
-            try{
-                if(role.equals("doctor")) return ResponseEntity.ok(userService.listAllDoctors());
-                return ResponseEntity.ok(userService.listAllPediatricians());
-            }catch (Exception e){
-                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
-            }
-        }
-
-//        (ne bi trebalo doci do tu pa je zato server error)
-        return ResponseEntity.internalServerError().build();
+        return new ResponseEntity<>(userService.listDoctors(role), HttpStatus.OK);
     }
 
     @GetMapping("/user/{id}")

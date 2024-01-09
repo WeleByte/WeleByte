@@ -162,10 +162,8 @@ public class DTOManager {
     public List<Role> roleStringListToRoleList(List<String> roleStringList){
         List<Role> roleRoles = new ArrayList<>();
         for(String roleString : roleStringList){
-            Optional<Role> roleOptional = roleService.findByName(roleString);
-            if(roleOptional.isEmpty())
-                throw new IllegalArgumentException("Role '" + roleString + "' does not exist");
-            roleRoles.add(roleOptional.get());
+            Role role = roleService.findByName(roleString);
+            roleRoles.add(role);
         }
         return roleRoles;
     }

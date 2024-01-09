@@ -15,6 +15,7 @@ import ozdravi.exceptions.UserDoesNotExistException;
 import ozdravi.rest.ValidityUtil;
 import ozdravi.rest.dto.CreateUserRequest;
 import ozdravi.rest.dto.UserDTO;
+import ozdravi.service.RoleService;
 import ozdravi.service.UserService;
 
 import java.net.URI;
@@ -29,7 +30,7 @@ public class UserServiceJpa implements UserService {
     private UserRepository userRepository;
 
     @Autowired
-    private RoleRepository roleRepository;
+    private RoleService roleService;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -70,11 +71,8 @@ public class UserServiceJpa implements UserService {
         List<Role> roleList = dtoManager.roleStringListToRoleList(roles);
         user.setRoles(roleList);
 
-        return userRepository.save(user);
-    }
-
-    @Override
-    public User save(User user){
+        if(!user.getPassword().startsWith("{bcrypt}"))
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepository.save(user);
     }
 
@@ -98,9 +96,10 @@ public class UserServiceJpa implements UserService {
     }
 
     @Override
-    public List<User> listDoctors() {
-        //todo finish
-        return null;
+    public List<User> listDoctors(String role) {
+        User workingUserOptional = securityContextService.getLoggedInUser();
+        if(role.equals("doctor")) return listAllDoctors();
+        else return listAllPediatricians();
     }
 
     @Override
@@ -164,16 +163,14 @@ public class UserServiceJpa implements UserService {
     }
 
     @Override
-    public List<User> listAllDoctors() throws Exception{
-        Optional<Role> doctorRole = roleRepository.findByName("doctor");
-        if(doctorRole.isEmpty()) throw new Exception("UserService listAllDoctors method error!");
-        return userRepository.findUsersByRolesContains(doctorRole.get());
+    public List<User> listAllDoctors(){
+        Role doctorRole = roleService.findByName("doctor");
+        return userRepository.findUsersByRolesContains(doctorRole);
     }
 
     @Override
-    public List<User> listAllPediatricians() throws Exception{
-        Optional<Role> pediatricianRole = roleRepository.findByName("pediatrician");
-        if(pediatricianRole.isEmpty()) throw new Exception("UserService listAllPediatricians method error!");
-        return userRepository.findUsersByRolesContains(pediatricianRole.get());
+    public List<User> listAllPediatricians(){
+        Role pediatricianRole = roleService.findByName("pediatrician");
+        return userRepository.findUsersByRolesContains(pediatricianRole);
     }
 }
