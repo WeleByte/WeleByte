@@ -13,15 +13,17 @@ public interface UserService {
      * @param user korisnik koji se sprema
      * @return vraca spremljenog korisnika
      */
-    User createUser(User user);
+    //User createUser(User user);
 
-    User createUser(CreateUserRequest createUserRequest);
+    User createUser(UserDTO user, List<String> roles);
 
     /**
      * ispisuje sve korisnike u bazi
      * @return lista korisnika
      */
     List<User> listAll();
+
+    User save(User user);
 
     /**
      * lists Users depending on currently logged user role

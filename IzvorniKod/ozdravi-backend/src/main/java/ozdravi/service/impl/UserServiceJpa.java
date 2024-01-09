@@ -47,22 +47,22 @@ public class UserServiceJpa implements UserService {
     }
 
 
+//    @Override
+//    public User createUser(User user) {
+//        if(!user.getPassword().startsWith("{bcrypt}"))
+//            user.setPassword(passwordEncoder.encode(user.getPassword()));
+//        return userRepository.save(user);
+//    }
+
     @Override
-    public User createUser(User user) {
-        if(!user.getPassword().startsWith("{bcrypt}"))
-            user.setPassword(passwordEncoder.encode(user.getPassword()));
+    public User save(User user){
         return userRepository.save(user);
     }
 
     @Override
-    public User createUser(CreateUserRequest createUserRequest) {
-        UserDTO userDTO = createUserRequest.getUserDTO();
-        List<String> roles = createUserRequest.getRoles();
-
+    public User createUser(UserDTO userDTO, List<String> roles) {
         ValidityUtil.checkUserDTOForLoops(userDTO);
-
         User user = dtoManager.userDTOToUser(userDTO);
-
         ValidityUtil.checkUserValidity(user);
 
         if(findByEmail(user.getEmail()).isPresent())

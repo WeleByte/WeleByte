@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import ozdravi.domain.User;
 import ozdravi.rest.dto.UserDTO;
 import ozdravi.service.UserService;
+import ozdravi.service.impl.DTOManager;
 
 import java.util.regex.Pattern;
 
@@ -40,7 +41,7 @@ public class ValidityUtil {
             throw new IllegalArgumentException("Last name is not valid");
     }
 
-    private static final String emailRegex = "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$";
+    public static final String emailRegex = "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$";
 //            "^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@"
 //            + "[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$";
 
@@ -58,7 +59,7 @@ public class ValidityUtil {
     }
 
 //    provjera OIBa po algoritmu na "https://regos.hr/app/uploads/2018/07/KONTROLA-OIB-a.pdf"
-    private static boolean isValidOib(String oib) {
+    public static boolean isValidOib(String oib) {
         if (oib.length() != 11) return false;
         try{
             Long.parseLong(oib);

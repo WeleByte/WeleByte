@@ -26,13 +26,7 @@ public class UserController {
     private UserService userService;
 
     @Autowired
-    private DTOManager dtoManager;
-
-    @Autowired
     SecurityContextService securityContextService;
-
-    @Autowired
-    private RoleService roleService;
 
     @GetMapping("/users")
     public ResponseEntity<?> getAllUsers() {
@@ -42,8 +36,11 @@ public class UserController {
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/users")
     public ResponseEntity<?> createUser(@RequestBody CreateUserRequest createUserRequest) {
-        User user = userService.createUser(createUserRequest);
-        return ResponseEntity.created(URI.create("/users/" + user.getId())).body(user);
+        UserDTO userDTO = createUserRequest.getUserDTO();
+        List<String> roles = createUserRequest.getRoles();
+        User user = userService.createUser(userDTO, roles);
+        return new ResponseEntity<>(user, HttpStatus.CREATED);
+        //return ResponseEntity.created(URI.create("/users/" + user.getId())).body(user);
     }
 
 //    GET mapping for doctors or pediatricians

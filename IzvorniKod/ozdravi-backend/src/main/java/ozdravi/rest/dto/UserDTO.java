@@ -1,5 +1,6 @@
 package ozdravi.rest.dto;
 
+import lombok.Builder;
 import lombok.Data;
 import ozdravi.domain.Address;
 import ozdravi.domain.User;

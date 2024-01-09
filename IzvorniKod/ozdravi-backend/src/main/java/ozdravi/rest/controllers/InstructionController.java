@@ -39,7 +39,7 @@ public class InstructionController {
     @Secured("ROLE_ADMIN")
     @PostMapping("/instructions")
     public ResponseEntity<Instruction> createInstruction(@RequestBody InstructionDTO instructionDTO) {
-        return new ResponseEntity<>(instructionService.createInstruction(instructionDTO), HttpStatus.OK);
+        return new ResponseEntity<>(instructionService.createInstruction(instructionDTO), HttpStatus.CREATED);
     }
 
     /*

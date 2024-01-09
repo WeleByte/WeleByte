@@ -18,12 +18,15 @@ import ozdravi.rest.dto.AuthenticationRequest;
 import ozdravi.rest.dto.AuthenticationResponse;
 import ozdravi.rest.ValidityUtil;
 import ozdravi.rest.dto.ChangeRoleRequest;
+import ozdravi.rest.dto.UserDTO;
 import ozdravi.rest.jwt.JwtTokenUtil;
 import ozdravi.rest.jwt.JwtUserDetailsService;
 import ozdravi.service.RoleService;
 import ozdravi.service.UserService;
+import ozdravi.service.impl.DTOManager;
 import ozdravi.service.impl.SecurityContextService;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -43,6 +46,9 @@ public class AuthenticationController {
 
     @Autowired
     private RoleService roleService;
+
+    @Autowired
+    private DTOManager dtoManager;
 
     @Autowired
     private SecurityContextService securityContextService;
@@ -72,18 +78,20 @@ public class AuthenticationController {
 
     @PostMapping("/register")
     public ResponseEntity<String> register(@RequestBody User user) {
+        UserDTO userDTO = dtoManager.userToUserDTO(user);
+        userService.createUser(userDTO, List.of("parent"));
 
-        //todo fix
-        if(userService.findByEmail(user.getEmail()).isPresent())
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("Email already registered");
 
-        ValidityUtil.checkUserValidity(user);
-
-        Role role = roleService.findByName("parent");
-        user.setRoles(List.of(role));
-
-        User registeredUser = userService.createUser(user);
-
+//        if(userService.findByEmail(user.getEmail()).isPresent())
+//            return ResponseEntity.status(HttpStatus.CONFLICT).body("Email already registered");
+//
+//        ValidityUtil.checkUserValidity(user);
+//
+//        Role role = roleService.findByName("parent");
+//        user.setRoles(List.of(role));
+//
+//        User registeredUser = userService.createUser(user);
+//
         return ResponseEntity.ok("Successfully registered");
     }
 
