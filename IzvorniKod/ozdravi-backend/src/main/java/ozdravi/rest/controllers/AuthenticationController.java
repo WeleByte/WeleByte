@@ -92,7 +92,7 @@ public class AuthenticationController {
 //
 //        User registeredUser = userService.createUser(user);
 //
-        return ResponseEntity.ok("Successfully registered");
+        return new ResponseEntity<>("Successfully registered", HttpStatus.CREATED);
     }
 
     @PostMapping("/change_role")
