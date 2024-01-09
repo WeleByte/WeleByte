@@ -9,25 +9,59 @@ import Select from 'react-select'
 
 const UserForm = ({closeNoviPregled}) => {
 
+    const [user, setUser] = useState({
+        first_name: '',
+        last_name: '',
+        email: '',
+        oib: '',
+        institution_email: '',
+        password: '',
+        roles: [],
+        parent: null,
+        doctor: null,
+        address: {
+            street: '',
+            number: '',
+            city: '',
+            country: ''
+        }
+    });
+    const [confirmPassword, setConfirmPassword] = useState('')
   const closeModal = () => {
     closeNoviPregled()
   }
 
- 
+    const handleInputChange = (field, value) => {
+        setUser((prevUser) => ({ ...prevUser, [field]: value }));
+    };
+
+    const handleUlogeChange = (selectedOptions) => {
+        setUser((prevUser) => ({ ...prevUser, uloge: selectedOptions }));
+    };
+
+    const handleRoditeljChange = (selectedOption) => {
+        setUser((prevUser) => ({ ...prevUser, parent: selectedOption }));
+    };
+
+    const handleDoktorChange = (selectedOption) => {
+        setUser((prevUser) => ({ ...prevUser, doctor: selectedOption }));
+    };
+
 
   const uloge = [
-    { value: '1', label: 'Roditelj' },
-    { value: '2', label: 'Dijete' },
-    { value: '3', label: 'Doktor' },
-    { value: '4', label: 'Pedijatar' }
+    { value: 'parent', label: 'Roditelj' },
+    { value: 'child', label: 'Dijete' },
+    { value: 'doctor', label: 'Doktor' },
+    { value: 'pediatrician', label: 'Pedijatar' }
 
   ]
+    const pacijenti = [{value : 1, label:"durda"}]
 
-  const pacijenti = [
-    { value: '1', label: 'Chocolate' },
-    { value: '2', label: 'Marta Martovič' },
-    { value: '3', label: 'Vanilla' }
-  ]
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        // Handle the form submission with the user state
+        console.log('User Data:', user);
+    };
 
 
 
@@ -51,89 +85,138 @@ const UserForm = ({closeNoviPregled}) => {
     
 
     <div className='px-4 pt-0'>
-    <form >
+    <form onSubmit={handleSubmit}>
 
 <div style={{display: "grid", gridTemplateColumns: "1fr 1fr", gridColumnGap: "20px"}} class ="mt-4">
 
-<div className="mb-3">
-  <label htmlFor="username" className="form-label" style={{float: 'left'}}>Ime</label>
-  <input type="text" className="form-control" id="username" 
+    <div className="mb-3">
+        <label htmlFor="first-name" className="form-label" style={{ float: 'left' }}>Ime</label>
+        <input
+            type="text"
+            className="form-control"
+            id="username"
+            value={user.firstName}
+            onChange={(e) => handleInputChange('first_name', e.target.value)}
         />
-</div>
-<div className="mb-3">
-  <label htmlFor="username" className="form-label" style={{float: 'left'}}>Prezime</label>
-  <input type="text" className="form-control" id="username" 
+    </div>
+    <div className="mb-3">
+      <label htmlFor="last-name" className="form-label" style={{float: 'left'}}>Prezime</label>
+      <input
+          type="text"
+          className="form-control"
+          id="username"
+          value={user.last_name}
+          onChange={(e) => handleInputChange('last_name', e.target.value)}
+            />
+    </div>
+    <div className="mb-3">
+      <label htmlFor="email" className="form-label" autoComplete='off' style={{float: 'left'}}>Email</label>
+      <input
+          type="text"
+          className="form-control"
+          id="username"
+          value={user.email}
+          onChange={(e) => handleInputChange('email', e.target.value)}
+            />
+    </div>
+    <div className="mb-3">
+      <label htmlFor="oib" className="form-label" style={{float: 'left'}}>OIB</label>
+      <input
+          type="text"
+          className="form-control"
+          id="username"
+          value={user.oib}
+          onChange={(e) => handleInputChange('oib', e.target.value)}
+            />
+    </div>
+    <div className="mb-3">
+      <label htmlFor="institution-email" className="form-label" autoComplete="off" style={{float: 'left'}}>E-mail institucije</label>
+      <input
+          type="text"
+          className="form-control"
+          id="username"
+          value={user.institution_email}
+          onChange={(e) => handleInputChange('institution_email', e.target.value)}
+            />
+    </div>
+    <div className="mb-3">
+
+    </div>
+    <div className="mb-3">
+      <label htmlFor="password" className="form-label" autoComplete='off' style={{float: 'left'}}>Šifra</label>
+      <input
+          type="password"
+          className="form-control"
+          id="username"
+          value={user.password}
+          onChange={(e) => handleInputChange('password', e.target.value)}
+            />
+    </div>
+    <div className="mb-3">
+      <label htmlFor="password-confirmation" className="form-label" autoComplete='off' style={{float: 'left'}}>Potvrdite šifru</label>
+      <input
+          type="password"
+          className="form-control"
+          id="username"
+          value={confirmPassword}
+          onChange={(e) => setConfirmPassword(e.target.value)}
+            />
+    </div>
+
+
+
+    <div className="mb-3">
+        <Select
+            options={uloge}
+            isMulti={true}
+            placeholder="Odaberite ulogu..."
+            value={user.uloge}
+            onChange={handleUlogeChange}
         />
-</div>
-<div className="mb-3">
-  <label htmlFor="username" className="form-label" autoComplete='off' style={{float: 'left'}}>Email</label>
-  <input type="text" className="form-control" id="username" 
+    </div>
+
+    <div className="mb-4">
+        <Select
+            options={pacijenti}
+            placeholder="Odaberite roditelja..."
+            value={user.roditelj}
+            onChange={handleRoditeljChange}
         />
-</div>
-<div className="mb-3">
-  <label htmlFor="username" className="form-label" style={{float: 'left'}}>OIB</label>
-  <input type="text" className="form-control" id="username" 
+    </div>
+
+    <div className="mb-4">
+        <Select
+            options={pacijenti}
+            placeholder="Odaberite doktora..."
+            value={user.doctor}
+            onChange={handleDoktorChange}
         />
-</div>
-<div className="mb-3">
-  <label htmlFor="username" className="form-label" autoComplete="off" style={{float: 'left'}}>E-mail institucije</label>
-  <input type="text" className="form-control" id="username" 
+    </div>
+
+    <div className="mb-3">
+      <label htmlFor="street" className="form-label" style={{float: 'left'}}>Ulica</label>
+      <input type="text" className="form-control" id="username"
+            />
+    </div>
+
+    <div className="mb-3">
+      <label htmlFor="street-number" className="form-label" style={{float: 'left'}}>Broj</label>
+      <input type="text" className="form-control" id="username"
+            />
+    </div>
+
+
+    <div className="mb-3">
+        <label htmlFor="city" className="form-label" style={{float: 'left'}}>Grad</label>
+        <input type="text"  className="form-control" id="username"
         />
-</div>
-<div className="mb-3">
- 
-</div>
-<div className="mb-3">
-  <label htmlFor="username" className="form-label" autoComplete='off' style={{float: 'left'}}>Šifra</label>
-  <input type="password" className="form-control" id="username" 
+    </div>
+
+    <div className="mb-3">
+        <label htmlFor="Country" className="form-label" style={{float: 'left'}}>Drzava</label>
+        <input type="text"  className="form-control" id="username"
         />
-</div>
-<div className="mb-3">
-  <label htmlFor="username" className="form-label" autoComplete='off' style={{float: 'left'}}>Potvrdite šifru</label>
-  <input type="password" className="form-control" id="username" 
-        />
-</div>
-
-
-
-<div className="mb-3">
-
-<Select options={uloge} isMulti={true} placeholder = "Odaberite ulogu..." />
-
-</div>
-
-
-
-<div className="mb-4">
-
-<Select options={pacijenti} placeholder = "Odaberite roditelja..."/>
-</div>
-<div className="mb-4">
-
-<Select options={pacijenti} placeholder = "Odaberite doktora..."/>
-</div>
-<div className="mb-4">
-
-</div>
-
-<div className="mb-3">
-  <label htmlFor="username" className="form-label" style={{float: 'left'}}>Ulica</label>
-  <input type="password" className="form-control" id="username" 
-        />
-</div>
-
-<div className="mb-3">
-  <label htmlFor="username" className="form-label" style={{float: 'left'}}>Broj</label>
-  <input type="password" className="form-control" id="username" 
-        />
-</div>
-
-
-<div className="mb-3">
-  <label htmlFor="username" className="form-label" style={{float: 'left'}}>Grad</label>
-  <input type="password"  className="form-control" id="username" 
-        />
-</div>
+    </div>
 
 
 
@@ -150,7 +233,7 @@ const UserForm = ({closeNoviPregled}) => {
 </div>
 </div>
     </div>
-    
+
   );
 };
 

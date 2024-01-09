@@ -339,7 +339,7 @@ const Users = (props) => {
                     </table>
                     <div className="input-group mb-0 mx-0  paginationContainer " style={{maxWidth: "1200px"}} >
 
-                        <span className = "me-3">{users === [] ? (0) : (users.length % 6 + '-' + users.length)} of {users.length}</span>
+                        <span className = "me-3">{users === [] ? 0 : 1 + " - " + users.length} of {users.length}</span>
                         <img src= {chevronLeft} style={{float: "right"}} className = "chevronIcon"></img>
                         <img src= {chevronRight} style={{float: "right"}} className = "chevronIcon"></img>
 
