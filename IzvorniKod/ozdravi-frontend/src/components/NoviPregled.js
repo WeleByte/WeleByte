@@ -6,6 +6,7 @@ import searchIcon from '../assets/icons/search.png'
 import Navbar from './Header';
 import userIcon from '../assets/images/userIcon.png'
 import Select from 'react-select'
+import MapComponent from "./MapComponent";
 
 
 const NoviPregled = (props) => {
@@ -221,8 +222,10 @@ const NoviPregled = (props) => {
                                 />
                             </div>
 
-
-
+                            {/*TODO bookmark*/}
+                            <div >
+                                <MapComponent></MapComponent>
+                            </div>
 
 
 
