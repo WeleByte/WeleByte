@@ -111,6 +111,7 @@ public class AuthenticationController {
         }
     }
 
+//    TODO prilagoditi na novu organizaciju nakon PR-a
     @GetMapping("/role")
     public ResponseEntity<?> getRole(){
         return ResponseEntity.ok(
