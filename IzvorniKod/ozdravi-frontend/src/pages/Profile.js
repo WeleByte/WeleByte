@@ -3,6 +3,7 @@ import loginVector from '../assets/images/loginVector.png';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import Navbar from '../components/Header';
+import Select from "react-select";
 
 const ProfilePage = (props) => {
   const backendRoute = props.backendRoute
@@ -18,6 +19,16 @@ const ProfilePage = (props) => {
   const [saveFailed, setSaveFailed] = useState(false)
   const bearerToken = sessionStorage.bearerToken
   const [errorMessage, setErrorMessage] = useState('')
+  const [selectableRoles, setSelectableRoles] = useState([])
+  const [selectedRole, setSelectedRole] = useState(null)
+
+  const availableRoles = [
+    {value: 1, label: "Admin"},
+    {value: 3, label: "Doctor"},
+    {value: 4, label: "Parent"},
+    {value: 5, label: "Pediatrician"}
+  ]
+
 
   useEffect(() => {
     if(bearerToken === '' || bearerToken === null || bearerToken === undefined) {
@@ -29,6 +40,19 @@ const ProfilePage = (props) => {
       setLastName(fetchedUser.last_name)
       setOIB(fetchedUser.oib)
       setInstitutionEmail(fetchedUser.institution_email)
+
+      const userRolesMapped = fetchedUser.roles.map(role => role.name)
+
+      // let availableRolesCopy = availableRoles
+      // console.log(userRolesMapped)
+      // if(!userRolesMapped.includes("admin")) availableRolesCopy.splice(availableRoles.length - 4, 1)
+      // if(!userRolesMapped.includes("doctor")) availableRolesCopy.splice(availableRoles.length - 3, 1)
+      // if(!userRolesMapped.includes("parent")) availableRolesCopy.splice(availableRoles.length - 2, 1)
+      // if(!userRolesMapped.includes("pediatrician")) availableRolesCopy.splice(availableRoles.length - 1, 1)
+      // console.log(availableRolesCopy)
+      const filteredRoles = availableRoles.filter(role => userRolesMapped.includes(role.label.toLowerCase()))
+      setSelectableRoles(filteredRoles)
+
     }
   }, []);
   const handleSignOut = () => {
@@ -67,7 +91,24 @@ const ProfilePage = (props) => {
 
 
     //data verification
-    // If login is successful, navigate to the home page
+
+    fetch(backendRoute + "/change_role", {
+      method: 'POST',
+      headers: {
+        'Authorization' : `Bearer ${bearerToken}`,
+        'Content-Type' : 'application/json'
+      },
+      body: {
+        'role_id' : selectedRole.value
+      }
+    })
+    .then(response => {
+      if(!response.ok){
+        console.log(response)
+      } else {
+        console.log(response.json())
+      }
+    })
 
     const response = await fetch(backendRoute + `/user/${user.id}`, {
       method: 'PUT',
@@ -104,6 +145,7 @@ const ProfilePage = (props) => {
 
       navigate('/home');
     }
+
   };
 
   if(!bearerToken){
@@ -164,7 +206,13 @@ const ProfilePage = (props) => {
                        id="username" value={institutionEmail}
                        onChange={(e) => setInstitutionEmail(e.target.value)}/>
               </div>
-             
+
+                <div className="mb-3">
+                  <Select options={selectableRoles} placeholder = "Odaberite ulogu..."
+                          onChange={selectedOption =>
+                              setSelectedRole(selectedOption)}/>
+                </div>
+
             
               </div>
               <button type="submit" className="btn btn-primary col-12 py-2 mt-3">Spremi promjene</button>

@@ -218,9 +218,6 @@ const NoviPregled = (props) => {
                                 <Select options={allDoctorsFormatted} placeholder = "Odaberite doktora..."
                                         onChange={selectedOption =>
                                             setSelectedDoctor(selectedOption)}/>
-
-
-
                             </div>
 
 

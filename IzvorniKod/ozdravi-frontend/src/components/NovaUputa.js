@@ -68,7 +68,6 @@ const NovaUputa = (props) => {
             // }else
             {
               console.log(response);
-              return response.json()
             }
           })
     } else {
