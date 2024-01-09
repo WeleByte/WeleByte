@@ -77,6 +77,47 @@ public class UserServiceJpa implements UserService {
     }
 
     @Override
+    public List<User> listAvailablePatients() {
+        User user = securityContextService.getLoggedInUser();
+
+        if(securityContextService.isUserInRole("ADMIN")){
+            //todo mozda staviti da admin moze vidjeti sve roditelje i djecu koja nemaju doktora
+            throw new RequestDeniedException("Admin cannot have available patients");
+        } else if(securityContextService.isUserInRole("DOCTOR")){
+            return listAvailablePatientsDoctor();
+        } else if(securityContextService.isUserInRole("PEDIATRICIAN")){
+            return listAvailablePatientsPediatrician();
+        }
+
+        throw new RequestDeniedException("You are not authorized to view this info");
+    }
+
+    @Override
+    public void assignPatient(Long id) {
+        User optionalDoctor = securityContextService.getLoggedInUser();
+
+        if(securityContextService.isUserInRole("ADMIN")) {
+            //todo ne znam kolko ovo ima smisla isto, mozda bolje samo maknuti admina s te rute u potpunosti
+            throw new RequestDeniedException("Admin cannot assign patients to self");
+        }
+        User optionalPatient = findById(id);
+        optionalPatient.setDoctor(optionalDoctor);
+        save(optionalPatient);
+    }
+
+    @Override
+    public void removePatient(Long id) {
+        User optionalDoctor = securityContextService.getLoggedInUser();
+
+        if(securityContextService.isUserInRole("ADMIN")) {
+            throw new RequestDeniedException("Admin cannot unassign patients from self");
+        }
+        User optionalPatient = findById(id);
+        optionalPatient.setDoctor(null);
+        save(optionalPatient);
+    }
+
+    @Override
     public List<User> listAll() {
         return userRepository.findAll();
     }

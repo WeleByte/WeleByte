@@ -8,14 +8,19 @@ import java.util.List;
 import java.util.Optional;
 
 public interface UserService {
-    /**
-     * sprema korisnika u bazu
-     * @param user korisnik koji se sprema
-     * @return vraca spremljenog korisnika
-     */
     //User createUser(User user);
 
     User createUser(UserDTO user, List<String> roles);
+
+    /**
+     *
+     * @return lists patients based on role
+     */
+    List<User> listAvailablePatients();
+
+    void assignPatient(Long id);
+
+    void removePatient(Long id);
 
     /**
      * ispisuje sve korisnike u bazi
