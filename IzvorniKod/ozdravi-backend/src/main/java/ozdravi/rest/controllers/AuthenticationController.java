@@ -114,10 +114,6 @@ public class AuthenticationController {
 //    TODO prilagoditi na novu organizaciju nakon PR-a
     @GetMapping("/role")
     public ResponseEntity<?> getRole(){
-        return ResponseEntity.ok(
-                SecurityContextHolder.getContext().getAuthentication()
-                        .getAuthorities()
-                        .stream().findFirst().get().toString().toLowerCase()
-                        .replace("role_", ""));
+        return ResponseEntity.ok(securityContextService.getCurrentRole());
     }
 }
