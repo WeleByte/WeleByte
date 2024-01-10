@@ -8,6 +8,7 @@ import ozdravi.domain.User;
 import ozdravi.exceptions.LoggedUserException;
 import ozdravi.exceptions.EntityMissingException;
 import ozdravi.exceptions.RequestDeniedException;
+import ozdravi.exceptions.testException;
 import ozdravi.rest.dto.InstructionDTO;
 import ozdravi.service.InstructionService;
 
@@ -106,9 +107,9 @@ public class InstructionServiceJpa implements InstructionService {
     @Override
     public void modifyInstruction(InstructionDTO instructionDTO, Long id) {
         Instruction instruction = dtoManager.InstructionDTOtoInstruction(instructionDTO);
-
         //PROVJERE
         Instruction prevInstruction = findById(id);
+
 
         //admin smije sve promjenitit pa se ove sve provjere ne odnose na njega
         if(!securityContextService.isUserInRole("ADMIN")) {

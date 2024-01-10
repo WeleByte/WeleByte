@@ -116,10 +116,10 @@ public class ExaminationServiceJpa implements ExaminationService {
             //doctor_id, patient_id, scheduler_id, address_id se ne smiju moci mjenjati
             if (!Objects.equals(prevExamination.get().getDoctor().getId(), examination.getDoctor().getId()) ||
                     !Objects.equals(prevExamination.get().getPatient().getId(), examination.getPatient().getId()) ||
-                    !Objects.equals(prevExamination.get().getScheduler().getId(), examination.getScheduler().getId()) ||
-                    !Objects.equals(prevExamination.get().getAddress().getId(), examination.getAddress().getId())) {
-                throw new IllegalArgumentException("doctor_id, patient_id, scheduler_id and address_id can't be modified.");
-            }
+                    !Objects.equals(prevExamination.get().getScheduler().getId(), examination.getScheduler().getId()))
+//                    (prevExamination.get().getAddress() != null && examination.getAddress() != null && !Objects.equals(prevExamination.get().getAddress().getId(), examination.getAddress().getId()))) {
+                throw new IllegalArgumentException("doctor_id, patient_id, scheduler_id can't be modified.");
+
         }
         prevExamination.get().copyDifferentAttributes(examination);
         examinationRepository.save(prevExamination.get());

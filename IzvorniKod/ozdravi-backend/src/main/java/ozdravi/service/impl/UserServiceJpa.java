@@ -145,9 +145,9 @@ public class UserServiceJpa implements UserService {
 
     @Override
     public User findById(Long id) {
-        User workingUser = securityContextService.getLoggedInUser();
-        if (!workingUser.getId().equals(id) && !securityContextService.isUserInRole("ADMIN"))
-            throw new RequestDeniedException("You are not authorized to view this info");
+//        User workingUser = securityContextService.getLoggedInUser();
+//        if (!workingUser.getId().equals(id) && !securityContextService.isUserInRole("ADMIN"))
+//            throw new RequestDeniedException("You are not authorized to view this info");
 
         Optional<User> user = userRepository.findById(id);
 

@@ -7,6 +7,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import ozdravi.domain.Role;
 import ozdravi.domain.User;
+import ozdravi.exceptions.RequestDeniedException;
 import ozdravi.rest.ValidityUtil;
 import ozdravi.rest.dto.CreateUserRequest;
 import ozdravi.rest.dto.UserDTO;
@@ -55,6 +56,10 @@ public class UserController {
 
     @GetMapping("/user/{id}")
     public ResponseEntity<?> getUser(@PathVariable("id") Long id) {
+        User workingUser = securityContextService.getLoggedInUser();
+        if (!workingUser.getId().equals(id) && !securityContextService.isUserInRole("ADMIN"))
+            throw new RequestDeniedException("You are not authorized to view this info");
+
         return new ResponseEntity<>(userService.findById(id), HttpStatus.OK);
     }
 

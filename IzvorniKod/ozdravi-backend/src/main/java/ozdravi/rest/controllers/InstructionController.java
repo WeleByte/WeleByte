@@ -34,9 +34,7 @@ public class InstructionController {
         creates new instruction
             only doctors and pediatricians can create new instructions (and admin)
      */
-    //@PreAuthorize("hasAnyRole('PEDIATRICIAN', 'DOCTOR', 'ADMIN')")
-    //@PreAuthorize("hasAuthority('ROLE_ADMIN')")
-    @Secured("ROLE_ADMIN")
+    @PreAuthorize("hasAnyRole('PEDIATRICIAN', 'DOCTOR', 'ADMIN')")
     @PostMapping("/instructions")
     public ResponseEntity<Instruction> createInstruction(@RequestBody InstructionDTO instructionDTO) {
         return new ResponseEntity<>(instructionService.createInstruction(instructionDTO), HttpStatus.CREATED);
