@@ -183,9 +183,11 @@ const NoviPregled = (props) => {
                     props.refreshExaminations()
                     console.log(response);
                 })
+            closeModal()
         } else {
             console.log('Some field is empty', selectedDoctor, selectedPatient, report, date);
         }
+
     }
 
     return (
