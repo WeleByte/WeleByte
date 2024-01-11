@@ -207,11 +207,6 @@ const ProfilePage = (props) => {
                        onChange={(e) => setInstitutionEmail(e.target.value)}/>
               </div>
 
-                <div className="mb-3">
-                  <Select options={selectableRoles} placeholder = "Odaberite ulogu..."
-                          onChange={selectedOption =>
-                              setSelectedRole(selectedOption)}/>
-                </div>
 
             
               </div>
