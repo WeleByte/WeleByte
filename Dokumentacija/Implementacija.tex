@@ -1,6 +1,4 @@
 \chapter{Implementacija i korisničko sučelje}
-		
-		
 		\section{Korištene tehnologije i alati}
 		
 			%dio 2. revizije
@@ -33,19 +31,115 @@
 			 
 			 U konačnici, ovom kombinacijom tehnologija postignuto je stvaranje moderne zdravstvene aplikacije koja je intuitivna za korisnike, prilagodljiva potrebama zdravstvenog sustava i unapređuje ukupno iskustvo krajnjih korisnika.
 			\eject 
-		
 	
 		\section{Ispitivanje programskog rješenja}
+			Ispitivanje programskog rješenja je ključni proces pri razvoju programske potpore koji:
+			\begin{packed_item}
+				\item olakšava dodavanje značajki - testiranje osigurava da nove promjene nisu "strgale" stari kod
+				\item otežava unošenje grešaka u kod - dobro testovi detektiraju neispravan kod prije nego što postane dio projekta
+			\end{packed_item}
 			
-			%dio 2. revizije
+			U sklopu ovog projekta koristili smo dvije vrste ispitivanja:
+			\begin{packed_item}
+				\item Ispitivanje komponenti (eng. Unit Testing)
+				\item Ispitivanje sustava (eng. Integration Testing)
+			\end{packed_item}
 			
-			 %U ovom poglavlju je potrebno opisati provedbu ispitivanja implementiranih funkcionalnosti na razini komponenti i na razini cijelog sustava s prikazom odabranih ispitnih slučajeva. Studenti trebaju ispitati temeljnu funkcionalnost i rubne uvjete.
-	
+			Ispitivanjem komponenti pomoću JUnit biblioteke smo osigurali da ključni dijelovi backenda rade kako treba, a ispitivanjem sustava smo, iz perspektive korisnika, osigurali da je povezanost backenda i frontenda ispravna. 
+			Ispitivanje sustava je provedeno pomoću Selenium biblioteke.
 			
 			\subsection{Ispitivanje komponenti}
 			%Potrebno je provesti ispitivanje jedinica (engl. unit testing) nad razredima koji implementiraju temeljne funkcionalnosti. Razraditi minimalno 6 ispitnih slučajeva u kojima će se ispitati redovni slučajevi, rubni uvjeti te izazivanje pogreške (engl. exception throwing). Poželjno je stvoriti i ispitni slučaj koji koristi funkcionalnosti koje nisu implementirane. Potrebno je priložiti izvorni kôd svih ispitnih slučajeva te prikaz rezultata izvođenja ispita u razvojnom okruženju (prolaz/pad ispita).
 			
+			\subsubsection*{Test 1: Ispitivanje ispravnog OIB-a}
+			Komponenta: ValidityUtil \newline
+			Metoda: public static boolean isValidOib(String oib); \newline
+			Ulazni Podaci: 
+			\begin{packed_item}
+				\item String oib : "39751670659"
+			\end{packed_item}
+			Očekivani rezultat:
+			\begin{packed_item}
+				\item Metoda vraća istinu (true) jer je OIB ispravan prema standardu za OIB-e.
+			\end{packed_item}
+
+			\subsubsection*{Test 2: Ispitivanje neispravnog OIB-a}
+			Komponenta: ValidityUtil \newline
+			Metoda: public static boolean isValidOib(String oib); \newline
+			Ulazni Podaci: 
+			\begin{packed_item}
+				\item String oib : "397516706.9"
+			\end{packed_item}
+			Očekivani rezultat:
+			\begin{packed_item}
+				\item Metoda vraća laž (false) jer je OIB sadrži '.', odnosno ne zadovoljava standardni oblik.
+			\end{packed_item}
+
+			U testovima u kojima testiramo kontrolere želimo ispitati samo ponašanje kontrolera, bez ispivanja servisa, baze i ostalih dijelova aplikacije.
+			S obzirom da kontoleri ne mogu raditi bez tih dijelova, moramo za njih stvoriti "mock" objekte koji ih mijenjaju i simuliraju njihovo ponašanje.
+
+			To napravimo tako da ručno stvorimo entitete koje želimo da ti servisi vraćaju.
+
+			\subsubsection*{Test 3: Dohvaćanje popisa Uputa.}
+			Komponenta: \lstinline[language=Java]{InstructionsController} \newline
+			Zahtjev: HTTP GET /instructions \newline
+			Mock Podaci:
+			\begin{packed_item}
+				\item Korisnik
+				\item Pregledi kojima korisnik može pristupiti
+			\end{packed_item}
+			Očekivani rezultat:
+			\begin{packed_item}
+				\item Kontroler u JSON formatu vraća popis svih Uputa koje trenutni korisnik može vidjeti, HTTP odgovor ima status 200 (OK).
+			\end{packed_item}
 			
+			\subsubsection*{Test 4: Stvaranje Uputa.}
+			Komponenta: \lstinline[language=Java]{InstructionsController} \newline
+			Zahtjev: HTTP POST /instructions \newline
+			Mock Podaci:
+			\begin{packed_item}
+				\item Korisnik (ADMIN)
+			\end{packed_item}
+			Očekivani rezultat:
+			\begin{packed_item}
+				\item Kontroler u JSON formatu vraća atribute novostvorene Upute, HTTP odgovor ima status 200 (OK).
+			\end{packed_item}
+
+			\subsubsection*{Test 5: Dohvaćanje nepostojeće Upute.}
+			Komponenta: \lstinline[language=Java]{InstructionsController} \newline
+			Zahtjev: HTTP GET /instruction/{id} \newline
+			Mock Podaci:
+			\begin{packed_item}
+				\item Korisnik (ADMIN)
+			\end{packed_item}
+			Očekivani rezultat:
+			\begin{packed_item}
+				\item HTTP odgovor ima status 404 (Not Found).
+			\end{packed_item}
+
+			\subsection*{Test 6: Dohvaćanje svih doktora u aplikaciji.}
+			Komponenta: \lstinline[language=Java]{UsersController} \newline
+			Zahtjev: HTTP GET /users/doctors \newline
+			Mock Podaci:
+			\begin{packed_item}
+				\item Korisnik (PARENT)
+			\end{packed_item}
+			Očekivani rezultat:
+			\begin{packed_item}
+				\item HTTP odgovor ima status 401 (Forbidden), jer roditelj ne smije dobiti popis svih liječnika u aplikciji.
+			\end{packed_item}
+			
+			\subsection*{Test 6: Dodavanje korisnika.}
+			Komponenta: \lstinline[language=Java]{UsersController} \newline
+			Zahtjev: HTTP POST /users \newline
+			Mock Podaci:
+			\begin{packed_item}
+				\item Korisnik (ADMIN)
+			\end{packed_item}
+			Očekivani rezultat:
+			\begin{packed_item}
+				\item Kontroler u JSON formatu vraća atribute novostvorenog Korisnika, HTTP odgovor ima status 200 (OK).
+			\end{packed_item}
 			
 			\subsection{Ispitivanje sustava}
 			
@@ -55,15 +149,9 @@
 			 	%- dodatak za preglednik Selenium IDE - snimanje korisnikovih akcija radi automatskog ponavljanja ispita
 			 	%- Selenium WebDriver - podrška za pisanje ispita u jezicima Java, C\#, PHP koristeći posebno programsko sučelje.
 	
-			\eject 
-		
-		
+			\eject
 		\section{Dijagram razmještaja}
-			
-			%dio 2. revizije
-			
-			 %Potrebno je umetnuti specifikacijski dijagram razmještaja i opisati ga. Moguće je umjesto specifikacijskog dijagrama razmještaja umetnuti dijagram razmještaja instanci, pod uvjetom da taj dijagram bolje opisuje neki važniji dio sustava.
-			 Dijagrami razmještaja prikazuju konfiguraciju sklopovlja i programske podrške koja se koristi za implementaciju sustava u njegovom operativnom okruženju. Na cloud platformi smješten je poslužitelj baze podataka te web poslužitelji za backend i frontend. Korisnici pristupaju web aplikaciji putem svog web preglednika. Sustav je baziran na arhitekturi "klijent - poslužitelj" s komunikacijom između korisničkih računala(roditelj, pedijatar, doktor, administrator) i poslužitelja putem HTTPS veze.
+			Dijagrami razmještaja prikazuju konfiguraciju sklopovlja i programske podrške koja se koristi za implementaciju sustava u njegovom operativnom okruženju. Na cloud platformi smješten je poslužitelj baze podataka te web poslužitelji za backend i frontend. Korisnici pristupaju web aplikaciji putem svog web preglednika. Sustav je baziran na arhitekturi "klijent - poslužitelj" s komunikacijom između korisničkih računala(roditelj, pedijatar, doktor, administrator) i poslužitelja putem HTTPS veze.
 			\begin{figure}[H]
 				\includegraphics[width=\textwidth]{slike/deploymentDiagram.png} 
 				\caption{Dijagram razmještaja} 
