@@ -39,6 +39,4 @@ public interface AddressService {
      * @param id address_id
      */
     void modifyAddress(Address newData, Long id);
-
-    Optional<Address> getSavedInstance(Address address);
 }

@@ -44,14 +44,4 @@ public class AddressServiceJpa implements AddressService {
             addressRepository.save(address.get());
         }
     }
-
-    @Override
-    public Optional<Address> getSavedInstance(Address address){
-        return addressRepository.findByStreetAndNumberAndCityAndCountry(
-                address.getStreet(),
-                address.getNumber(),
-                address.getCity(),
-                address.getCountry()
-        );
-    }
 }

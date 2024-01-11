@@ -1,16 +1,16 @@
 package ozdravi.domain;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.Setter;
 import org.springframework.beans.BeanUtils;
 
 @Entity
 @Table(name = "address")
 @Data
 @EqualsAndHashCode
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
 public class Address {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
