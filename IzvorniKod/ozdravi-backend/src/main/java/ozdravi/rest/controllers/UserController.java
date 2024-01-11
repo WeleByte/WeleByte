@@ -5,14 +5,19 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import ozdravi.domain.Role;
 import ozdravi.domain.User;
 import ozdravi.rest.ValidityUtil;
+import ozdravi.rest.dto.CreateUserRequest;
 import ozdravi.rest.dto.UserDTO;
+import ozdravi.service.RoleService;
 import ozdravi.service.UserService;
 import ozdravi.service.impl.DTOManager;
 import ozdravi.service.impl.SecurityContextService;
 import java.net.URI;
 import java.time.format.DateTimeParseException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -45,9 +50,15 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
     }
 
+    @Autowired
+    private RoleService roleService;
+
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/users")
-    public ResponseEntity<?> createUser(@RequestBody UserDTO userDTO) {
+    public ResponseEntity<?> createUser(@RequestBody CreateUserRequest createUserRequest) {
+        UserDTO userDTO = createUserRequest.getUserDTO();
+        List<String> roles = createUserRequest.getRoles();
+
         ResponseEntity<String> controlRes = ValidityUtil.checkUserDTOForLoops(userDTO);
         if(controlRes.getStatusCode()!= HttpStatus.OK)
             return ResponseEntity.badRequest().body("User can't be own parent or doctor");
@@ -55,9 +66,21 @@ public class UserController {
         User user;
         try {
             user = dtoManager.userDTOToUser(userDTO);
+
             controlRes = ValidityUtil.checkUserValidity(user);
             if(controlRes.getStatusCode()!= HttpStatus.OK)
                 return controlRes;
+
+            if(userService.findByEmail(user.getEmail()).isPresent())
+                return ResponseEntity.badRequest().body("Email already in use");
+
+        } catch (IllegalArgumentException e){
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+
+        try {
+            List<Role> roleList = dtoManager.roleStringListToRoleList(roles);
+            user.setRoles(roleList);
         } catch (IllegalArgumentException e){
             return ResponseEntity.badRequest().body(e.getMessage());
         }
