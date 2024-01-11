@@ -33,8 +33,7 @@ public class JwtUserDetailsService implements UserDetailsService {
         final User user = userService.findByEmail(email).orElseThrow(
                 () -> new UsernameNotFoundException("User " + email + " not found"));
 
-        final Role role = roleService.findById(roleId).orElseThrow(
-                () -> new UsernameNotFoundException("Role " + roleId + " not found"));
+        final Role role = roleService.findById(roleId);
 
         return new JwtUserDetails(user.getId(), user.getEmail(), user.getPassword(),
                 new SimpleGrantedAuthority("ROLE_" + role.getName().toUpperCase()));
