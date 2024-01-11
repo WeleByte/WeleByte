@@ -127,20 +127,20 @@ const Users = (props) => {
                 'Content-type': 'application/json'
             }
         })
-        .then(response => {
-            if(response.status === 401){
-                handleLogOut()
-            } else if(!response.ok) {
-                console.log(response)
-            }
-            else {
-                return response.json()
-            }
-        })
-        .then(parsedData => {
-            console.log(parsedData)
-            setCurrentRole(parsedData)
-        })
+            .then(response => {
+                if(response.status === 401){
+                    handleLogOut()
+                } else if(!response.ok) {
+                    console.log(response)
+                }
+                else {
+                    return response.json()
+                }
+            })
+            .then(parsedData => {
+                console.log(parsedData)
+                setCurrentRole(parsedData)
+            })
     }, []);
 
     useEffect(() => {
