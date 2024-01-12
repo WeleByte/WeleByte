@@ -117,17 +117,17 @@ const Navbar = () => {
 
                 <button className={selectedItem === 'home' ? "nav-item nav-link active text-start" : "nav-item nav-link text-start"}
                     onClick={(e)  => handleItemClick(e, 'home')}> Početna </button>
-          {true ? (  <button
+          {(<button
               className={selectedItem === 'pacijenti' ? "nav-item nav-link active text-start" : "nav-item nav-link text-start"}
               onClick={(e) => handleItemClick(e, 'pacijenti')}>
-                
-                {(doctorRole ? ("Pacijenti") : null)}
-                {(pediatricianRole ? ("Pacijenti") : null)}
-                {(adminRole ? ("Korisnici") : null)}
-                {(parentRole ? ("Djeca") : null)}
+
+              {(doctorRole ? ("Pacijenti") : null)}
+              {(pediatricianRole ? ("Pacijenti") : null)}
+              {(adminRole ? ("Korisnici") : null)}
+              {(parentRole ? ("Djeca") : null)}
 
 
-              </button> ) : null }
+          </button>) }
 
           <button className={selectedItem === 'pregledi' ? "nav-item nav-link active text-start" : "nav-item nav-link text-start"}
               onClick={(e) => handleItemClick(e, 'pregledi')}>Pregledi</button>

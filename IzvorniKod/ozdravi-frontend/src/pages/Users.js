@@ -183,8 +183,11 @@ const Users = (props) => {
 
             {noviPregledOtvoren && <NoviPregled closeNoviPregled = {toggleNoviPregled}/>}
 
-            {addUserVisible && <UserForm closeNoviPregled = {toggleAddUser}
-                                         handleLogOut={handleLogOut}/>}
+            {addUserVisible && <UserForm closeUserForm = {toggleAddUser}
+                                         handleLogOut={handleLogOut}
+                                         backendRoute={backendRoute}
+                                         bearerToken={bearerToken}
+                                         refreshUsers={toggleRefreshUsers}/>}
 
             {userDetailVisible && <UserDetail close = {toggleUserDetail}
                                               role = {currentRole.name}
@@ -308,13 +311,13 @@ const Users = (props) => {
                                                  style={{ height: "19px", float: "right", opacity: "800%" }}  src={TrashIcon}></img>
                                         </button>
                                         ): null}
-                                        {rolesMapped.includes("admin")  ? (
-                                        <button className =" ps-3  col-12 mb-2 py-2 delete-btn"
-                                                style={{opaciy: "80%",textAlign: "left", fontWeight:"500", border:"none", background:"none"}}> Izbriši
-                                            <img className ="me-3 mt-1"
-                                                 style={{ height: "19px", float: "right", opacity: "800%" }}  src={TrashIcon}></img>
-                                        </button>
-                                        ): null}
+                                        {/*{rolesMapped.includes("admin")  ? (*/}
+                                        {/*<button className =" ps-3  col-12 mb-2 py-2 delete-btn"*/}
+                                        {/*        style={{opaciy: "80%",textAlign: "left", fontWeight:"500", border:"none", background:"none"}}> Izbriši*/}
+                                        {/*    <img className ="me-3 mt-1"*/}
+                                        {/*         style={{ height: "19px", float: "right", opacity: "800%" }}  src={TrashIcon}></img>*/}
+                                        {/*</button>*/}
+                                        {/*): null}*/}
 
                                     </ul>
                                 </td>
