@@ -227,15 +227,23 @@
 			%Potrebno je priložiti dijagram razreda s pripadajućim opisom. Zbog preglednosti je moguće dijagram razlomiti na više njih, ali moraju biti grupirani prema sličnim razinama apstrakcije i srodnim funkcionalnostima.
 			
 			%dio 1. revizije
+		Dijagram razreda razložen je na tri dijela. Dijelovi su grupirani prema sličnoj razini apstrakcije i srodnim funkcionalnostima. Kako bi se smanjila gužva unutar dijagrama, prikazane su samo ovisnosti između razreda koji pripadaju istom dijelu dijagrama radi preglednosti. Iz naziva i tipova atributa u razredima može se deducirati vrsta ovisnosti među različitim razredima.
+		Funkcije unutar razreda prikazanih u slici 4.4 obrađuju DTO(Data transfer object) atribute prikazane u dijagramu razreda na slici 4.5.
+			\begin{figure}[H]
+				\includegraphics[width=\textwidth]{slike/DijagramRazredaControllerService.png} 
+				\caption{Dijagram razreda - controller i service razredi } 
+			\end{figure}
 			\begin{figure}[H]
 				\includegraphics[width=\textwidth]{slike/DijagramRazredaDTO.png} 
 				\caption{Dijagram razreda - dio Data transfer objects} 
 		   \end{figure}
-
+			Domain razredi preslikavaju strukturu baze podataka u aplikaciji. Razred User predstavlja prijavljenog korisnika. Razred Address predstavlja adresu koja može biti povezana s pregledom ili sa samim korisnikom. Razred Examination sadrži podatke o pregledu pacijenta koje unosi korisnik(s ulogom liječnika). Razred SLR sadrži podatke vezane uz potvrdu za bolovanje koju pedijatar zatraži, a liječnik ju može odobriti. Razred Instruction predstavlja uputu koju izdaje liječnik, a prihvaća pacijent.
 		   \begin{figure}[H]
 				\includegraphics[width=\textwidth]{slike/DijagramRazredaDomena.png} 
 				\caption{Dijagram razreda - domain razredi } 
 	   		\end{figure}
+	   		
+	   		
 			%Prilikom prve predaje projekta, potrebno je priložiti potpuno razrađen dijagram razreda vezan uz generičku funkcionalnost sustava. Ostale funkcionalnosti trebaju biti idejno razrađene u dijagramu sa sljedećim komponentama: nazivi razreda, nazivi metoda i vrste pristupa metodama (npr. javni, zaštićeni), nazivi atributa razreda, veze i odnosi između razreda.
 			
 			%dio 2. revizije			
