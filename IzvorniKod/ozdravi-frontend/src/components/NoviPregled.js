@@ -7,6 +7,8 @@ import Navbar from './Header';
 import userIcon from '../assets/images/userIcon.png'
 import Select from 'react-select'
 import MapComponent from "./MapComponent";
+import 'leaflet/dist/leaflet.css';
+
 
 
 const NoviPregled = (props) => {
@@ -21,6 +23,13 @@ const NoviPregled = (props) => {
     const [date, setDate] = useState(null)
     const [allDoctorsFormatted, setAllDoctorsFormatted] = useState([])
     const [patientsFormatted, setPatientsFormatted] = useState([])
+
+    const [locationName, setLocationName] = useState(['']);
+    const mapProps = {
+        center : {lat: 5.80085099788598, long: 15.971221512932303},
+        zoom : 13,
+        setAddressHook : setLocationName
+    }
 
 
 
@@ -218,18 +227,16 @@ const NoviPregled = (props) => {
 
                             <div className="mb-3">
                                 <label htmlFor="username" className="form-label" style={{float: 'left'}}>LOKACIJA</label>
-                                <input type="text" className="form-control" id="location"
+                                <input type="text" className="form-control" id="location" defaultValue={locationName || "Odabrana bolnica"} //TODO
                                 />
                             </div>
+                        </div>
 
-                            {/*TODO bookmark*/}
-                            <div >
-                                <MapComponent></MapComponent>
-                            </div>
+                        {/*TODO bookmark*/}
+                        <div className="mapWrapper" style={{height: "40vh", width:"90%", margin:"0 auto"}}>
+                            <MapComponent props={mapProps}>
 
-
-
-
+                            </MapComponent>
                         </div>
 
                         <div className="mb-3">
