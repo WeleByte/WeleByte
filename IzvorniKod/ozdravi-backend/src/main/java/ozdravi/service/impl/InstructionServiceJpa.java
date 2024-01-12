@@ -8,7 +8,6 @@ import ozdravi.domain.User;
 import ozdravi.exceptions.LoggedUserException;
 import ozdravi.exceptions.EntityMissingException;
 import ozdravi.exceptions.RequestDeniedException;
-import ozdravi.exceptions.testException;
 import ozdravi.rest.dto.InstructionDTO;
 import ozdravi.service.InstructionService;
 
