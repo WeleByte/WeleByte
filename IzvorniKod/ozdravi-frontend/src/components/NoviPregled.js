@@ -18,10 +18,24 @@ const NoviPregled = (props) => {
     const [selectedPatient, setSelectedPatient] = useState(null);
     const [report, setReport] = useState(null)
     const [date, setDate] = useState(null)
+    const [country, setCountry] = useState('Hrvatska')
+    const [city, setCity] = useState(null)
+    const [street, setStreet] = useState(null)
+    const [number, setNumber] = useState(null)
     const [allDoctorsFormatted, setAllDoctorsFormatted] = useState([])
     const [patientsFormatted, setPatientsFormatted] = useState([])
+    const [isDoctor, setIsDoctor] = useState(true)
 
-
+    // useEffect(() => {
+    //     props.user.roles.forEach(role => {
+    //         if(role.name === 'doctor')
+    //             setIsDoctor(true)
+    //     })
+    //     if(isDoctor){
+    //         setSelectedDoctor(props.user.id)
+    //     }
+    //     console.log(isDoctor)
+    // }, []);
 
     const closeModal = () => {
         props.closeNoviPregled()
@@ -92,7 +106,8 @@ const NoviPregled = (props) => {
             .then(([pediatriciansPromise, doctorsPromise, patientsPromise]) => {
 
                 if (pediatriciansPromise.status === 401 || doctorsPromise.status === 401 || patientsPromise.status === 401) {
-                    props.handleLogOut()
+                    /* props.handleLogOut() */
+                    console.log("unauthorized!!")
 
                 } else
                 if (!pediatriciansPromise.ok || !doctorsPromise.ok || !patientsPromise.ok) {
@@ -114,12 +129,12 @@ const NoviPregled = (props) => {
 
             setAllDoctorsFormatted(allDoctorsTemp.map(doctor => ({
                 label: `${doctor.first_name} ${doctor.last_name}`,
-                value: `${doctor.id}`
+                value: doctor.id
             })))
 
             setPatientsFormatted(parsedPatients.map(patient => ({
                 label: `${patient.first_name} ${patient.last_name}`,
-                value: `${patient.id}`
+                value: patient.id
             })))
 
             console.log(allDoctorsFormatted, patientsFormatted);
@@ -137,26 +152,35 @@ const NoviPregled = (props) => {
         console.log("Selected Patient:", selectedPatient);
         console.log("Date:", date);
         console.log("Report:", report);
+        console.log("Location: ", country, city, street, number)
 
         if (selectedDoctor && selectedPatient && report && date) {
-            const formattedDate = new Date(date).toISOString();
-            console.log("Formatted Date:", formattedDate);
+            console.log("Date:", date);
 
             fetch(props.backendRoute + "/examinations", {
                 method: 'POST',
                 headers: {
+                    'Authorization' : `Bearer ${props.bearerToken}`,
                     "Content-Type": 'application/json'
                 },
                 body: JSON.stringify({
                     'doctor_id': selectedDoctor.value,
                     'patient_id': selectedPatient.value,
                     'scheduler_id': props.user.id,
-                    'address_id': 1,
-                    'date': formattedDate,
+                    'address' : {
+                        'country' : country,
+                        'city' : city,
+                        'street' : street,
+                        'number' : number,
+                        'latitude' : null,
+                        'longitude' : null
+                    },
+                    'date': date,
                     'report': report
                 })
             })
                 .then(response => {
+                    props.refreshExaminations()
                     console.log(response);
                 })
         } else {
@@ -191,10 +215,11 @@ const NoviPregled = (props) => {
 
 
                             <div className="mb-3">
-
                                 <Select options={allDoctorsFormatted} placeholder = "Odaberite doktora..."
                                         onChange={selectedOption =>
                                             setSelectedDoctor(selectedOption)}/>
+
+
 
                             </div>
 
@@ -209,16 +234,35 @@ const NoviPregled = (props) => {
 
 
                             <div className="mb-4">
-                                <label htmlFor="username" className="form-label" style={{float: 'left'}}>DATUM</label>
-                                <input type="date" className="form-control" id="date"
+                                <label htmlFor="examination-date" className="form-label" style={{float: 'left'}}>DATUM</label>
+                                <input type="datetime-local" className="form-control" id="date"
                                        onChange={selectedDate => setDate(selectedDate.target.value)}/>
                             </div>
 
+                            <div></div>
 
                             <div className="mb-3">
-                                <label htmlFor="username" className="form-label" style={{float: 'left'}}>LOKACIJA</label>
+                                <label htmlFor="examination-country" className="form-label" style={{float: 'left'}}>DRZAVA</label>
+                                <input type="text" className="form-control" id="location" value={country}
+                                       onChange={e => setCountry(e.target.value)} />
+                            </div>
+
+                            <div className="mb-3">
+                                <label htmlFor="examination-city" className="form-label" style={{float: 'left'}}>GRAD</label>
                                 <input type="text" className="form-control" id="location"
-                                />
+                                       onChange={e => setCity(e.target.value)}/>
+                            </div>
+
+                            <div className="mb-3">
+                                <label htmlFor="examination-address" className="form-label" style={{float: 'left'}}>ADRESA</label>
+                                <input type="text" className="form-control" id="location"
+                                       onChange={e => setStreet(e.target.value)}/>
+                            </div>
+
+                            <div className="mb-3">
+                                <label htmlFor="examination-number" className="form-label" style={{float: 'left'}}>BROJ</label>
+                                <input type="text" className="form-control" id="location"
+                                       onChange={e => setNumber(e.target.value)}/>
                             </div>
 
 
@@ -236,7 +280,7 @@ const NoviPregled = (props) => {
                         </div>
 
                         <button type="submit" className="btn btn-primary col-12 col-md-2 py-2 mb-4" style={{float:"right"}}
-                                onClick={handleSubmit}>Prijavi</button>
+                                onClick={handleSubmit}>Dodaj</button>
                     </form>
                 </div>
             </div>

@@ -81,9 +81,17 @@ const Navbar = () => {
 
                 <button className={selectedItem === 'home' ? "nav-item nav-link active" : "nav-item nav-link"}
                     onClick={(e)  => handleItemClick(e, 'home')}> Početna </button>
-          {doctorRole || adminRole || pediatricianRole ? (  <button
+          {true ? (  <button
               className={selectedItem === 'pacijenti' ? "nav-item nav-link active" : "nav-item nav-link"}
-              onClick={(e) => handleItemClick(e, 'pacijenti')}>Pacijenti</button> ) : null }
+              onClick={(e) => handleItemClick(e, 'pacijenti')}>
+                
+                {(doctorRole ? ("Pacijenti") : null)}
+                {(pediatricianRole ? ("Pacijenti") : null)}
+                {(adminRole ? ("Korisnici") : null)}
+                {(parentRole ? ("Djeca") : null)}
+
+
+              </button> ) : null }
 
           <button className={selectedItem === 'pregledi' ? "nav-item nav-link active" : "nav-item nav-link"}
               onClick={(e) => handleItemClick(e, 'pregledi')}>Pregledi</button>

@@ -1,21 +1,22 @@
 package ozdravi.service;
 
 import ozdravi.domain.Examination;
-import ozdravi.rest.dto.ExaminationRequest;
+import ozdravi.rest.dto.ExaminationDTO;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface ExaminationService {
-    Optional<Examination> findById(Long id);
+    Examination findById(Long id);
 
     void deleteById(Long id);
 
-    Examination createExamination(Examination examination);
+    Examination createExamination(ExaminationDTO examinationDTO);
 
-    void modifyExamination(Examination newData, Long id);
+    void modifyExamination(ExaminationDTO newData, Long id);
 
     List<Examination> listAll();
+
+    List<Examination> list();
 
     /*
         vraca listu Examinationa za roditelja s danim id-em i za njegovu djecu
@@ -27,5 +28,5 @@ public interface ExaminationService {
      */
     List<Examination> listDoctorExaminations(Long id);
 
-    List<ExaminationRequest> listAllRequests();
+    List<ExaminationDTO> listAllRequests();
 }

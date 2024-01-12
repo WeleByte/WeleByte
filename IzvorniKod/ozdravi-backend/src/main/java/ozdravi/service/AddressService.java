@@ -1,6 +1,7 @@
 package ozdravi.service;
 
 import ozdravi.domain.Address;
+import ozdravi.rest.dto.AddressDTO;
 
 import java.util.List;
 import java.util.Optional;
@@ -12,7 +13,7 @@ public interface AddressService {
      * @param address new address
      * @return successfully saved address
      */
-    Address createAddress(Address address);
+    Address createAddress(AddressDTO address);
 
     /**
      * lists all addresses present in db
@@ -25,7 +26,7 @@ public interface AddressService {
      * @param id address_id
      * @return address if exists
      */
-    Optional<Address> findById(Long id);
+    Address findById(Long id);
 
     /**
      * deletes address from the db

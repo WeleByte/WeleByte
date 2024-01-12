@@ -1,9 +1,15 @@
 package ozdravi.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import ozdravi.dao.SLRRepository;
 import ozdravi.domain.SLR;
+import ozdravi.domain.User;
+import ozdravi.exceptions.EntityMissingException;
+import ozdravi.exceptions.RequestDeniedException;
+import ozdravi.rest.dto.SLRDTO;
 import ozdravi.service.SLRService;
 
 import java.util.List;
@@ -14,8 +20,21 @@ public class SLRServiceJpa implements SLRService {
     @Autowired
     private SLRRepository slrRepository;
 
+    @Autowired
+    private SecurityContextService securityContextService;
+
+    @Autowired
+    private DTOManager dtoManager;
+
     @Override
-    public SLR createSLR(SLR slr) {
+    public SLR createSLR(SLRDTO slrDTO) {
+        if(securityContextService.isUserInRole("ADMIN"))
+            throw new RequestDeniedException("Admin can't create SLR");
+
+        User currentUser = securityContextService.getLoggedInUser();
+        slrDTO.setCreator_id(currentUser.getId());
+
+        SLR slr = dtoManager.slrdtoToSLR(slrDTO);
         return slrRepository.save(slr);
     }
 
@@ -25,8 +44,43 @@ public class SLRServiceJpa implements SLRService {
     }
 
     @Override
-    public Optional<SLR> findById(Long id) {
-        return slrRepository.findById(id);
+    public List<SLR> list() {
+        User user = securityContextService.getLoggedInUser();
+        if(securityContextService.isUserInRole("PARENT"))
+            return listByParent(user.getId());
+
+        if(securityContextService.isUserInRole("PEDIATRICIAN"))
+            return listByCreator(user.getId());
+
+        if(securityContextService.isUserInRole("DOCTOR"))
+            return listByApprover(user.getId());
+        //else admin
+        return listAll();
+    }
+
+    @Override
+    public SLR findById(Long id) {
+        Optional<SLR> slrOptional = slrRepository.findById(id);
+        if(slrOptional.isEmpty())
+            throw new EntityMissingException("Sick leave recommendation with id: " + id.toString() + " not found");
+
+        if(securityContextService.isUserInRole("ADMIN"))
+            return slrOptional.get();
+
+        User user = securityContextService.getLoggedInUser();
+        SLR slr = slrOptional.get();
+
+        if(!slr.getParent().getId().equals(user.getId())
+                && !slr.getCreator().getId().equals(user.getId())
+                && !slr.getApprover().getId().equals(user.getId())) {
+            throw new RequestDeniedException("You are not authorized to view this info");
+        }
+
+        SLRDTO slrDTO = dtoManager.slrToSLRDTO(slr);
+
+//        return ResponseEntity.ok(slrDTO);
+
+        return slrOptional.get();
     }
 
     @Override
@@ -50,13 +104,26 @@ public class SLRServiceJpa implements SLRService {
     }
 
     @Override
-    public void modifySLR(SLR newData, Long id) {
-        Optional<SLR> optionalSLR = slrRepository.findById(id);
+    public void approveSLR(Long id, boolean approved) {
+        SLR slr = findById(id);
 
-        if(optionalSLR.isPresent()){
-            SLR existingSLR = optionalSLR.get();
-            existingSLR.copyDifferentAttributes(newData);
-            slrRepository.save(existingSLR);
-        }
+        User currentUserOptional = securityContextService.getLoggedInUser();
+        if(securityContextService.isUserInRole("DOCTOR") && slr.getApprover().getId().equals(currentUserOptional.getId()))
+            throw new RequestDeniedException("You are not authorized to approve or reject this SLR");
+
+        slr.setStatus(approved);
+
+        String approvalString = approved ? "approved" : "rejected";
+
+        save(slr);
+    }
+
+    @Override
+    public void modifySLR(SLRDTO slrDTO, Long id) {
+        SLR prevSlr = findById(id);
+        slrDTO.setId(id);
+        SLR slrModified = dtoManager.slrdtoToSLR(slrDTO);
+        prevSlr.copyDifferentAttributes(slrModified);
+        slrRepository.save(prevSlr);
     }
 }

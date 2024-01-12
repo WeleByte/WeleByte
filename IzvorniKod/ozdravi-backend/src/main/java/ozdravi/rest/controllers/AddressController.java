@@ -4,6 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ozdravi.domain.Address;
+import ozdravi.domain.Instruction;
+import ozdravi.domain.User;
+import ozdravi.rest.dto.AddressDTO;
 import ozdravi.service.AddressService;
 
 import java.util.List;
@@ -16,22 +19,21 @@ public class AddressController {
 
     //list all addresses
     @GetMapping("/addresses")
-    public List<Address> listAllAddresses() {
-        return addressService.listAll();
+    public ResponseEntity<List<Address>> listAllAddresses() {
+        return new ResponseEntity<>(addressService.listAll(), HttpStatus.OK);
     }
 
     //create an address
-    //@PostMapping("/addresses")
-
+    @PreAuthorize("hasRole('ADMIN')")
+    @PostMapping("/addresses")
+    public ResponseEntity<Address> createAddress(AddressDTO addressDTO){
+        return new ResponseEntity<>(addressService.createAddress(addressDTO), HttpStatus.CREATED);
+    }
 
     //return address with given id
     @GetMapping("/address/{id}")
-    public ResponseEntity<?> listUserAddresses(@PathVariable("id") Long id) {
-        Optional<Address> address = addressService.findById(id);
-        if (address.isPresent())
-            return ResponseEntity.ok(address);
-        //inace
-        return ResponseEntity.notFound().build();
+    public ResponseEntity<Address> listUserAddresses(@PathVariable("id") Long id) {
+        return new ResponseEntity<>(addressService.findById(id), HttpStatus.OK);
     }
 
 }

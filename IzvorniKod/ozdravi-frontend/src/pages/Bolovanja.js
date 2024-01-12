@@ -4,12 +4,13 @@ import ArrowRightIcon from '../assets/icons/arrow-right-blue.png'
 import {useNavigate} from "react-router-dom";
 
 import SeccondOpinnionResponse from '../components/UputaDetail';
-import SickLeaveRecommendationForm from '../components/NovaUputa';
-import SickLeaveRecommendationDetail from '../components/SickLeaveRecommendationDetail copy';
+import SickLeaveRecommendationForm from '../components/SickLeaveRecommendationForm';
+import SickLeaveRecommendationDetail from '../components/SickLeaveRecommendationDetail';
 
 const Bolovanja = () => {
 
-  const uloga = "doktor"
+    const user = JSON.parse(sessionStorage.userData)
+    const role = user.roles[0].name
 
   const [selectedStatus, setSelectedStatus] = useState('svi')
   const bearerToken = sessionStorage.bearerToken
@@ -95,14 +96,19 @@ const Bolovanja = () => {
      <Navbar></Navbar>
 
      {novoMisljenjeOpen && <SickLeaveRecommendationForm closeSeccondOpinnionForm = {toggleNovoMisljenje}/>}
-     {novoMisljenjeDetail && <SickLeaveRecommendationDetail closeSeccondOpinnionForm = {toggleMisljenjeDetail}/>}
+     {novoMisljenjeDetail && <SickLeaveRecommendationDetail closeSeccondOpinnionForm = {toggleMisljenjeDetail} role = {role} />}
   
      <div id = "seccondOppWrapper">
 
         {/*     <p style={{textAlign: "left", fontSize: "13px"}} className='px-4 mb-2 mt-2 mb-1'>4 nepregledanih - 7 pregledanih</p> */}
         <h5 className = "pt-3 px-4 mt-2 " style={{textAlign: "left", maxWidth: "1246px"}}>Preporuke za bolovanja
                     {/* <button className='btn btn-tertiary mt-1' style={{float: 'right'}}>Povijest </button>  */}
-                    <button className = "btn btn-primary" style={{float:"right"}} onClick= {toggleNovoMisljenje}>Dodaj Preporuku +</button> </h5>
+                    
+                    {role == "pediatrician" || role ==="admin" ? (
+                        <button className = "btn btn-primary" style={{float:"right"}} onClick= {toggleNovoMisljenje}>Dodaj Preporuku +</button> 
+                    ) : null }
+                    
+                    </h5>
                  <p style={{textAlign: "left", maxWidth: "1200px"}} className = "px-4 mb-4 ">{10} nepregladnih</p> 
 
 

@@ -5,6 +5,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import ozdravi.domain.User;
 import ozdravi.rest.dto.UserDTO;
+import ozdravi.service.UserService;
+import ozdravi.service.impl.DTOManager;
 
 import java.util.regex.Pattern;
 
@@ -13,33 +15,32 @@ import java.util.regex.Pattern;
 @Service
 public class ValidityUtil {
 
-    public static ResponseEntity<String> checkUserDTOForLoops(UserDTO userDTO){
+    @Autowired
+    private UserService userService;
+
+    public static void checkUserDTOForLoops(UserDTO userDTO){
         if(userDTO.getParent_id()!=null && userDTO.getParent_id().equals(userDTO.getId()))
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("User cannot be their own parent");
+            throw new IllegalArgumentException("User cannot be their own parent");
 
         if(userDTO.getDoctor_id()!=null && userDTO.getDoctor_id().equals(userDTO.getId()))
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("User cannot be their own doctor");
-
-        return ResponseEntity.ok().build();
+            throw new IllegalArgumentException("User cannot be their own doctor");
     }
 
-    public static ResponseEntity<String> checkUserValidity(User user){
+    public static void checkUserValidity(User user){
         if(!isValidEmail(user.getEmail()))
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Email is not valid");
+            throw new IllegalArgumentException("Email is not valid");
 
         if(!isValidOib(user.getOib()))
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("OIB is not valid");
+            throw new IllegalArgumentException("OIB is not valid");
 
         if(!isValidName(user.getFirst_name()))
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("First name is not valid");
+            throw new IllegalArgumentException("First name is not valid");
 
         if(!isValidName(user.getLast_name()))
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Last name is not valid");
-
-        return ResponseEntity.ok().build();
+            throw new IllegalArgumentException("Last name is not valid");
     }
 
-    private static final String emailRegex = "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$";
+    public static final String emailRegex = "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$";
 //            "^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@"
 //            + "[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$";
 
@@ -57,7 +58,7 @@ public class ValidityUtil {
     }
 
 //    provjera OIBa po algoritmu na "https://regos.hr/app/uploads/2018/07/KONTROLA-OIB-a.pdf"
-    private static boolean isValidOib(String oib) {
+    public static boolean isValidOib(String oib) {
         if (oib.length() != 11) return false;
         try{
             Long.parseLong(oib);
