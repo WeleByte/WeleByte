@@ -1,10 +1,7 @@
 \chapter{Implementacija i korisničko sučelje}
-		
-		
 		\section{Korištene tehnologije i alati}
 		
 			%dio 2. revizije
-			
 			 %Detaljno navesti sve tehnologije i alate koji su primijenjeni pri izradi dokumentacije i aplikacije. Ukratko ih opisati, te navesti njihovo značenje i mjesto primjene. Za svaki navedeni alat i tehnologiju je potrebno navesti internet poveznicu gdje se mogu preuzeti ili više saznati o njima.
 			
 			 U tijeku razvoja projekta "Ozdravi", pažljivo su odabrane i implementirane različite tehnologije i alati kako bi se postigla efikasna izrada dokumentacije i aplikacije za zdravstveni sustav.
@@ -33,37 +30,186 @@
 			 
 			 U konačnici, ovom kombinacijom tehnologija postignuto je stvaranje moderne zdravstvene aplikacije koja je intuitivna za korisnike, prilagodljiva potrebama zdravstvenog sustava i unapređuje ukupno iskustvo krajnjih korisnika.
 			\eject 
-		
 	
 		\section{Ispitivanje programskog rješenja}
+			Ispitivanje programskog rješenja je ključni proces pri razvoju programske potpore koji:
+			\begin{packed_item}
+				\item olakšava dodavanje značajki - testiranje osigurava da nove promjene nisu "strgale" stari kod
+				\item otežava unošenje grešaka u kod - dobro testovi detektiraju neispravan kod prije nego što postane dio projekta
+			\end{packed_item}
 			
-			%dio 2. revizije
+			U sklopu ovog projekta koristili smo dvije vrste ispitivanja:
+			\begin{packed_item}
+				\item Ispitivanje komponenti (eng. Unit Testing)
+				\item Ispitivanje sustava (eng. Integration Testing)
+			\end{packed_item}
 			
-			 %U ovom poglavlju je potrebno opisati provedbu ispitivanja implementiranih funkcionalnosti na razini komponenti i na razini cijelog sustava s prikazom odabranih ispitnih slučajeva. Studenti trebaju ispitati temeljnu funkcionalnost i rubne uvjete.
-	
+			Ispitivanjem komponenti pomoću JUnit biblioteke smo osigurali da ključni dijelovi backenda rade kako treba, a ispitivanjem sustava smo, iz perspektive korisnika, osigurali da je povezanost backenda i frontenda ispravna. 
+			Ispitivanje sustava je provedeno pomoću Selenium biblioteke.
 			
 			\subsection{Ispitivanje komponenti}
-			%Potrebno je provesti ispitivanje jedinica (engl. unit testing) nad razredima koji implementiraju temeljne funkcionalnosti. Razraditi minimalno 6 ispitnih slučajeva u kojima će se ispitati redovni slučajevi, rubni uvjeti te izazivanje pogreške (engl. exception throwing). Poželjno je stvoriti i ispitni slučaj koji koristi funkcionalnosti koje nisu implementirane. Potrebno je priložiti izvorni kôd svih ispitnih slučajeva te prikaz rezultata izvođenja ispita u razvojnom okruženju (prolaz/pad ispita).
+			\subsubsection*{Test 1: Ispitivanje ispravnog OIB-a}
+			Komponenta: ValidityUtil \newline
+			Metoda: public static boolean isValidOib(String oib); \newline
+			Ulazni Podaci: 
+			\begin{packed_item}
+				\item String oib : "39751670659"
+			\end{packed_item}
+			Očekivani rezultat:
+			\begin{packed_item}
+				\item Metoda vraća istinu (true) jer je OIB ispravan prema standardu za OIB-e.
+			\end{packed_item}
+
+			\subsubsection*{Test 2: Ispitivanje neispravnog OIB-a}
+			Komponenta: ValidityUtil \newline
+			Metoda: public static boolean isValidOib(String oib); \newline
+			Ulazni Podaci: 
+			\begin{packed_item}
+				\item String oib : "397516706.9"
+			\end{packed_item}
+			Očekivani rezultat:
+			\begin{packed_item}
+				\item Metoda vraća laž (false) jer je OIB sadrži '.', odnosno ne zadovoljava standardni oblik.
+			\end{packed_item}
+
+			U testovima u kojima testiramo kontrolere želimo ispitati samo ponašanje kontrolera, bez ispivanja servisa, baze i ostalih dijelova aplikacije.
+			S obzirom da kontoleri ne mogu raditi bez tih dijelova, moramo za njih stvoriti "mock" objekte koji ih mijenjaju i simuliraju njihovo ponašanje.
+
+			To napravimo tako da ručno stvorimo entitete koje želimo da ti servisi vraćaju.
+
+			\subsubsection*{Test 3: Dohvaćanje popisa Uputa.}
+			Komponenta: InstructionsController \newline
+			Zahtjev: HTTP GET /instructions \newline
+			Mock Podaci:
+			\begin{packed_item}
+				\item Korisnik
+				\item Pregledi kojima korisnik može pristupiti
+			\end{packed_item}
+			Očekivani rezultat:
+			\begin{packed_item}
+				\item Kontroler u JSON formatu vraća popis svih Uputa koje trenutni korisnik može vidjeti, HTTP odgovor ima status 200 (OK).
+			\end{packed_item}
 			
+			\subsubsection*{Test 4: Stvaranje Uputa.}
+			Komponenta: InstructionsController \newline
+			Zahtjev: HTTP POST /instructions \newline
+			Mock Podaci:
+			\begin{packed_item}
+				\item Korisnik (ADMIN)
+			\end{packed_item}
+			Očekivani rezultat:
+			\begin{packed_item}
+				\item Kontroler u JSON formatu vraća atribute novostvorene Upute, HTTP odgovor ima status 200 (OK).
+			\end{packed_item}
+
+			\subsubsection*{Test 5: Dohvaćanje nepostojeće Upute.}
+			Komponenta: InstructionsController \newline
+			Zahtjev: HTTP GET /instruction/{id} \newline
+			Mock Podaci:
+			\begin{packed_item}
+				\item Korisnik (ADMIN)
+			\end{packed_item}
+			Očekivani rezultat:
+			\begin{packed_item}
+				\item HTTP odgovor ima status 404 (Not Found).
+			\end{packed_item}
+
+			\subsubsection*{Test 6: Dohvaćanje svih doktora u aplikaciji.}
+			Komponenta: UsersController \newline
+			Zahtjev: HTTP GET /users/doctors \newline
+			Mock Podaci:
+			\begin{packed_item}
+				\item Korisnik (PARENT)
+			\end{packed_item}
+			Očekivani rezultat:
+			\begin{packed_item}
+				\item HTTP odgovor ima status 401 (Forbidden), jer roditelj ne smije dobiti popis svih liječnika u aplikciji.
+			\end{packed_item}
 			
+			\subsubsection*{Test 6: Dodavanje korisnika.}
+			Komponenta: UsersController \newline
+			Zahtjev: HTTP POST /users \newline
+			Mock Podaci:
+			\begin{packed_item}
+				\item Korisnik (ADMIN)
+			\end{packed_item}
+			Očekivani rezultat:
+			\begin{packed_item}
+				\item Kontroler u JSON formatu vraća atribute novostvorenog Korisnika, HTTP odgovor ima status 200 (OK).
+			\end{packed_item}
 			
 			\subsection{Ispitivanje sustava}
+			Testovi ispitivanja sustava su napisani u Selenium IDE dodatku za preglednik i prate nekoliko obrazaca uporabe, ali su vezani uz jednu cjelinu - rad s preporukama za bolovanje.
+			U ovom scenariju testiranja sudjeluje više uloga (roditelj, pedijatar, liječnik) i svi koraci koje jedna uloga izvodi su grupirani u zasebnu "grupu koraka". Također, za svaki je korak
+			naveden i pripadajući očekivani rezultat.
 			
-			 %Potrebno je provesti i opisati ispitivanje sustava koristeći radni okvir Selenium https://www.seleniumhq.org/ . Razraditi minimalno 4 ispitna slučaja u kojima će se ispitati redovni slučajevi, rubni uvjeti te poziv funkcionalnosti koja nije implementirana/izaziva pogrešku kako bi se vidjelo na koji način sustav reagira kada nešto nije u potpunosti ostvareno. Ispitni slučaj se treba sastojati od ulaza (npr. korisničko ime i lozinka), očekivanog izlaza ili rezultata, koraka ispitivanja i dobivenog izlaza ili rezultata.
-			 
-			 %Izradu ispitnih slučajeva pomoću radnog okvira Selenium moguće je provesti pomoću jednog od sljedeća dva alata:
-			 	%- dodatak za preglednik Selenium IDE - snimanje korisnikovih akcija radi automatskog ponavljanja ispita
-			 	%- Selenium WebDriver - podrška za pisanje ispita u jezicima Java, C\#, PHP koristeći posebno programsko sučelje.
+			 \subsubsection*{Grupa koraka 1: Dodavanje preporuke za bolovanje}
+			 Koraci:
+			 \begin{packed_enum}
+				\item Prijava u sustav kao pedijatar ("pedijatar@mail.com")
+				\item Odabir opcije "Bolovanja" iz alatne trake.
+				\item Odabir opcije "Dodaj preporuku"
+				\item Odabir pregleda na temelju kojeg se izdaje preporuka ("Tamara Stanic 2023-12-25") unutar modalnog ekrana.
+				\item Odabir opcije "Spremi".
+			 \end{packed_enum}
+			 Očekivani rezultati:
+			 \begin{packed_enum}
+				\item Pedijatar se može prijaviti u sustav.
+				\item Postoji opcije "Bolovanja" u alatnoj traci.
+				\item Dostupna je opcija "Dodaj preporuku".
+				\item Postoji izbornik pregleda unutar modalnog ekrana u kojem je moguće izabrati traženi pregled.
+				\item Postoji opcija "Spremi" unutar modalnog ekrana.
+			 \end{packed_enum}
 	
-			\eject 
-		
+			 \subsubsection*{Grupa koraka 2: Pregled neobrađene preporuke za bolovanje}
+			 Koraci:
+			 \begin{packed_enum}
+				\item Prijava u sustav kao roditelj ("roditelj@mail.com")
+				\item Odabir opcije "Bolovanja" iz alatne trake.
+				\item Odabir preporuke iz popisa preporuke ("Tamara Stanic 2023-12-25").
+			 \end{packed_enum}
+			 Očekivani rezultati:
+			 \begin{packed_enum}
+				\item Roditelj se može prijaviti u sustav.
+				\item Postoji opcija "Bolovanja" u alatnoj traci.
+				\item Postoji tražena preporuka za bolovanje u popisu preporuka.
+				\item Pod "Status" piše "Čeka odobrenje." unutar modalnog ekrana.
+			 \end{packed_enum}
+
+			 \subsubsection*{Grupa koraka 3: Odobravanje preporuke za bolovanje}
+			 Koraci:
+			 \begin{packed_enum}
+				\item Prijava u sustav kao liječnik obiteljske medicine ("doktor@mail.com")
+				\item Odabir opcije "Bolovanja" iz alatne trake.
+				\item Odabir preporuke iz popisa preporuke ("Tamara Stanic 2023-12-25").
+				\item Odabir opcije "Odobri" iz modalnog ekrana.
+			 \end{packed_enum}
+			 Očekivani rezultati:
+			 \begin{packed_enum}
+				\item Liječnik obiteljske medicine se može prijaviti u sustav.
+				\item Postoji opcija "Bolovanja" u alatnoj traci.
+				\item Postoji tražena preporuka za bolovanje u popisu preporuka.
+				\item Postoji opcija "Odobri" unutar modalnog okvira.
+			 \end{packed_enum}
+
+			 \subsubsection*{Grupa koraka 4: Pregled odobrene preporuke za bolovanje}
+			 Koraci:
+			 \begin{packed_enum}
+				\item Prijava u sustav kao roditelj ("roditelj@mail.com")
+				\item Odabir opcije "Bolovanja" iz alatne trake.
+				\item Odabir preporuke iz popisa preporuke ("Tamara Stanic 2023-12-25").
+			 \end{packed_enum}
+			 Očekivani rezultati:
+			 \begin{packed_enum}
+				\item Roditelj se može prijaviti u sustav.
+				\item Postoji opcija "Bolovanja" u alatnoj traci.
+				\item Postoji tražena preporuka za bolovanje u popisu preporuka.
+				\item Pod "Status" piše "Odobreno." u modalnom ekranu preporuke.
+			 \end{packed_enum}
+			\eject
 		
 		\section{Dijagram razmještaja}
-			
-			%dio 2. revizije
-			
-			 %Potrebno je umetnuti specifikacijski dijagram razmještaja i opisati ga. Moguće je umjesto specifikacijskog dijagrama razmještaja umetnuti dijagram razmještaja instanci, pod uvjetom da taj dijagram bolje opisuje neki važniji dio sustava.
-			 Dijagrami razmještaja prikazuju konfiguraciju sklopovlja i programske podrške koja se koristi za implementaciju sustava u njegovom operativnom okruženju. Na cloud platformi smješten je poslužitelj baze podataka te web poslužitelji za backend i frontend. Korisnici pristupaju web aplikaciji putem svog web preglednika. Sustav je baziran na arhitekturi "klijent - poslužitelj" s komunikacijom između korisničkih računala(roditelj, pedijatar, doktor, administrator) i poslužitelja putem HTTPS veze.
+			Dijagrami razmještaja prikazuju konfiguraciju sklopovlja i programske podrške koja se koristi za implementaciju sustava u njegovom operativnom okruženju. Na cloud platformi smješten je poslužitelj baze podataka te web poslužitelji za backend i frontend. Korisnici pristupaju web aplikaciji putem svog web preglednika. Sustav je baziran na arhitekturi "klijent - poslužitelj" s komunikacijom između korisničkih računala(roditelj, pedijatar, doktor, administrator) i poslužitelja putem HTTPS veze.
 			\begin{figure}[H]
 				\includegraphics[width=\textwidth]{slike/deploymentDiagram.png} 
 				\caption{Dijagram razmještaja} 
@@ -79,7 +225,7 @@
 			
 			 %Dovršenu aplikaciju potrebno je pokrenuti na javno dostupnom poslužitelju. Studentima se preporuča korištenje neke od sljedećih besplatnih usluga: https://aws.amazon.com/ {Amazon AWS}, https://azure.microsoft.com/en-us/ Microsoft Azure ili https://www.heroku.com/ Heroku. 
     %Mobilne aplikacije trebaju biti objavljene na F-Droid, Google Play ili Amazon App trgovini.}
-	\textbf{Postavljanje baze podataka} \\		
+	\subsection*{Postavljanje baze podataka}
 	U procesu postavljanja baze podataka za aplikaciju "Ozdravi", prvi korak je preuzimanje 
 	\href{https://www.postgresql.org/download/}{PostgreSQL-a} s ovdje dostupne poveznice za operacijski 
 	sustav Windows. Ovaj instalacijski paket obuhvaća PostgreSQL poslužitelj, pgAdmin 
@@ -103,12 +249,12 @@
 		\includegraphics[width=\textwidth]{slike/sqlshell2.png} 
 		\caption{Postavljanje baze podataka} 
 	\end{figure}
-	\noindent\textbf{Pokretanje aplikacije koristeći Intellij} \\
+	\subsection*{Pokretanje aplikacije koristeći Intellij}
 	Nakon uspješne konfiguracije baze podataka, prelazi se na postavljanje aplikacije koristeći IntelliJ IDE. Potrebno je otvoriti mapu \textit{IzvorniKod\textbackslash ozdravi-backend} kao 
 	novi projekt u IntelliJ-u, a aplikacija se dalje pokreće jednostavnim pokretanjem datoteke \textit{OzdraviBackendApplication.java}. Aplikacija je sada dostupna na adresi:
-	\url{http://localhost:8000}.\\
-	\\
-	\textbf{Postavljanje frontenda}\\
+	\url{http://localhost:8000}.
+
+	\subsection*{Postavljanje frontenda}
 	Sljedeći korak uključuje postavljanje frontenda. Prvotno se preuzima okruženje za izvršavanje JavaScript koda, Node.js, s ovdje dostupne 
 	\href{https://nodejs.org/en/download/}{poveznice}, slijedeći standardne korake instalacije. Zatim, u naredbenom retku (terminalu), potrebno se pozicionirati 
 	u direktorij u kojem je spremljen izvorni kod za frontend: \textit{...IzvorniKod\textbackslash ozdravi-frontend}. Prilikom prvog pokretanja, izvršava se naredba \textit{npm install} kako bi se 
