@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import ozdravi.dao.SLRRepository;
+import ozdravi.domain.Examination;
 import ozdravi.domain.SLR;
 import ozdravi.domain.User;
 import ozdravi.exceptions.EntityMissingException;
@@ -27,15 +28,19 @@ public class SLRServiceJpa implements SLRService {
     private DTOManager dtoManager;
 
     @Override
-    public SLR createSLR(SLRDTO slrDTO) {
+    public SLR createSLR(Examination examination) {
         if(securityContextService.isUserInRole("ADMIN"))
             throw new RequestDeniedException("Admin can't create SLR");
 
         User currentUser = securityContextService.getLoggedInUser();
-        slrDTO.setCreator_id(currentUser.getId());
+        SLR sick_leave_recommendation = new SLR();
 
-        SLR slr = dtoManager.slrdtoToSLR(slrDTO);
-        return slrRepository.save(slr);
+        sick_leave_recommendation.setCreator(currentUser);
+        sick_leave_recommendation.setParent(examination.getPatient().getParent());
+        sick_leave_recommendation.setApprover(examination.getPatient().getParent().getDoctor());
+        sick_leave_recommendation.setExamination(examination);
+
+        return slrRepository.save(sick_leave_recommendation);
     }
 
     @Override

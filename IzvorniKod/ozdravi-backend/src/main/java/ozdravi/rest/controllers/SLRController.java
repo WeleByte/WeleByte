@@ -5,9 +5,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import ozdravi.domain.Examination;
 import ozdravi.domain.SLR;
 import ozdravi.domain.User;
 import ozdravi.rest.dto.SLRDTO;
+import ozdravi.service.ExaminationService;
 import ozdravi.service.SLRService;
 import ozdravi.service.impl.DTOManager;
 import ozdravi.service.impl.SecurityContextService;
@@ -19,10 +21,15 @@ public class SLRController {
     @Autowired
     private SLRService slrService;
 
+    @Autowired
+    private ExaminationService examinationService;
+
     @PreAuthorize("hasAnyRole('ADMIN', 'PEDIATRICIAN')")
     @PostMapping("/sick_leave_recommendations")
     public ResponseEntity<?> createSLR(@RequestBody SLRDTO slrDTO) {
-        return new ResponseEntity<>(slrService.createSLR(slrDTO), HttpStatus.CREATED);
+        Examination examination = examinationService.findById(slrDTO.getExamination_id());
+
+        return new ResponseEntity<>(slrService.createSLR(examination), HttpStatus.CREATED);
     }
 
     @GetMapping("/sick_leave_recommendations")
