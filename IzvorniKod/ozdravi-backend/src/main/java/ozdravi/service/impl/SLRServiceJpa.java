@@ -113,12 +113,10 @@ public class SLRServiceJpa implements SLRService {
         SLR slr = findById(id);
 
         User currentUserOptional = securityContextService.getLoggedInUser();
-        if(securityContextService.isUserInRole("DOCTOR") && slr.getApprover().getId().equals(currentUserOptional.getId()))
+        if(!slr.getApprover().getId().equals(currentUserOptional.getId()))
             throw new RequestDeniedException("You are not authorized to approve or reject this SLR");
 
         slr.setStatus(approved);
-
-        String approvalString = approved ? "approved" : "rejected";
 
         save(slr);
     }
@@ -131,4 +129,9 @@ public class SLRServiceJpa implements SLRService {
         prevSlr.copyDifferentAttributes(slrModified);
         slrRepository.save(prevSlr);
     }
+//    TODO popraviti metodu
+//    prebacivanje slrDTO u slr koristi metodu trazenja examinationa,
+//    zbog koje se raspada tko sto smije
+//    najjednostavniji fix je napraviti alwaysLegal tip metode koja nece bacati gresku za autorizaciju
+//    ILI jednostavno dozvoliti svim doktorima/pedijatrima da vide sve preglede
 }

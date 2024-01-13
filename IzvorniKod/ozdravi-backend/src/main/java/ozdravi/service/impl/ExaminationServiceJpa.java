@@ -41,11 +41,13 @@ public class ExaminationServiceJpa implements ExaminationService {
         User user = securityContextService.getLoggedInUser();
         Long user_id = user.getId();
 
-        if(securityContextService.isUserInRole("PARENT") && listParentExaminations(user_id).contains(examination.get()) ||
-                securityContextService.isUserInRole("ADMIN") ||
-                (securityContextService.isUserInRole("DOCTOR") || securityContextService.isUserInRole("PEDIATRICIAN")) &&
-                        listDoctorExaminations(user_id).contains(examination.get()))
-            return examination.get();
+        boolean parentCond = securityContextService.isUserInRole("PARENT") && listParentExaminations(user_id).contains(examination.get());
+        boolean adminCond = securityContextService.isUserInRole("ADMIN");
+        boolean doctPedCond = (securityContextService.isUserInRole("DOCTOR") || securityContextService.isUserInRole("PEDIATRICIAN"))
+                && listDoctorExaminations(user_id).contains(examination.get());
+
+        if(parentCond || adminCond || doctPedCond) return examination.get();
+
         //inace
         throw new RequestDeniedException("You are not authorized to view this info");
     }

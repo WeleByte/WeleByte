@@ -134,14 +134,14 @@ values(3, 5, '2024-01-10 10:00:00', 'pacijent treba piti ovaj znj antibiotik');
 --sick leave recommendation
 
 insert into sick_leave_recommendations(parent_id, creator_id, approver_id, examination_id, status)
-values(4, 2, 2, 3, false);
+values(4, 3, 2, 3, null);
 
 insert into sick_leave_recommendations(parent_id, creator_id, approver_id, examination_id, status)
 values(4, 3, 2, 1, true);
 
 -- second opinios
 insert into second_opinions(requester_id, doctor_id, opinion, content)
-values(4, 2, 'Nalaz ukazuje na moguću hemofiliju.', 'Nalaz iz AnalizaLAb-a od 12.12.2023.');
+values(4, 2, 'Nalaz ukazuje na moguću hemofiliju.', 'Nalaz iz AnalizaLAB-a od 12.12.2023.');
 
 insert into second_opinions(requester_id, doctor_id, opinion, content)
 values(4, 2, null, 'Nalaz iz AnalizaLAB-a od 20.12.2020.');

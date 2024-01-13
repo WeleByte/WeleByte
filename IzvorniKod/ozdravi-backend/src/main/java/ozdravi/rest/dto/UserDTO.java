@@ -2,8 +2,11 @@ package ozdravi.rest.dto;
 
 import lombok.Builder;
 import lombok.Data;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import ozdravi.domain.Address;
 import ozdravi.domain.User;
+import ozdravi.service.impl.DTOManager;
 
 @Data
 public class UserDTO {
@@ -29,7 +32,7 @@ public class UserDTO {
         this.last_name = user.getLast_name();
         this.parent_id = user.getParent() == null ? null : user.getParent().getId();
         this.doctor_id = user.getDoctor() == null ? null : user.getDoctor().getId();
-//        this.address_id = user.getAddress().getId();
+        this.address = new AddressDTO(user.getAddress());
         this.institution_email = user.getInstitution_email();
     }
 }

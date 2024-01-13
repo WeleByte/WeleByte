@@ -51,7 +51,7 @@ public class SLRController {
 
     @PreAuthorize("hasAnyRole('ADMIN', 'DOCTOR')")
     @PatchMapping("/sick_leave_recommendations/{id}")
-    public ResponseEntity<?> approveSLR(@PathVariable("id") Long id, Boolean approved) {
+    public ResponseEntity<?> approveSLR(@PathVariable("id") Long id, @RequestBody Boolean approved) {
         slrService.approveSLR(id, approved);
         String approvalString = approved ? "approved" : "rejected";
         return ResponseEntity.ok().body("Sick leave recommendation with id: " + id.toString() + " successfully " + approvalString);
