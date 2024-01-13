@@ -47,7 +47,7 @@ const LoginPage = (props) => {
             const responseData = await response.json()
             sessionStorage.setItem('bearerToken', responseData.accessToken)
             sessionStorage.setItem('userData', JSON.stringify(responseData.user))
-
+            console.log(responseData.user)
             navigate('/home');
         }
     };

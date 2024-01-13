@@ -21,7 +21,6 @@ import java.util.List;
 @EqualsAndHashCode
 public class User {
     @Id
-    @Setter(AccessLevel.NONE)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 

@@ -1,6 +1,8 @@
 package ozdravi.service;
 
+import org.aspectj.apache.bcel.generic.InstructionTargeter;
 import ozdravi.domain.Instruction;
+import ozdravi.rest.dto.InstructionDTO;
 
 import java.util.List;
 import java.util.Optional;
@@ -11,6 +13,8 @@ public interface InstructionService {
      */
     public List<Instruction> listForParent(Long id);
 
+    public List<Instruction> list();
+
     /*
         returns instrucions for doctors/pediatricians
      */
@@ -18,11 +22,11 @@ public interface InstructionService {
 
     public List<Instruction> listAll();
 
-    Instruction createInstruction(Instruction instruction);
+    Instruction createInstruction(InstructionDTO instruction);
 
-    Optional<Instruction> findById(Long id);
+    Instruction findById(Long id);
 
-    void modifyInstruction(Instruction instruction, Long id);
+    void modifyInstruction(InstructionDTO instruction, Long id);
 
     void deleteInstruction(Long id);
 }

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import ArrowRightIcon from '../assets/icons/arrow-right.png'
 import CloseIcon from '../assets/icons/x2.png'
 import PlusIcon from '../assets/icons/plus.png'
@@ -7,19 +7,42 @@ import Navbar from './Header';
 import userIcon from '../assets/images/userIcon.png'
 import Select from 'react-select'
 
-const UputaDetail = ({closeSeccondOpinnionForm}) => {
+const UputaDetail = (props) => {
 
+  const [instruction, setInstruction] = useState(null)
   const closeModal = () => {
-    closeSeccondOpinnionForm()
+    props.closeInstructionDetail()
   }
 
- 
-
-  const doktori = [
-    { value: '1', label: 'Chocolate' },
-    { value: '2', label: 'Marta Martovič' },
-    { value: '3', label: 'Vanilla' }
-  ]
+  useEffect(() => {
+    console.log(props.currentInstructionId)
+    if(props.currentInstructionId !== null && props.currentInstructionId !== undefined) {
+      fetch(props.backendRoute + `/instruction/${props.currentInstructionId}`, {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${props.bearerToken}`,
+          'Content-Type': 'application/json'
+        }
+      })
+          .then(response => {
+            // if (response.status === 401) {
+            //   props.handleLogOut()
+            // } else
+            if (!response.ok) {
+              console.log("Error:", response.status, response.statusText);
+            } else {
+              return response.json();
+            }
+          })
+          .then(parsedData => {
+            console.log("Parsed Data: ", parsedData)
+            setInstruction(parsedData)
+          })
+          .catch(error => {
+            console.error('Fetch error:', error);
+          });
+    }
+  }, [props.currentInstructionId]);
 
 
 
@@ -38,10 +61,7 @@ const UputaDetail = ({closeSeccondOpinnionForm}) => {
     <hr className = "mb-1 mt-4" style={{opacity: "20%"}}></hr>
 
 
-
-
-
-
+      {instruction ? (
     
 
     <div className='px-4 pt-0'>
@@ -57,10 +77,14 @@ const UputaDetail = ({closeSeccondOpinnionForm}) => {
 
 
 <div className="mb-3">
-  <label htmlFor="username" className=" col-12 text-label" style={{float: 'left', textAlign:"left"}}>Uputa</label>
-  <p style={{textAlign:"left"}} class ="text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce lectus eros, dapibus et odio vitae, placerat rutrum odio. Duis vel hendrerit velit. Integer interdum enim vel felis fermentum, id faucibus ex tempor. Curabitur iaculis sapien eu dictum porttitor. Aenean fermentum neque lectus, vel varius ipsum convallis eu. Duis auctor eros eget arcu iaculis dignissim. Praesent nec metus sollicitudin, lobortis nisi a, dictum ante. Morbi in justo ac ante finibus blandit a at neque.
-Fusce tristique velit diam, in fringilla massa faucibus eu. Integer lectus tortor, fringilla in urna id, condimentum ultrices ex. Praesent viverra pretium rutrum. Proin elementum molestie nisi. Aliquam erat volutpat. Nulla fermentum a elit ac tempus. Quisque ac odio at leo consectetur consectetur a sed nibh. Vestibulum consectetur gravida libero at fermentum. Cras et sodales nisl. Nam pharetra ornare pulvinar.</p>
+  <label htmlFor="username" className=" col-12 text-label" style={{float: 'left', textAlign:"left"}}>Pacijent </label>
+  <p style={{textAlign:"left"}} class ="text">{instruction.patient.first_name + " " + instruction.patient.last_name}</p>
 </div>
+<div className="mb-3">
+  <label htmlFor="username" className=" col-12 text-label" style={{float: 'left', textAlign:"left"}}>Uputa</label>
+  <p style={{textAlign:"left"}} class ="text">{instruction.content}</p>
+</div>
+
 </div>
 
 
@@ -71,6 +95,8 @@ Fusce tristique velit diam, in fringilla massa faucibus eu. Integer lectus torto
 
 </form>
 </div>
+    ) : (<p>Loading...</p>)
+      }
 </div>
     </div>
     

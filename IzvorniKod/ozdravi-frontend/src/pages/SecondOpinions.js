@@ -15,6 +15,17 @@ const SecondOpinions = (props) => {
     const [currentDetailId, setCurrentDetailId] = useState(null)
     const [novoMisljenjeOpen, setNovoMisljenjeOpen] = useState(false)
     const [novoMisljenjeDetail, setNovoMisljenjeDetail] = useState(false)
+    const [uloga, setUloga] = useState()
+        
+
+    useEffect(() => {
+        if(bearerToken === '' || bearerToken === null || bearerToken === undefined) {
+            navigate('/login')
+        }else{
+            const logUser = JSON.parse(sessionStorage.userData)
+            setUloga(logUser.roles[0].name)
+        }
+    }, []);
 
     useEffect(() => {
         fetch(backendRoute + "/second_opinions", {
@@ -26,7 +37,8 @@ const SecondOpinions = (props) => {
         })
             .then(response => {
                 if (response.status === 401) {
-                    handleLogOut()
+                    console.log("unauthorized!!")
+                    /* handleLogOut() */
                 } else
                 if(!response.ok){
                     console.log("Error:", response.status, response.statusText);
@@ -64,9 +76,11 @@ const SecondOpinions = (props) => {
     };
 
 
-    function handleMisljenjeDetail(e, id) {
-        e.preventDefault()
+    function handleMisljenjeDetail(id) {
+        console.log("handlemisljenje called")
         setCurrentDetailId(id)
+        console.log("passed id: ", id)
+        console.log("set id: ", currentDetailId)
         toggleMisljenjeDetail()
     }
 
@@ -83,10 +97,12 @@ const SecondOpinions = (props) => {
 
             {novoMisljenjeOpen && <SecondOpinionForm closeSeccondOpinnionForm = {toggleNovoMisljenje}/>}
             {novoMisljenjeDetail && <SecondOpinionResponse closeSeccondOpinnionForm = {toggleMisljenjeDetail}
-                                                           opinionId={currentDetailId}
+                                                           currentOpinionId={currentDetailId}
                                                            backendRoute={backendRoute}
                                                            bearerToken={bearerToken}
-                                                           handleLogOut={handleLogOut}/>}
+                                                           handleLogOut={handleLogOut}
+                                                           role = {uloga}
+                                                           />}
 
             <div id = "seccondOppWrapper">
 
@@ -94,8 +110,11 @@ const SecondOpinions = (props) => {
 
                 <h5 className = "pt-3 px-4 mt-2 " style={{textAlign: "left", maxWidth: "1246px"}}>Druga Mišljenja
                     {/* <button className='btn btn-tertiary mt-1' style={{float: 'right'}}>Povijest </button>  */}
-                    <button className = "btn btn-primary" style={{float:"right"}} onClick= {toggleNovoMisljenje}>Dodaj Mišljenje +</button> </h5>
-                <p style={{textAlign: "left", maxWidth: "1200px"}} className = "px-4 mb-4 ">{secondOpinions.length} dostupna</p>
+                    {(uloga === "parent" || uloga === "admin") && (
+                    <button className = "btn btn-primary" style={{float:"right"}} onClick= {toggleNovoMisljenje}>Dodaj Mišljenje +</button> 
+                    )} 
+                    </h5>
+                <p style={{textAlign: "left", maxWidth: "1200px"}} className = "px-4 mb-4 ">{secondOpinions?.length} dostupna</p>
 
 
                 {/* <div id = "usersSelectorDiv" className = "px-4 pb-1 pt-0 " style={{display: "flex", justifyContent: "left", flexWrap: "wrap"}}>
@@ -120,19 +139,21 @@ const SecondOpinions = (props) => {
             <button class ="btn selector-btn selector-btn-selected col-6">Nepregledano ({nepregledanoCount})</button>
             <button class ="btn selector-btn selector-btn-unselected col-6">Pregledano ({nepregledanoCount + 3})</button>
         </div> */}
-                    {secondOpinions.map((secondOpinion) => (
-                        <div className="card mb-0" style={{textAlign: "left"}}>
+                    {secondOpinions?.map((secondOpinion) => (
+                        <div key={secondOpinion.id} className="card mb-0" style={{textAlign: "left"}}>
                             <div className="card-body pregledajCardBody" style={{paddingRight: "130px"}}>
                                 <h5 className="card-title ">Pacijent: {secondOpinion.requester.first_name + " " + secondOpinion.requester.last_name}</h5>
                                 <p style={{fontSize: "13px"}}
                                    className='mb-1'>{secondOpinion.content} • {secondOpinion.doctor.first_name + " " + secondOpinion.doctor.last_name}</p>
+                               
+                               
                                 <button className='btn btn-secondary pregledajGumbPc'
                                         style={{position: "absolute", right: "1rem", top: "30%"}}
-                                        onClick={toggleMisljenjeDetail}>Pregledaj <img width="14" height="14"
-                                                                                       className="ms-1 pregledaj-btn  "
-                                                                                       src={ArrowRightIcon}
-                                                                                       style={{marginBottom: "2px"}}
-                                                                                       alt="right"/> {/*  <img width="14" height="14" className = "ms-2  " src={ArrowRightIcon} style={{marginBottom: "2px"}}  alt="right"/> */}
+                                        onClick={() => handleMisljenjeDetail(secondOpinion.id)}>Pregledaj <img width="14" height="14"
+                                                                                                               className="ms-1 pregledaj-btn  "
+                                                                                                               src={ArrowRightIcon}
+                                                                                                               style={{marginBottom: "2px"}}
+                                                                                                               alt="right"/> {/*  <img width="14" height="14" className = "ms-2  " src={ArrowRightIcon} style={{marginBottom: "2px"}}  alt="right"/> */}
                                 </button>
                                 <button className='btn btn-secondary pregledajGumbMobile mt-3 '
                                         onClick={() => handleMisljenjeDetail(secondOpinion.id)}

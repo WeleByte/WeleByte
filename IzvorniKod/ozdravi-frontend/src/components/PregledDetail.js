@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import ArrowRightIcon from '../assets/icons/arrow-right.png'
 import CloseIcon from '../assets/icons/x2.png'
 import PlusIcon from '../assets/icons/plus.png'
@@ -7,8 +7,9 @@ import Navbar from './Header';
 import userIcon from '../assets/images/userIcon.png'
 import Select from 'react-select'
 import MapComponent from "./MapComponent";
+import { Navigate } from 'react-router-dom';
 
-const PregledDetail = ({closeNoviPregled}) => {
+const PregledDetail = ({closeNoviPregled, pregledId, backendRoute, bearerToken, user, examination}) => {
 
   const mapProps = {
     center : {lat: 5.80085099788598, long: 15.971221512932303},
@@ -19,6 +20,11 @@ const PregledDetail = ({closeNoviPregled}) => {
     closeNoviPregled()
   }
 
+  
+
+  useEffect(() => {
+    console.log(examination)
+  }, []);
 
   return (
     <div id = "addPatientsWrapper" className = "shadow-lg">
@@ -48,19 +54,19 @@ const PregledDetail = ({closeNoviPregled}) => {
 
 <div className="mb-3">
   <label htmlFor="username" className=" col-12 text-label" style={{float: 'left', textAlign:"left"}}>Pacijent</label>
-  <p style={{textAlign:"left"}} class ="text">Marko Marković</p>
+  <p style={{textAlign:"left"}} class ="text"> {examination.patient.first_name + " " + examination.patient.last_name} </p>
 </div>
 <div className="mb-3">
   <label htmlFor="username" className=" col-12 text-label" style={{float: 'left', textAlign:"left"}}>Doktor</label>
-  <p style={{textAlign:"left"}} class ="text">Ivan Ivanović</p>
+  <p style={{textAlign:"left"}} class ="text">{examination.doctor.first_name + " " + examination.doctor.last_name}</p>
 </div>
 <div className="mb-3">
   <label htmlFor="username" className=" col-12 text-label" style={{float: 'left', textAlign:"left"}}>Datum</label>
-  <p style={{textAlign:"left"}} class ="text">3.8.2023</p>
+  <p style={{textAlign:"left"}} class ="text"> {examination.date.substring(0,10)}  </p>
 </div>
 <div className="mb-3">
   <label htmlFor="username" className=" col-12 text-label" style={{float: 'left', textAlign:"left"}}>Lokacija</label>
-  <p style={{textAlign:"left"}} class ="text">Zagreb, Hrvatska</p>
+  <p style={{textAlign:"left"}} class ="text"> {examination.address.country + ", " + examination.address.city + ", " + examination.address.street + ", " + examination.address.number} </p>
 </div>
 
 
@@ -74,7 +80,7 @@ const PregledDetail = ({closeNoviPregled}) => {
 
 <div className="mb-3">
   <label htmlFor="username" className=" col-12 text-label" style={{float: 'left', textAlign:"left"}}>Opis pregleda</label>
-  <p style={{textAlign:"left"}} class ="text mb-5">Na današnjem pregledu kod doktora, pacijent je opisao svoje simptome i medicinsku povijest. Doktor je pažljivo pregledao pacijenta, mjerio vitalne znakove i postavljao relevantna pitanja. Nakon toga, doktor je postavio preliminarnu dijagnozu i preporučio određene terapijske mjere. Pacijentu su dana dodatna uputstva i naloženo je da slijedi propisani tretman te da se pridržava zakazanih kontrolnih termina. Pregled je završen, a pacijent je napustio ordinaciju sa svim potrebnim informacijama i uputama.</p>
+  <p style={{textAlign:"left"}} class ="text mb-5">{examination.report}</p>
 </div>
 
       {/*TODO bookmark*/}
