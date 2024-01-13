@@ -15,20 +15,12 @@ const apiKey = "050a247e7c324bc38289728703439070";
 //      NOTE: state and post_num can be null
 const findAddress = async (addressObject) => {
 
-    let postalString = addressObject.post_broj ? "" : `&postalcode=${encodeURIComponent(addressObject.post_num)}`;
-    let stateString = addressObject.state ? `&state=${encodeURIComponent(addressObject.state)}` : "";
+    let url = addressToUrl(addressObject);
 
-    let url = `https://nominatim.openstreetmap.org/search?
-    street=${encodeURIComponent(addressObject.street)}%20${encodeURIComponent(addressObject.number)}
-    &city=${encodeURIComponent(addressObject.city)}${stateString}
-    &country=${encodeURIComponent(addressObject.country)}${postalString}
-    &format=json`;
-
-    url = url.toString().replace(" ", "");
-
-    console.log(url)
+    console.log(url);
 
     const data = await getData(url);
+    console.log(data);
     if(!(data && data.length > 0)) throw new Error("No results for this input");
 
     addressObject.latitude = data[0].lat;
@@ -47,6 +39,20 @@ function getData(url) {
                 return response.json();
             } else throw new Error("Geo fetch response NOT OK")
         })
+}
+
+function addressToUrl(addressObject){
+    let postalString = addressObject.post_num ? `&postalcode=${encodeURIComponent(addressObject.post_num)}` : "";
+    let stateString = addressObject.state ? `&state=${encodeURIComponent(addressObject.state)}` : "";
+
+    let url = "https://nominatim.openstreetmap.org/search?" +
+    "street="+ encodeURIComponent(addressObject.street)+"%20"+encodeURIComponent(addressObject.number)+
+    "&city="+encodeURIComponent(addressObject.city)+stateString+
+    "&country="+encodeURIComponent(addressObject.country)+postalString+
+    "&format=json";
+
+    url = url.toString().replace(" ", "");
+    return url;
 }
 
 export default findAddress;
