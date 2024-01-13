@@ -84,7 +84,7 @@ public class InstructionServiceJpa implements InstructionService {
     public Instruction findById(Long id) {
         Optional<Instruction> instruction = instructionRepository.findById(id);
         if(instruction.isEmpty()) {
-            throw new EntityMissingException("No instructions with such id");
+            throw new EntityMissingException("Instruction with id " + id.toString() + " not found");
         }
 
         //admin smije sve vidjeti
@@ -101,7 +101,7 @@ public class InstructionServiceJpa implements InstructionService {
                 (instruction.get().getPatient().getParent() != null && Objects.equals(instruction.get().getPatient().getParent().getId(), user_id)))
             return instruction.get();
         else
-            throw new RequestDeniedException("You are not authorized to view this info");
+            throw new RequestDeniedException("You are not authorized to view this instruction");
     }
 
     @Override

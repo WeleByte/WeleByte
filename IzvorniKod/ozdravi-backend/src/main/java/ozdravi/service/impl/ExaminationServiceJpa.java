@@ -36,7 +36,7 @@ public class ExaminationServiceJpa implements ExaminationService {
     public Examination findById(Long id) {
         Optional<Examination> examination = examinationRepository.findById(id);
         if(examination.isEmpty())
-            throw new EntityMissingException("No Examination with such id");
+            throw new EntityMissingException("Examination with id " + id.toString() + " not found");
 
         return examination.get();
     }

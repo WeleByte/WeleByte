@@ -30,7 +30,7 @@ public class SLRServiceJpa implements SLRService {
     @Override
     public SLR createSLR(Examination examination) {
         if(securityContextService.isUserInRole("ADMIN"))
-            throw new RequestDeniedException("Admin can't create SLR");
+            throw new RequestDeniedException("Admin can't create sick leave recommendations");
 
         User currentUser = securityContextService.getLoggedInUser();
         SLR sick_leave_recommendation = new SLR();
@@ -84,7 +84,7 @@ public class SLRServiceJpa implements SLRService {
         if(!slr.getParent().getId().equals(user.getId())
                 && !slr.getCreator().getId().equals(user.getId())
                 && !slr.getApprover().getId().equals(user.getId())) {
-            throw new RequestDeniedException("You are not authorized to view this info");
+            throw new RequestDeniedException("You are not authorized to view this sick leave recommendation");
         }
 
         return slr;
@@ -116,7 +116,7 @@ public class SLRServiceJpa implements SLRService {
 
         User currentUserOptional = securityContextService.getLoggedInUser();
         if(!slr.getApprover().getId().equals(currentUserOptional.getId()))
-            throw new RequestDeniedException("You are not authorized to approve or reject this SLR");
+            throw new RequestDeniedException("You are not authorized to approve or reject this sick leave recommendation");
 
         slr.setStatus(approved);
 

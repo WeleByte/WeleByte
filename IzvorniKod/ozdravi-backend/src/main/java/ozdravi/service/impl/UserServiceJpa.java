@@ -147,7 +147,7 @@ public class UserServiceJpa implements UserService {
     public User findById(Long id) {
         Optional<User> user = userRepository.findById(id);
         if (user.isEmpty())
-            throw new UserDoesNotExistException("User not found");
+            throw new UserDoesNotExistException("User with id " + id.toString() + " not found");
 
         return user.get();
     }
@@ -175,17 +175,15 @@ public class UserServiceJpa implements UserService {
 
         userDTO.setId(id);
 
-        Optional<User> optionalUser = userRepository.findById(id);
-        if(optionalUser.isEmpty()) throw new UserDoesNotExistException("User doesn't exist");
-
+        User optionalUser = findById(id);
         ValidityUtil.checkUserDTOForLoops(userDTO);
 
         User user = dtoManager.userDTOToUser(userDTO);
 
         ValidityUtil.checkUserValidity(user);
 
-        optionalUser.get().copyDifferentAttributes(user);
-        userRepository.save(optionalUser.get());
+        optionalUser.copyDifferentAttributes(user);
+        userRepository.save(optionalUser);
     }
 
     @Override

@@ -68,7 +68,7 @@ public class SecondOpinionServiceJpa implements SecondOpinionService {
         User user = securityContextService.getLoggedInUser();
         Optional<SecondOpinion> secondOpinion = secondOpinionRepository.findById(id);
         if(secondOpinion.isEmpty())
-            throw new EntityMissingException("no second opinion with such id");
+            throw new EntityMissingException("Second opinion with id " + id.toString() + " not found");
 
         if(secondOpinion.get().getDoctor().getId().equals(user.getId())
                 || secondOpinion.get().getRequester().getId().equals(user.getId())
