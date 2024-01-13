@@ -2,7 +2,6 @@ import React, {useEffect, useRef} from 'react';
 import {MapContainer, TileLayer, Marker, Popup} from "react-leaflet";
 import {Icon} from "leaflet";
 import 'leaflet/dist/leaflet.css';
-import * as L from "leaflet";
 
 /*
 props:
@@ -34,7 +33,7 @@ const defaultMarkers = [
 const centreIcon = new Icon({
     iconUrl: require("..//assets//icons//hospital.png"),
     iconSize: [38, 38]
-})
+});
 
 const MapComponent = ({
                           center = defaultProps.center,
