@@ -38,18 +38,24 @@ public class ExaminationServiceJpa implements ExaminationService {
         if(examination.isEmpty())
             throw new EntityMissingException("No Examination with such id");
 
+        return examination.get();
+    }
+
+    @Override
+    public Examination fetch(Long id) {
+        Examination examination = findById(id);
         User user = securityContextService.getLoggedInUser();
         Long user_id = user.getId();
 
-        boolean parentCond = securityContextService.isUserInRole("PARENT") && listParentExaminations(user_id).contains(examination.get());
+        boolean parentCond = securityContextService.isUserInRole("PARENT") && listParentExaminations(user_id).contains(examination);
         boolean adminCond = securityContextService.isUserInRole("ADMIN");
         boolean doctPedCond = (securityContextService.isUserInRole("DOCTOR") || securityContextService.isUserInRole("PEDIATRICIAN"))
-                && listDoctorExaminations(user_id).contains(examination.get());
+                && listDoctorExaminations(user_id).contains(examination);
 
-        if(parentCond || adminCond || doctPedCond) return examination.get();
+        if(parentCond || adminCond || doctPedCond) return examination;
 
         //inace
-        throw new RequestDeniedException("You are not authorized to view this info");
+        throw new RequestDeniedException("You are not authorized to view this examination");
     }
 
     @Override

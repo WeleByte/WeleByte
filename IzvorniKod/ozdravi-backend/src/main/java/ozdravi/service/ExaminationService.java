@@ -8,6 +8,11 @@ import java.util.List;
 public interface ExaminationService {
     Examination findById(Long id);
 
+    /*
+    samo za kontroler, ima dodatne provjere
+     */
+    Examination fetch(Long id);
+
     void deleteById(Long id);
 
     Examination createExamination(ExaminationDTO examinationDTO);

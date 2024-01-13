@@ -22,7 +22,7 @@ public class ExaminationController {
 
     @GetMapping("/examination/{id}")
     public ResponseEntity<?> getExamination(@PathVariable("id") Long id) {
-        return new ResponseEntity<>(examinationService.findById(id), HttpStatus.OK);
+        return new ResponseEntity<>(examinationService.fetch(id), HttpStatus.OK);
     }
 
     //        primjer datuma za POST
