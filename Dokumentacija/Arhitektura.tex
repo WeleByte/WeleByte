@@ -228,7 +228,10 @@
 			
 			%dio 1. revizije
 		Dijagram razreda razložen je na tri dijela. Dijelovi su grupirani prema sličnoj razini apstrakcije i srodnim funkcionalnostima. Kako bi se smanjila gužva unutar dijagrama, prikazane su samo ovisnosti između razreda koji pripadaju istom dijelu dijagrama radi preglednosti. Iz naziva i tipova atributa u razredima može se deducirati vrsta ovisnosti među različitim razredima.
-		Funkcije unutar razreda prikazanih u slici 4.4 obrađuju DTO(Data transfer object) atribute prikazane u dijagramu razreda na slici 4.5.
+		Na slici 4.4 prikazana je podjela i povezanost razreda preko slojeva. Skroz lijevo su razredi Controller sloja u kojima se obrađuju Http zahtjevi.
+		Oni se vežu na odgovarajuće razrede Service sloja smještenog u sredini slike, a desno su razredi Repository sloja koji
+		komuniciraju s bazom podataka. Metode u kontrolerima obrađuju DTO (data transfer object) čija je struktura prikazana 
+		na slici 4.5.
 			\begin{figure}[H]
 				\includegraphics[width=\textwidth]{slike/DijagramRazredaControllerService.png} 
 				\caption{Dijagram razreda - controller i service razredi } 
