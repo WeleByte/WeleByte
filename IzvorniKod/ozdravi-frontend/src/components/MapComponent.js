@@ -14,22 +14,21 @@ setAddressHook - hook that sends the address back to the parent element once cho
 const defaultProps = {
     center : {lat : 45.80085099788598, long : 15.971221512932303},
     zoom : 13,
-    setAddressHook : (marker)=> {console.log("setAddressHook not defined in params")}
 }
 
 const defaultMarkers = [
-    {
-        geocode: {lat: 45.82507298322245, long: 16.00583026714763},
-        popUpText: "KBC Rebro"
-    },
-    {
-        geocode: {lat: 45.8345280695239, long: 16.03588548620672},
-        popUpText: "KB Dubrava"
-    },
-    {
-        geocode: {lat: 45.81589350307649, long: 15.953001388850481},
-        popUpText: "KBC Sestre milosrdnice"
-    }
+    // {
+    //     geocode: {lat: 45.82507298322245, long: 16.00583026714763},
+    //     popUpText: "KBC Rebro"
+    // },
+    // {
+    //     geocode: {lat: 45.8345280695239, long: 16.03588548620672},
+    //     popUpText: "KB Dubrava"
+    // },
+    // {
+    //     geocode: {lat: 45.81589350307649, long: 15.953001388850481},
+    //     popUpText: "KBC Sestre milosrdnice"
+    // }
 ]
 
 const centreIcon = new Icon({
@@ -37,30 +36,11 @@ const centreIcon = new Icon({
     iconSize: [38, 38]
 })
 
-const apiKey = "050a247e7c324bc38289728703439070";
-
 const MapComponent = ({
                           center = defaultProps.center,
                           zoom = defaultProps.zoom,
                           markers = defaultMarkers,
-                          setAddressHook = defaultProps.setAddressHook
                       }) => {
-
-
-
-    const [activeMarker, setActiveMarker] = React.useState();
-
-    const handleMarkerMouseOver = (marker) => {
-        setActiveMarker(marker);
-    };
-
-    const handleMarkerMouseOut = () => {
-        setActiveMarker(null);
-    };
-
-    const handleClick = (marker) => {
-        setAddressHook(marker);
-    }
 
     return (
         <div className="map-container-div" style={{width:'100%', height:'100%', margin:0}}>
@@ -79,15 +59,10 @@ const MapComponent = ({
                 {markers.map(marker => (
                     <Marker key={marker.popUpText}
                             position={[marker.geocode.lat, marker.geocode.long]} icon={centreIcon}
-                            onClick={(marker) => handleClick(marker.popUpText)}
-                            // onMouseOver = {() => handleMarkerMouseOver(marker)}
-                            // onMouseOut = {() => handleMarkerMouseOut()}
                     >
-                        {/*{activeMarker === marker && (*/}
-                            <Popup>
-                                <label>{marker.popUpText}</label>
-                            </Popup>
-                        {/*)}*/}
+                        <Popup>
+                            <label>{marker.popUpText}</label>
+                        </Popup>
                     </Marker>
                 ))}
             </MapContainer>

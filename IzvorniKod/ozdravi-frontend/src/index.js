@@ -5,6 +5,19 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
+// TODO obrisati
+import findAddress from "./assets/scripts/AddressFinder";
+let add = await findAddress({
+    street: "Rakarska ulica",
+    number: "19",
+    // state: "Zagrebacka",
+    // post_num: "10410",
+    city: "Velika Gorica",
+    country: "Croatia"
+});
+console.log(add);
+console.log(`${add.latitude},${add.longitude}`)
+
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

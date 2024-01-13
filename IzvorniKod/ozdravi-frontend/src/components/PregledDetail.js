@@ -6,8 +6,14 @@ import searchIcon from '../assets/icons/search.png'
 import Navbar from './Header';
 import userIcon from '../assets/images/userIcon.png'
 import Select from 'react-select'
+import MapComponent from "./MapComponent";
 
 const PregledDetail = ({closeNoviPregled}) => {
+
+  const mapProps = {
+    center : {lat: 5.80085099788598, long: 15.971221512932303},
+    zoom : 13,
+  }
 
   const closeModal = () => {
     closeNoviPregled()
@@ -70,6 +76,13 @@ const PregledDetail = ({closeNoviPregled}) => {
   <label htmlFor="username" className=" col-12 text-label" style={{float: 'left', textAlign:"left"}}>Opis pregleda</label>
   <p style={{textAlign:"left"}} class ="text mb-5">Na današnjem pregledu kod doktora, pacijent je opisao svoje simptome i medicinsku povijest. Doktor je pažljivo pregledao pacijenta, mjerio vitalne znakove i postavljao relevantna pitanja. Nakon toga, doktor je postavio preliminarnu dijagnozu i preporučio određene terapijske mjere. Pacijentu su dana dodatna uputstva i naloženo je da slijedi propisani tretman te da se pridržava zakazanih kontrolnih termina. Pregled je završen, a pacijent je napustio ordinaciju sa svim potrebnim informacijama i uputama.</p>
 </div>
+
+      {/*TODO bookmark*/}
+      <div className="mapWrapper" style={{height: "40vh", width:"90%", margin:"0 auto"}}>
+        <MapComponent props={mapProps}>
+
+        </MapComponent>
+      </div>
 
 </form>
 </div>
