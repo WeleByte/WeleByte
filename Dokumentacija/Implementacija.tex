@@ -1,33 +1,18 @@
 \chapter{Implementacija i korisničko sučelje}
-		\section{Korištene tehnologije i alati}
-		
-			%dio 2. revizije
-			 %Detaljno navesti sve tehnologije i alate koji su primijenjeni pri izradi dokumentacije i aplikacije. Ukratko ih opisati, te navesti njihovo značenje i mjesto primjene. Za svaki navedeni alat i tehnologiju je potrebno navesti internet poveznicu gdje se mogu preuzeti ili više saznati o njima.
-			
+		\section{Korištene tehnologije i alati}		
 			 U tijeku razvoja projekta "Ozdravi", pažljivo su odabrane i implementirane različite tehnologije i alati kako bi se postigla efikasna izrada dokumentacije i aplikacije za zdravstveni sustav.
-
 			 Za unapređenje timskih komunikacija korištene su aplikacije \textit{WhatsApp}\footnote{\url{https://www.whatsapp.com}} i \textit{Microsoft Teams}\footnote{\url{https://www.microsoft.com/en-us/microsoft-teams/group-chat-software}}. WhatsApp, popularna platforma za brzu razmjenu poruka, olakšala je neposrednu interakciju među članovima tima, dok je Microsoft Teams pružio šire mogućnosti za suradnju, uključujući organizaciju sastanaka, održavanje sastanaka i dijeljenje datoteka.
-			 
 			 U praćenju zadataka i upravljanju projektom koristila se \textit{Jira}\footnote{\url{https://www.atlassian.com/software/jira}}, snažan alat koji je omogućio stvaranje strukturirane i pregledne radne okoline. Jira je poslužila kao središnje mjesto za praćenje i planiranje aktivnosti, olakšavajući koordinaciju među članovima tima.
-
 			 \textit{GitHub}\footnote{\url{https://github.com}} se istaknuo kao ključni alat za upravljanje izvornim kodom i omogućavanje učinkovite suradnje među članovima tima. GitHub, kao web-bazirana platforma, pružio je mogućnost distribuiranog upravljanja verzijama korištenjem Git sustava. Repozitorij na GitHubu služio je kao centralno mjesto za čitav izvorni kod, omogućavajući članovima tima sinkroniziranje svojih lokalnih kopija koda, praćenje promjena te učinkovito upravljanje raznim granama razvoja.
-
 			 \textit{Astah}\footnote{\url{http://astah.net/editions/professional}} je korišten za izradu UML dijagrama, pružajući jasan prikaz strukture sustava i odnosa između njegovih dijelova. Osim Astaha, korišteni su i drugi alati za izradu dijagrama, uključujući \textit{Visual Paradigm}\footnote{\url{https://online.visual-paradigm.com}} i \textit{Lucidchart}\footnote{\url{https://www.lucidchart.com}}.
-			 
 			 Za razvoj frontend dijela aplikacije korišten je \textit{React}\footnote{\url{https://reactjs.org/}}, jedna od najpopularnijih \textit{JavaScript}\footnote{\url{https://www.javascript.com/}} biblioteka koja omogućava dinamičko i responzivno korisničko sučelje. React je pridonosio brzoj izgradnji modernog sučelja s visokom interaktivnošću.
 			 Korišten je i \textit{Bootstrap}\footnote{\url{https://getbootstrap.com}}, popularni okvir za izradu responzivnih web stranica, koji je omogućio brzo i jednostavno oblikovanje sučelja te moderan i funkcionalan dizajn. Bootstrap pruža jednostavne i učinkovite klase za organizaciju elemenata, responzivno oblikovanje pomoću tzv. grid sustava te unaprijed definirane stilove za tipografiju, forme, gumbiće i mnoge druge komponente.
-			 
 			 Za backend je odabran \textit{Spring}\footnote{\url{https://spring.io}}, robustan okvir za razvoj \textit{Java}\footnote{\url{https://www.java.com/en/}} aplikacija. Spring je pružio strukturu i podršku za izradu pouzdanih, sigurnih i skalabilnih backend rješenja.
-
 			 API sustav je strukturiran i dokumentiran korištenjem alata \textit{Swagger}\footnote{\url{https://swagger.io}}, pri čemu je implementiran sukladno OpenAPI konvencijama. OpenAPI pristup omogućava jednostavno definiranje, dokumentiranje i testiranje RESTful API-ja te definiranje svih dostupnih endpointa, parametara, odgovora i modela podataka.
-			 
 			 U procesu pisanja koda korišteni su \textit{IntelliJ IDEA}\footnote{\url{https://www.jetbrains.com/idea/}} i \textit{Visual Studio Code}\footnote{\url{https://visualstudio.microsoft.com/}}. IntelliJ IDEA, s bogatim skupom značajki, podržavao je razvoj Java aplikacija, dok je Visual Studio Code, lagan i svestran, omogućavao efikasno pisanje koda u različitim jezicima, uključujući \textit{JavaScript}\footnote{\url{https://www.javascript.com/}}.
 			 Odabir ovih alata bio je prepušten osobnim preferncijama članova tima.
-
 			 Za postavljanje produkcijskog okruženja odabran je Heroku kao infrastrukturna platforma. \textit{Heroku}\footnote{\url{https://www.heroku.com}} pruža stabilnost i skalabilnost, čineći implementaciju i održavanje aplikacije jednostavnim i učinkovitim.
-			 
 			 Baza podataka \textit{PostgreSQL}\footnote{\url{https://www.postgresql.org}} koristila se za trajno pohranjivanje podataka. PostgreSQL je open-source sustav za upravljanje bazama podataka koji pruža pouzdano i sigurno okruženje za pohranu informacija.
-			 
 			 U konačnici, ovom kombinacijom tehnologija postignuto je stvaranje moderne zdravstvene aplikacije koja je intuitivna za korisnike, prilagodljiva potrebama zdravstvenog sustava i unapređuje ukupno iskustvo krajnjih korisnika.
 			\eject 
 	
@@ -48,6 +33,7 @@
 			Ispitivanjem komponenti koristeći JUnit biblioteke osigurali smo ispravan rad ključnih dijelovi backenda. Ispitivanjem sustava provjerili smo ispravnost povezanosti backenda i frontenda iz perspektive krajnjeg korisnika.
 			Ispitivanje sustava je provedeno koristeći Selenium biblioteke.
 			
+			%==========================================================================================================================%
 			\subsection{Ispitivanje komponenti}
 			\subsubsection*{Test 1: Ispitivanje ispravnog OIB-a}
 			Komponenta: ValidityUtil \newline
@@ -60,6 +46,7 @@
 			\begin{packed_item}
 				\item Metoda vraća istinu (true) jer je OIB ispravan prema standardu za OIB-e.
 			\end{packed_item}
+			\lstinputlisting[language=Java, caption={Test 1}]{code/oib_test_1.java}
 
 			\subsubsection*{Test 2: Ispitivanje neispravnog OIB-a}
 			Komponenta: ValidityUtil \newline
@@ -72,6 +59,7 @@
 			\begin{packed_item}
 				\item Metoda vraća laž (false) jer OIB sadrži '.', odnosno ne zadovoljava standardni oblik.
 			\end{packed_item}
+			\lstinputlisting[language=Java, caption={Test 2}]{code/oib_test_2.java}
 
 			U testovima namijenjenima testiranju kontrolera, želimo ispitati isključivo ponašanje kontrolera, bez ispitivanja servisa, baze i drugih dijelova aplikacije.
 			Budući da kontoleri ne mogu raditi bez tih dijelova, nužno je stvoriti "mock" objekte koji ih mijenjaju i simuliraju njihovo ponašanje.
@@ -88,8 +76,9 @@
 			\end{packed_item}
 			Očekivani rezultat:
 			\begin{packed_item}
-				\item Kontroler u JSON formatu vraća popis svih Uputa koje trenutni korisnik može vidjeti, HTTP odgovor ima status 201 (OK).
+				\item Kontroler u JSON formatu vraća popis svih Uputa koje trenutni korisnik može vidjeti, HTTP odgovor ima status 200 (OK).
 			\end{packed_item}
+			\lstinputlisting[language=Java, caption={Test 3}]{code/instruction_test_1.java}
 			
 			\subsubsection*{Test 4: Stvaranje Uputa.}
 			Komponenta: InstructionsController \newline
@@ -100,12 +89,13 @@
 			\end{packed_item}
 			Očekivani rezultat:
 			\begin{packed_item}
-				\item Kontroler u JSON formatu vraća atribute novostvorene Upute, HTTP odgovor ima status 201 (OK).
+				\item Kontroler u JSON formatu vraća atribute novostvorene Upute, HTTP odgovor ima status 201 (Created).
 			\end{packed_item}
+			\lstinputlisting[language=Java, caption={Test 4}]{code/instruction_test_2.java}
 
 			\subsubsection*{Test 5: Dohvaćanje nepostojeće Upute.}
 			Komponenta: InstructionsController \newline
-			Zahtjev: HTTP GET /instruction/{id} \newline
+			Zahtjev: HTTP GET /instruction/\{id\} \newline
 			Mock Podaci:
 			\begin{packed_item}
 				\item Korisnik (ADMIN)
@@ -114,6 +104,7 @@
 			\begin{packed_item}
 				\item HTTP odgovor ima status 404 (Not Found).
 			\end{packed_item}
+			\lstinputlisting[language=Java, caption={Test 5}]{code/instruction_test_3.java}
 
 			\subsubsection*{Test 6: Dohvaćanje svih doktora u aplikaciji.}
 			Komponenta: UsersController \newline
@@ -126,6 +117,7 @@
 			\begin{packed_item}
 				\item HTTP odgovor ima status 403 (Forbidden), jer roditelj ne smije dobiti popis svih liječnika u aplikciji.
 			\end{packed_item}
+			\lstinputlisting[language=Java, caption={Test 6}]{code/user_test_1.java}
 			
 			\subsubsection*{Test 7: Dodavanje korisnika.}
 			Komponenta: UsersController \newline
@@ -136,9 +128,25 @@
 			\end{packed_item}
 			Očekivani rezultat:
 			\begin{packed_item}
-				\item Kontroler u JSON formatu vraća atribute novostvorenog Korisnika, HTTP odgovor ima status 201 (OK).
+				\item Kontroler u JSON formatu vraća atribute novostvorenog Korisnika, HTTP odgovor ima status 201 (Created).
 			\end{packed_item}
+			\lstinputlisting[language=Java, caption={Test 7}]{code/user_test_2.java}
+
+			\subsubsection*{Test 8: Registracija korisnika.}
+			Komponenta: AuthenticationController \newline
+			Zahtjev: HTTP POST /register \newline
+			Očekivani rezultat:
+			\begin{packed_item}
+				\item Kontroler u JSON formatu vraća atribute novostvorenog Korisnika, HTTP odgovor ima status 201 (Created).
+			\end{packed_item}
+			\lstinputlisting[language=Java, caption={Test 8}]{code/registration_test.java}
+
+			\begin{figure}[H]
+				\includegraphics[width=\textwidth]{slike/testing_results.png} 
+				\caption{Rezultati testiranja na lokalnom stroju.} 
+			\end{figure}
 			
+			%==========================================================================================================================%
 			\subsection{Ispitivanje sustava}
 			Testovi ispitivanja sustava su napisani u Selenium IDE dodatku za preglednik i prate nekoliko obrazaca uporabe, ali su vezani uz jednu cjelinu - rad s preporukama za bolovanje.
 			U ovom scenariju testiranja sudjeluje više uloga (roditelj, pedijatar, liječnik) i svi koraci koje jedna uloga izvodi su grupirani u zasebnu "grupu koraka". Također, za svaki korak je
