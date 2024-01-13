@@ -1,8 +1,6 @@
 import * as L from "leaflet"
 import {map} from "leaflet";
 
-const apiKey = "050a247e7c324bc38289728703439070";
-
 // addressObject is as defined in WeleByte REST API
 // example:
 //     street: "Rakarska ulica",
