@@ -7,14 +7,15 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 // TODO obrisati
 import findAddress from "./assets/scripts/AddressFinder";
-let add = await findAddress({
-    street: "Rakarska ulica",
-    number: "19",
-    // state: "Zagrebacka",
-    // post_num: "10410",
-    city: "Velika Gorica",
+let address = {
+    street: "Ulica Nikole Šopa",
+    number: "10",
+    // state: "Grad Zagreb",
+    // post_num: "10360",
+    city: "Zadar",
     country: "Croatia"
-});
+}
+let add = await findAddress(address);
 console.log(add);
 console.log(`${add.latitude},${add.longitude}`)
 
