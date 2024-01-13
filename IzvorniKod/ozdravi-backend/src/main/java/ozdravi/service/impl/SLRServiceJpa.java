@@ -69,11 +69,17 @@ public class SLRServiceJpa implements SLRService {
         if(slrOptional.isEmpty())
             throw new EntityMissingException("Sick leave recommendation with id: " + id.toString() + " not found");
 
+        return slrOptional.get();
+    }
+
+    @Override
+    public SLR fetch(Long id) {
+        SLR slr = findById(id);
+
         if(securityContextService.isUserInRole("ADMIN"))
-            return slrOptional.get();
+            return slr;
 
         User user = securityContextService.getLoggedInUser();
-        SLR slr = slrOptional.get();
 
         if(!slr.getParent().getId().equals(user.getId())
                 && !slr.getCreator().getId().equals(user.getId())
@@ -81,11 +87,7 @@ public class SLRServiceJpa implements SLRService {
             throw new RequestDeniedException("You are not authorized to view this info");
         }
 
-        SLRDTO slrDTO = dtoManager.slrToSLRDTO(slr);
-
-//        return ResponseEntity.ok(slrDTO);
-
-        return slrOptional.get();
+        return slr;
     }
 
     @Override

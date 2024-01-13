@@ -39,7 +39,7 @@ public class SLRController {
 
     @GetMapping("/sick_leave_recommendation/{id}")
     public ResponseEntity<?> getSLR(@PathVariable("id") Long id) {
-        return new ResponseEntity<>(slrService.findById(id), HttpStatus.OK);
+        return new ResponseEntity<>(slrService.fetch(id), HttpStatus.OK);
     }
 
     @PreAuthorize("hasAnyRole('ADMIN', 'PEDIATRICIAN')")
