@@ -32,7 +32,8 @@ public class UserDTO {
         this.last_name = user.getLast_name();
         this.parent_id = user.getParent() == null ? null : user.getParent().getId();
         this.doctor_id = user.getDoctor() == null ? null : user.getDoctor().getId();
-        this.address = new AddressDTO(user.getAddress());
+        //this.address = new AddressDTO(user.getAddress());
+        this.address = user.getAddress() == null ? null : new AddressDTO(user.getAddress());
         this.institution_email = user.getInstitution_email();
     }
 }
