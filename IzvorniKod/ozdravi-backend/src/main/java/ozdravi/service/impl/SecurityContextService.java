@@ -38,6 +38,6 @@ public class SecurityContextService {
                 .stream().findFirst().get().toString().toLowerCase()
                 .replace("role_", "");
 
-        return roleService.findByName(roleName).get();
+        return roleService.findByName(roleName); //.get();
     }
 }
