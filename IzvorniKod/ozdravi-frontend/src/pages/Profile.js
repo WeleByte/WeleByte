@@ -176,7 +176,6 @@ const ProfilePage = (props) => {
                         <button type="submit" style={{fontWeight: "bold"}} className="btn  btn-danger mt-2 col-12 py-2"
                                 onClick={(e) => handleSignOut()}>Odjavi se
                         </button>
-
                     </form>
                 </div>
             </div>

@@ -41,7 +41,7 @@ const HomePage = (props) => {
             <Navbar></Navbar>
             <div id="homePageWrapperInner">
                 <h3 className="pt-4 px-4 mt-2" style={{textAlign: "left"}}>
-                    Dobrodošao nazad, {user.first_name} {user.last_name}.
+                    Dobrodošli nazad, {user.first_name} {user.last_name}.
                 </h3>
                 <p style={{textAlign: "left"}} className="px-4">Što ćemo raditi danas?</p>
                 <div className='homePageCardSection p-4 pt-0 ps-3' >

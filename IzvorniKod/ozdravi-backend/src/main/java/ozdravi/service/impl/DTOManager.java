@@ -137,7 +137,7 @@ public class DTOManager {
         if(addressDTO.getNumber().isBlank()) throw new IllegalArgumentException("Address: Number cannot be blank");
         if(addressDTO.getStreet().isBlank()) throw new IllegalArgumentException("Address: Street cannot be blank");
 
-        Address address =  Address.builder()
+        return Address.builder()
                 .id(addressDTO.getId())
                 .city(addressDTO.getCity())
                 .country(addressDTO.getCountry())
@@ -146,13 +146,6 @@ public class DTOManager {
                 .latitude(addressDTO.getLatitude())
                 .longitude(addressDTO.getLongitude())
                 .build();
-
-        Optional<Address> optionalAddress = addressService.getSavedInstance(address);
-        if(optionalAddress.isEmpty()){
-            return addressService.createAddress(addressDTO);
-        } else {
-            return optionalAddress.get();
-        }
     }
 
     public AddressDTO addressToAddressDTO(Address address){
