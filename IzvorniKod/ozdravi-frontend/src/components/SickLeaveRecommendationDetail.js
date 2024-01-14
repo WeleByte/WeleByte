@@ -14,6 +14,7 @@ const SickLeaveRecommendationDetail = (props) => {
   const [recommendation, setRecommendation] = useState(null)
 
   useEffect(() => {
+    console.log(recommendation)
     console.log(props.recommendationId)
     fetch(backendRoute + `/sick_leave_recommendation/${props.recommendationId}`, {
       method: 'GET',
@@ -45,12 +46,17 @@ const SickLeaveRecommendationDetail = (props) => {
     props.closeBolovanjeDetail()
   }
 
+  const handleApproved = (e) => {
+    e.preventDefault()
+    handleStatusSubmit(true)
+  }
+
+  const handleRejected = (e) => {
+    e.preventDefault()
+    handleStatusSubmit(false)
+  }
 
   const handleStatusSubmit = (status) => {
-    setRecommendation((prevRecommendation => ({
-      ...prevRecommendation,
-      status : status
-    })))
     fetch(props.backendRoute + `/sick_leave_recommendations/${recommendation.id}`, {
       method: 'PATCH',
       headers: {
@@ -130,12 +136,12 @@ const SickLeaveRecommendationDetail = (props) => {
 
                     { role === "doctor" && recommendation.status === null ? (
                         <button type="submit" className="btn btn-primary col-12 col-md-2 py-2 mb-2 mb-md-4" style={{float:"right"}}
-                        onClick={() => handleStatusSubmit(true)}>Odobri </button>
+                        onClick={handleApproved}>Odobri </button>
                     ): null}
 
                     { role === "doctor" && recommendation.status === null ? (
                         <button type="submit" className="btn btn-danger col-12 col-md-2 py-2 mb-3 mb-md-4 mx-md-2" style={{float:"right"}}
-                        onClick={() => handleStatusSubmit(false)}>Odbij </button>
+                        onClick={handleRejected}>Odbij </button>
                     ): null}
                   </>
               ) : ( <p>Loading...</p>)}
