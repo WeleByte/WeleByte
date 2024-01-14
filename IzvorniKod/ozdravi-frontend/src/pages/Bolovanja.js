@@ -113,7 +113,7 @@ const Bolovanja = (props) => {
       
     
     <div id = "HomePageWrapper">
-     <Navbar></Navbar>
+     <Navbar backendRoute={backendRoute} bearerToken={bearerToken}></Navbar>
 
      {novoBolovanjeOpen && <SickLeaveRecommendationForm closeSeccondOpinnionForm = {toggleNovoMisljenje}/>}
      {novoBolovanjeDetail && <SickLeaveRecommendationDetail closeBolovanjeDetail= {toggleBolovanjeDetail}

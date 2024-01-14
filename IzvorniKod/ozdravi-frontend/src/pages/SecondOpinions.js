@@ -93,7 +93,7 @@ const SecondOpinions = (props) => {
 
 
         <div id = "HomePageWrapper">
-            <Navbar></Navbar>
+            <Navbar backendRoute={backendRoute} bearerToken={bearerToken}></Navbar>
 
             {novoMisljenjeOpen && <SecondOpinionForm closeSeccondOpinnionForm = {toggleNovoMisljenje}/>}
             {novoMisljenjeDetail && <SecondOpinionResponse closeSeccondOpinnionForm = {toggleMisljenjeDetail}

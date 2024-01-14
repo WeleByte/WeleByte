@@ -173,7 +173,7 @@ const Users = (props) => {
 
 
         <div id = "UsersWrapper">
-            <Navbar></Navbar>
+            <Navbar backendRoute={backendRoute} bearerToken={bearerToken}></Navbar>
 
             {isAddPatientVisible && <AddPatient closeAddPatient = {toggleAddPatient}
                                                 backendRoute={backendRoute}

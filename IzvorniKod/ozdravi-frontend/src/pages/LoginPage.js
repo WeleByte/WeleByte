@@ -48,6 +48,7 @@ const LoginPage = (props) => {
             console.log("Role: ", responseData.currentRole)
             sessionStorage.setItem('bearerToken', responseData.accessToken)
             sessionStorage.setItem('userData', JSON.stringify(responseData.user))
+            sessionStorage.setItem('currentRole', responseData.currentRole)
             navigate('/home')
         }
     }

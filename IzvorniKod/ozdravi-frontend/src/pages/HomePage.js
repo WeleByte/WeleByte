@@ -12,6 +12,7 @@ const HomePage = (props) => {
     const uloga = "doktor"
     const navigate = useNavigate()
     const bearerToken = sessionStorage.getItem('bearerToken');
+    const backendRoute = props.backendRoute
     var [roles, setRoles] = useState([""]);
 
     // if(sessionStorage.userData === undefined) {
@@ -38,7 +39,7 @@ const HomePage = (props) => {
     }
     return (
         <div id="HomePageWrapper">
-            <Navbar></Navbar>
+            <Navbar backendRoute={backendRoute} bearerToken={bearerToken}></Navbar>
             <div id="homePageWrapperInner">
                 <h3 className="pt-4 px-4 mt-2" style={{textAlign: "left"}}>
                     Dobrodošli nazad, {user.first_name} {user.last_name}.

@@ -1,19 +1,20 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import logoPng from '../assets/images/logo.png';
 import userIcon from '../assets/images/userIcon.png'
-import {useState} from 'react';
 import {useNavigate} from "react-router-dom";
 import Select from "react-select";
 
-const Navbar = () => {
+const Navbar = (props) => {
     const uloga = "doktor"
     const navigate = useNavigate()
     const [selectedItem, setSelectedItem] = useState(localStorage.getItem('SelectedItem'))
+    const [currentRole, setCurrentRole] = useState(sessionStorage.currentRole)
+    const backendRoute = props.backendRoute
+    const bearerToken = props.bearerToken
     let userData = JSON.parse(sessionStorage.userData)
     let roles = userData.roles
-    let userRolesMapped = roles.map(object => object.name)
+    let userRolesMapped = roles.map(object => object.id)
 
-    const [selectedRole, setSelectedRole] = useState(null)
 
     const [selectableRoles, setSelectableRoles] = useState([])
 
@@ -59,22 +60,56 @@ const Navbar = () => {
 
     const availableRoles = [
         {value: 1, label: "Admin"},
-        {value: 3, label: "Doctor"},
-        {value: 4, label: "Parent"},
-        {value: 5, label: "Pediatrician"}
+        {value: 3, label: "Doktor"},
+        {value: 4, label: "Roditelj"},
+        {value: 5, label: "Pedijatar"}
       ]
 
 
+
       useEffect(() => {
-    
-          const filteredRoles = availableRoles.filter(role => userRolesMapped.includes(role.label.toLowerCase()))
+          const filteredRoles = availableRoles.filter(role => userRolesMapped.includes(role.value))
           setSelectableRoles(filteredRoles)
-          console.log(selectableRoles)
-    
-        
       }, []);
 
+    function handleLogOut() {
+        sessionStorage.clear()
+        localStorage.clear()
+        navigate('/login')
+    }
 
+    const handleRoleChange = (selectedOption) => {
+        console.log(selectedOption)
+        fetch(backendRoute + '/change_role', {
+            method: 'POST',
+            headers: {
+                'Authorization' : `Bearer ${bearerToken}`,
+                'Content-Type' : 'application/json'
+            },
+            body: JSON.stringify({
+                roleId: selectedOption.value
+            })
+        })
+            .then(response => {
+                // if(response.status === 401){
+                //     handleLogOut()
+                // }else
+                if(!response.ok){
+                    console.log(response)
+                } else {
+                    setCurrentRole(selectedOption)
+                    return response.json()
+                }
+            })
+            .then(parsedData => {
+                console.log(parsedData)
+                sessionStorage.setItem('currentRole', parsedData.currentRole)
+                sessionStorage.setItem('bearerToken', parsedData.accessToken)
+                console.log(sessionStorage.bearerToken)
+                setCurrentRole(parsedData.currentRole)
+                navigate('/home')
+            })
+    }
 
     const handleItemClick = (e, item) => {
         // e.preventDefault()
@@ -121,10 +156,9 @@ const Navbar = () => {
               className={selectedItem === 'pacijenti' ? "nav-item nav-link active text-start" : "nav-item nav-link text-start"}
               onClick={(e) => handleItemClick(e, 'pacijenti')}>
 
-              {(doctorRole ? ("Pacijenti") : null)}
-              {(pediatricianRole ? ("Pacijenti") : null)}
-              {(adminRole ? ("Korisnici") : null)}
-              {(parentRole ? ("Djeca") : null)}
+              {(currentRole === 'doctor' || currentRole === 'pediatrician' ? ("Pacijenti") : null)}
+              {(currentRole === 'admin' ? ("Korisnici") : null)}
+              {(currentRole === 'parent' ? ("Djeca") : null)}
 
 
           </button>) }
@@ -146,7 +180,7 @@ const Navbar = () => {
           <div className="me-4 d-lg-none">
                   <Select styles={selectStylesMobile} isSearchable = {false}  options={selectableRoles} placeholder = {selectableRoles[0]?.label}
                           onChange={selectedOption =>
-                              setSelectedRole(selectedOption)}/>
+                              setCurrentRole(selectedOption)}/>
                 </div>
 
         </div>
@@ -156,9 +190,10 @@ const Navbar = () => {
     
      
       <div className="me-4 d-none d-lg-block">
-                  <Select styles={selectStyles} isSearchable = {false}   options={selectableRoles} placeholder = {selectableRoles[0]?.label}
-                          onChange={selectedOption =>
-                              setSelectedRole(selectedOption)}/>
+                  <Select styles={selectStyles} isSearchable = {false}   options={selectableRoles}
+                          placeholder = {currentRole}
+                          value={currentRole}
+                          onChange={handleRoleChange}/>
                 </div>
     
       <button className="btn btn-secondary me-2 ps-3" id="logOutBtn" onClick={(e) => handleItemClick(e, 'profil')}>

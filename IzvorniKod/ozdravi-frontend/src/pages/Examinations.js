@@ -193,7 +193,7 @@ const Examinations = (props) => {
 
 
         <div id = "UsersWrapper">
-            <Navbar></Navbar>
+            <Navbar backendRoute={backendRoute} bearerToken={bearerToken}></Navbar>
 
             {noviPregledOtvoren && <NoviPregled closeNoviPregled = {toggleNoviPregled}
                                                 backendRoute={backendRoute}

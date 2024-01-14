@@ -100,7 +100,7 @@ const Upute = (props) => {
       
     
     <div id = "HomePageWrapper">
-     <Navbar></Navbar>
+     <Navbar backendRoute={backendRoute} bearerToken={bearerToken}></Navbar>
 
      {novoMisljenjeOpen && <NovaUputa closeUputaForm = {toggleNovaUputa}
                                       backendRoute={backendRoute}
