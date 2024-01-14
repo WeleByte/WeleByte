@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import ozdravi.domain.Role;
 import ozdravi.domain.User;
 import ozdravi.service.RoleService;
+import ozdravi.exceptions.LoggedUserException;
 import ozdravi.service.UserService;
 
 import java.util.Optional;
@@ -19,9 +20,11 @@ public class SecurityContextService {
     @Autowired
     RoleService roleService;
 
-    public Optional<User> getLoggedInUser() {
+    public User getLoggedInUser() {
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return userService.findByEmail(userDetails.getUsername());
+        Optional<User> user =  userService.findByEmail(userDetails.getUsername());
+        if (user.isEmpty()) throw new LoggedUserException("get logged in user exception, in find by email");
+        return user.get();
     }
 
     public boolean isUserInRole(String role) {

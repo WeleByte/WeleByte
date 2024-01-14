@@ -29,7 +29,7 @@ public class Instruction {
     @JoinColumn(name = "patient_id", nullable = false)
     private User patient;
 
-    @Column(nullable = false)
+    @Column
     private LocalDateTime date;
 
     @Column(nullable = false)
