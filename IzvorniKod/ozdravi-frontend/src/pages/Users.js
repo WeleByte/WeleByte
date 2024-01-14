@@ -32,6 +32,8 @@ const Users = (props) => {
     const [userDetailVisible, setUserDetailVisible] = useState(false);
     const [users, setUsers] = useState([])
     const [selectedUserIndex, setselectedUserIndex] = useState(false)
+    const [currentRole, setCurrentRole] = useState(null)
+
 
     //go to /home if not admin/doctor/pediatrician
     useEffect(() => {
@@ -107,49 +109,6 @@ const Users = (props) => {
     
         setCurrentOpenedOptions(index);
     }
-    
-    
-
-
-
-
-    /*--------------------------------------Hard kodirani useri--------------------------------------------*/
-    // const original = [
-    //     {
-    //         ime: 'Filip', prezime: 'Filipović', lastVisit: '12.1.2023.',
-    //         visitCount: 5, email: 'filip.filipovic@gmail.com', age: 12
-    //     }, {
-    //         ime: 'Ivan', prezime: 'Ivanovic', lastVisit: '25.6.2023.',
-    //         visitCount: 2, email: 'ivan.ivanovic@gmail.com', age: 69
-    //     }, {
-    //         ime: 'Milica', prezime: 'Srbić', lastVisit: '12.1.2023.',
-    //         visitCount: 7, email: 'milica.srbic@gmail.com', age: 23
-    //     }, {
-    //         ime: 'Joža', prezime: 'Mužić', lastVisit: '69.420.1337.',
-    //         visitCount: 89, email: 'jozica.muzic@gmail.com', age: 8
-    //     }, {
-    //         ime: 'Đurđa', prezime: 'Đurđić', lastVisit: '24.2.1923.',
-    //         visitCount: 257, email: 'jozica.muzic@gmail.com', age: 96
-    //     }
-    // ];
-
-    // let odrasliCount = original.filter(user => user.age >= 18).length
-    // let djecaCount = original.filter(user => user.age < 18).length
-    // let filteredUsers
-    //
-    //   switch(selectedUsers){
-    //       case 'svi' : filteredUsers = original
-    //           break
-    //       case 'odrasli' : filteredUsers = original.filter(user => user.age >= 18)
-    //           break
-    //       case 'djeca' : filteredUsers = original.filter(user => user.age < 18)
-    //           break
-    // }
-    /*----------------------------------Kraj hard kodiranih usera------------------------------------*/
-
-
-
-// Import statements...
 
 
     // State and other variables...
@@ -159,6 +118,30 @@ const Users = (props) => {
         localStorage.clear()
         navigate('/login')
     }
+
+    useEffect(() => {
+        fetch(backendRoute + "/role", {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${bearerToken}`,
+                'Content-type': 'application/json'
+            }
+        })
+            .then(response => {
+                if(response.status === 401){
+                    handleLogOut()
+                } else if(!response.ok) {
+                    console.log(response)
+                }
+                else {
+                    return response.json()
+                }
+            })
+            .then(parsedData => {
+                console.log(parsedData)
+                setCurrentRole(parsedData)
+            })
+    }, []);
 
     useEffect(() => {
         fetch(backendRoute + "/users", {
@@ -200,8 +183,15 @@ const Users = (props) => {
 
             {noviPregledOtvoren && <NoviPregled closeNoviPregled = {toggleNoviPregled}/>}
 
-            {addUserVisible && <UserForm closeNoviPregled = {toggleAddUser}/>}
-            {userDetailVisible && <UserDetail close = {toggleUserDetail} role = {roles.map(obj => obj.name)[0]} user = {users[selectedUserIndex]}  />}
+            {addUserVisible && <UserForm closeUserForm = {toggleAddUser}
+                                         handleLogOut={handleLogOut}
+                                         backendRoute={backendRoute}
+                                         bearerToken={bearerToken}
+                                         refreshUsers={toggleRefreshUsers}/>}
+
+            {userDetailVisible && <UserDetail close = {toggleUserDetail}
+                                              role = {currentRole.name}
+                                              user = {users[selectedUserIndex]}  />}
 
 
 
@@ -321,13 +311,13 @@ const Users = (props) => {
                                                  style={{ height: "19px", float: "right", opacity: "800%" }}  src={TrashIcon}></img>
                                         </button>
                                         ): null}
-                                        {rolesMapped.includes("admin")  ? (
-                                        <button className =" ps-3  col-12 mb-2 py-2 delete-btn"
-                                                style={{opaciy: "80%",textAlign: "left", fontWeight:"500", border:"none", background:"none"}}> Izbriši
-                                            <img className ="me-3 mt-1"
-                                                 style={{ height: "19px", float: "right", opacity: "800%" }}  src={TrashIcon}></img>
-                                        </button>
-                                        ): null}
+                                        {/*{rolesMapped.includes("admin")  ? (*/}
+                                        {/*<button className =" ps-3  col-12 mb-2 py-2 delete-btn"*/}
+                                        {/*        style={{opaciy: "80%",textAlign: "left", fontWeight:"500", border:"none", background:"none"}}> Izbriši*/}
+                                        {/*    <img className ="me-3 mt-1"*/}
+                                        {/*         style={{ height: "19px", float: "right", opacity: "800%" }}  src={TrashIcon}></img>*/}
+                                        {/*</button>*/}
+                                        {/*): null}*/}
 
                                     </ul>
                                 </td>
