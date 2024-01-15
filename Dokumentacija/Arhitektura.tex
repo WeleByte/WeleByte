@@ -40,12 +40,12 @@
 		Kao infrastrukturnu platformu, na kojoj ćemo postaviti produkcijsko okruženje, izabrali smo Heroku zbog ova tri razloga:
 		\begin{packed_item}
 			\item jednostavnost postavljanja potrebnih resursa (Heroku Dyno, Heroku Postgres)
-			\item fleksibilan model naplate koji omogućava besplatno korištenje platforme
+			\item fleksibilan model naplate koji nam omogućuje besplatno korištenje platforme
 			\item jednostavno integriranje s GitHub repozitorijem za lagan "deployment" kad je to potrebno
 		\end{packed_item}
 
 		Korisnici se u sustav prijavljuju unoseći svoje korisničko ime i lozinku. Na temelju tih vjerodajnica, a nakon provjere s podacima u bazi, backend korisniku izdaje token koji se koristi za autentikaciju narednih zahtjeva s klijenta.
-		Koristimo "Bearer" autentikacijsku schemu koja podrazumijeva da svaki HTTP zahtjev koji dolazi od klijenta ima token u ispravnom polju u zaglavlju. Ovakva implementacija podrazumijeva korištenje HTTPS protokola koji omogućava komunikaciju na siguran način.
+		Koristimo "Bearer" autentikacijsku schemu koja podrazumijeva da svaki HTTP zahtjev koji dolazi od klijenta ima token u ispravnom polju u zaglavlju. odvija putem HTTPS protokola, osiguravajući sigurnu komunikaciju između klijenta i poslužitelja putem TLS/SSL enkripcije. Ovakav pristup pridonosi zaštiti osjetljivih podataka i održava sigurnost komunikacije u sustavu.
 					
 		\section{Baza podataka}
         Baza podataka koja se koristi u projektu "Ozdravi" ključna je komponenta sustava koja omogućava pohranu, upravljanje i praćenje svih relevantnih informacija o korisnicima i njihovim zdravstvenim podacima. 
@@ -123,8 +123,8 @@
 			\SetCell{LightGreen}id & INT	&  	jedinstveni brojčani identifikator 	\\ \hline
 			\SetCell{LightBlue}requester\_id	& INT & ID osobe koja je zatražila drugo mišljenje [Parent] (NOT NULL) \\ \hline 
 			\SetCell{LightBlue}doctor\_id & INT & ID osobe koja je dala drugo mišljenje [Doctor/Pediatrician] (NOT NULL) \\ \hline 
-			private\_report & TEXT & nalaz iz privatne ustanove koji unosi roditelj (NOT NULL)\\ \hline 
-			content & TEXT &  Sadržaj na koji se daje drugo mišljenje (nalaz iz privatne ustanove) \\ \hline 
+			content & TEXT &  nalaz iz privatne ustanove koji unosi roditelj (NOT NULL) \\ \hline 
+			opinion & TEXT & mišljenje koje liječnik/pedijatar daje o nalazu iz privatne ustanove \\ \hline 
 		\end{longtblr}
 
 		\textbf{Uputa} Ovaj entitet sadržava informacije o izdanim uputama, uključujući informacije o pacijentima, doktorima koji stvaraju upute i statusu upute. Sadrži atribute: identifikator upute, identifikator liječnika koji je izdao uputu, identifikator pacijenta kojemu je upućena, datum te sadržaj upute. Omogućava praćenje i upravljanje medicinskim preporukama.
@@ -227,15 +227,26 @@
 			%Potrebno je priložiti dijagram razreda s pripadajućim opisom. Zbog preglednosti je moguće dijagram razlomiti na više njih, ali moraju biti grupirani prema sličnim razinama apstrakcije i srodnim funkcionalnostima.
 			
 			%dio 1. revizije
+		Dijagram razreda razložen je na tri dijela. Dijelovi su grupirani prema sličnoj razini apstrakcije i srodnim funkcionalnostima. Kako bi se smanjila gužva unutar dijagrama, prikazane su samo ovisnosti između razreda koji pripadaju istom dijelu dijagrama radi preglednosti. Iz naziva i tipova atributa u razredima može se deducirati vrsta ovisnosti među različitim razredima.
+		Na slici 4.4 prikazana je podjela i povezanost razreda preko slojeva. Skroz lijevo su razredi Controller sloja u kojima se obrađuju Http zahtjevi.
+		Oni se vežu na odgovarajuće razrede Service sloja smještenog u sredini slike, a desno su razredi Repository sloja koji
+		komuniciraju s bazom podataka. Metode u kontrolerima obrađuju DTO (data transfer object) čija je struktura prikazana 
+		na slici 4.5.
 			\begin{figure}[H]
-				\includegraphics[width=\textwidth]{slike/DijagramKlasa.png} 
-				\caption{Dijagram klasa} 
+				\includegraphics[width=\textwidth]{slike/DijagramRazredaControllerService.png} 
+				\caption{Dijagram razreda - controller i service razredi } 
+			\end{figure}
+			\begin{figure}[H]
+				\includegraphics[width=\textwidth]{slike/DijagramRazredaDTO.png} 
+				\caption{Dijagram razreda - dio Data transfer objects} 
 		   \end{figure}
-
+			\newpage Domain razredi preslikavaju strukturu baze podataka u aplikaciji. Razred User predstavlja prijavljenog korisnika. Razred Address predstavlja adresu koja može biti povezana s pregledom ili sa samim korisnikom. Razred Examination sadrži podatke o pregledu pacijenta koje unosi korisnik(s ulogom liječnika). Razred SLR sadrži podatke vezane uz potvrdu za bolovanje koju pedijatar zatraži, a liječnik ju može odobriti. Razred Instruction predstavlja uputu koju izdaje liječnik, a prihvaća pacijent.
 		   \begin{figure}[H]
-				\includegraphics[width=\textwidth]{slike/DijagramKlaseUser.png} 
-				\caption{Dijagram klase User} 
+				\includegraphics[width=\textwidth]{slike/DijagramRazredaDomena.png} 
+				\caption{Dijagram razreda - domain razredi } 
 	   		\end{figure}
+	   		
+	   		
 			%Prilikom prve predaje projekta, potrebno je priložiti potpuno razrađen dijagram razreda vezan uz generičku funkcionalnost sustava. Ostale funkcionalnosti trebaju biti idejno razrađene u dijagramu sa sljedećim komponentama: nazivi razreda, nazivi metoda i vrste pristupa metodama (npr. javni, zaštićeni), nazivi atributa razreda, veze i odnosi između razreda.
 			
 			%dio 2. revizije			
@@ -252,9 +263,14 @@
 			%dio 2. revizije
 			
 			%Potrebno je priložiti dijagram stanja i opisati ga. Dovoljan je jedan dijagram stanja koji prikazuje značajan dio funkcionalnosti sustava. Na primjer, stanja korisničkog sučelja i tijek korištenja neke ključne funkcionalnosti jesu značajan dio sustava, a registracija i prijava nisu.
+
+			UML dijagram stanja je vrsta dijagrama koja prikazuje različita stanja kroz koje objekt ili sustav prolazi tokom svog životnog ciklusa. Na slici 4.6 prikazan je dijagram stanja za registriranog korisnika koji ima ulogu roditelja. Nakon što se korisnik prijavi, prikazuje mu se početna stranica. Korisnik u Izborniku može odabrati neku od ponuđenih opcija. Klikom na „Moj profil“ prikazuju se podatci korisnika koje može urediti. Također, korisnik ima mogućnost odjave klikom na „Odjavi se“. Odabirom „Moja djeca“ prikazuje se lista korisnikove djece, a klikom na neko od ponuđenih imena djece otvara se profil odabranog djeteta. Klikom na „Uredi“ moguće je izmijeniti djetetove podatke. U izborniku, klikom na „ Druga mišljenja“ moguće je stvoriti zahtjev za novim mišljenjem klikom na „Zatraži drugo mišljenje“ ili pregledati listu zahtjeva klikom na „Moji zahtjevi“ te vidjeti detalje zahtjeva odabirom željenog zahtjeva. Odabirom „Moji pregledi“ otvaramo povijest svih pregleda korisnika, klikom na određeni pregled prikazuju se detalji istog. Klikom na karticu s imenom djeteta, moguće je vidjeti povijest pregleda odabranog djeteta te kao i kod osobnih pregleda vidjeti detalje pregleda odabirom specifičnog pregleda.
 			
-			
-			\eject 
+				\begin{figure}[H]
+					\includegraphics[width=\textwidth]{slike/DijagramStanja.png} 
+					\caption{Dijagram stanja} 
+				\end{figure}
+				\eject 
 		
 		\section{Dijagram aktivnosti}
 			
@@ -273,8 +289,17 @@
 				\caption{Dijagram aktivnosti} 
 		    \end{figure}
 			\eject
+
 		\section{Dijagram komponenti}
 		
 			%dio 2. revizije
 		
 			 %Potrebno je priložiti dijagram komponenti s pripadajućim opisom. Dijagram komponenti treba prikazivati strukturu cijele aplikacije.
+		
+		UML dijagrami komponenata pružaju vizualni prikaz modularne strukture i međusobnih odnosa između komponenata u programskoj potpori. Na slici 4.8. prikazan je dijagram komponenti web-aplikacije Ozdravi. Sastoji se od 4 komponente: Controllers, Services, Repos i Entities. Controllers pružaju REST\_API sučelje na koje vanjski web-preglednik može slati zahtjeve. Komponenta Controllers je zadužena za obradu HTTPS zahtjeva na temelju kojih poziva operacije komponente Services. Komponenta Services za izvođenje pojedinih operacija treba pristup podacima iz baze, za što koristi operacije komponente Repos koja ostvaruje sučelje JDBC. Repos upisuju podatke iz baze podataka u komponentu Entities.
+		
+			 \begin{figure}[H]
+				\includegraphics[width=\textwidth]{slike/DijagramKomponenti.png} 
+				\caption{Dijagram komponenti} 
+		    \end{figure}
+			\eject

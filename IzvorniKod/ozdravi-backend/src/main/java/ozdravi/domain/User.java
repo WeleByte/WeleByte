@@ -21,7 +21,6 @@ import java.util.List;
 @EqualsAndHashCode
 public class User {
     @Id
-    @Setter(AccessLevel.NONE)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
@@ -55,7 +54,7 @@ public class User {
     @JoinColumn(name = "doctor_id")
     private User doctor;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "address_id")
     private Address address;
 

@@ -9,10 +9,6 @@ import NovaUputa from '../components/NovaUputa';
 import UputaDetail from '../components/UputaDetail';
 
 const Upute = (props) => {
-
-  
-
-
     const navigate = useNavigate()
     const bearerToken = sessionStorage.bearerToken
     const backendRoute = props.backendRoute

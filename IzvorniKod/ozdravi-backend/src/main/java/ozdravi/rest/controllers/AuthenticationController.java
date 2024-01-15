@@ -20,12 +20,15 @@ import ozdravi.rest.dto.AuthenticationRequest;
 import ozdravi.rest.dto.AuthenticationResponse;
 import ozdravi.rest.ValidityUtil;
 import ozdravi.rest.dto.ChangeRoleRequest;
+import ozdravi.rest.dto.UserDTO;
 import ozdravi.rest.jwt.JwtTokenUtil;
 import ozdravi.rest.jwt.JwtUserDetailsService;
 import ozdravi.service.RoleService;
 import ozdravi.service.UserService;
+import ozdravi.service.impl.DTOManager;
 import ozdravi.service.impl.SecurityContextService;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -45,6 +48,9 @@ public class AuthenticationController {
 
     @Autowired
     private RoleService roleService;
+
+    @Autowired
+    private DTOManager dtoManager;
 
     @Autowired
     private SecurityContextService securityContextService;
@@ -74,38 +80,33 @@ public class AuthenticationController {
 
     @PostMapping("/register")
     public ResponseEntity<String> register(@RequestBody User user) {
+        UserDTO userDTO = dtoManager.userToUserDTO(user);
+        userService.createUser(userDTO, List.of("parent"));
 
-        if(userService.findByEmail(user.getEmail()).isPresent())
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("Email already registered");
 
-        ResponseEntity<String> res = ValidityUtil.checkUserValidity(user);
-        if(res.getStatusCode()!= HttpStatus.OK)
-            return res;
-
-        Optional<Role> role = roleService.findByName("parent");
-        user.setRoles(List.of(role.get()));
-
-        userService.createUser(user);
-
-        return ResponseEntity.ok("Successfully registered");
+//        if(userService.findByEmail(user.getEmail()).isPresent())
+//            return ResponseEntity.status(HttpStatus.CONFLICT).body("Email already registered");
+//
+//        ValidityUtil.checkUserValidity(user);
+//
+//        Role role = roleService.findByName("parent");
+//        user.setRoles(List.of(role));
+//
+//        User registeredUser = userService.createUser(user);
+//
+        return new ResponseEntity<>("Successfully registered", HttpStatus.CREATED);
     }
 
     @PostMapping("/change_role")
     public ResponseEntity<?> change_role(@RequestBody final ChangeRoleRequest changeRoleRequest) {
-        Optional<User> user = securityContextService.getLoggedInUser();
-        Optional<Role> role = roleService.findById(changeRoleRequest.getRoleId());
+        User user = securityContextService.getLoggedInUser();
+        Role role = roleService.findById(changeRoleRequest.getRoleId());
 
-        if(user.isEmpty())
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-
-        if(role.isEmpty())
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-
-        List<Role> userRoles = user.get().getRoles();
-        if(userRoles.contains(role.get())) {
+        List<Role> userRoles = user.getRoles();
+        if(userRoles.contains(role)) {
             return ResponseEntity.ok(new AuthenticationResponse(
-                    user.get(), tokenUtil.generateToken(user.get().getEmail(), changeRoleRequest.getRoleId()),
-                    role.get().getName()));
+                    user, tokenUtil.generateToken(user.getEmail(), changeRoleRequest.getRoleId()),
+                    role.getName()));
         } else {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }

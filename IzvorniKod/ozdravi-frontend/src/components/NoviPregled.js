@@ -6,6 +6,9 @@ import searchIcon from '../assets/icons/search.png'
 import Navbar from './Header';
 import userIcon from '../assets/images/userIcon.png'
 import Select from 'react-select'
+import MapComponent from "./MapComponent";
+import 'leaflet/dist/leaflet.css';
+
 
 
 const NoviPregled = (props) => {
@@ -182,6 +185,7 @@ const NoviPregled = (props) => {
                 .then(response => {
                     props.refreshExaminations()
                     console.log(response);
+                    closeModal()
                 })
             closeModal()
         } else {
@@ -263,13 +267,6 @@ const NoviPregled = (props) => {
                                 <input type="text" className="form-control" id="location"
                                        onChange={e => setNumber(e.target.value)}/>
                             </div>
-
-
-
-
-
-
-
                         </div>
 
                         <div className="mb-3">

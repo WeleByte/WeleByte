@@ -1,8 +1,12 @@
 package ozdravi.rest.dto;
 
+import lombok.Builder;
 import lombok.Data;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import ozdravi.domain.Address;
 import ozdravi.domain.User;
+import ozdravi.service.impl.DTOManager;
 
 @Data
 public class UserDTO {
@@ -26,9 +30,10 @@ public class UserDTO {
         this.oib = user.getOib();
         this.first_name = user.getFirst_name();
         this.last_name = user.getLast_name();
-        this.parent_id = user.getParent().getId();
-        this.doctor_id = user.getDoctor().getId();
-//        this.address_id = user.getAddress().getId();
+        this.parent_id = user.getParent() == null ? null : user.getParent().getId();
+        this.doctor_id = user.getDoctor() == null ? null : user.getDoctor().getId();
+        //this.address = new AddressDTO(user.getAddress());
+        this.address = user.getAddress() == null ? null : new AddressDTO(user.getAddress());
         this.institution_email = user.getInstitution_email();
     }
 }

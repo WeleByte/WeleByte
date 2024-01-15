@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ozdravi.dao.RoleRepository;
 import ozdravi.domain.Role;
+import ozdravi.exceptions.EntityMissingException;
 import ozdravi.service.RoleService;
 
 import java.util.Optional;
@@ -14,10 +15,16 @@ public class RoleServiceJpa implements RoleService {
     private RoleRepository roleRepo;
 
     @Override
-    public Optional<Role> findByName(String name) {
-        return roleRepo.findByName(name);
+    public Role findByName(String name) {
+        Optional<Role> role = roleRepo.findByName(name);
+        if (role.isEmpty()) throw new EntityMissingException("No role with name " + name);
+        return role.get();
     }
 
     @Override
-    public Optional<Role> findById(Long id) { return roleRepo.findById(id); }
+    public Role findById(Long id) {
+        Optional<Role> role = roleRepo.findById(id);
+        if (role.isEmpty()) throw new EntityMissingException("No role with id " + id.toString());
+        return role.get();
+    }
 }

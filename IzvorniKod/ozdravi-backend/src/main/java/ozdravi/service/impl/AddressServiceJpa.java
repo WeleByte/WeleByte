@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ozdravi.dao.AddressRepository;
 import ozdravi.domain.Address;
+import ozdravi.exceptions.EntityMissingException;
+import ozdravi.rest.dto.AddressDTO;
 import ozdravi.service.AddressService;
 
 import java.util.List;
@@ -15,19 +17,27 @@ public class AddressServiceJpa implements AddressService {
     @Autowired
     private AddressRepository addressRepository;
 
+    @Autowired
+    private SecurityContextService securityContextService;
+
+    @Autowired
+    private DTOManager dtoManager;
+
     @Override
-    public Address createAddress(Address address) {
+    public Address createAddress(AddressDTO addressDTO) {
+        Address address = dtoManager.addressDTOToAddress(addressDTO);
         return addressRepository.save(address);
     }
-
     @Override
     public List<Address> listAll() {
         return addressRepository.findAll();
     }
 
     @Override
-    public Optional<Address> findById(Long id) {
-        return addressRepository.findById(id);
+    public Address findById(Long id) {
+        Optional<Address> address = addressRepository.findById(id);
+        if (address.isEmpty()) throw new EntityMissingException("Address with id " + id.toString() + " not found");
+        return address.get();
     }
 
     @Override
@@ -37,12 +47,9 @@ public class AddressServiceJpa implements AddressService {
 
     @Override
     public void modifyAddress(Address newAddress, Long id) {
-        Optional<Address> address = addressRepository.findById(id);
-
-        if(address.isPresent()) {
-            address.get().copyDifferentAttributes(newAddress);
-            addressRepository.save(address.get());
-        }
+        Address address = findById(id);
+        address.copyDifferentAttributes(newAddress);
+        addressRepository.save(address);
     }
 
     @Override

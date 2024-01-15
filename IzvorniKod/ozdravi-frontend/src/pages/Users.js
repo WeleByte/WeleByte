@@ -93,20 +93,20 @@ const Users = (props) => {
     const openUserOptions = (index) => {
         console.log("opening");
         console.log(currentOpenedOptions);
-    
+
         // Close previously opened options if any
         if (currentOpenedOptions !== null && currentOpenedOptions !== index) {
             closeUserOptions(currentOpenedOptions);
         }
-    
+
         optionsOpened = true;
-    
+
         const tbody = document.querySelector(`#usersTable tbody`);
         const tr = tbody.querySelector(`tr:nth-child(${index + 1})`);
         const userOptions = tr.querySelector('.userOptions');
-    
+
         userOptions.style.display = 'block';
-    
+
         setCurrentOpenedOptions(index);
     }
 
@@ -118,30 +118,6 @@ const Users = (props) => {
         localStorage.clear()
         navigate('/login')
     }
-
-    useEffect(() => {
-        /* fetch(backendRoute + "/role", {
-            method: 'GET',
-            headers: {
-                'Authorization': `Bearer ${bearerToken}`,
-                'Content-type': 'application/json'
-            }
-        })
-            .then(response => {
-                if(response.status === 401){
-                    handleLogOut()
-                } else if(!response.ok) {
-                    console.log(response)
-                }
-                else {
-                    return response.json()
-                }
-            })
-            .then(parsedData => {
-                console.log(parsedData)
-                setCurrentRole(parsedData)
-            }) */
-    }, []);
 
     useEffect(() => {
         fetch(backendRoute + "/users", {
@@ -281,10 +257,10 @@ const Users = (props) => {
                                     <img src = {userIcon} alt = "" width = "14" className='me-3' style={{opacity: "75%"}}></img>
                                     {user.first_name + " " + user.last_name}
                                 </td>
-                              
+
                                 <td>{user.oib}</td>
                                 <td>{user.email}</td>
-                               
+
 
                                 <td className = "three-dot-td" >
 
