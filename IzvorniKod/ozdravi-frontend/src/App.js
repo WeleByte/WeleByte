@@ -12,7 +12,7 @@ import ProfilePage from './pages/Profile.js';
 import Navbar from './components/Header.js';
 import Examinations from './pages/Examinations.js';
 import Upute from './pages/Upute.js'
-
+import MapComponent from "./components/MapComponent";
 
 function App({wordIn}) {
     const backendRoute = process.env.REACT_APP_BACKEND_URL || 'http://localhost:8080'
@@ -47,6 +47,18 @@ function App({wordIn}) {
                 <Route path="/profil" element={<ProfilePage backendRoute={backendRoute} />} />
                 <Route path="/pregledi" element={<Examinations backendRoute={backendRoute} />} />
                 <Route path="/upute" element={<Upute backendRoute={backendRoute} />} />
+
+                {/*TODO bookmark map showcase*/}
+
+                <Route path="/map" element={
+                    <div style={{width:'100vw', height:'100vh'}}>
+                        <MapComponent
+                            // props = {mapProps}
+                        >
+
+                        </MapComponent>
+                    </div>
+                } />
             </Routes>
           </BrowserRouter>
     </div>
