@@ -29,7 +29,7 @@ public class Examination {
     @JoinColumn(name = "scheduler_id", nullable = false)
     private User scheduler;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "address_id")
     private Address address;
 
