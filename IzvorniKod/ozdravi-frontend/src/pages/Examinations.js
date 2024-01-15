@@ -45,6 +45,7 @@ const Examinations = (props) => {
         }
     }, []);
 
+
     const toggleRefreshExaminations = () => {
         setRefreshExaminations((prev) => !prev);
     }

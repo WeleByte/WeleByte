@@ -21,7 +21,7 @@ const Users = (props) => {
     const bearerToken = sessionStorage.bearerToken
     const user = JSON.parse(sessionStorage.userData)
     const roles = user.roles
-    
+
     const [rolesMapped, setRolesMapped] = useState([""])
     const navigate = useNavigate()
     var [currentOpenedOptions, setCurrentOpenedOptions] = useState(null);
@@ -43,7 +43,7 @@ const Users = (props) => {
                 containsValidRole = true
             }
         })
-        
+
         setRolesMapped(user.roles.map(obj => obj.name))
 
         /* if(!containsValidRole){
@@ -93,20 +93,20 @@ const Users = (props) => {
     const openUserOptions = (index) => {
         console.log("opening");
         console.log(currentOpenedOptions);
-    
+
         // Close previously opened options if any
         if (currentOpenedOptions !== null && currentOpenedOptions !== index) {
             closeUserOptions(currentOpenedOptions);
         }
-    
+
         optionsOpened = true;
-    
+
         const tbody = document.querySelector(`#usersTable tbody`);
         const tr = tbody.querySelector(`tr:nth-child(${index + 1})`);
         const userOptions = tr.querySelector('.userOptions');
-    
+
         userOptions.style.display = 'block';
-    
+
         setCurrentOpenedOptions(index);
     }
 
@@ -120,27 +120,28 @@ const Users = (props) => {
     }
 
     useEffect(() => {
-        fetch(backendRoute + "/role", {
-            method: 'GET',
-            headers: {
-                'Authorization': `Bearer ${bearerToken}`,
-                'Content-type': 'application/json'
-            }
-        })
-            .then(response => {
-                if(response.status === 401){
-                    handleLogOut()
-                } else if(!response.ok) {
-                    console.log(response)
-                }
-                else {
-                    return response.json()
-                }
-            })
-            .then(parsedData => {
-                console.log(parsedData)
-                setCurrentRole(parsedData)
-            })
+    //     fetch(backendRoute + "/role", {
+    //         method: 'GET',
+    //         headers: {
+    //             'Authorization': `Bearer ${bearerToken}`,
+    //             'Content-type': 'application/json'
+    //         }
+    //     })
+    //         .then(response => {
+    //             if(response.status === 401){
+    //                 handleLogOut()
+    //             } else if(!response.ok) {
+    //                 console.log(response)
+    //             }
+    //             else {
+    //                 return response.json()
+    //             }
+    //         })
+    //         .then(parsedData => {
+    //             console.log(parsedData)
+    //             setCurrentRole(parsedData)
+    //         })
+        setCurrentRole(user.roles[0].name)
     }, []);
 
     useEffect(() => {
@@ -198,31 +199,31 @@ const Users = (props) => {
             <div id = "usersWrapperInner">
 
 
-          
-            <h5 className = "pt-3 px-4 mt-2 " style={{textAlign: "left", maxWidth: "1246px"}}>
-            {(rolesMapped.includes("admin") ? ("Korisnici") : null)}
-            {(rolesMapped.includes("doctor") || rolesMapped.includes("pediatrician") ? ("Moji Pacijenti") : null)}
-            {(rolesMapped.includes("parent") ? ("Moja Djeca") : null)}
+
+                <h5 className = "pt-3 px-4 mt-2 " style={{textAlign: "left", maxWidth: "1246px"}}>
+                    {(rolesMapped.includes("admin") ? ("Korisnici") : null)}
+                    {(rolesMapped.includes("doctor") || rolesMapped.includes("pediatrician") ? ("Moji Pacijenti") : null)}
+                    {(rolesMapped.includes("parent") ? ("Moja Djeca") : null)}
 
                     {/* <button className='btn btn-tertiary mt-1' style={{float: 'right'}}>Povijest </button>  */}
-                   
+
                     {(rolesMapped.includes("doctor") || rolesMapped.includes("pediatrician")  ? (
-                    <button className = "btn btn-primary ms-2" style={{float:"right"}} onClick= {toggleAddPatient}>Novi Pacijent +</button>  ) : null)}
-                   
-                    {(rolesMapped.includes("admin") ? 
+                        <button className = "btn btn-primary ms-2" style={{float:"right"}} onClick= {toggleAddPatient}>Novi Pacijent +</button>  ) : null)}
+
+                    {(rolesMapped.includes("admin") ?
                         <button className="btn btn-primary" style={{float: "right"}} onClick={toggleAddUser}>
                             Novi Korisnik +
-                        </button> 
-                    : null)} </h5>
+                        </button>
+                        : null)} </h5>
 
 
-                 <p style={{textAlign: "left", maxWidth: "1200px"}} className = "px-4 mb-2 ">{users.length} 
-                 
-                {(rolesMapped.includes("admin") ? (" korisnika") : null)}
-                {(rolesMapped.includes("doctor") || rolesMapped.includes("pediatrician") ? (" pacijenata") : null)}
-                {(rolesMapped.includes("parent") ? (" djece") : null)}
+                <p style={{textAlign: "left", maxWidth: "1200px"}} className = "px-4 mb-2 ">{users.length}
 
-                 </p> 
+                    {(rolesMapped.includes("admin") ? (" korisnika") : null)}
+                    {(rolesMapped.includes("doctor") || rolesMapped.includes("pediatrician") ? (" pacijenata") : null)}
+                    {(rolesMapped.includes("parent") ? (" djece") : null)}
+
+                </p>
 
                 {/* <p style={{textAlign: "left", maxWidth: "1200px"}} className = "px-4 mb-2 ">{odrasliCount + djecaCount} pacijenata</p> */}
 
@@ -279,17 +280,17 @@ const Users = (props) => {
                                     <img src = {userIcon} alt = "" width = "14" className='me-3' style={{opacity: "75%"}}></img>
                                     {user.first_name + " " + user.last_name}
                                 </td>
-                              
+
                                 <td>{user.oib}</td>
                                 <td>{user.email}</td>
-                               
+
 
                                 <td className = "three-dot-td" >
 
                                     <img width="18" height="18" onClick={() => openUserOptions(index)}
                                          src="https://img.icons8.com/ios-glyphs/30/menu-2.png" alt="menu-2"/>
 
-                               
+
                                     <ul className="list-group userOptions shadow-lg p-0 border" style={{display:"none", maxWidth: "220px"}}>
                                         <p className ="mb-2 mt-2 ps-3 py-1" style={{textAlign: "left"}}>Akcije
                                             <img className =" mt-1 closeActionsIcon" style={{ height: "19px", float: "right", opacity: "80%"}}
@@ -303,13 +304,13 @@ const Users = (props) => {
                                             </img>
                                         </button> */}
                                         <button onClick={() => toggleUserDetail(index)}  className =" ps-3 col-12 mb-2 mt-2  py-2 novi-pregled-btn" style={{opaciy: "80%",textAlign: "left", fontWeight:"500", border:"none", background:"none"}} > Detalji  <img className ="me-3 mt-1" style={{ height: "19px", float: "right", opacity: "80%" }} src={InfoIcon}></img> </button>
-                                        
+
                                         {rolesMapped.includes("doctor") || rolesMapped.includes("pediatrician") ? (
-                                        <button className =" ps-3  col-12 mb-2 py-2 delete-btn"
-                                                style={{opaciy: "80%",textAlign: "left", fontWeight:"500", border:"none", background:"none"}}> Ukloni
-                                            <img className ="me-3 mt-1"
-                                                 style={{ height: "19px", float: "right", opacity: "800%" }}  src={TrashIcon}></img>
-                                        </button>
+                                            <button className =" ps-3  col-12 mb-2 py-2 delete-btn"
+                                                    style={{opaciy: "80%",textAlign: "left", fontWeight:"500", border:"none", background:"none"}}> Ukloni
+                                                <img className ="me-3 mt-1"
+                                                     style={{ height: "19px", float: "right", opacity: "800%" }}  src={TrashIcon}></img>
+                                            </button>
                                         ): null}
                                         {/*{rolesMapped.includes("admin")  ? (*/}
                                         {/*<button className =" ps-3  col-12 mb-2 py-2 delete-btn"*/}

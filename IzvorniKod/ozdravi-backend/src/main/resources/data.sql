@@ -139,7 +139,8 @@ insert into sick_leave_recommendations(parent_id, creator_id, approver_id, exami
 values(4, 3, 2, 3, null);
 
 insert into sick_leave_recommendations(parent_id, creator_id, approver_id, examination_id, status)
-values(4, 3, 2, 1, true);
+values(4, 3, 2, 1, null);
+
 
 -- second opinios
 insert into second_opinions(requester_id, doctor_id, opinion, content)

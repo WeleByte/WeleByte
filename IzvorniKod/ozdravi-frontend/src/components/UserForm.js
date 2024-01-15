@@ -165,13 +165,13 @@ const UserForm = (props) => {
                         if(response.status === 400){
                             setFormatErrorMessage('OIB nije ispravan')
                         } else
-                            if(response.status === 401){
-                                props.handleLogOut()
-                            }
-                            else{
+                        if(response.status === 401){
+                            props.handleLogOut()
+                        }
+                        else{
                             props.refreshUsers()
                             props.closeUserForm()
-                            }
+                        }
                     }
                 )
             console.log("doktori: ", doctorsFormatted, "pedijatri: ", pediatriciansFormatted)
