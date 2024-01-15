@@ -186,9 +186,11 @@ const NoviPregled = (props) => {
                     props.refreshExaminations()
                     console.log(response);
                 })
+            closeModal()
         } else {
             console.log('Some field is empty', selectedDoctor, selectedPatient, report, date);
         }
+
     }
 
     return (
@@ -221,9 +223,6 @@ const NoviPregled = (props) => {
                                 <Select options={allDoctorsFormatted} placeholder = "Odaberite doktora..."
                                         onChange={selectedOption =>
                                             setSelectedDoctor(selectedOption)}/>
-
-
-
                             </div>
 
 

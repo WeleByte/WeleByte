@@ -12,6 +12,7 @@ const NovaUputa = (props) => {
   const [selectedPatient, setSelectedPatient] = useState(null)
   const [patientsFormatted, setPatientsFormatted] = useState([])
   const [content, setContent] = useState(null)
+  const [currentDateTime, setCurrentDateTime] = useState('');
   const closeModal = () => {
     props.closeUputaForm()
   }
@@ -44,6 +45,22 @@ const NovaUputa = (props) => {
         });
   }, []);
 
+  useEffect(() => {
+    const getCurrentDateTime = () => {
+      const now = new Date();
+      // Format date and time in 'yyyy-MM-ddTHH:mm' format
+      const formattedDateTime = now.toISOString().slice(0, 16);
+      setCurrentDateTime(formattedDateTime);
+    };
+
+    getCurrentDateTime();
+
+    // Optionally, you can set up an interval to update the date and time every minute
+    const intervalId = setInterval(getCurrentDateTime, 60000);
+
+    // Cleanup the interval on component unmount
+    return () => clearInterval(intervalId);
+  }, []);
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -59,7 +76,8 @@ const NovaUputa = (props) => {
         body: JSON.stringify({
           'patient_id' : selectedPatient.value,
           'content' : content,
-          'doctor_id' : props.user.id
+          'doctor_id' : props.user.id,
+          'date' : currentDateTime
         })
       })
           .then(response => {
@@ -67,10 +85,11 @@ const NovaUputa = (props) => {
             //   props.handleLogOut()
             // }else
             {
+              props.refreshExaminations()
               console.log(response);
-              return response.json()
             }
           })
+      closeModal()
     } else {
       console.log('Some field is empty', selectedPatient, content);
     }

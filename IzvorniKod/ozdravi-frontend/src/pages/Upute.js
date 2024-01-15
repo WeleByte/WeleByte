@@ -21,6 +21,7 @@ const Upute = (props) => {
     const [novoMisljenjeDetail, setNovoMisljenjeDetail] = useState(false)
     const [currentInstructionId, setCurrentInstructionId] = useState(null)
     const [user, setUser] = useState('')
+    const [refreshExaminations, setRefreshExaminations] = useState(false)
 
 
 
@@ -42,6 +43,9 @@ const Upute = (props) => {
     
    
 };
+    const toggleRefreshExaminations = () => {
+        setRefreshExaminations((prev) => !prev);
+    }
   const toggleInstructionDetail = () => {
     console.log("hello")
     setNovoMisljenjeDetail(!novoMisljenjeDetail);
@@ -81,7 +85,7 @@ const Upute = (props) => {
             .catch(error => {
                 console.error('Fetch error:', error);
             });
-    }, []);
+    }, [refreshExaminations]);
 
     function handleLogOut() {
         sessionStorage.clear()
@@ -102,7 +106,9 @@ const Upute = (props) => {
                                       backendRoute={backendRoute}
                                       bearerToken={bearerToken}
                                       handleLogOut={handleLogOut}
-                                      user={user}/>}
+                                      user={user}
+                                      refreshExaminations={toggleRefreshExaminations}/>
+     }
 
      {novoMisljenjeDetail && <UputaDetail closeInstructionDetail = {toggleInstructionDetail}
                                           currentInstructionId={currentInstructionId}
