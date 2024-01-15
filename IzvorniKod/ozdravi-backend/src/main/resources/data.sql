@@ -33,6 +33,7 @@ insert into user_roles (user_id, role_id) values (1, 1);
 insert into address(street, number, city, country) values ('Branimirova', '7', 'Zagreb', 'Hrvatska');
 insert into address(street, number, city, country) values ('Ulica Ivana Gundulica', '4', 'Osijek', 'Hrvatska');
 insert into address(street, number, city, country) values ('Petrova ulica', '53', 'Zagreb', 'Hrvatska');
+insert into address(street, number, city, country) values ('Trg žrtava fašizma', '10', 'Zagreb', 'Hrvatska');
 
 --users
 insert into users (email, password, oib, first_name, last_name, address_id)
@@ -53,13 +54,14 @@ values ('pedijatar@mail.com',
         2);
 insert into user_roles(user_id, role_id) values (3, 5);
 
-insert into users (email, password, oib, first_name, last_name, doctor_id)
+insert into users (email, password, oib, first_name, last_name, doctor_id, address_id)
 values ('roditelj@mail.com',
         '{bcrypt}$2a$12$vyhf.Rod8fQmYsXi7fooHOGIzq5gLXMZ5kQtzywRCiRrgCe41o9lq',
         '09163624639',
         'Tamara',
         'Stanic',
-        2);
+        2,
+        4);
 insert into user_roles(user_id, role_id) values (4, 4);
 
 insert into users (email, password, oib, first_name, last_name, parent_id, doctor_id)

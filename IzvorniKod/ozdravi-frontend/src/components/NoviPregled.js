@@ -6,6 +6,9 @@ import searchIcon from '../assets/icons/search.png'
 import Navbar from './Header';
 import userIcon from '../assets/images/userIcon.png'
 import Select from 'react-select'
+import MapComponent from "./MapComponent";
+import 'leaflet/dist/leaflet.css';
+
 
 
 const NoviPregled = (props) => {
@@ -183,9 +186,11 @@ const NoviPregled = (props) => {
                     props.refreshExaminations()
                     console.log(response);
                 })
+            closeModal()
         } else {
             console.log('Some field is empty', selectedDoctor, selectedPatient, report, date);
         }
+
     }
 
     return (
@@ -218,9 +223,6 @@ const NoviPregled = (props) => {
                                 <Select options={allDoctorsFormatted} placeholder = "Odaberite doktora..."
                                         onChange={selectedOption =>
                                             setSelectedDoctor(selectedOption)}/>
-
-
-
                             </div>
 
 
@@ -264,13 +266,6 @@ const NoviPregled = (props) => {
                                 <input type="text" className="form-control" id="location"
                                        onChange={e => setNumber(e.target.value)}/>
                             </div>
-
-
-
-
-
-
-
                         </div>
 
                         <div className="mb-3">

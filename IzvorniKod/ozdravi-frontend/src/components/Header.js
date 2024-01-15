@@ -3,6 +3,7 @@ import logoPng from '../assets/images/logo.png';
 import userIcon from '../assets/images/userIcon.png'
 import {useState} from 'react';
 import {useNavigate} from "react-router-dom";
+import Select from "react-select";
 
 const Navbar = () => {
     const uloga = "doktor"
@@ -10,27 +11,43 @@ const Navbar = () => {
     const [selectedItem, setSelectedItem] = useState(localStorage.getItem('SelectedItem'))
     let userData = JSON.parse(sessionStorage.userData)
     let roles = userData.roles
-    // const [doctorRole, setDoctorRole] = useState(false)
-    // const [parentRole, setParentRole] = useState(false)
-    // const [adminRole, setAdminRole] = useState(false)
-    // const [pediatricianRole, setPediatricianRole] = useState(false)
-    //
-    // useEffect(() => {
-    //     roles.forEach(role => {
-    //         if(role.name === "admin") setAdminRole(true)
-    //         if(role.name === "pediatrician") setPediatricianRole(true)
-    //         if(role.name === "parent") setParentRole(true)
-    //         if(role.name === "doctor") setDoctorRole(true)
-    //
-    //     })
-    // }, []);
+    let userRolesMapped = roles.map(object => object.name)
 
-    // let selectedItem = localStorage.selectedItem
+    const [selectedRole, setSelectedRole] = useState(null)
+
+    const [selectableRoles, setSelectableRoles] = useState([])
+
+    
     let doctorRole = false
     let parentRole = false
     let adminRole = false
     let pediatricianRole = false
 
+    const selectStyles = {
+        control: (base, state) => ({
+          ...base,
+          height: '36px', // Set your desired height
+          minHeight: '36px',
+          maxWidth: '300px',
+        
+        })
+      };
+    const selectStylesMobile = {
+        control: (base, state) => ({
+          ...base,
+          height: '36px', // Set your desired height
+          minHeight: '36px',
+          maxWidth: '200px',
+          marginLeft: '15px',
+          marginTop: '13px',
+          marginBottom: '10px'
+        }),
+        menu: (base) => ({
+            ...base,
+            maxWidth: '200px',
+            marginLeft: '15px', // This will be based on the control width
+          }),
+      };
 
     roles.forEach(role => {
         if(role.name === "admin") adminRole = true
@@ -39,6 +56,25 @@ const Navbar = () => {
         if(role.name === "doctor") doctorRole = true
 
     })
+
+    const availableRoles = [
+        {value: 1, label: "Admin"},
+        {value: 3, label: "Doctor"},
+        {value: 4, label: "Parent"},
+        {value: 5, label: "Pediatrician"}
+      ]
+
+
+      useEffect(() => {
+    
+          const filteredRoles = availableRoles.filter(role => userRolesMapped.includes(role.label.toLowerCase()))
+          setSelectableRoles(filteredRoles)
+          console.log(selectableRoles)
+    
+        
+      }, []);
+
+
 
     const handleItemClick = (e, item) => {
         // e.preventDefault()
@@ -77,41 +113,53 @@ const Navbar = () => {
         <span className="navbar-toggler-icon"></span>
         </button>
         <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
-            <div className="navbar-nav ">
+            <div className="navbar-nav pt-3 pt-lg-0">
 
-                <button className={selectedItem === 'home' ? "nav-item nav-link active" : "nav-item nav-link"}
+                <button className={selectedItem === 'home' ? "nav-item nav-link active text-start" : "nav-item nav-link text-start"}
                     onClick={(e)  => handleItemClick(e, 'home')}> Početna </button>
-          {true ? (  <button
-              className={selectedItem === 'pacijenti' ? "nav-item nav-link active" : "nav-item nav-link"}
+          {(<button
+              className={selectedItem === 'pacijenti' ? "nav-item nav-link active text-start" : "nav-item nav-link text-start"}
               onClick={(e) => handleItemClick(e, 'pacijenti')}>
-                
-                {(doctorRole ? ("Pacijenti") : null)}
-                {(pediatricianRole ? ("Pacijenti") : null)}
-                {(adminRole ? ("Korisnici") : null)}
-                {(parentRole ? ("Djeca") : null)}
+
+              {(doctorRole ? ("Pacijenti") : null)}
+              {(pediatricianRole ? ("Pacijenti") : null)}
+              {(adminRole ? ("Korisnici") : null)}
+              {(parentRole ? ("Djeca") : null)}
 
 
-              </button> ) : null }
+          </button>) }
 
-          <button className={selectedItem === 'pregledi' ? "nav-item nav-link active" : "nav-item nav-link"}
+          <button className={selectedItem === 'pregledi' ? "nav-item nav-link active text-start" : "nav-item nav-link text-start"}
               onClick={(e) => handleItemClick(e, 'pregledi')}>Pregledi</button>
 
-          <button className={selectedItem === 'drugaMisljenja' ? "nav-item nav-link active" : "nav-item nav-link"}
+          <button className={selectedItem === 'drugaMisljenja' ? "nav-item nav-link active text-start" : "nav-item nav-link text-start"}
               onClick={(e) => handleItemClick(e, 'drugaMisljenja')}>Druga Misljenja</button>
 
-          <button className={selectedItem === 'bolovanja' ? "nav-item nav-link active" : "nav-item nav-link"}
+          <button className={selectedItem === 'bolovanja' ? "nav-item nav-link active text-start" : "nav-item nav-link text-start"}
               onClick={(e) => handleItemClick(e, 'bolovanja')}>Bolovanja</button>
 
-          <button className={selectedItem === 'upute' ? "nav-item nav-link active" : "nav-item nav-link"}
+          <button className={selectedItem === 'upute' ? "nav-item nav-link active text-start" : "nav-item nav-link text-start"}
               onClick={(e) => handleItemClick(e, 'upute')}>Upute</button>
 
-          { uloga === "roditelj" ? (  <button className="nav-item nav-link">Djeca</button> ) : null }
+          { uloga === "roditelj" ? (  <button className="nav-item nav-link text-start">Djeca</button> ) : null }
 
+          <div className="me-4 d-lg-none">
+                  <Select styles={selectStylesMobile} isSearchable = {false}  options={selectableRoles} placeholder = {selectableRoles[0]?.label}
+                          onChange={selectedOption =>
+                              setSelectedRole(selectedOption)}/>
+                </div>
 
         </div>
       </div>
 
 
+    
+     
+      <div className="me-4 d-none d-lg-block">
+                  <Select styles={selectStyles} isSearchable = {false}   options={selectableRoles} placeholder = {selectableRoles[0]?.label}
+                          onChange={selectedOption =>
+                              setSelectedRole(selectedOption)}/>
+                </div>
     
       <button className="btn btn-secondary me-2 ps-3" id="logOutBtn" onClick={(e) => handleItemClick(e, 'profil')}>
 
