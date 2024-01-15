@@ -1,7 +1,8 @@
 import React from 'react';
 import ArrowRightIcon from '../assets/icons/arrow-right.png'
 
-const HomeCard = ({title, description, buttonText, image}) => {
+const HomeCard = ({title, description, buttonText, image, url}) => {
+
   return (
       
     
@@ -15,7 +16,7 @@ const HomeCard = ({title, description, buttonText, image}) => {
       <div className="container">
         <div className="row px-0">
           <div className="col ps-0 pe-1">
-          <a href="/" className="btn btn-primary me-auto col-12"> {buttonText}
+          <a href={url} className="btn btn-primary me-auto col-12"> {buttonText}
           
           <img width="14" height="14" className = "ms-2  " src={ArrowRightIcon} style={{marginBottom: "2px"}}  alt="right"/>
           </a>

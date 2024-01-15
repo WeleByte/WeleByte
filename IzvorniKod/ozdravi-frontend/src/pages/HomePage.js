@@ -9,9 +9,10 @@ import {useNavigate} from "react-router-dom";
 
 const HomePage = (props) => {
 
-    const uloga = "doktor"
+    const currentRole = sessionStorage.getItem('currentRole');
     const navigate = useNavigate()
     const bearerToken = sessionStorage.getItem('bearerToken');
+    const backendRoute = props.backendRoute
     var [roles, setRoles] = useState([""]);
 
     // if(sessionStorage.userData === undefined) {
@@ -33,28 +34,44 @@ const HomePage = (props) => {
         }
     }, []);
 
+    const navigateUsers = () => {
+        // e.preventDefault()
+       
+        
+        // selectedItem = item
+        
+           navigate('/users')
+             
+           
+    }
+  
+
+    function click() {
+        console.log("clicked")
+    }
+
     if(!bearerToken){
         return null
     }
     return (
         <div id="HomePageWrapper">
-            <Navbar></Navbar>
+            <Navbar backendRoute={backendRoute} bearerToken={bearerToken}></Navbar>
             <div id="homePageWrapperInner">
                 <h3 className="pt-4 px-4 mt-2" style={{textAlign: "left"}}>
                     Dobrodošli nazad, {user.first_name} {user.last_name}.
                 </h3>
                 <p style={{textAlign: "left"}} className="px-4">Što ćemo raditi danas?</p>
                 <div className='homePageCardSection p-4 pt-0 ps-3' >
-                    {(roles.includes("doctor") || roles.includes("pediatrician")) && (
-                        <HomeCard title="Moji Pacijenti" description="34 pacijenata" image={patientsImage} buttonText="Vidi sve"/>
+                    {(currentRole === "doctor" || currentRole === "pediatrician") && (
+                        <HomeCard title="Moji Pacijenti" url = "/users" description="34 pacijenata" image={patientsImage} buttonText="Vidi sve" />
                     )}
-                    {(roles.includes("admin")) && (
-                        <HomeCard title="Korisnici" description="34 korisnika" image={patientsImage} buttonText="Vidi sve"/>
+                    {(currentRole === "admin") && (
+                        <HomeCard title="Korisnici" url = "/users"  description="34 korisnika" image={patientsImage} buttonText="Vidi sve" />
                     )}
-                    <HomeCard title="Druga Mišljenja" description="3 za pregled" image={drugoMisljenje} buttonText="Pregledaj"/>
-                    <HomeCard title="Preporuke za bolovanje" description="7 za pregled" image={bolovanje} buttonText="Pregledaj"/>
-                    {(roles.includes("parent"))  && (
-                        <HomeCard title="Moja djeca" description="3 prijavljenje djece" image={djeca} buttonText="Vidi sve"/>
+                    <HomeCard title="Druga Mišljenja" description="3 za pregled" image={drugoMisljenje} buttonText="Pregledaj" url = "/drugaMisljenja"/>
+                    <HomeCard title="Preporuke za bolovanje"  description="7 za pregled" image={bolovanje} buttonText="Pregledaj" url = "/bolovanja"/>
+                    {(currentRole === "parent")  && (
+                        <HomeCard title="Moja djeca" url = "/users" description="3 prijavljenje djece" image={djeca} buttonText="Vidi sve"/>
                     )}
                 </div>
             </div>

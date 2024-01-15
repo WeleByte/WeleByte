@@ -76,8 +76,6 @@ const PregledDetail = ({closeNoviPregled, pregledId, backendRoute, bearerToken, 
   <label htmlFor="username" className=" col-12 text-label" style={{float: 'left', textAlign:"left"}}>Opis pregleda</label>
   <p style={{textAlign:"left"}} class ="text mb-5">{examination.report}</p>
 </div>
-
-      {/*TODO dinamicki padding*/}
       <div className="mapWrapper" style={{height: "40vh", width:"90%", margin:"0 auto", paddingBottom:"30px"}}>
         <MapComponent address={examination.address}></MapComponent>
       </div>

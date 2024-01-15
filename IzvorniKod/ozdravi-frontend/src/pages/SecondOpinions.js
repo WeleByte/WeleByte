@@ -15,7 +15,7 @@ const SecondOpinions = (props) => {
     const [currentDetailId, setCurrentDetailId] = useState(null)
     const [novoMisljenjeOpen, setNovoMisljenjeOpen] = useState(false)
     const [novoMisljenjeDetail, setNovoMisljenjeDetail] = useState(false)
-    const [uloga, setUloga] = useState()
+    const uloga = sessionStorage.getItem('currentRole');
         
 
     useEffect(() => {
@@ -23,7 +23,7 @@ const SecondOpinions = (props) => {
             navigate('/login')
         }else{
             const logUser = JSON.parse(sessionStorage.userData)
-            setUloga(logUser.roles[0].name)
+           
         }
     }, []);
 
@@ -93,7 +93,7 @@ const SecondOpinions = (props) => {
 
 
         <div id = "HomePageWrapper">
-            <Navbar></Navbar>
+            <Navbar backendRoute={backendRoute} bearerToken={bearerToken}></Navbar>
 
             {novoMisljenjeOpen && <SecondOpinionForm closeSeccondOpinnionForm = {toggleNovoMisljenje}/>}
             {novoMisljenjeDetail && <SecondOpinionResponse closeSeccondOpinnionForm = {toggleMisljenjeDetail}
@@ -103,7 +103,7 @@ const SecondOpinions = (props) => {
                                                            handleLogOut={handleLogOut}
                                                            role = {uloga}
                                                            />}
-
+            {secondOpinions.length != 0 ? (
             <div id = "seccondOppWrapper">
 
                 {/*     <p style={{textAlign: "left", fontSize: "13px"}} className='px-4 mb-2 mt-2 mb-1'>4 nepregledanih - 7 pregledanih</p> */}
@@ -167,7 +167,36 @@ const SecondOpinions = (props) => {
                     ))}
                 </div>
 
-            </div>
+            </div>) 
+                : (
+                    <div id = "usersWrapperInner" style={{
+                        display: "flex",        // Enable Flexbox
+                        flexDirection: "column", // Stack children vertically
+                        justifyContent: "center", // Center content vertically
+                        alignItems: "center",    // Center content horizontally
+                        height: "90vh",   
+                           // Take full viewport height
+                           // Optional: If you still want additional padding on top
+                    }}>
+    
+    
+                    <h5 className = " px-4 mt-0 pt-0 " style={{textAlign: "center", maxWidth: "1246px"}}>
+                    Nema drugih mišljenja
+    
+                             </h5>
+        
+        
+                         <p style={{textAlign: "center", maxWidth: "1200px"}} className = "px-4 mb-2 mt-1 ">{secondOpinions.length} {" "} 
+                         
+                    mišljenja
+        
+                         </p> 
+                         {(uloga === "doctor" || uloga === "pediatrician" || uloga === "admin"  ? (
+                            <button className = "btn btn-primary ms-2 mt-2 " style={{}} onClick= {toggleNovoMisljenje}>Dodaj mišljenje +</button>  ) : null)}
+                           
+                        </div>
+                )}
+         
 
         </div>
     );

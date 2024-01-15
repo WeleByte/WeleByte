@@ -3,6 +3,7 @@ import loginVector from '../assets/images/loginVector.png';
 import {useNavigate} from 'react-router-dom';
 import {useState} from 'react';
 import Navbar from '../components/Header';
+import Select from "react-select";
 
 const ProfilePage = (props) => {
     const backendRoute = props.backendRoute

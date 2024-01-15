@@ -20,7 +20,7 @@ const Examinations = (props) => {
     const backendRoute = props.backendRoute
     const navigate = useNavigate()
     const bearerToken = sessionStorage.bearerToken
-    const [uloga, setUloga] = useState()
+   
     const [selectedUsers, setSelectedUsers] = useState('svi')
     let currentOpenedOptions = null;
     let optionsOpened= false;
@@ -29,6 +29,7 @@ const Examinations = (props) => {
     const [isAddPatientVisible, showAddPatient] = useState(false);
     const [isPregledDetailVisible, setIsPregledDetailVisible] = useState(false);
     const [selectedPregledId, setSelectedPregledId] = useState("")
+    const uloga = sessionStorage.getItem('currentRole');
 
     const [user, setUser] = useState('')
     const [roles, setRoles] = useState([""])
@@ -41,10 +42,9 @@ const Examinations = (props) => {
             setUser(JSON.parse(sessionStorage.userData))
            
             const logUser = JSON.parse(sessionStorage.userData)
-            setUloga(logUser.roles[0].name)
+          
         }
     }, []);
-
 
     const toggleRefreshExaminations = () => {
         setRefreshExaminations((prev) => !prev);
@@ -194,7 +194,7 @@ const Examinations = (props) => {
 
 
         <div id = "UsersWrapper">
-            <Navbar></Navbar>
+            <Navbar backendRoute={backendRoute} bearerToken={bearerToken}></Navbar>
 
             {noviPregledOtvoren && <NoviPregled closeNoviPregled = {toggleNoviPregled}
                                                 backendRoute={backendRoute}
@@ -211,7 +211,7 @@ const Examinations = (props) => {
                                                 examination = {examinations[selectedPregledId]}
                                                 closeUserOptions={closeUserOptions}/>}
 
-
+{examinations.length != 0 ? (
             <div id = "usersWrapperInner">
 
 
@@ -325,7 +325,34 @@ const Examinations = (props) => {
 
                     </div>
                 </div>
-            </div>
+            </div> ): (
+                <div id = "usersWrapperInner" style={{
+                    display: "flex",        // Enable Flexbox
+                    flexDirection: "column", // Stack children vertically
+                    justifyContent: "center", // Center content vertically
+                    alignItems: "center",    // Center content horizontally
+                    height: "90vh",   
+                       // Take full viewport height
+                       // Optional: If you still want additional padding on top
+                }}>
+
+
+                <h5 className = " px-4 mt-0 pt-0 " style={{textAlign: "center", maxWidth: "1246px"}}>
+                Još nema unesenih pregleda
+
+                         </h5>
+    
+    
+                     <p style={{textAlign: "center", maxWidth: "1200px"}} className = "px-4 mb-2 mt-1 ">{examinations.length} {" "} 
+                     
+                pregleda
+    
+                     </p> 
+                     {(uloga === "doctor" || uloga === "pediatrician" || uloga === "admin"  ? (
+                        <button className = "btn btn-primary ms-2 mt-2 " style={{}} onClick= {toggleNoviPregled}>Novi pregled +</button>  ) : null)}
+                       
+                    </div>
+            )}
         </div>
     );
 };
