@@ -6,18 +6,18 @@ import reportWebVitals from './reportWebVitals';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 // TODO obrisati
-import findAddress from "./assets/scripts/AddressFinder";
-let address = {
-    street: "Ulica Nikole Šopa",
-    number: "10",
-    // state: "Grad Zagreb",
-    // post_num: "10360",
-    city: "Zadar",
-    country: "Croatia"
-}
-let add = await findAddress(address);
-console.log(add);
-console.log(`${add.latitude},${add.longitude}`)
+// import findAddress from "./assets/scripts/AddressFinder";
+// let address = {
+//     street: "Ulica Nikole Šopa",
+//     number: "10",
+//     // state: "Grad Zagreb",
+//     // post_num: "10360",
+//     city: "Zadar",
+//     country: "Croatia"
+// }
+// let add = await findAddress(address);
+// console.log(add);
+// console.log(`${add.latitude},${add.longitude}`)
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));

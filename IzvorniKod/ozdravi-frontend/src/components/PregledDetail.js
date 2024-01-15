@@ -8,19 +8,13 @@ import userIcon from '../assets/images/userIcon.png'
 import Select from 'react-select'
 import MapComponent from "./MapComponent";
 import { Navigate } from 'react-router-dom';
+import findAddress from "../assets/scripts/AddressFinder";
 
 const PregledDetail = ({closeNoviPregled, pregledId, backendRoute, bearerToken, user, examination}) => {
-
-  const mapProps = {
-    center : {lat: 5.80085099788598, long: 15.971221512932303},
-    zoom : 13,
-  }
 
   const closeModal = () => {
     closeNoviPregled()
   }
-
-  
 
   useEffect(() => {
     console.log(examination)
@@ -83,11 +77,9 @@ const PregledDetail = ({closeNoviPregled, pregledId, backendRoute, bearerToken, 
   <p style={{textAlign:"left"}} class ="text mb-5">{examination.report}</p>
 </div>
 
-      {/*TODO bookmark*/}
-      <div className="mapWrapper" style={{height: "40vh", width:"90%", margin:"0 auto"}}>
-        <MapComponent props={mapProps}>
-
-        </MapComponent>
+      {/*TODO dinamicki padding*/}
+      <div className="mapWrapper" style={{height: "40vh", width:"90%", margin:"0 auto", paddingBottom:"30px"}}>
+        <MapComponent address={examination.address}></MapComponent>
       </div>
 
 </form>

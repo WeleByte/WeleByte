@@ -12,6 +12,7 @@ import {map} from "leaflet";
 //      NOTE: this method doesn't expect the latitude and longitude to be anything but null, as it is finding them
 //      NOTE: state and post_num can be null
 const findAddress = async (addressObject) => {
+    // addressObject.country = "Croatia";
 
     let url = addressToUrl(addressObject);
 
