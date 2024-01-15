@@ -149,7 +149,7 @@ public class DTOManager {
 
         Optional<Address> optionalAddress = addressService.getSavedInstance(address);
         if(optionalAddress.isEmpty()){
-            return addressService.createAddress(addressDTO);
+            return addressService.createAddressPure(address);
         } else {
             return optionalAddress.get();
         }
