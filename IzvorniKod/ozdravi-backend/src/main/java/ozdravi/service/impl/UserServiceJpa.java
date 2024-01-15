@@ -21,6 +21,7 @@ import ozdravi.service.UserService;
 import java.net.URI;
 import java.time.format.DateTimeParseException;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -169,21 +170,26 @@ public class UserServiceJpa implements UserService {
 
     @Override
     public void modifyUser(UserDTO userDTO, Long id){
+        Optional<User> optionalUser = userRepository.findById(id);
+        if(optionalUser.isEmpty()) throw new UserDoesNotExistException("User doesn't exist");
+        User modifiedUser = optionalUser.get();
         User workingUser = securityContextService.getLoggedInUser();
-        if(!workingUser.getId().equals(id) && !securityContextService.isUserInRole("ADMIN"))
+
+        if(securityContextService.isUserInRole("ADMIN")) {
+            userDTO.setId(id);
+            ValidityUtil.checkUserDTOForLoops(userDTO);
+
+            User user = dtoManager.userDTOToUser(userDTO);
+            ValidityUtil.checkUserValidity(user);
+            optionalUser.get().copyDifferentAttributes(user);
+            userRepository.save(optionalUser.get());
+        } else if(workingUser.getId().equals(id) || Objects.equals(modifiedUser.getParent().getId(), workingUser.getId())) {
+            modifiedUser.setInstitution_email(userDTO.getInstitution_email());
+
+            userRepository.save(modifiedUser);
+        } else {
             throw new RequestDeniedException("You are not authorized to modify this user");
-
-        userDTO.setId(id);
-
-        User optionalUser = findById(id);
-        ValidityUtil.checkUserDTOForLoops(userDTO);
-
-        User user = dtoManager.userDTOToUser(userDTO);
-
-        ValidityUtil.checkUserValidity(user);
-
-        optionalUser.copyDifferentAttributes(user);
-        userRepository.save(optionalUser);
+        }
     }
 
     @Override
