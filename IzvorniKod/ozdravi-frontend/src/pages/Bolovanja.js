@@ -190,13 +190,13 @@ const Bolovanja = (props) => {
                         )) : (<p>Loading...</p>)}
                 </div>
 
-            </div>  ): (
+            </div>
             <div id="usersWrapperInner" style={{
                 display: "flex",        // Enable Flexbox
                 flexDirection: "column", // Stack children vertically
                 justifyContent: "center", // Center content vertically
                 alignItems: "center",    // Center content horizontally
-                height: "90vh",
+                // height: "90vh",
                 // Take full viewport height
                 // Optional: If you still want additional padding on top
             }}>
@@ -206,19 +206,10 @@ const Bolovanja = (props) => {
                     Nema preporuka za bolovanje
 
                 </h5>
-
-
-                <p style={{ textAlign: "center", maxWidth: "1200px" }} className="px-4 mb-2 mt-1 ">{recommendations.length} {" "}
-
-                    preporuka
-
-                </p>
+                
                 {(currentRole === "doctor" || currentRole === "pediatrician" || currentRole === "admin" ? (
                     <button className="btn btn-primary ms-2 mt-2 " style={{}} onClick={toggleNovoMisljenje}>Nova preporuka +</button>) : null)}
-
             </div>
-            )
-
         </div>
     );
 };
