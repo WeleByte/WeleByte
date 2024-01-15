@@ -1,8 +1,6 @@
 package ozdravi.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import ozdravi.dao.SecondOpinionRepository;
 import ozdravi.domain.SecondOpinion;
@@ -39,7 +37,7 @@ public class SecondOpinionServiceJpa implements SecondOpinionService {
     public List<SecondOpinion> list() {
         User user = securityContextService.getLoggedInUser();
         if(securityContextService.isUserInRole("PARENT"))
-            return listByRequester(user.getId());
+            return listByRequesterOrRequesterParent(user.getId());
 
         if(securityContextService.isUserInRole("DOCTOR")
                 || securityContextService.isUserInRole("PEDIATRICIAN"))
@@ -59,6 +57,11 @@ public class SecondOpinionServiceJpa implements SecondOpinionService {
     }
 
     @Override
+    public List<SecondOpinion> listByRequesterOrRequesterParent(Long id){
+        return secondOpinionRepository.findAllByRequesterIdOrRequesterParentId(id, id);
+    }
+
+    @Override
     public List<SecondOpinion> listByDoctor(Long id) {
         return secondOpinionRepository.findAllByDoctorId(id);
     }
@@ -71,6 +74,7 @@ public class SecondOpinionServiceJpa implements SecondOpinionService {
             throw new EntityMissingException("Second opinion with id " + id.toString() + " not found");
 
         if(secondOpinion.get().getDoctor().getId().equals(user.getId())
+                || secondOpinion.get().getRequester().getParent().getId().equals(user.getId())
                 || secondOpinion.get().getRequester().getId().equals(user.getId())
                 || securityContextService.isUserInRole("ADMIN"))
             return secondOpinion.get();
