@@ -9,6 +9,7 @@ import ozdravi.exceptions.EntityMissingException;
 import ozdravi.exceptions.RequestDeniedException;
 import ozdravi.rest.dto.SecondOpinionDTO;
 import ozdravi.service.SecondOpinionService;
+import ozdravi.service.UserService;
 
 import java.util.List;
 import java.util.Optional;
@@ -22,12 +23,19 @@ public class SecondOpinionServiceJpa implements SecondOpinionService {
     private SecurityContextService securityContextService;
 
     @Autowired
+    private UserService userService;
+
+    @Autowired
     private DTOManager dtoManager;
 
     @Override
     public SecondOpinion createSecondOpinion(SecondOpinionDTO secondOpinionDTO) {
         User user = securityContextService.getLoggedInUser();
-        secondOpinionDTO.setRequester_id(user.getId());
+        User requester = userService.findById(secondOpinionDTO.getRequester_id());
+
+//        second opinion za osobu smije napraviti ta osoba, njen roditelj ili admin
+        if(!requester.getId().equals(user.getId()) && !requester.getParent().getId().equals(user.getId()) && !securityContextService.isUserInRole("ADMIN"))
+            throw new RequestDeniedException("You are not allowed to create a second opinion for this person");
 
         SecondOpinion secondOpinion = dtoManager.secondOpinionDTOToSecondOpinion(secondOpinionDTO);
         return secondOpinionRepository.save(secondOpinion);
