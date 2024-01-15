@@ -8,7 +8,8 @@ import userIcon from '../assets/images/userIcon.png'
 import Select from 'react-select'
 
 const SickLeaveRecommendationDetail = (props) => {
-  const role = props.role
+  const role = sessionStorage.getItem('currentRole');
+  
   const backendRoute = props.backendRoute
   const bearerToken = props.bearerToken
   const [recommendation, setRecommendation] = useState(null)

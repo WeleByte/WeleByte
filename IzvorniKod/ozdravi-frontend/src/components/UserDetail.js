@@ -10,7 +10,7 @@ import Select from 'react-select'
 const UserDetail = (props) => {
 
   const [instruction, setInstruction] = useState(null)
-  const role = props.role
+  const role = sessionStorage.getItem('currentRole');
   const user = props.user
   const rolesMapped = user.roles.map(role => role.name)
   const closeModal = () => {

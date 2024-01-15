@@ -10,7 +10,7 @@ import SickLeaveRecommendationDetail from '../components/SickLeaveRecommendation
 const Bolovanja = (props) => {
 
     const user = JSON.parse(sessionStorage.userData)
-    const [currentRole, setCurrentRole] = useState('')
+    const currentRole = sessionStorage.getItem('currentRole');
     const backendRoute = props.backendRoute
     const [selectedStatus, setSelectedStatus] = useState('svi')
     const bearerToken = sessionStorage.bearerToken
@@ -40,7 +40,7 @@ const Bolovanja = (props) => {
             })
             .then(parsedRole => {
                 console.log(parsedRole)
-                setCurrentRole(parsedRole.name)
+             
             })
     }, []);
 
@@ -122,7 +122,7 @@ const Bolovanja = (props) => {
                                                             bearerToken={bearerToken}
                                                             recommendationId={currentDetailId}
                                                             handleLogOut={handleLogOut}/>}
-  
+  {recommendations.length != 0 ? (
      <div id = "seccondOppWrapper">
 
         {/*     <p style={{textAlign: "left", fontSize: "13px"}} className='px-4 mb-2 mt-2 mb-1'>4 nepregledanih - 7 pregledanih</p> */}
@@ -156,7 +156,7 @@ const Bolovanja = (props) => {
 
 
 
-    
+
     <div className = "px-4 pt-1 " id = "secondOppinionList">
        {/*  <div class = "selectorHeader">
             <button class ="btn selector-btn selector-btn-selected col-6">Nepregledano ({nepregledanoCount})</button>
@@ -181,7 +181,34 @@ const Bolovanja = (props) => {
         ))}
     </div>
 
-    </div>
+    </div>  ): (
+                <div id = "usersWrapperInner" style={{
+                    display: "flex",        // Enable Flexbox
+                    flexDirection: "column", // Stack children vertically
+                    justifyContent: "center", // Center content vertically
+                    alignItems: "center",    // Center content horizontally
+                    height: "90vh",   
+                       // Take full viewport height
+                       // Optional: If you still want additional padding on top
+                }}>
+
+
+                <h5 className = " px-4 mt-0 pt-0 " style={{textAlign: "center", maxWidth: "1246px"}}>
+                Nema preporuka za bolovanje
+
+                         </h5>
+    
+    
+                     <p style={{textAlign: "center", maxWidth: "1200px"}} className = "px-4 mb-2 mt-1 ">{recommendations.length} {" "} 
+                     
+                preporuka
+    
+                     </p> 
+                     {(currentRole === "doctor" || currentRole === "pediatrician" || currentRole === "admin"  ? (
+                        <button className = "btn btn-primary ms-2 mt-2 " style={{}} onClick= {toggleNovoMisljenje}>Nova preporuka +</button>  ) : null)}
+                       
+                    </div>
+            )}
      
     </div>
   );

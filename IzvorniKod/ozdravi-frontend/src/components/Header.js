@@ -69,7 +69,20 @@ const Navbar = (props) => {
 
       useEffect(() => {
           const filteredRoles = availableRoles.filter(role => userRolesMapped.includes(role.value))
-          setSelectableRoles(filteredRoles)
+          setSelectableRoles(filteredRoles);
+
+          const currentUrl = window.location.href; // Get the current URL
+
+            // Split the URL by '/' and get the last element
+            const lastSegment = currentUrl.split('/').pop();
+
+            console.log(lastSegment);
+          
+        
+            // Update the state with the retrieved item
+            if (lastSegment) {
+                setSelectedItem(lastSegment);
+            }
       }, []);
 
     function handleLogOut() {
@@ -153,7 +166,7 @@ const Navbar = (props) => {
                 <button className={selectedItem === 'home' ? "nav-item nav-link active text-start" : "nav-item nav-link text-start"}
                     onClick={(e)  => handleItemClick(e, 'home')}> Početna </button>
           {(<button
-              className={selectedItem === 'pacijenti' ? "nav-item nav-link active text-start" : "nav-item nav-link text-start"}
+              className={selectedItem === 'users' ? "nav-item nav-link active text-start" : "nav-item nav-link text-start"}
               onClick={(e) => handleItemClick(e, 'pacijenti')}>
 
               {(currentRole === 'doctor' || currentRole === 'pediatrician' ? ("Pacijenti") : null)}
