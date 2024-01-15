@@ -12,6 +12,7 @@ import ozdravi.exceptions.RequestDeniedException;
 import ozdravi.rest.dto.InstructionDTO;
 import ozdravi.service.InstructionService;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -58,6 +59,8 @@ public class InstructionServiceJpa implements InstructionService {
     @Override
     public Instruction createInstruction(InstructionDTO instructionDTO) {
         User doctor = securityContextService.getLoggedInUser();
+
+        instructionDTO.setDate(LocalDateTime.now());
 
         Instruction instruction = dtoManager.InstructionDTOtoInstruction(instructionDTO);
 
