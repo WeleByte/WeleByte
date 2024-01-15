@@ -12,6 +12,7 @@ const SickLeaveRecommendationDetail = (props) => {
   const backendRoute = props.backendRoute
   const bearerToken = props.bearerToken
   const [recommendation, setRecommendation] = useState(null)
+  const [formattedDate, setFormattedDate] = useState(null)
 
   useEffect(() => {
     console.log(recommendation)
@@ -37,6 +38,24 @@ const SickLeaveRecommendationDetail = (props) => {
           console.log(parsedData)
           setRecommendation(parsedData);
 
+          const options = {
+            day: '2-digit',
+            month: '2-digit',
+            year: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit',
+            hour12: false
+          };
+
+          const examinationDate = parsedData.examination.date
+
+          if (Date.parse(examinationDate)) {
+            const date = new Date(examinationDate);
+            setFormattedDate(new Intl.DateTimeFormat('en-GB', options).format(date));
+          } else {
+            console.error('Invalid date format:', examinationDate);
+          }
         })
     // .catch(error => {
     //     console.error('Fetch error:', error);
@@ -70,6 +89,7 @@ const SickLeaveRecommendationDetail = (props) => {
         .then(response => {
             console.log(response)
         })
+    props.closeBolovanjeDetail()
   }
 
 
@@ -95,6 +115,7 @@ const SickLeaveRecommendationDetail = (props) => {
 
 
 
+          {recommendation ? (
           <div className='px-4 pt-0'>
             <form >
 
@@ -109,13 +130,12 @@ const SickLeaveRecommendationDetail = (props) => {
 
                 <div className="mb-3">
                   <label htmlFor="username" className=" col-12 text-label" style={{float: 'left', textAlign:"left"}}>Pregled</label>
-                  <p style={{textAlign:"left"}} class ="text">21.12.2023 - Pregled štitnjače - Johny Smith</p>
+                  <p style={{textAlign:"left"}} class ="text">{formattedDate} - {recommendation.examination.report}</p>
                 </div>
               </div>
 
 
 
-              {recommendation ? (
                   <>
                     <div className="mb-3">
                       <label htmlFor="username" className=" col-12 text-label" style={{float: 'left', textAlign:"left"}}>Pedijatar </label>
@@ -128,7 +148,7 @@ const SickLeaveRecommendationDetail = (props) => {
                     <div className="mb-3 mt-4">
                       <label htmlFor="username" className=" col-12 text-label" style={{float: 'left', textAlign:"left"}}>Status </label>
                       <p style={{textAlign:"left"}} className ="text mb-md-5 mb-4">{
-                        !recommendation.status === null ? ( recommendation.status ? "Odobreno" : "Odbijeno") : "Čeka odobrenje"}</p>
+                        recommendation.status !== null ? ( recommendation.status ? "Odobreno" : "Odbijeno") : "Čeka odobrenje"}</p>
                     </div>
 
 
@@ -144,9 +164,9 @@ const SickLeaveRecommendationDetail = (props) => {
                         onClick={handleRejected}>Odbij </button>
                     ): null}
                   </>
-              ) : ( <p>Loading...</p>)}
             </form>
           </div>
+          ) : ( <p>Loading...</p>)}
         </div>
       </div>
 

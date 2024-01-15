@@ -12,13 +12,16 @@ const Bolovanja = (props) => {
     const user = JSON.parse(sessionStorage.userData)
     const [currentRole, setCurrentRole] = useState('')
     const backendRoute = props.backendRoute
-    const [selectedStatus, setSelectedStatus] = useState('svi')
+    const [selectedStatus, setSelectedStatus] = useState('nepregledano')
     const bearerToken = sessionStorage.bearerToken
     const navigate = useNavigate()
     const [novoBolovanjeOpen, setNovoBolovanjeOpen] = useState(false)
     const [novoBolovanjeDetail, setNovoBolovanjeDetail] = useState(false)
     const [recommendations, setRecommendations] = useState([])
-    const [currentDetailId, setCurrentDetailId] = useState()
+    const [currentDetailId, setCurrentDetailId] = useState(null)
+    const [resolvedRecommendations, setResolvedRecommendations] = useState(null)
+    const [unresolvedRecommendations, setUnresolvedRecommendations] = useState(null)
+    const [filteredRecommendations, setFilteredRecommendations] = useState(null)
 
     useEffect(() => {
         // fetch(backendRoute + "/role", {
@@ -82,7 +85,9 @@ const Bolovanja = (props) => {
             .then(parsedData => {
                 console.log(parsedData)
                 setRecommendations(parsedData);
-
+                setResolvedRecommendations(parsedData.filter(recommendation => recommendation.status !== null))
+                setUnresolvedRecommendations(parsedData.filter(recommendation => recommendation.status === null))
+                setFilteredRecommendations(parsedData.filter(recommendation => recommendation.status === null))
             })
         // .catch(error => {
         //     console.error('Fetch error:', error);
@@ -101,6 +106,15 @@ const Bolovanja = (props) => {
   // }
 
 
+  const handleFilterButton = (state) => {
+      if(state === 'nepregledano'){
+          setFilteredRecommendations(unresolvedRecommendations)
+          setSelectedStatus('nepregledano')
+      } else if(state === 'pregledano'){
+          setFilteredRecommendations(resolvedRecommendations)
+          setSelectedStatus('pregledano')
+      }
+  }
 
   if(!bearerToken){
       return null
@@ -152,19 +166,19 @@ const Bolovanja = (props) => {
 {/*     <p style={{textAlign: "left", fontSize: "13px"}} className='px-4 mb-2 mt-2 mb-1'>4 nepregledanih - 7 pregledanih</p> */}
 
 
-{/* <div id = "usersSelectorDiv" className = "px-4 pb-1 pt-0 " style={{display: "flex", justifyContent: "left", flexWrap: "wrap"}}>
-    <button className = {selectedStatus === 'svi' ?
-        "btn btn-primary chip-selected  me-2 mt-2" : "btn btn-secondary chip-unselected me-2 mt-2"}
-            id = "nepregledano" onClick={() => setSelectedStatus('svi')}>Sve</button>
+ <div id = "usersSelectorDiv" className = "px-4 pb-1 pt-0 " style={{display: "flex", justifyContent: "left", flexWrap: "wrap"}}>
+    {/*<button className = {selectedStatus === 'svi' ?*/}
+    {/*    "btn btn-primary chip-selected  me-2 mt-2" : "btn btn-secondary chip-unselected me-2 mt-2"}*/}
+    {/*        id = "nepregledano" onClick={() => setSelectedStatus('svi')}>Sve</button>*/}
 
     <button className = {selectedStatus === 'nepregledano' ?
         "btn btn-primary chip-selected  me-2 mt-2" : "btn btn-secondary chip-unselected  me-2 mt-2"}
-            id = "nepregledano" onClick={() => setSelectedStatus('nepregledano')}>Nepregledano</button>
+            id = "nepregledano" onClick={() => handleFilterButton('nepregledano')}>Nepregledano</button>
 
     <button className = {selectedStatus === 'pregledano' ?
         "btn btn-primary chip-selected  me-2 mt-2" : "btn btn-secondary chip-unselected  me-2 mt-2"}
-            id = "pregledano" onClick={() => setSelectedStatus('pregledano')}>Pregledano</button>
-    </div> */}
+            id = "pregledano" onClick={() => handleFilterButton('pregledano')}>Pregledano</button>
+    </div>
 
 
 
@@ -174,14 +188,16 @@ const Bolovanja = (props) => {
             <button class ="btn selector-btn selector-btn-selected col-6">Nepregledano ({nepregledanoCount})</button>
             <button class ="btn selector-btn selector-btn-unselected col-6">Pregledano ({nepregledanoCount + 3})</button>
         </div> */}
-        {
-            recommendations.map((recommendation) => (
+        {filteredRecommendations ?
+            filteredRecommendations.map((recommendation) => (
 
             <div key={recommendation.id} className = "card mb-0" style={{textAlign: "left"}}>
                 <div className="card-body pregledajCardBody" style={{paddingRight: "130px"}}>
-                    <h5 className="card-title ">Moguća dijagnoza: {recommendation.parent.first_name + " " + recommendation.parent.last_name}</h5>
+                    <h5 className="card-title ">Preporuka za bolovanje: {recommendation.parent.first_name + " " + recommendation.parent.last_name}</h5>
                     <p style={{fontSize: "13px"}}
-                       className='mb-1'>{} • {}</p>
+                       className='mb-1'>Dijete: {
+                        recommendation.examination.patient.first_name + " " + recommendation.examination.patient.last_name
+                    } • Pregledao: {recommendation.creator.first_name + " " + recommendation.creator.last_name}</p>
                     <button className='btn btn-secondary pregledajGumbPc'  style={{position:"absolute", right:"1rem", top: "30%"}} onClick = {() => handleBolovanjeDetail(recommendation.id)}>Pregledaj <img width="14" height="14" className = "ms-1 pregledaj-btn  " src={ArrowRightIcon} style={{marginBottom: "2px"}}  alt="right"/>       {/*  <img width="14" height="14" className = "ms-2  " src={ArrowRightIcon} style={{marginBottom: "2px"}}  alt="right"/> */}
                     </button>
                     <button className='btn btn-secondary pregledajGumbMobile mt-3 '  onClick = {() => handleBolovanjeDetail(recommendation.id)} style={{zIndex: "100"}}>Pregledaj <img width="14" height="14" className = "ms-1 pregledaj-btn  " src={ArrowRightIcon} style={{marginBottom: "2px"}}  alt="right"/>
@@ -190,7 +206,7 @@ const Bolovanja = (props) => {
                 </div>
             </div>
 
-        ))}
+        )) : (<p>Loading...</p>)}
     </div>
 
     </div>
