@@ -28,12 +28,6 @@ public class AddressServiceJpa implements AddressService {
         Address address = dtoManager.addressDTOToAddress(addressDTO);
         return addressRepository.save(address);
     }
-
-    @Override
-    public Address createAddressPure(Address address){
-        return addressRepository.save(address);
-    }
-
     @Override
     public List<Address> listAll() {
         return addressRepository.findAll();

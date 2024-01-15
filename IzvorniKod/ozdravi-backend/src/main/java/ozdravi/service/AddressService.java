@@ -15,8 +15,6 @@ public interface AddressService {
      */
     Address createAddress(AddressDTO address);
 
-    Address createAddressPure(Address address);
-
     /**
      * lists all addresses present in db
      * @return list of addresses
