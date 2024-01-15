@@ -30,7 +30,7 @@ public class SLRServiceJpa implements SLRService {
     @Override
     public SLR createSLR(Examination examination) {
         if(securityContextService.isUserInRole("ADMIN"))
-            throw new RequestDeniedException("Admin can't create SLR");
+            throw new RequestDeniedException("Admin can't create sick leave recommendations");
 
         User currentUser = securityContextService.getLoggedInUser();
         SLR sick_leave_recommendation = new SLR();
@@ -69,23 +69,25 @@ public class SLRServiceJpa implements SLRService {
         if(slrOptional.isEmpty())
             throw new EntityMissingException("Sick leave recommendation with id: " + id.toString() + " not found");
 
+        return slrOptional.get();
+    }
+
+    @Override
+    public SLR fetch(Long id) {
+        SLR slr = findById(id);
+
         if(securityContextService.isUserInRole("ADMIN"))
-            return slrOptional.get();
+            return slr;
 
         User user = securityContextService.getLoggedInUser();
-        SLR slr = slrOptional.get();
 
         if(!slr.getParent().getId().equals(user.getId())
                 && !slr.getCreator().getId().equals(user.getId())
                 && !slr.getApprover().getId().equals(user.getId())) {
-            throw new RequestDeniedException("You are not authorized to view this info");
+            throw new RequestDeniedException("You are not authorized to view this sick leave recommendation");
         }
 
-        SLRDTO slrDTO = dtoManager.slrToSLRDTO(slr);
-
-//        return ResponseEntity.ok(slrDTO);
-
-        return slrOptional.get();
+        return slr;
     }
 
     @Override
@@ -113,12 +115,10 @@ public class SLRServiceJpa implements SLRService {
         SLR slr = findById(id);
 
         User currentUserOptional = securityContextService.getLoggedInUser();
-        if(securityContextService.isUserInRole("DOCTOR") && slr.getApprover().getId().equals(currentUserOptional.getId()))
-            throw new RequestDeniedException("You are not authorized to approve or reject this SLR");
+        if(!slr.getApprover().getId().equals(currentUserOptional.getId()))
+            throw new RequestDeniedException("You are not authorized to approve or reject this sick leave recommendation");
 
         slr.setStatus(approved);
-
-        String approvalString = approved ? "approved" : "rejected";
 
         save(slr);
     }
@@ -131,4 +131,9 @@ public class SLRServiceJpa implements SLRService {
         prevSlr.copyDifferentAttributes(slrModified);
         slrRepository.save(prevSlr);
     }
+//    TODO popraviti metodu
+//    prebacivanje slrDTO u slr koristi metodu trazenja examinationa,
+//    zbog koje se raspada tko sto smije
+//    najjednostavniji fix je napraviti alwaysLegal tip metode koja nece bacati gresku za autorizaciju
+//    ILI jednostavno dozvoliti svim doktorima/pedijatrima da vide sve preglede
 }

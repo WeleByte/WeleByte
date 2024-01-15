@@ -56,11 +56,7 @@ public class UserController {
 
     @GetMapping("/user/{id}")
     public ResponseEntity<?> getUser(@PathVariable("id") Long id) {
-        User workingUser = securityContextService.getLoggedInUser();
-        if (!workingUser.getId().equals(id) && !securityContextService.isUserInRole("ADMIN"))
-            throw new RequestDeniedException("You are not authorized to view this info");
-
-        return new ResponseEntity<>(userService.findById(id), HttpStatus.OK);
+        return new ResponseEntity<>(userService.fetch(id), HttpStatus.OK);
     }
 
     @PutMapping("user/{id}")

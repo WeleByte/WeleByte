@@ -21,6 +21,11 @@ public interface SLRService {
 
     SLR findById(Long id);
 
+    /*
+    sluzi samo za dohvacanje iz controllera, ima dodatne provjere autorizacije
+     */
+    SLR fetch(Long id);
+
     List<SLR> listByParent(Long id);
 
     List<SLR> listByCreator(Long id);

@@ -19,6 +19,8 @@ public interface SecondOpinionService {
 
     List<SecondOpinion> listByRequester(Long id);
 
+    List<SecondOpinion> listByRequesterOrRequesterParent(Long id);
+
     List<SecondOpinion> listByDoctor(Long id);
 
     SecondOpinion findById(Long id);

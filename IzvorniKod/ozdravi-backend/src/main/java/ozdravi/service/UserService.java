@@ -44,10 +44,18 @@ public interface UserService {
 
     /**
      * nalazi korisnika po njegovom identifikatoru ako postoji u bazi
+     * @throws ozdravi.exceptions.EntityMissingException
      * @param id identifikator korisnika
      * @return korisnik
      */
     User findById(Long id);
+
+    /**
+     * samo za fetchanje iz controllera
+     * @param id
+     * @return
+     */
+    User fetch(Long id);
 
     /**
      * nalazi korisnika po njegovom korisnickom imenu ako postoji
