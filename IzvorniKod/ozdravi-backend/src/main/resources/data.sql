@@ -33,6 +33,7 @@ insert into user_roles (user_id, role_id) values (1, 1);
 insert into address(street, number, city, country) values ('Branimirova', '7', 'Zagreb', 'Hrvatska');
 insert into address(street, number, city, country) values ('Ulica Ivana Gundulica', '4', 'Osijek', 'Hrvatska');
 insert into address(street, number, city, country) values ('Petrova ulica', '53', 'Zagreb', 'Hrvatska');
+insert into address(street, number, city, country) values ('Trg žrtava fašizma', '10', 'Zagreb', 'Hrvatska');
 
 --users
 insert into users (email, password, oib, first_name, last_name, address_id)
@@ -53,13 +54,14 @@ values ('pedijatar@mail.com',
         2);
 insert into user_roles(user_id, role_id) values (3, 5);
 
-insert into users (email, password, oib, first_name, last_name, doctor_id)
+insert into users (email, password, oib, first_name, last_name, doctor_id, address_id)
 values ('roditelj@mail.com',
         '{bcrypt}$2a$12$vyhf.Rod8fQmYsXi7fooHOGIzq5gLXMZ5kQtzywRCiRrgCe41o9lq',
         '09163624639',
         'Tamara',
         'Stanic',
-        2);
+        2,
+        4);
 insert into user_roles(user_id, role_id) values (4, 4);
 
 insert into users (email, password, oib, first_name, last_name, parent_id, doctor_id)
@@ -134,7 +136,7 @@ values(3, 5, '2024-01-10 10:00:00', 'pacijent treba piti ovaj znj antibiotik');
 --sick leave recommendation
 
 insert into sick_leave_recommendations(parent_id, creator_id, approver_id, examination_id, status)
-values(4, 2, 2, 3, false);
+values(4, 3, 2, 3, null);
 
 insert into sick_leave_recommendations(parent_id, creator_id, approver_id, examination_id, status)
 values(4, 3, 2, 1, null);
@@ -142,7 +144,7 @@ values(4, 3, 2, 1, null);
 
 -- second opinios
 insert into second_opinions(requester_id, doctor_id, opinion, content)
-values(4, 2, 'Nalaz ukazuje na moguću hemofiliju.', 'Nalaz iz AnalizaLAb-a od 12.12.2023.');
+values(4, 2, 'Nalaz ukazuje na moguću hemofiliju.', 'Nalaz iz AnalizaLAB-a od 12.12.2023.');
 
 insert into second_opinions(requester_id, doctor_id, opinion, content)
 values(4, 2, null, 'Nalaz iz AnalizaLAB-a od 20.12.2020.');

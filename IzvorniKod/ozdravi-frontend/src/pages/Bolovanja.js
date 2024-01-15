@@ -190,7 +190,6 @@ const Bolovanja = (props) => {
 
 
 
-
     <div className = "px-4 pt-1 " id = "secondOppinionList">
        {/*  <div class = "selectorHeader">
             <button class ="btn selector-btn selector-btn-selected col-6">Nepregledano ({nepregledanoCount})</button>

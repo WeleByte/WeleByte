@@ -6,7 +6,10 @@ import ozdravi.domain.SecondOpinion;
 import java.util.List;
 
 public interface SecondOpinionRepository extends JpaRepository<SecondOpinion, Long> {
-    List<SecondOpinion> findAllByRequesterId(Long approver_id);
+    List<SecondOpinion> findAllByRequesterId(Long requester_id);
 
-    List<SecondOpinion> findAllByDoctorId(Long creator_id);
+    List<SecondOpinion> findAllByDoctorId(Long doctor_id);
+
+//    for parents: lists their and their children's SO-s
+    List<SecondOpinion> findAllByRequesterIdOrRequesterParentId(Long requester_id, Long requester_parent_id);
 }

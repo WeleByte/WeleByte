@@ -179,11 +179,11 @@ const Examinations = (props) => {
             .then(parsedData => {
                 console.log(parsedData)
                 setExaminations(parsedData);
-                
+
             })
-            // .catch(error => {
-            //     console.error('Fetch error:', error);
-            // });
+        // .catch(error => {
+        //     console.error('Fetch error:', error);
+        // });
     }, [refreshExaminations]);
 
     if(!bearerToken){

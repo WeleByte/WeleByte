@@ -42,13 +42,12 @@ public class AddressServiceJpa implements AddressService {
     @Override
     public Address findById(Long id) {
         Optional<Address> address = addressRepository.findById(id);
-        if (address.isEmpty()) throw new EntityMissingException("No address with such id");
+        if (address.isEmpty()) throw new EntityMissingException("Address with id " + id.toString() + " not found");
         return address.get();
     }
 
     @Override
     public void deleteById(Long id) {
-        //todo provjera da postoji
         addressRepository.deleteById(id);
     }
 
