@@ -60,6 +60,9 @@ const SickLeaveRecommendationForm = (props) => {
     })
         .then(response => {
           console.log(response)
+          props.refreshRecommendations()
+          closeModal()
+
         })
   }
 

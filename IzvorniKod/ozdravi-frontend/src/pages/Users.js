@@ -119,7 +119,7 @@ const Users = (props) => {
         navigate('/login')
     }
 
-    // useEffect(() => {
+    useEffect(() => {
     //     fetch(backendRoute + "/role", {
     //         method: 'GET',
     //         headers: {
@@ -141,7 +141,8 @@ const Users = (props) => {
     //             console.log(parsedData)
     //             setCurrentRole(parsedData)
     //         })
-    // }, []);
+        setCurrentRole(user.roles[0].name)
+    }, []);
 
     useEffect(() => {
         fetch(backendRoute + "/users", {

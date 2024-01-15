@@ -22,6 +22,7 @@ const Bolovanja = (props) => {
     const [resolvedRecommendations, setResolvedRecommendations] = useState(null)
     const [unresolvedRecommendations, setUnresolvedRecommendations] = useState(null)
     const [filteredRecommendations, setFilteredRecommendations] = useState(null)
+    const [refreshRecommendations, setRefreshRecommendations] = useState(false)
 
     useEffect(() => {
         // fetch(backendRoute + "/role", {
@@ -48,6 +49,10 @@ const Bolovanja = (props) => {
         //     })
         setCurrentRole(user.roles[0].name)
     }, []);
+
+    const toggleRefreshRecommendations = () => {
+        setRefreshRecommendations((prev) => !prev);
+    }
 
   const toggleNovoMisljenje = () => {
         
@@ -92,7 +97,7 @@ const Bolovanja = (props) => {
         // .catch(error => {
         //     console.error('Fetch error:', error);
         // });
-    }, []);
+    }, [refreshRecommendations]);
 
   // switch(selectedStatus) {
   //     case 'svi' :
@@ -140,14 +145,16 @@ const Bolovanja = (props) => {
      {novoBolovanjeOpen && <SickLeaveRecommendationForm closeSeccondOpinnionForm = {toggleNovoMisljenje}
                                                         backendRoute={backendRoute}
                                                         bearerToken={bearerToken}
-                                                        handleLogOut={handleLogOut}/>}
+                                                        handleLogOut={handleLogOut}
+                                                        refreshRecommendations={toggleRefreshRecommendations}/>}
 
-     {novoBolovanjeDetail && <SickLeaveRecommendationDetail closeBolovanjeDetail= {toggleBolovanjeDetail}
+     {novoBolovanjeDetail && <SickLeaveRecommendationDetail closeBolovanjeDetail={toggleBolovanjeDetail}
                                                             role = {currentRole}
                                                             backendRoute={backendRoute}
                                                             bearerToken={bearerToken}
                                                             recommendationId={currentDetailId}
-                                                            handleLogOut={handleLogOut}/>}
+                                                            handleLogOut={handleLogOut}
+                                                            refreshRecommendations={toggleRefreshRecommendations}/>}
   
      <div id = "seccondOppWrapper">
 
@@ -160,7 +167,8 @@ const Bolovanja = (props) => {
                     ) : null }
                     
                     </h5>
-                 <p style={{textAlign: "left", maxWidth: "1200px"}} className = "px-4 mb-4 ">{10} nepregladnih</p> 
+                 <p style={{textAlign: "left", maxWidth: "1200px"}} className = "px-4 mb-4 ">
+                     {unresolvedRecommendations ? unresolvedRecommendations.length : 0} nepregladnih, {resolvedRecommendations ? resolvedRecommendations.length : 0} pregledanih preporuka</p>
 
 
 {/*     <p style={{textAlign: "left", fontSize: "13px"}} className='px-4 mb-2 mt-2 mb-1'>4 nepregledanih - 7 pregledanih</p> */}
@@ -182,7 +190,7 @@ const Bolovanja = (props) => {
 
 
 
-    
+
     <div className = "px-4 pt-1 " id = "secondOppinionList">
        {/*  <div class = "selectorHeader">
             <button class ="btn selector-btn selector-btn-selected col-6">Nepregledano ({nepregledanoCount})</button>

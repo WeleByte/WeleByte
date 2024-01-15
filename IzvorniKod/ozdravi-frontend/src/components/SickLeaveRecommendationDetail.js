@@ -88,6 +88,8 @@ const SickLeaveRecommendationDetail = (props) => {
     })
         .then(response => {
             console.log(response)
+            props.refreshRecommendations()
+          closeModal()
         })
     props.closeBolovanjeDetail()
   }
@@ -130,7 +132,7 @@ const SickLeaveRecommendationDetail = (props) => {
 
                 <div className="mb-3">
                   <label htmlFor="username" className=" col-12 text-label" style={{float: 'left', textAlign:"left"}}>Pregled</label>
-                  <p style={{textAlign:"left"}} class ="text">{formattedDate} - {recommendation.examination.report}</p>
+                  <p style={{textAlign:"left"}} className ="text">{formattedDate} - {recommendation.examination.report}</p>
                 </div>
               </div>
 
