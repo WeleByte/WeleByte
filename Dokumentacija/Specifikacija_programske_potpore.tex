@@ -517,7 +517,6 @@
 							\item pedijatar odabire opciju 'Nova preporuka za bolovanje' s početne stranice
 							\item sustav prikazuje modalni okvir za unos preporuke za bolovanje
 							\item pedijatar odabire pregled na temelju kojeg je potrebna preporuka za bolovanje
-							\item pedijatar unosi podatke o preporuci za bolovanje
 							\item pedijatar odabire opciju 'Unesi preporuku'
 							\item sustav provjerava i potvrđuje da je unos uspješan
 							\item sustav obavještava pedijatra da je preporuka uspješno unesena
@@ -654,23 +653,12 @@
 						\item  \textbf{Opis osnovnog tijeka:}
 						
 						\item[] \begin{packed_enum}
-							\item korisnik odabire opciju 'Odjava' s početne stranice
-							\item sustav prikazuje modalni okvir za potvrdu odjave
+							\item korisnik odabire opciju 'Moj profil' s početne stranice
+							\item sustav prikazuje korisnički profil
 							\item korisnik odabire opciju 'Odjavi se'
 							\item sustav odjavljuje korisnika iz sustava i prikazuje početnu stranicu za prijavu
 
 						\end{packed_enum}
-
-						\item  \textbf{Opis mogućih odstupanja:}
-						
-						\item[] \begin{packed_item}
-	
-							\item[3.a] korisnik odabire opciju 'Odustani'
-							\item [] \begin{packed_enum}
-								\item sustav zatvara modalni ekran
-								\item prikazuje se prethodni ekran i završava izvođenje ovog scenarija
-							\end{packed_enum}
-						\end{packed_item}
 					\end{packed_item}
                     
                     \noindent \underbar{\textbf{UC20 - pregledaj korisnika}}
@@ -705,9 +693,9 @@
 							\item administrator odabire opciju 'Pregled korisnika' s početne stranice
 							\item sustav prikazuje listu svih ispravno registriranih korisnika
 							\item administrator pronalazi željenog korisnika
-							\item administrator mijenja razinu pristupa željenom korisniku odabirom opcije 'Promijeni razinu pristupa'
-							\item sustav obavještava administratora da je razina pristupa uspješno promijenjena
-                        
+							\item administrator bira uloge koje želi dodijeliti korisniku
+							\item administrator odabire opciju 'Spremi'
+							\item sustav zatvara modalni okvir
 						\end{packed_enum}
 					\end{packed_item}
         
