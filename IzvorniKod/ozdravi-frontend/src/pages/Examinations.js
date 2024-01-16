@@ -182,12 +182,28 @@ const Examinations = (props) => {
             })
             .then(parsedData => {
                 console.log(parsedData)
-                setSelectedExaminations(parsedData.filter(examination => examination.patient.roles
-                    .map(role => role.name).includes('parent')))
                 setParentExaminations(parsedData.filter(examination => examination.patient.roles
                     .map(role => role.name).includes('parent')))
                 setChildExaminations(parsedData.filter(examination => examination.patient.roles
                     .map(role => role.name).includes('child')))
+
+                switch(currentRole){
+                    case 'parent' :
+                        setSelectedExaminations(parsedData.filter(examination => examination.patient.roles
+                            .map(role => role.name).includes('parent')))
+                        break
+                    case 'doctor' :
+                        setSelectedExaminations(parsedData.filter(examination => examination.patient.roles
+                            .map(role => role.name).includes('parent')))
+                        break
+                    case 'pediatrician' :
+                        setSelectedExaminations(parsedData.filter(examination => examination.patient.roles
+                            .map(role => role.name).includes('child')))
+                        break
+                    case 'admin' : setSelectedExaminations(parsedData)
+                        break
+                    default: handleLogOut()
+                }
 
             })
         // .catch(error => {
