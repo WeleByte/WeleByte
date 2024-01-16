@@ -25,11 +25,14 @@ const Examinations = (props) => {
     let currentOpenedOptions = null;
     let optionsOpened= false;
     const [refreshExaminations, setRefreshExaminations] = useState(false)
-    const [examinations, setExaminations] = useState([])
+    const [selectedExaminations, setSelectedExaminations] = useState([])
+    const [parentExaminations, setParentExaminations] = useState([])
+    const [childExaminations, setChildExaminations] = useState([])
     const [isAddPatientVisible, showAddPatient] = useState(false);
     const [isPregledDetailVisible, setIsPregledDetailVisible] = useState(false);
     const [selectedPregledId, setSelectedPregledId] = useState("")
     const uloga = sessionStorage.getItem('currentRole');
+    const [selectedStatus, setSelectedStatus] = useState('roditelj')
 
     const [user, setUser] = useState('')
     const [roles, setRoles] = useState([""])
@@ -178,13 +181,28 @@ const Examinations = (props) => {
             })
             .then(parsedData => {
                 console.log(parsedData)
-                setExaminations(parsedData);
+                setSelectedExaminations(parsedData.filter(examination => examination.patient.roles
+                    .map(role => role.name).includes('parent')))
+                setParentExaminations(parsedData.filter(examination => examination.patient.roles
+                    .map(role => role.name).includes('parent')))
+                setChildExaminations(parsedData.filter(examination => examination.patient.roles
+                    .map(role => role.name).includes('child')))
 
             })
         // .catch(error => {
         //     console.error('Fetch error:', error);
         // });
     }, [refreshExaminations]);
+
+    const handleFilterButton = (state) => {
+        if (state === 'roditelj') {
+            setSelectedExaminations(parentExaminations)
+            setSelectedStatus('roditelj')
+        } else if (state === 'djeca') {
+            setSelectedExaminations(childExaminations)
+            setSelectedStatus('djeca')
+        }
+    }
 
     if(!bearerToken){
         return null
@@ -208,10 +226,12 @@ const Examinations = (props) => {
                                                 user={user}
                                                 closeNoviPregled = {togglePregledDetail}
                                                 pregledId = {selectedPregledId}
-                                                examination = {examinations[selectedPregledId]}
+                                                examination = {selectedExaminations[selectedPregledId]}
                                                 closeUserOptions={closeUserOptions}/>}
 
-{examinations.length != 0 ? (
+
+
+{selectedExaminations.length !== 0 ? (
             <div id = "usersWrapperInner">
 
 
@@ -225,8 +245,21 @@ const Examinations = (props) => {
                 )}
             </h5>
 
-                 <p style={{textAlign: "left", maxWidth: "1200px"}} className = "px-4 mb-2 ">{examinations.length} pregleda</p>
+                 <p style={{textAlign: "left", maxWidth: "1200px"}} className = "px-4 mb-2 ">{selectedExaminations ? selectedExaminations.length : 0} pregleda</p>
 
+                <div id="usersSelectorDiv" className="px-4 pb-1 pt-0 " style={{ display: "flex", justifyContent: "left", flexWrap: "wrap" }}>
+                    {/*<button className = {selectedStatus === 'svi' ?*/}
+                    {/*    "btn btn-primary chip-selected  me-2 mt-2" : "btn btn-secondary chip-unselected me-2 mt-2"}*/}
+                    {/*        id = "nepregledano" onClick={() => setSelectedStatus('svi')}>Sve</button>*/}
+
+                    <button className={selectedStatus === 'roditelj' ?
+                        "btn btn-primary chip-selected  me-2 mt-2" : "btn btn-secondary chip-unselected  me-2 mt-2"}
+                            id="nepregledano" onClick={() => handleFilterButton('roditelj')}>Moji Pregledi</button>
+
+                    <button className={selectedStatus === 'djeca' ?
+                        "btn btn-primary chip-selected  me-2 mt-2" : "btn btn-secondary chip-unselected  me-2 mt-2"}
+                            id="pregledano" onClick={() => handleFilterButton('djeca')}>Moja djeca</button>
+                </div>
 
 
                 {/* <div id = "usersSelectorDiv" className = "px-4 pb-1 pt-0 " style={{display: "flex", justifyContent: "left", flexWrap: "wrap"}}>
@@ -278,7 +311,7 @@ const Examinations = (props) => {
                         </tr>
                         </thead>
                         <tbody>
-                        {examinations.map((examination, index) =>
+                        {selectedExaminations.map((examination, index) =>
                             (
                                 <tr key={examination.id} style={{ position: 'relative' }}>
                                     <td scope="row">
@@ -319,7 +352,7 @@ const Examinations = (props) => {
                     </table>
                     <div className="input-group mb-0 mx-0  paginationContainer " style={{maxWidth: "1200px"}} >
 
-                        <span className = "me-3">{examinations === [] ? (0) : (1 + '-' + examinations.length)} of {examinations.length}</span>
+                        <span className = "me-3">{selectedExaminations === [] ? (0) : (1 + '-' + selectedExaminations.length)} of {selectedExaminations.length}</span>
                         <img src= {chevronLeft} style={{float: "right"}} className = "chevronIcon"></img>
                         <img src= {chevronRight} style={{float: "right"}} className = "chevronIcon"></img>
 
@@ -343,7 +376,7 @@ const Examinations = (props) => {
                          </h5>
     
     
-                     <p style={{textAlign: "center", maxWidth: "1200px"}} className = "px-4 mb-2 mt-1 ">{examinations.length} {" "} 
+                     <p style={{textAlign: "center", maxWidth: "1200px"}} className = "px-4 mb-2 mt-1 ">{selectedExaminations.length} {" "}
                      
                 pregleda
     

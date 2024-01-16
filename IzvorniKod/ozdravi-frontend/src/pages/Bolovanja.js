@@ -12,7 +12,7 @@ const Bolovanja = (props) => {
     const user = JSON.parse(sessionStorage.userData)
     const currentRole = sessionStorage.getItem('currentRole');
     const backendRoute = props.backendRoute
-    const [selectedStatus, setSelectedStatus] = useState('svi')
+    const [selectedStatus, setSelectedStatus] = useState('nepregledano' )
     const bearerToken = sessionStorage.bearerToken
     const navigate = useNavigate()
     const [novoBolovanjeOpen, setNovoBolovanjeOpen] = useState(false)
@@ -155,11 +155,11 @@ const Bolovanja = (props) => {
 
                     <button className={selectedStatus === 'nepregledano' ?
                         "btn btn-primary chip-selected  me-2 mt-2" : "btn btn-secondary chip-unselected  me-2 mt-2"}
-                        id="nepregledano" onClick={() => handleFilterButton('nepregledano')}>Nepregledano</button>
+                            id="nepregledano" onClick={() => handleFilterButton('nepregledano')}>Nepregledano</button>
 
                     <button className={selectedStatus === 'pregledano' ?
                         "btn btn-primary chip-selected  me-2 mt-2" : "btn btn-secondary chip-unselected  me-2 mt-2"}
-                        id="pregledano" onClick={() => handleFilterButton('pregledano')}>Pregledano</button>
+                            id="pregledano" onClick={() => handleFilterButton('pregledano')}>Pregledano</button>
                 </div>
 
 
@@ -187,10 +187,8 @@ const Bolovanja = (props) => {
                                 </div>
                             </div>
 
-                        )) : (<p>Loading...</p>)}
-                </div>
+                        )) : (
 
-            </div>
             <div id="usersWrapperInner" style={{
                 display: "flex",        // Enable Flexbox
                 flexDirection: "column", // Stack children vertically
@@ -210,6 +208,10 @@ const Bolovanja = (props) => {
                 {(currentRole === "doctor" || currentRole === "pediatrician" || currentRole === "admin" ? (
                     <button className="btn btn-primary ms-2 mt-2 " style={{}} onClick={toggleNovoMisljenje}>Nova preporuka +</button>) : null)}
             </div>
+                )}
+            </div>
+
+        </div>
         </div>
     );
 };
