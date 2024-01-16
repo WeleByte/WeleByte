@@ -130,6 +130,7 @@ const Bolovanja = (props) => {
                 handleLogOut={handleLogOut}
                 refreshRecommendations={toggleRefreshRecommendations} />}
 
+        { recommendations.length !== 0 ? (
             <div id="seccondOppWrapper">
 
                 {/*     <p style={{textAlign: "left", fontSize: "13px"}} className='px-4 mb-2 mt-2 mb-1'>4 nepregledanih - 7 pregledanih</p> */}
@@ -154,11 +155,11 @@ const Bolovanja = (props) => {
                     {/*        id = "nepregledano" onClick={() => setSelectedStatus('svi')}>Sve</button>*/}
 
                     <button className={selectedStatus === 'nepregledano' ?
-                        "btn btn-primary chip-selected  me-2 mt-2" : "btn btn-secondary chip-unselected  me-2 mt-2"}
+                        "btn btn-primary chip-selected  me-2 mt-0" : "btn btn-secondary chip-unselected  me-2 mt-0"}
                         id="nepregledano" onClick={() => handleFilterButton('nepregledano')}>Nepregledano</button>
 
                     <button className={selectedStatus === 'pregledano' ?
-                        "btn btn-primary chip-selected  me-2 mt-2" : "btn btn-secondary chip-unselected  me-2 mt-2"}
+                        "btn btn-primary chip-selected  me-2 mt-0" : "btn btn-secondary chip-unselected  me-2 mt-0"}
                         id="pregledano" onClick={() => handleFilterButton('pregledano')}>Pregledano</button>
                 </div>
 
@@ -190,7 +191,7 @@ const Bolovanja = (props) => {
                         )) : (<p>Loading...</p>)}
                 </div>
 
-            </div>
+            </div>) : (
             <div id="usersWrapperInner" style={{
                 display: "flex",        // Enable Flexbox
                 flexDirection: "column", // Stack children vertically
@@ -206,10 +207,13 @@ const Bolovanja = (props) => {
                     Nema preporuka za bolovanje
 
                 </h5>
+
+                <p style={{textAlign: "center", maxWidth: "1200px"}} className = "px-4 mb-2 mt-1 ">{recommendations.length} {" "} preporuka</p> 
+
                 
-                {(currentRole === "doctor" || currentRole === "pediatrician" || currentRole === "admin" ? (
+                {(currentRole === "pediatrician" || currentRole === "admin" ? (
                     <button className="btn btn-primary ms-2 mt-2 " style={{}} onClick={toggleNovoMisljenje}>Nova preporuka +</button>) : null)}
-            </div>
+            </div> )}
         </div>
     );
 };

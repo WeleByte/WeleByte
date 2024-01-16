@@ -191,7 +191,7 @@ const SecondOpinions = (props) => {
                     mišljenja
         
                          </p> 
-                         {(uloga === "doctor" || uloga === "pediatrician" || uloga === "admin"  ? (
+                         {(uloga === "parent" ? (
                             <button className = "btn btn-primary ms-2 mt-2 " style={{}} onClick= {toggleNovoMisljenje}>Dodaj mišljenje +</button>  ) : null)}
                            
                         </div>
