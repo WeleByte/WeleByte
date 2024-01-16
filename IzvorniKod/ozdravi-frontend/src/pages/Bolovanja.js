@@ -9,7 +9,6 @@ import SickLeaveRecommendationDetail from '../components/SickLeaveRecommendation
 
 const Bolovanja = (props) => {
 
-    const user = JSON.parse(sessionStorage.userData)
     const currentRole = sessionStorage.getItem('currentRole');
     const backendRoute = props.backendRoute
     const [selectedStatus, setSelectedStatus] = useState('nepregledano' )
@@ -68,9 +67,9 @@ const Bolovanja = (props) => {
                 setUnresolvedRecommendations(parsedData.filter(recommendation => recommendation.status === null))
                 setFilteredRecommendations(parsedData.filter(recommendation => recommendation.status === null))
             })
-        // .catch(error => {
-        //     console.error('Fetch error:', error);
-        // });
+        .catch(error => {
+            console.error('Fetch error:', error);
+        });
     }, [refreshRecommendations]);
 
     // switch(selectedStatus) {
@@ -95,15 +94,13 @@ const Bolovanja = (props) => {
         }
     }
 
-    if (!bearerToken) {
-        return null
-    }
 
     function handleBolovanjeDetail(id) {
         console.log("id: ", id)
         setCurrentDetailId(id)
         toggleBolovanjeDetail()
     }
+
 
     if (!bearerToken) {
         return null
@@ -175,7 +172,7 @@ const Bolovanja = (props) => {
             <button class ="btn selector-btn selector-btn-selected col-6">Nepregledano ({nepregledanoCount})</button>
             <button class ="btn selector-btn selector-btn-unselected col-6">Pregledano ({nepregledanoCount + 3})</button>
         </div> */}
-                    {filteredRecommendations && filteredRecommendations !== 0 ?
+                    {filteredRecommendations && filteredRecommendations.length !== 0 ?
                         filteredRecommendations.map((recommendation) => (
 
                             <div key={recommendation.id} className="card mb-0" style={{ textAlign: "left" }}>

@@ -48,17 +48,7 @@ function App({wordIn}) {
                 <Route path="/pregledi" element={<Examinations backendRoute={backendRoute} />} />
                 <Route path="/upute" element={<Upute backendRoute={backendRoute} />} />
 
-                {/*TODO bookmark map showcase*/}
 
-                <Route path="/map" element={
-                    <div style={{width:'100vw', height:'100vh'}}>
-                        <MapComponent
-                            // props = {mapProps}
-                        >
-
-                        </MapComponent>
-                    </div>
-                } />
             </Routes>
           </BrowserRouter>
     </div>

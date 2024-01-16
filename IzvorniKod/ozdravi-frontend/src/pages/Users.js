@@ -200,7 +200,7 @@ const Users = (props) => {
                  <p style={{textAlign: "left", maxWidth: "1200px"}} className = "px-4 mb-2 ">{users.length} 
                  
                 {(currentRole === "admin" ? (" korisnika") : null)}
-                {(currentRole === "doctor" || currentRole === "admin" ? (" pacijenata") : null)}
+                {(currentRole === "doctor" ? (" pacijenata") : null)}
                 {(currentRole === "parent" ? (" djece") : null)}
 
                  </p> 
