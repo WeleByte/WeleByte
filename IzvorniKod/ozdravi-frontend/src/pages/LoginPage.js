@@ -45,12 +45,13 @@ const LoginPage = (props) => {
         } else {
             setLoginFailed(false)
             const responseData = await response.json()
+            console.log("Role: ", responseData.currentRole)
             sessionStorage.setItem('bearerToken', responseData.accessToken)
             sessionStorage.setItem('userData', JSON.stringify(responseData.user))
-            console.log(responseData.user)
-            navigate('/home');
+            sessionStorage.setItem('currentRole', responseData.currentRole)
+            navigate('/home')
         }
-    };
+    }
 
     const navigateSignUp = () => {
 

@@ -6,15 +6,15 @@ import searchIcon from '../assets/icons/search.png'
 import Navbar from './Header';
 import userIcon from '../assets/images/userIcon.png'
 import Select from 'react-select'
+import MapComponent from "./MapComponent";
 import { Navigate } from 'react-router-dom';
+import findAddress from "../assets/scripts/AddressFinder";
 
 const PregledDetail = ({closeNoviPregled, pregledId, backendRoute, bearerToken, user, examination}) => {
 
   const closeModal = () => {
     closeNoviPregled()
   }
-
-  
 
   useEffect(() => {
     console.log(examination)
@@ -76,6 +76,9 @@ const PregledDetail = ({closeNoviPregled, pregledId, backendRoute, bearerToken, 
   <label htmlFor="username" className=" col-12 text-label" style={{float: 'left', textAlign:"left"}}>Opis pregleda</label>
   <p style={{textAlign:"left"}} class ="text mb-5">{examination.report}</p>
 </div>
+      <div className="mapWrapper" style={{height: "40vh", width:"90%", margin:"0 auto", paddingBottom:"30px"}}>
+        <MapComponent address={examination.address}></MapComponent>
+      </div>
 
 </form>
 </div>

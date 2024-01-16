@@ -1,5 +1,6 @@
 package ozdravi.service;
 
+import ozdravi.domain.Examination;
 import ozdravi.domain.SLR;
 import ozdravi.rest.dto.SLRDTO;
 
@@ -8,7 +9,7 @@ import java.util.Optional;
 
 public interface SLRService {
 
-    SLR createSLR(SLRDTO slr);
+    SLR createSLR(Examination examination);
 
     List<SLR> listAll();
 
@@ -19,6 +20,11 @@ public interface SLRService {
     List<SLR> list();
 
     SLR findById(Long id);
+
+    /*
+    sluzi samo za dohvacanje iz controllera, ima dodatne provjere autorizacije
+     */
+    SLR fetch(Long id);
 
     List<SLR> listByParent(Long id);
 

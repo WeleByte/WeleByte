@@ -32,6 +32,8 @@ const Users = (props) => {
     const [userDetailVisible, setUserDetailVisible] = useState(false);
     const [users, setUsers] = useState([])
     const [selectedUserIndex, setselectedUserIndex] = useState(false)
+    const currentRole = sessionStorage.getItem('currentRole');
+
 
     //go to /home if not admin/doctor/pediatrician
     useEffect(() => {
@@ -91,65 +93,22 @@ const Users = (props) => {
     const openUserOptions = (index) => {
         console.log("opening");
         console.log(currentOpenedOptions);
-    
+
         // Close previously opened options if any
         if (currentOpenedOptions !== null && currentOpenedOptions !== index) {
             closeUserOptions(currentOpenedOptions);
         }
-    
+
         optionsOpened = true;
-    
+
         const tbody = document.querySelector(`#usersTable tbody`);
         const tr = tbody.querySelector(`tr:nth-child(${index + 1})`);
         const userOptions = tr.querySelector('.userOptions');
-    
+
         userOptions.style.display = 'block';
-    
+
         setCurrentOpenedOptions(index);
     }
-    
-    
-
-
-
-
-    /*--------------------------------------Hard kodirani useri--------------------------------------------*/
-    // const original = [
-    //     {
-    //         ime: 'Filip', prezime: 'Filipović', lastVisit: '12.1.2023.',
-    //         visitCount: 5, email: 'filip.filipovic@gmail.com', age: 12
-    //     }, {
-    //         ime: 'Ivan', prezime: 'Ivanovic', lastVisit: '25.6.2023.',
-    //         visitCount: 2, email: 'ivan.ivanovic@gmail.com', age: 69
-    //     }, {
-    //         ime: 'Milica', prezime: 'Srbić', lastVisit: '12.1.2023.',
-    //         visitCount: 7, email: 'milica.srbic@gmail.com', age: 23
-    //     }, {
-    //         ime: 'Joža', prezime: 'Mužić', lastVisit: '69.420.1337.',
-    //         visitCount: 89, email: 'jozica.muzic@gmail.com', age: 8
-    //     }, {
-    //         ime: 'Đurđa', prezime: 'Đurđić', lastVisit: '24.2.1923.',
-    //         visitCount: 257, email: 'jozica.muzic@gmail.com', age: 96
-    //     }
-    // ];
-
-    // let odrasliCount = original.filter(user => user.age >= 18).length
-    // let djecaCount = original.filter(user => user.age < 18).length
-    // let filteredUsers
-    //
-    //   switch(selectedUsers){
-    //       case 'svi' : filteredUsers = original
-    //           break
-    //       case 'odrasli' : filteredUsers = original.filter(user => user.age >= 18)
-    //           break
-    //       case 'djeca' : filteredUsers = original.filter(user => user.age < 18)
-    //           break
-    // }
-    /*----------------------------------Kraj hard kodiranih usera------------------------------------*/
-
-
-
-// Import statements...
 
 
     // State and other variables...
@@ -190,7 +149,7 @@ const Users = (props) => {
 
 
         <div id = "UsersWrapper">
-            <Navbar></Navbar>
+            <Navbar backendRoute={backendRoute} bearerToken={bearerToken}></Navbar>
 
             {isAddPatientVisible && <AddPatient closeAddPatient = {toggleAddPatient}
                                                 backendRoute={backendRoute}
@@ -200,26 +159,35 @@ const Users = (props) => {
 
             {noviPregledOtvoren && <NoviPregled closeNoviPregled = {toggleNoviPregled}/>}
 
-            {addUserVisible && <UserForm closeNoviPregled = {toggleAddUser}/>}
-            {userDetailVisible && <UserDetail close = {toggleUserDetail} role = {roles.map(obj => obj.name)[0]} user = {users[selectedUserIndex]}  />}
+            {addUserVisible && <UserForm closeUserForm = {toggleAddUser}
+                                         handleLogOut={handleLogOut}
+                                         backendRoute={backendRoute}
+                                         bearerToken={bearerToken}
+                                         refreshUsers={toggleRefreshUsers}/>}
+
+            {userDetailVisible && <UserDetail close = {toggleUserDetail}
+                                              role = {currentRole.name}
+                                              user = {users[selectedUserIndex]}  />}
 
 
 
+            {users.length != 0 ? (
+
+           
             <div id = "usersWrapperInner">
 
 
-          
             <h5 className = "pt-3 px-4 mt-2 " style={{textAlign: "left", maxWidth: "1246px"}}>
-            {(rolesMapped.includes("admin") ? ("Korisnici") : null)}
-            {(rolesMapped.includes("doctor") || rolesMapped.includes("pediatrician") ? ("Moji Pacijenti") : null)}
-            {(rolesMapped.includes("parent") ? ("Moja Djeca") : null)}
+            {(currentRole === "admin" ? ("Korisnici") : null)}
+            {(currentRole === "doctor" || currentRole === "pediatrician" ? ("Moji Pacijenti") : null)}
+            {(currentRole === "parent" ? ("Moja Djeca") : null)}
 
                     {/* <button className='btn btn-tertiary mt-1' style={{float: 'right'}}>Povijest </button>  */}
                    
-                    {(rolesMapped.includes("doctor") || rolesMapped.includes("pediatrician")  ? (
+                    {(currentRole === "doctor" || currentRole === "pediatrician"  ? (
                     <button className = "btn btn-primary ms-2" style={{float:"right"}} onClick= {toggleAddPatient}>Novi Pacijent +</button>  ) : null)}
                    
-                    {(rolesMapped.includes("admin") ? 
+                    {(currentRole === "admin" ? 
                         <button className="btn btn-primary" style={{float: "right"}} onClick={toggleAddUser}>
                             Novi Korisnik +
                         </button> 
@@ -228,9 +196,9 @@ const Users = (props) => {
 
                  <p style={{textAlign: "left", maxWidth: "1200px"}} className = "px-4 mb-2 ">{users.length} 
                  
-                {(rolesMapped.includes("admin") ? (" korisnika") : null)}
-                {(rolesMapped.includes("doctor") || rolesMapped.includes("pediatrician") ? (" pacijenata") : null)}
-                {(rolesMapped.includes("parent") ? (" djece") : null)}
+                {(currentRole === "admin" ? (" korisnika") : null)}
+                {(currentRole === "doctor" || currentRole === "admin" ? (" pacijenata") : null)}
+                {(currentRole === "parent" ? (" djece") : null)}
 
                  </p> 
 
@@ -289,10 +257,10 @@ const Users = (props) => {
                                     <img src = {userIcon} alt = "" width = "14" className='me-3' style={{opacity: "75%"}}></img>
                                     {user.first_name + " " + user.last_name}
                                 </td>
-                              
+
                                 <td>{user.oib}</td>
                                 <td>{user.email}</td>
-                               
+
 
                                 <td className = "three-dot-td" >
 
@@ -314,20 +282,20 @@ const Users = (props) => {
                                         </button> */}
                                         <button onClick={() => toggleUserDetail(index)}  className =" ps-3 col-12 mb-2 mt-2  py-2 novi-pregled-btn" style={{opaciy: "80%",textAlign: "left", fontWeight:"500", border:"none", background:"none"}} > Detalji  <img className ="me-3 mt-1" style={{ height: "19px", float: "right", opacity: "80%" }} src={InfoIcon}></img> </button>
                                         
-                                        {rolesMapped.includes("doctor") || rolesMapped.includes("pediatrician") ? (
+                                        {currentRole === "doctor" || currentRole === "pediatrician" ? (
                                         <button className =" ps-3  col-12 mb-2 py-2 delete-btn"
                                                 style={{opaciy: "80%",textAlign: "left", fontWeight:"500", border:"none", background:"none"}}> Ukloni
                                             <img className ="me-3 mt-1"
                                                  style={{ height: "19px", float: "right", opacity: "800%" }}  src={TrashIcon}></img>
                                         </button>
                                         ): null}
-                                        {rolesMapped.includes("admin")  ? (
-                                        <button className =" ps-3  col-12 mb-2 py-2 delete-btn"
-                                                style={{opaciy: "80%",textAlign: "left", fontWeight:"500", border:"none", background:"none"}}> Izbriši
-                                            <img className ="me-3 mt-1"
-                                                 style={{ height: "19px", float: "right", opacity: "800%" }}  src={TrashIcon}></img>
-                                        </button>
-                                        ): null}
+                                        {/*{rolesMapped.includes("admin")  ? (*/}
+                                        {/*<button className =" ps-3  col-12 mb-2 py-2 delete-btn"*/}
+                                        {/*        style={{opaciy: "80%",textAlign: "left", fontWeight:"500", border:"none", background:"none"}}> Izbriši*/}
+                                        {/*    <img className ="me-3 mt-1"*/}
+                                        {/*         style={{ height: "19px", float: "right", opacity: "800%" }}  src={TrashIcon}></img>*/}
+                                        {/*</button>*/}
+                                        {/*): null}*/}
 
                                     </ul>
                                 </td>
@@ -345,7 +313,46 @@ const Users = (props) => {
 
                     </div>
                 </div>
-            </div>
+            </div>  ) : (
+                <div id = "usersWrapperInner" style={{
+                    display: "flex",        // Enable Flexbox
+                    flexDirection: "column", // Stack children vertically
+                    justifyContent: "center", // Center content vertically
+                    alignItems: "center",    // Center content horizontally
+                    height: "90vh",   
+                       // Take full viewport height
+                       // Optional: If you still want additional padding on top
+                }}>
+
+
+                <h5 className = " px-4 mt-0 pt-0 " style={{textAlign: "center", maxWidth: "1246px"}}>
+                {(currentRole === "admin" ? ("Nema prijavljenih korisnika") : null)}
+                {(currentRole === "doctor" || currentRole === "pediatrician" ? ("Nemate prijavljenih pacijenata") : null)}
+                {(currentRole === "parent" ? ("Nemate prijavljenje djece") : null)}
+    
+                     
+                       
+                         </h5>
+    
+    
+                     <p style={{textAlign: "center", maxWidth: "1200px"}} className = "px-4 mb-2 mt-1 ">{users.length} 
+                     
+                    {(currentRole === "admin" ? (" korisnika") : null)}
+                    {(currentRole === "doctor" || currentRole === "admin" ? (" pacijenata") : null)}
+                    {(currentRole === "parent" ? (" djece") : null)}
+    
+                     </p> 
+                     {(currentRole === "doctor" || currentRole === "pediatrician"  ? (
+                        <button className = "btn btn-primary ms-2 mt-2 " style={{}} onClick= {toggleAddPatient}>Novi Pacijent +</button>  ) : null)}
+                       
+                        {(currentRole === "admin" ? 
+                            <button className="btn btn-primary" style={{float: "center"}} onClick={toggleAddUser}>
+                                Novi Korisnik +
+                            </button> 
+                        : null)}
+                    </div>
+    
+            )}
         </div>
     );
 };

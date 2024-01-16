@@ -21,6 +21,7 @@ import ozdravi.service.UserService;
 import java.net.URI;
 import java.time.format.DateTimeParseException;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -145,16 +146,21 @@ public class UserServiceJpa implements UserService {
 
     @Override
     public User findById(Long id) {
-//        User workingUser = securityContextService.getLoggedInUser();
-//        if (!workingUser.getId().equals(id) && !securityContextService.isUserInRole("ADMIN"))
-//            throw new RequestDeniedException("You are not authorized to view this info");
-
         Optional<User> user = userRepository.findById(id);
-
         if (user.isEmpty())
-            throw new UserDoesNotExistException("No user with such id");
+            throw new UserDoesNotExistException("User with id " + id.toString() + " not found");
 
         return user.get();
+    }
+
+    @Override
+    public User fetch(Long id) {
+        User user = findById(id);
+        User workingUser = securityContextService.getLoggedInUser();
+        if (!workingUser.getId().equals(id) && !securityContextService.isUserInRole("ADMIN"))
+            throw new RequestDeniedException("You are not authorized to view this user");
+
+        return user;
     }
 
     @Override
@@ -164,23 +170,26 @@ public class UserServiceJpa implements UserService {
 
     @Override
     public void modifyUser(UserDTO userDTO, Long id){
-        User workingUser = securityContextService.getLoggedInUser();
-        if(!workingUser.getId().equals(id) && !securityContextService.isUserInRole("ADMIN"))
-            throw new RequestDeniedException("You are not authorized to modify this user");
-
-        userDTO.setId(id);
-
         Optional<User> optionalUser = userRepository.findById(id);
         if(optionalUser.isEmpty()) throw new UserDoesNotExistException("User doesn't exist");
+        User modifiedUser = optionalUser.get();
+        User workingUser = securityContextService.getLoggedInUser();
 
-        ValidityUtil.checkUserDTOForLoops(userDTO);
+        if(securityContextService.isUserInRole("ADMIN")) {
+            userDTO.setId(id);
+            ValidityUtil.checkUserDTOForLoops(userDTO);
 
-        User user = dtoManager.userDTOToUser(userDTO);
+            User user = dtoManager.userDTOToUser(userDTO);
+            ValidityUtil.checkUserValidity(user);
+            optionalUser.get().copyDifferentAttributes(user);
+            userRepository.save(optionalUser.get());
+        } else if(workingUser.getId().equals(id) || Objects.equals(modifiedUser.getParent().getId(), workingUser.getId())) {
+            modifiedUser.setInstitution_email(userDTO.getInstitution_email());
 
-        ValidityUtil.checkUserValidity(user);
-
-        optionalUser.get().copyDifferentAttributes(user);
-        userRepository.save(optionalUser.get());
+            userRepository.save(modifiedUser);
+        } else {
+            throw new RequestDeniedException("You are not authorized to modify this user");
+        }
     }
 
     @Override

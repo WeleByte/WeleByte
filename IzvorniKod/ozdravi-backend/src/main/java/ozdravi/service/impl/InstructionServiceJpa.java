@@ -12,6 +12,7 @@ import ozdravi.exceptions.RequestDeniedException;
 import ozdravi.rest.dto.InstructionDTO;
 import ozdravi.service.InstructionService;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -59,6 +60,8 @@ public class InstructionServiceJpa implements InstructionService {
     public Instruction createInstruction(InstructionDTO instructionDTO) {
         User doctor = securityContextService.getLoggedInUser();
 
+        instructionDTO.setDate(LocalDateTime.now());
+
         Instruction instruction = dtoManager.InstructionDTOtoInstruction(instructionDTO);
 
         //PROVJERE
@@ -84,7 +87,7 @@ public class InstructionServiceJpa implements InstructionService {
     public Instruction findById(Long id) {
         Optional<Instruction> instruction = instructionRepository.findById(id);
         if(instruction.isEmpty()) {
-            throw new EntityMissingException("No instructions with such id");
+            throw new EntityMissingException("Instruction with id " + id.toString() + " not found");
         }
 
         //admin smije sve vidjeti
@@ -101,7 +104,7 @@ public class InstructionServiceJpa implements InstructionService {
                 (instruction.get().getPatient().getParent() != null && Objects.equals(instruction.get().getPatient().getParent().getId(), user_id)))
             return instruction.get();
         else
-            throw new RequestDeniedException("You are not authorized to view this info");
+            throw new RequestDeniedException("You are not authorized to view this instruction");
     }
 
     @Override

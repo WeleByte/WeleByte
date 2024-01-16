@@ -118,7 +118,6 @@ public class UserControllerTest {
     @Test
     void shouldSuccesfullyRegister() throws Exception{
         User user = new User();
-        user.setId(2L);
         user.setOib("25768672773");
         user.setEmail("bla@mail.com");
         user.setFirst_name("Janko");
