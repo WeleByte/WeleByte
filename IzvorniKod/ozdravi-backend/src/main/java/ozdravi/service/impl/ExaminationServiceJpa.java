@@ -165,4 +165,5 @@ public class ExaminationServiceJpa implements ExaminationService {
     public List<ExaminationDTO> listAllRequests() {
         return listAll().stream().map((ExaminationDTO::new)).toList();
     }
+
 }
