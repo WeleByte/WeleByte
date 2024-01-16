@@ -14,6 +14,7 @@ import ozdravi.rest.dto.SLRDTO;
 import ozdravi.service.SLRService;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -115,8 +116,9 @@ public class SLRServiceJpa implements SLRService {
         SLR slr = findById(id);
 
         User currentUserOptional = securityContextService.getLoggedInUser();
-        if(!slr.getApprover().getId().equals(currentUserOptional.getId()))
-            throw new RequestDeniedException("You are not authorized to approve or reject this sick leave recommendation");
+
+        if(!(securityContextService.isUserInRole("DOCTOR") && Objects.equals(slr.getApprover().getId(), currentUserOptional.getId())))
+            throw new RequestDeniedException("You are not authorized to approve or reject this SLR");
 
         slr.setStatus(approved);
 

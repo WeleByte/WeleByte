@@ -185,6 +185,7 @@ const NoviPregled = (props) => {
                 .then(response => {
                     props.refreshExaminations()
                     console.log(response);
+                    closeModal()
                 })
             closeModal()
         } else {

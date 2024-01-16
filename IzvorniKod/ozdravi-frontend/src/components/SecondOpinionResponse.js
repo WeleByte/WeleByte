@@ -14,7 +14,7 @@ const SecondOpinionResponse = (props) => {
         props.closeSeccondOpinnionForm()
     }
 
-    const role = props.role;
+    const role = sessionStorage.getItem('currentRole');
 
     useEffect(() => {
         if(props.currentOpinionId !== null && props.currentOpinionId !== undefined) {
