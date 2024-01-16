@@ -63,7 +63,7 @@ const Navbar = (props) => {
         {value: 3, label: "Doktor"},
         {value: 4, label: "Roditelj"},
         {value: 5, label: "Pedijatar"}
-      ]
+    ]
 
 
 

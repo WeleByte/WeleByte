@@ -166,12 +166,15 @@ const Users = (props) => {
                                          refreshUsers={toggleRefreshUsers}/>}
 
             {userDetailVisible && <UserDetail close = {toggleUserDetail}
-                                              role = {currentRole.name}
-                                              user = {users[selectedUserIndex]}  />}
+                                              role = {currentRole}
+                                              user = {users[selectedUserIndex]}
+                                              backendRoute={backendRoute}
+                                              bearerToken={bearerToken}
+                                              handleLogOut={handleLogOut}/>}
 
 
 
-            {users.length != 0 ? (
+            {users.length !== 0 ? (
 
            
             <div id = "usersWrapperInner">

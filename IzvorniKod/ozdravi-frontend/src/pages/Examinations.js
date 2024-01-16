@@ -181,30 +181,35 @@ const Examinations = (props) => {
                 }
             })
             .then(parsedData => {
-                console.log(parsedData)
-                setParentExaminations(parsedData.filter(examination => examination.patient.roles
-                    .map(role => role.name).includes('parent')))
-                setChildExaminations(parsedData.filter(examination => examination.patient.roles
-                    .map(role => role.name).includes('child')))
+                if(parsedData){
+                    console.log(parsedData)
+                    setParentExaminations(parsedData.filter(examination => examination.patient.roles
+                        .map(role => role.name).includes('parent')))
 
-                switch(currentRole){
-                    case 'parent' :
-                        setSelectedExaminations(parsedData.filter(examination => examination.patient.roles
-                            .map(role => role.name).includes('parent')))
-                        break
-                    case 'doctor' :
-                        setSelectedExaminations(parsedData.filter(examination => examination.patient.roles
-                            .map(role => role.name).includes('parent')))
-                        break
-                    case 'pediatrician' :
-                        setSelectedExaminations(parsedData.filter(examination => examination.patient.roles
-                            .map(role => role.name).includes('child')))
-                        break
-                    case 'admin' : setSelectedExaminations(parsedData)
-                        break
-                    default: handleLogOut()
-                }
+                    setChildExaminations(parsedData.filter(examination => examination.patient.roles
+                        .map(role => role.name).includes('child')))
 
+                    switch (currentRole) {
+                        case 'parent' :
+                            setSelectedExaminations(parsedData.filter(examination => examination.patient.roles
+                                .map(role => role.name).includes('parent')))
+                            break
+                        case 'pediatrician' :
+                            setSelectedExaminations(parsedData.filter(examination => examination.patient.roles
+                                .map(role => role.name).includes('child')))
+                            break
+                        case 'doctor' :
+                            setSelectedExaminations(parsedData)
+                            break
+                        case 'admin' :
+                            setSelectedExaminations(parsedData)
+                            break
+                        default:
+                            handleLogOut()
+                    }
+                } else {
+                        console.log('parsedData empty')
+                    }
             })
         // .catch(error => {
         //     console.error('Fetch error:', error);
