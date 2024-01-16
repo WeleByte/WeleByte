@@ -204,8 +204,19 @@ const Navbar = (props) => {
      
       <div className="me-4 d-none d-lg-block">
                   <Select styles={selectStyles} isSearchable = {false}   options={selectableRoles}
-                          placeholder = {currentRole}
-                          value={currentRole}
+                          // placeholder = {currentRole === 'admin' ? 'Admin'
+                          //     : currentRole === 'parent' ? 'Roditelj'
+                          //         : currentRole === 'doctor' ? 'Doktor'
+                          //             : currentRole === 'pediatrician' ? 'Pedijatar' : 'Uloga'}
+                          defaultValue={currentRole === 'admin'
+                              ? { label: 'Admin', value: 'admin' }
+                              : currentRole === 'parent'
+                                  ? { label: 'Roditelj', value: 'parent' }
+                                  : currentRole === 'doctor'
+                                      ? { label: 'Doktor', value: 'doctor' }
+                                      : currentRole === 'pediatrician'
+                                          ? { label: 'Pedijatar', value: 'pediatrician' }
+                                          : { label: 'Uloga', value: 'uloga' }}
                           onChange={handleRoleChange}/>
                 </div>
     
