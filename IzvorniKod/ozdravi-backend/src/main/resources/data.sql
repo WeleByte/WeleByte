@@ -122,6 +122,9 @@ values(4, 2, 2, 3, 'pacijent ima upalu uha.', '2023-01-11 14:30:00');
 insert into examinations(patient_id, doctor_id, scheduler_id, address_id, report, date)
 values(6, 2, 3, 3, 'pregled stitnjace.', '2023-02-13 14:30:00');
 
+insert into examinations(patient_id, doctor_id, scheduler_id, address_id, report, date)
+values(4, 2, 2, 3, 'gastroskopija.', '2023-12-25 18:30:00');
+
 --instructions
 
 insert into instructions(doctor_id, patient_id, date, content)
