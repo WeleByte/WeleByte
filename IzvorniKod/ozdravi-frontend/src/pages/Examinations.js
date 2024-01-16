@@ -33,6 +33,7 @@ const Examinations = (props) => {
     const [selectedPregledId, setSelectedPregledId] = useState("")
     const uloga = sessionStorage.getItem('currentRole');
     const [selectedStatus, setSelectedStatus] = useState('roditelj')
+    const currentRole = sessionStorage.getItem('currentRole')
 
     const [user, setUser] = useState('')
     const [roles, setRoles] = useState([""])
@@ -247,6 +248,7 @@ const Examinations = (props) => {
 
                  <p style={{textAlign: "left", maxWidth: "1200px"}} className = "px-4 mb-2 ">{selectedExaminations ? selectedExaminations.length : 0} pregleda</p>
 
+                {currentRole === 'parent' ? (
                 <div id="usersSelectorDiv" className="px-4 pb-1 pt-0 " style={{ display: "flex", justifyContent: "left", flexWrap: "wrap" }}>
                     {/*<button className = {selectedStatus === 'svi' ?*/}
                     {/*    "btn btn-primary chip-selected  me-2 mt-2" : "btn btn-secondary chip-unselected me-2 mt-2"}*/}
@@ -260,6 +262,7 @@ const Examinations = (props) => {
                         "btn btn-primary chip-selected  me-2 mt-2" : "btn btn-secondary chip-unselected  me-2 mt-2"}
                             id="pregledano" onClick={() => handleFilterButton('djeca')}>Moja djeca</button>
                 </div>
+                    ) : null}
 
 
                 {/* <div id = "usersSelectorDiv" className = "px-4 pb-1 pt-0 " style={{display: "flex", justifyContent: "left", flexWrap: "wrap"}}>

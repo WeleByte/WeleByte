@@ -169,7 +169,7 @@ const Bolovanja = (props) => {
             <button class ="btn selector-btn selector-btn-selected col-6">Nepregledano ({nepregledanoCount})</button>
             <button class ="btn selector-btn selector-btn-unselected col-6">Pregledano ({nepregledanoCount + 3})</button>
         </div> */}
-                    {filteredRecommendations ?
+                    {filteredRecommendations && filteredRecommendations !== 0 ?
                         filteredRecommendations.map((recommendation) => (
 
                             <div key={recommendation.id} className="card mb-0" style={{ textAlign: "left" }}>
@@ -194,7 +194,7 @@ const Bolovanja = (props) => {
                 flexDirection: "column", // Stack children vertically
                 justifyContent: "center", // Center content vertically
                 alignItems: "center",    // Center content horizontally
-                // height: "90vh",
+                height: "40vh",
                 // Take full viewport height
                 // Optional: If you still want additional padding on top
             }}>
