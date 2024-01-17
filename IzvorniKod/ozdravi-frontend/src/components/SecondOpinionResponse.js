@@ -17,8 +17,7 @@ const SecondOpinionResponse = (props) => {
     const role = sessionStorage.getItem('currentRole');
 
     useEffect(() => {
-        console.log(props.currentOpinionId)
-        if(props.currentOpinionId ) {
+        if(props.currentOpinionId) {
             fetch(props.backendRoute + `/second_opinion/${props.currentOpinionId}`, {
                 method: 'GET',
                 headers: {
@@ -39,7 +38,7 @@ const SecondOpinionResponse = (props) => {
                 .then(parsedData => {
                     console.log("Parsed Data: ", parsedData)
                     setSecondOpinion(parsedData);
-                    console.log(secondOpinion)
+                    console.log(parsedData)
                 })
                 .catch(error => {
                     console.error('Fetch error:', error);
@@ -48,6 +47,33 @@ const SecondOpinionResponse = (props) => {
     }, []);
 
 
+    const handleSubmit = (e) => {
+        e.preventDefault()
+        fetch(props.backendRoute + `/second_opinion/${secondOpinion.id}`, {
+            method: 'PUT',
+            headers: {
+                'Authorization' : `Bearer ${props.bearerToken}`,
+                'Content-Type' : 'application/json'
+            },
+            body: JSON.stringify({
+                doctor_id: secondOpinion.doctor.id,
+                requester_id: secondOpinion.requester.id,
+                opinion: secondOpinion.opinion,
+                content: secondOpinion.content
+            })
+        })
+            .then(response => {
+                // if(response.status === 401){
+                //     props.handleLogOut()
+                // } else
+                if(!response.ok){
+                    console.error("Error: ", response)
+                } else {
+                    props.refreshOpinions()
+                    closeModal()
+                }
+            })
+    }
 
     return (
         <div id = "addPatientsWrapper" className = "shadow-lg">
@@ -93,20 +119,23 @@ const SecondOpinionResponse = (props) => {
 
                             {role === "doctor" || role === "pediatrician" || role === "admin" ? (<div className="mb-3">
                                 <label htmlFor="username" className="text-label" style={{float: 'left', fontWeight: "600"}}>Odgovor</label>
-                                <textarea rows = "7" type="date" className="form-control" id="username"
-                                />
+                                <textarea rows = "7" type="date" className="form-control" id="username" value={secondOpinion.content}
+                                onChange={e =>
+                                    setSecondOpinion(prev => ({...prev, content: e.target.value}))}/>
                             </div>): null}
+
                             {role === "parent" ? (<div className="mb-3">
                                 <label htmlFor="username" className=" col-12 text-label" style={{float: 'left', textAlign:"left"}}>Odgovor </label>
                                 
                                 {secondOpinion.content !== "" && secondOpinion.content !== null ? (
-                                    <p style={{textAlign:"left"}} className ="text mb-5"> {secondOpinion.content} </p> ):
-                                    <p style={{textAlign:"left"}} className ="text mb-5"> Nije odgovoreno </p>}
+                                    <p style={{textAlign:"left"}} className ="text mb-5"> {secondOpinion.content} </p> )
+                                    : <p style={{textAlign:"left"}} className ="text mb-5"> Nije odgovoreno </p>}
 
                             </div>): null}
                             
                             { role === "doctor" || role === "pediatrician" || role === "admin" ? (
-                            <button type="submit" className="btn btn-primary col-12 col-md-2 py-2 mb-4" style={{float:"right"}} >Spremi </button>
+                            <button type="submit" className="btn btn-primary col-12 col-md-2 py-2 mb-4" style={{float:"right"}}
+                            onClick={handleSubmit} >Spremi </button>
                             ): null}
                         </form>
                     </div>

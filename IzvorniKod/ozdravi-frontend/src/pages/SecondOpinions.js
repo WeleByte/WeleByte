@@ -105,14 +105,15 @@ const SecondOpinions = (props) => {
                                                      backendRoute={backendRoute}
                                                      bearerToken={bearerToken}
                                                      handleLogOut={handleLogOut}
-                                                     user={user} refreshOpinions={toggleRefreshOpinions}/>}
+                                                     user={user}
+                                                     refreshOpinions={toggleRefreshOpinions}/>}
             {novoMisljenjeDetail && <SecondOpinionResponse closeSeccondOpinnionForm = {toggleMisljenjeDetail}
                                                            currentOpinionId={currentDetailId}
                                                            backendRoute={backendRoute}
                                                            bearerToken={bearerToken}
                                                            handleLogOut={handleLogOut}
                                                            role = {uloga}
-                                                           />}
+                                                           refreshOpinions={toggleRefreshOpinions}/>}
             {secondOpinions.length !== 0 ? (
             <div id = "seccondOppWrapper">
 

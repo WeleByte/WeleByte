@@ -90,7 +90,7 @@ const SecondOpinionForm = (props) => {
           requester_id: props.user.id,
           doctor_id: selectedDoctor.value,
           opinion: secondOpinion,
-          content: ''
+          content: null
         })
       })
       .then(response => {
