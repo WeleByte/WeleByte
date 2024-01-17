@@ -66,7 +66,9 @@ public interface UserService {
 
     void deleteById(Long id);
 
-    void modifyUser(UserDTO newData, Long id);
+    User modifyUser(UserDTO newData, Long id);
+
+    User modifyUser(UserDTO userDTO, List<String> roles, Long id);
 
     /**
      *
