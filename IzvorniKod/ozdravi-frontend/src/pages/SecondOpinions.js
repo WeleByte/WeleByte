@@ -154,7 +154,7 @@ const SecondOpinions = (props) => {
                     {secondOpinions?.map((secondOpinion) => (
                         <div key={secondOpinion.id} className="card mb-0" style={{textAlign: "left"}}>
                             <div className="card-body pregledajCardBody" style={{paddingRight: "130px"}}>
-                                <h5 className="card-title ">Pacijent: {secondOpinion.requester.first_name + " " + secondOpinion.requester.last_name}</h5>
+                                <h5 className="card-title ">Podnositelj zahtjeva: {secondOpinion.requester.first_name + " " + secondOpinion.requester.last_name}</h5>
                                 <p style={{fontSize: "13px"}}
                                    className='mb-1'>{secondOpinion.content} • {secondOpinion.doctor.first_name + " " + secondOpinion.doctor.last_name}</p>
                                
