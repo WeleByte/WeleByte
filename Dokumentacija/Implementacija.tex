@@ -46,7 +46,7 @@
 			\begin{packed_item}
 				\item Metoda vraća istinu (true) jer je OIB ispravan prema standardu za OIB-e.
 			\end{packed_item}
-			\lstinputlisting[language=Java, caption={Test 1}]{code/oib_test_1.java}
+			\lstinputlisting[style=JavaStyle, caption={Test 1}]{code/oib_test_1.java}
 
 			\subsubsection*{Test 2: Ispitivanje neispravnog OIB-a}
 			Komponenta: ValidityUtil \newline
@@ -59,7 +59,7 @@
 			\begin{packed_item}
 				\item Metoda vraća laž (false) jer OIB sadrži '.', odnosno ne zadovoljava standardni oblik.
 			\end{packed_item}
-			\lstinputlisting[language=Java, caption={Test 2}]{code/oib_test_2.java}
+			\lstinputlisting[style=JavaStyle, caption={Test 2}]{code/oib_test_2.java}
 
 			U testovima namijenjenima testiranju kontrolera, želimo ispitati isključivo ponašanje kontrolera, bez ispitivanja servisa, baze i drugih dijelova aplikacije.
 			Budući da kontoleri ne mogu raditi bez tih dijelova, nužno je stvoriti "mock" objekte koji ih mijenjaju i simuliraju njihovo ponašanje.
@@ -78,7 +78,7 @@
 			\begin{packed_item}
 				\item Kontroler u JSON formatu vraća popis svih Uputa koje trenutni korisnik može vidjeti, HTTP odgovor ima status 201 (OK).
 			\end{packed_item}
-			\lstinputlisting[language=Java, caption={Test 3}]{code/instruction_test_1.java}
+			\lstinputlisting[style=JavaStyle, caption={Test 3}]{code/instruction_test_1.java}
 			
 			\subsubsection*{Test 4: Stvaranje Uputa.}
 			Komponenta: InstructionsController \newline
@@ -91,7 +91,7 @@
 			\begin{packed_item}
 				\item Kontroler u JSON formatu vraća atribute novostvorene Upute, HTTP odgovor ima status 201 (Created).
 			\end{packed_item}
-			\lstinputlisting[language=Java, caption={Test 4}]{code/instruction_test_2.java}
+			\lstinputlisting[style=JavaStyle, caption={Test 4}]{code/instruction_test_2.java}
 
 			\subsubsection*{Test 5: Dohvaćanje nepostojeće Upute.}
 			Komponenta: InstructionsController \newline
@@ -104,7 +104,7 @@
 			\begin{packed_item}
 				\item HTTP odgovor ima status 404 (Not Found).
 			\end{packed_item}
-			\lstinputlisting[language=Java, caption={Test 5}]{code/instruction_test_3.java}
+			\lstinputlisting[style=JavaStyle, caption={Test 5}]{code/instruction_test_3.java}
 
 			\subsubsection*{Test 6: Dohvaćanje svih doktora u aplikaciji.}
 			Komponenta: UsersController \newline
@@ -117,7 +117,7 @@
 			\begin{packed_item}
 				\item HTTP odgovor ima status 403 (Forbidden), jer roditelj ne smije dobiti popis svih liječnika u aplikciji.
 			\end{packed_item}
-			\lstinputlisting[language=Java, caption={Test 6}]{code/user_test_1.java}
+			\lstinputlisting[style=JavaStyle, caption={Test 6}]{code/user_test_1.java}
 			
 			\subsubsection*{Test 7: Dodavanje korisnika.}
 			Komponenta: UsersController \newline
@@ -130,7 +130,7 @@
 			\begin{packed_item}
 				\item Kontroler u JSON formatu vraća atribute novostvorenog Korisnika, HTTP odgovor ima status 201 (Created).
 			\end{packed_item}
-			\lstinputlisting[language=Java, caption={Test 7}]{code/user_test_2.java}
+			\lstinputlisting[style=JavaStyle, caption={Test 7}]{code/user_test_2.java}
 
 			\subsubsection*{Test 8: Registracija korisnika.}
 			Komponenta: AuthenticationController \newline
@@ -139,7 +139,7 @@
 			\begin{packed_item}
 				\item Kontroler u JSON formatu vraća atribute novostvorenog Korisnika, HTTP odgovor ima status 201 (Created).
 			\end{packed_item}
-			\lstinputlisting[language=Java, caption={Test 8}]{code/registration_test.java}
+			\lstinputlisting[style=JavaStyle, caption={Test 8}]{code/registration_test.java}
 
 			\begin{figure}[H]
 				\includegraphics[width=\textwidth]{slike/testing_results.png} 
@@ -267,64 +267,52 @@
 			\eject 
 		
 		\section{Upute za puštanje u pogon}
+			Aplikacija "Odravi" se sastoji od nekoliko dijelova koje je potrebno postaviti kako bi se pokrenula u lokalnom okruženju.
 		
-			%dio 2. revizije
-		
-			 %U ovom poglavlju potrebno je dati upute za puštanje u pogon (engl. deployment) ostvarene aplikacije. Na primjer, za web aplikacije, opisati postupak kojim se od izvornog kôda dolazi do potpuno postavljene baze podataka i poslužitelja koji odgovara na upite korisnika. Za mobilnu aplikaciju, postupak kojim se aplikacija izgradi, te postavi na neku od trgovina. Za stolnu (engl. desktop) aplikaciju, postupak kojim se aplikacija instalira na računalo. Ukoliko mobilne i stolne aplikacije komuniciraju s poslužiteljem i/ili bazom podataka, opisati i postupak njihovog postavljanja. Pri izradi uputa preporučuje se naglasiti korake instalacije uporabom natuknica te koristiti što je više moguće slike ekrana kako bi upute bile jasne i jednostavne za slijediti.
-			
-			
-			 %Dovršenu aplikaciju potrebno je pokrenuti na javno dostupnom poslužitelju. Studentima se preporuča korištenje neke od sljedećih besplatnih usluga: https://aws.amazon.com/ {Amazon AWS}, https://azure.microsoft.com/en-us/ Microsoft Azure ili https://www.heroku.com/ Heroku. 
-    %Mobilne aplikacije trebaju biti objavljene na F-Droid, Google Play ili Amazon App trgovini.}
-	\subsection*{Postavljanje baze podataka}
-	U procesu postavljanja baze podataka za aplikaciju "Ozdravi", prvi korak je preuzimanje 
-	\href{https://www.postgresql.org/download/}{\textit{PostgreSQL-a}} s ovdje dostupne poveznice za operacijski 
-	sustav Windows. Ovaj instalacijski paket obuhvaća PostgreSQL poslužitelj, pgAdmin 
-	(grafički alat za upravljanje i razvoj baza podataka) te StackBuilder (upravitelj paketa koji 
-	olakšava preuzimanje i instalaciju dodatnih PostgreSQL alata i upravljačkih programa). Nakon završetka 
-	instalacije, slijedi standardni postupak postavljanja korisničkog imena i lozinke (neobavezno). \\
-	Nakon uspješne instalacije, pokreće se SQL Shell aplikacija.	\\
+			\subsection*{Postavljanje baze podataka}
+			U procesu postavljanja baze podataka za aplikaciju "Ozdravi", prvi korak je instalacija relacijske baze podataka
+			\href{https://www.postgresql.org/download/}{\textit{PostgreSQL-a}}. Nakon završetka instalacije, slijedi standardni postupak postavljanja korisničkog imena i lozinke (neobavezno).
+			Nakon uspješne instalacije, potrebno je pristupiti konzoli baze (psql) kako bi se stvroili potrebni resursi za rad backenda aplikacije "Ozdravi".
 	
-	\begin{figure}[H]
-		\includegraphics[width=\textwidth]{slike/sqlshell1.png} 
-		\caption{SQL Shell aplikacija} 
-	\end{figure}
-	 Kako bi se pristupilo komandnoj liniji, potrebno je pritisnuti tipku Enter dok linija ne započne s \textit{postgres=\#}
-	(ako je postavljena lozinka tijekom konfiguracije PostgreSQL-a, onda ju treba unijeti kada sustav zatraži: \textit{Password for user postgres:}). 
-	Nakon toga, izvršavaju se sljedeće naredbe:\\
-	\textit{create user welebyte with password 'welebyte';\\
-	create database ozdravi owner welebyte;}\\
-	Sada bi trebala biti stvorena baza podataka "ozdravi", čiji je vlasnik korisnik "welebyte". Naredbom \textit{\textbackslash l} može se provjeriti lista svih postojećih 
-	baza podataka i njihovih vlasnika. \\
-	\begin{figure}[H]
-		\includegraphics[width=\textwidth]{slike/sqlshell2.png} 
-		\caption{Postavljanje baze podataka} 
-	\end{figure}
-	\subsection*{Pokretanje aplikacije koristeći Intellij}
-	Nakon uspješne konfiguracije baze podataka, prelazi se na postavljanje aplikacije koristeći IntelliJ IDE. Potrebno je otvoriti mapu \textit{IzvorniKod\textbackslash ozdravi-backend} kao 
-	novi projekt u IntelliJ-u, a aplikacija se dalje pokreće jednostavnim pokretanjem datoteke \textit{OzdraviBackendApplication.java}. Aplikacija je sada dostupna na adresi:
-	\url{http://localhost:8000}.
+			Nakon toga, izvršavaju se sljedeće naredbe:
+			\lstinputlisting[style=SQLStyle, caption={Postavljanje baze podataka}]{code/db_setup.sql}
 
-	\subsection*{Postavljanje frontenda}
-	Sljedeći korak uključuje postavljanje frontenda. Prvotno se preuzima okruženje za izvršavanje JavaScript koda, Node.js, s ovdje dostupne 
-	\href{https://nodejs.org/en/download/}{poveznice}, slijedeći standardne korake instalacije. Zatim, u naredbenom retku (terminalu), potrebno se pozicionirati 
-	u direktorij u kojem je spremljen izvorni kod za frontend: \textit{...IzvorniKod\textbackslash ozdravi-frontend}. Prilikom prvog pokretanja, izvršava se naredba \textit{npm install} kako bi se 
-	preuzeli svi potrebni paketi, a zatim se aplikacija pokreće naredbom \textit{npm start}.
-	\begin{figure}[H]
-		\includegraphics[width=\textwidth]{slike/npmin.png} 
-		\caption{Preuzimanje paketa} 
-	\end{figure}
-	\begin{figure}[H]
-		\includegraphics[width=\textwidth]{slike/npmst.png} 
-		\caption{Pokretanje aplikacije} 
-	\end{figure}
+			Sada bi trebala biti stvorena baza podataka "ozdravi", čiji je vlasnik korisnik "welebyte". Naredbom \textit{\textbackslash l} može se provjeriti lista svih postojećih 
+			baza podataka i njihovih vlasnika.
+			\begin{figure}[H]
+				\includegraphics[width=\textwidth]{slike/sqlshell2.png} 
+				\caption{Postavljanje baze podataka} 
+			\end{figure}
 	
-	\newpage \noindent Nakon pokretanja, aplikaciju je moguće vidjeti na adresi: \url{http://localhost:3000.}\\
-	\begin{figure}[H]
-		\includegraphics[width=\textwidth]{slike/loc3000.png} 
-		\caption{Aplikacija na portu 3000} 
-	   \end{figure}
-	Nakon svake promjene i spremanja koda, stranica se automatski ponovno učitava. Osim toga, postoji mogućnost promjene porta aplikacije uređivanjem datoteke 
-	\textit{package.json}, 
-	gdje se u liniji koda 
-	\textit{"start": set PORT=3006 \&\& react-scripts start} može izmijeniti broj porta prema želji.
-	\eject 
+			\subsection*{Postavljanje i pokretanje backenda aplikacije}
+			Backend aplikacije je pisan u Javi 17, što znači da je na sustavu koji pokreće aplikaciju potrebno imati intaliran JDK (Java Development Kit) - preporučamo \href{https://www.openjdk.org}{\textit{OpenJDK}} kao open-source implementaciju, ali i druge inačica bi trebala raditi.
+			Osim Jave, potrebno je imati i \href{https://maven.apache.org/download.cgi}{\textit{Apache Maven}} instaliran. To je alat koji koristimo za upravljenje bibliotekama i "buildovima" backend aplikacije.
+			
+			Pri pokretanju, potrebno je u konzoli otvoriti mapu \textit{IzvorniKod/ozdravi-backend} a aplikacija se dalje kompajlira izvršavanjem sljedećih naredbi:
+			\lstinputlisting[style=ShellStyle, caption={Instalacija i kompajliranje backenda}]{code/mvn_cmd.shell}
+
+			i pokreće pomoću 
+			\lstinputlisting[style=ShellStyle, caption={Pokretanje backenda}]{code/java_jar.shell}
+			
+			Aplikacija je sada dostupna na portu 8080 lokalnog stroja.
+
+			\subsection*{Postavljanje frontenda}
+			Frontend aplikacije je pisan u Reactu i za njegovo pakiranje i pokretanje potrebno je preuzeti \href{https://nodejs.org/en/download/}{Node.js}.
+
+			Pri pokretanju, potrebno je u konzoli otvoriti mapu \textit{IzvorniKod/ozdravi-frontend} i izvršiti sljedeće naredbe:
+			\lstinputlisting[style=ShellStyle, caption={Instalacija i pokretanje frontenda}]{code/npm_cmd.shell}
+
+			Prvu je naredbu potrebno izvršiti samo jednom, kako bi se prikupili potrebni paketi, a druga je naredba ona koja pokreće server na kojem je frontend dostupan za preuzimanje.
+			
+			\newpage \noindent Nakon pokretanja, aplikaciju je moguće vidjeti na adresi: \url{http://localhost:3000.}\\
+			\begin{figure}[H]
+				\includegraphics[width=\textwidth]{slike/loc3000.png} 
+				\caption{Aplikacija na portu 3000} 
+			\end{figure}
+			Nakon svake promjene i spremanja koda, stranica se automatski ponovno učitava. Osim toga, postoji mogućnost promjene porta aplikacije uređivanjem datoteke \textit{package.json}, 
+			gdje se u liniji koda \textit{"start": set PORT=3006 \&\& react-scripts start} može izmijeniti broj porta prema želji.
+			
+			
+			\subsubsection*{Stvaranje PDF izvještaja dokumentacije}
+			Dokumentacija za ovaj projekt je napisana pomoću paketa \LaTeX  i nalazi se u mapi \textit{Dokumentacija/}. Kako bi se iz .tex datoteka izgradio PDF izvješaj potrebno je na računalu imati instalaciju \LaTeX-a i pokrenuti ispravne naredbe za izgradnju PDF-a (npr \textit{latexmk}).
+			\eject 
