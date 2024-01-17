@@ -170,6 +170,7 @@ const Users = (props) => {
                                               user = {users[selectedUserIndex]}
                                               backendRoute={backendRoute}
                                               bearerToken={bearerToken}
+                                              refreshUsers={toggleRefreshUsers}
                                               handleLogOut={handleLogOut}/>}
 
 

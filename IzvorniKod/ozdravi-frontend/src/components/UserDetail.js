@@ -61,6 +61,8 @@ const UserDetail = (props) => {
     setUser((prevUser) => ({
       ...prevUser,
       password: '',
+      doctor_id: user.doctor ? user.doctor.id : null,
+      parent_id: user.parent ? user.parent.id : null
     }))
 
     console.log('user: ', user)
@@ -106,7 +108,7 @@ const UserDetail = (props) => {
       setAdminSelected(true)
     else setAdminSelected(false)
 
-    if(selectedRoles){
+    if(!selectedRoles){
       setUser((prevUser) => ({
         ...prevUser,
         doctor_id: null,
@@ -138,7 +140,7 @@ const UserDetail = (props) => {
       doctor_id: selectedOption ? selectedOption.value : null
     }));
 
-    setSelectedDoctor(selectedOption)
+    setSelectedDoctor(selectedOption ? [selectedOption] : null)
   }
 
 
@@ -161,10 +163,17 @@ const UserDetail = (props) => {
       setFormatErrorMessage('Email je obavezan')
     } else if(!(/\S+@\S+\.\S+/.test(user.email)) || (user.institution_email && !(/\S+@\S+\.\S+/.test(user.institution_email)))){
       setFormatErrorMessage('Email je neispravan')
-    } else if(!user.oib || user.oib.length !== 11){
+    } else if(!user.oib || user.oib.length !== 11) {
       setFormatErrorMessage('OIB je neispravan')
+    } else if(roles.length === 0){
+        setFormatErrorMessage('Odaberite ulogu')
+    } else if(roles.includes('child') && (!user.parent_id || !user.doctor_id)){
+      setFormatErrorMessage('Odaberite roditelja i doktora za dijete')
+    } else if(roles.includes('parent') && !user.doctor_id){
+      setFormatErrorMessage('Odaberite doktora')
     } else {
       setFormatErrorMessage(null)
+
 
 
       fetch(props.backendRoute + '/users', {
@@ -245,11 +254,20 @@ const UserDetail = (props) => {
         value: doctor.id
       })))
 
+      const doctorsFormattedTemp = parsedDoctors.map(doctor => ({
+        label: `${doctor.first_name} ${doctor.last_name} (${doctor.oib})`,
+        value: doctor.id
+      }))
+
       setPediatriciansFormatted(parsedPediatricians.map(doctor => ({
         label: `${doctor.first_name} ${doctor.last_name} (${doctor.oib})`,
         value: doctor.id
       })))
 
+      const pediatriciansFormattedTemp = parsedPediatricians.map(doctor => ({
+        label: `${doctor.first_name} ${doctor.last_name} (${doctor.oib})`,
+        value: doctor.id
+      }))
 
 
       setUsersFormatted(parsedUsers.map(patient => ({
@@ -257,6 +275,10 @@ const UserDetail = (props) => {
         value: patient.id
       })))
 
+      const parentsFormattedTemp = parents.map(parent => ({
+        label: `${parent.first_name} ${parent.last_name} (${parent.oib})`,
+        value: parent.id
+      }))
 
       setParentsFormatted(parents.map(parent => ({
         label: `${parent.first_name} ${parent.last_name} (${parent.oib})`,
@@ -265,11 +287,21 @@ const UserDetail = (props) => {
       console.log(parsedUsers)
       // console.log("doktori: ", doctorsFormatted, "pedijatri: ", pediatriciansFormatted);
       // console.log("useri: ", usersFormatted, "roditelji: ", parentsFormatted)
+
+      if(parentSelected && doctorsFormattedTemp.map(doctor => doctor.value).includes(user.doctor.id)){
+        setSelectedDoctor(doctorsFormattedTemp.filter(doctor => doctor.value === user.doctor.id))
+        }
+      if(childSelected && pediatriciansFormattedTemp.map(doctor => doctor.value).includes(user.doctor.id)){
+        setSelectedDoctor(pediatriciansFormattedTemp.filter(doctor => doctor.value === user.doctor.id))
+      }
+      if(childSelected && parentsFormattedTemp.map(parent => parent.value).includes(user.parent.id)){
+        setSelectedParent(parentsFormattedTemp.filter(parent => parent.value === user.parent.id))
+      }
     })
         .catch(error => {
           console.error(error)
         })
-  }, [])
+  }, [parentSelected, childSelected])
 
   return (
       <div id = "addPatientsWrapper" className = "shadow-lg">
