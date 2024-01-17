@@ -89,8 +89,8 @@ const SecondOpinionForm = (props) => {
         body: JSON.stringify({
           requester_id: props.user.id,
           doctor_id: selectedDoctor.value,
-          opinion: secondOpinion,
-          content: null
+          opinion: null,
+          content: secondOpinion
         })
       })
       .then(response => {
@@ -121,7 +121,7 @@ const SecondOpinionForm = (props) => {
     <div id = "addPatientsInner">
    
 
-    <h5 className = "pt-3 px-4 mt-2 mb-3 " style={{textAlign: "left"}}>Dodaj drugo mišljenje {/* <button className='btn btn-tertiary mt-1' style={{float: 'right'}}>Povijest </button>  */} <img style={{ height: "23px", float: "right" }} onClick = {closeModal} src={CloseIcon}></img>  </h5>
+    <h5 className = "pt-3 px-4 mt-2 mb-3 " style={{textAlign: "left"}}>Zatraži drugo mišljenje {/* <button className='btn btn-tertiary mt-1' style={{float: 'right'}}>Povijest </button>  */} <img style={{ height: "23px", float: "right" }} onClick = {closeModal} src={CloseIcon}></img>  </h5>
   
 
     <hr className = "mb-1 mt-4" style={{opacity: "20%"}}></hr>
@@ -145,7 +145,7 @@ const SecondOpinionForm = (props) => {
 
 <div className="mb-4">
 
-<Select options={allDoctorsFormatted} placeholder = "Doktor kojem šaljete drugo mišljenje..."
+<Select options={allDoctorsFormatted} placeholder = "Doktor od kojeg tražite drugo mišljenje..."
         onChange={selectedOption => setSelectedDoctor(selectedOption)}/>
 </div>
 
@@ -153,7 +153,7 @@ const SecondOpinionForm = (props) => {
 </div>
 
 <div className="mb-3">
-  <label htmlFor="username" className="form-label" style={{float: 'left'}}>Drugo mišljenje</label>
+  <label htmlFor="username" className="form-label" style={{float: 'left'}}>Nalaz iz privatne ustanove</label>
   <textarea rows = "7" type="date" className="form-control" id="username"
             onChange={(event) => setSecondOpinion(event.target.value)}/>
 </div>

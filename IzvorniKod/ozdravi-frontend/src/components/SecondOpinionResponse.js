@@ -104,7 +104,7 @@ const SecondOpinionResponse = (props) => {
 
                                     <div className="mb-3">
                                         <label htmlFor="username" className=" col-12 text-label" style={{float: 'left', textAlign:"left"}}>Pacijent</label>
-                                        <p style={{textAlign:"left"}} class ="text">{secondOpinion.requester.first_name + " " + secondOpinion.requester.last_name}</p>
+                                        <p style={{textAlign:"left"}} className ="text">{secondOpinion.requester.first_name + " " + secondOpinion.requester.last_name}</p>
                                     </div>
                                 </div>
 
@@ -113,22 +113,22 @@ const SecondOpinionResponse = (props) => {
 
                             <div className="mb-3">
                                 <label htmlFor="username" className=" col-12 text-label" style={{float: 'left', textAlign:"left"}}>Sadržaj </label>
-                                <p style={{textAlign:"left"}} class ="text mb-5">Na današnjem pregledu kod doktora, pacijent je opisao svoje simptome i medicinsku povijest. Doktor je pažljivo pregledao pacijenta, mjerio vitalne znakove i postavljao relevantna pitanja. Nakon toga, doktor je postavio preliminarnu dijagnozu i preporučio određene terapijske mjere. Pacijentu su dana dodatna uputstva i naloženo je da slijedi propisani tretman te da se pridržava zakazanih kontrolnih termina. Pregled je završen, a pacijent je napustio ordinaciju sa svim potrebnim informacijama i uputama.</p>
+                                <p style={{textAlign:"left"}} className ="text mb-5">{secondOpinion.content}</p>
                             </div>
 
 
                             {role === "doctor" || role === "pediatrician" || role === "admin" ? (<div className="mb-3">
                                 <label htmlFor="username" className="text-label" style={{float: 'left', fontWeight: "600"}}>Odgovor</label>
-                                <textarea rows = "7" type="date" className="form-control" id="username" value={secondOpinion.content}
+                                <textarea rows = "7" type="date" className="form-control" id="username" value={secondOpinion.opinion}
                                 onChange={e =>
-                                    setSecondOpinion(prev => ({...prev, content: e.target.value}))}/>
+                                    setSecondOpinion(prev => ({...prev, opinion: e.target.value}))}/>
                             </div>): null}
 
                             {role === "parent" ? (<div className="mb-3">
                                 <label htmlFor="username" className=" col-12 text-label" style={{float: 'left', textAlign:"left"}}>Odgovor </label>
                                 
-                                {secondOpinion.content !== "" && secondOpinion.content !== null ? (
-                                    <p style={{textAlign:"left"}} className ="text mb-5"> {secondOpinion.content} </p> )
+                                {secondOpinion.opinion !== "" && secondOpinion.opinion !== null ? (
+                                    <p style={{textAlign:"left"}} className ="text mb-5"> {secondOpinion.opinion} </p> )
                                     : <p style={{textAlign:"left"}} className ="text mb-5"> Nije odgovoreno </p>}
 
                             </div>): null}

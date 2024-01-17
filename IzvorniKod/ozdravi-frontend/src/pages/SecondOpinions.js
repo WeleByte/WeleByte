@@ -114,6 +114,7 @@ const SecondOpinions = (props) => {
                                                            handleLogOut={handleLogOut}
                                                            role = {uloga}
                                                            refreshOpinions={toggleRefreshOpinions}/>}
+
             {secondOpinions.length !== 0 ? (
             <div id = "seccondOppWrapper">
 
