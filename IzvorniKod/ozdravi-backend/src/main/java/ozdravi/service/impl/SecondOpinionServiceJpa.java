@@ -95,12 +95,13 @@ public class SecondOpinionServiceJpa implements SecondOpinionService {
         User user = securityContextService.getLoggedInUser();
         SecondOpinion secondOpinion = findById(id);
 
-        if(!secondOpinion.getRequester().getId().equals(user.getId())
-                && !securityContextService.isUserInRole("ADMIN"))
-            throw new RequestDeniedException("You are not authorized to update this second opinion");
 
-        secondOpinion.copyDifferentAttributes(dtoManager.secondOpinionDTOToSecondOpinion(secondOpinionDTO));
-        secondOpinionRepository.save(secondOpinion);
+        if(securityContextService.isUserInRole("ADMIN") || secondOpinion.getDoctor().getId().equals(user.getId())) {
+            secondOpinion.copyDifferentAttributes(dtoManager.secondOpinionDTOToSecondOpinion(secondOpinionDTO));
+            secondOpinionRepository.save(secondOpinion);
+        } else {
+            throw new RequestDeniedException("You are not authorized to update this second opinion");
+        }
     }
 
     @Override
