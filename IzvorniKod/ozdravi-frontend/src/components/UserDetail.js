@@ -9,10 +9,9 @@ import Select from 'react-select'
 import {useSubmit} from "react-router-dom";
 
 const UserDetail = (props) => {
-  const [roles, setRoles] = useState([])
-  const [user, setUser] = useState(props.user);
+  const user = props.user
+  const [roles, setRoles] = useState(props.user.roles.map(role => role.name))
   const currentRole = props.role
-  const [confirmPassword, setConfirmPassword] = useState('')
   const [doctorsFormatted, setDoctorsFormatted] = useState([])
   const [usersFormatted, setUsersFormatted] = useState([])
   const [pediatriciansFormatted, setPediatriciansFormatted] = useState([])
@@ -29,6 +28,24 @@ const UserDetail = (props) => {
   const [selectedDoctor, setSelectedDoctor] = useState(null)
   const [selectedParent, setSelectedParent] = useState(null)
   const [displayRoles, setDisplayRoles] = useState([])
+  const [filteredRoles, setFilteredRoles] = useState([])
+  const [newUser, setNewUser] = useState({
+    first_name: props.user.first_name,
+    last_name: props.user.last_name,
+    email: props.user.email,
+    oib: props.user.oib,
+    institution_email: props.user.institution_email,
+    parent_id: props.user.parent ? props.user.parent.id : null,
+    doctor_id: props.user.doctor ? props.user.doctor.id : null,
+    address: props.user.address ? ({
+      street: props.user.address.street,
+      number: props.user.address.number,
+      city: props.user.address.city,
+      country: props.user.address.country,
+      latitude: props.user.address.latitude,
+      longitude: props.user.address.longitude
+    }) : null
+  })
   const uloge = [
     { value: 'parent', label: 'Roditelj' },
     { value: 'child', label: 'Dijete' },
@@ -37,13 +54,13 @@ const UserDetail = (props) => {
     { value: 'admin', label: 'Admin'}
   ]
   const closeModal = () => {
-    console.log(user)
+    console.log(newUser)
     props.close()
   }
 
   useEffect(() => {
     setDisplayRoles(uloge
-        .filter(role => user.roles.map(role => role.name).includes(role.value))
+        .filter(role => roles.includes(role.value))
         .map(role => role.label))
     switch (currentRole){
       case 'admin':
@@ -57,27 +74,21 @@ const UserDetail = (props) => {
         setLoggedUserIsAdmin(false)
         break
     }
-    console.log("admin role: ",loggedUserIsAdmin,  currentRole)
-    setUser((prevUser) => ({
-      ...prevUser,
-      password: '',
-      doctor_id: user.doctor ? user.doctor.id : null,
-      parent_id: user.parent ? user.parent.id : null
-    }))
+    console.log("admin role: ", loggedUserIsAdmin, currentRole)
 
-    console.log('user: ', user)
-    const defaultUserRoles = uloge.filter(role => user.roles.map(role => role.name).includes(role.value))
-    console.log(defaultUserRoles)
-    handleUlogeChange(defaultUserRoles)
-
+   const userRolesMapped = props.user.roles.map(role => role.name)
+    handleUlogeChange(uloge.filter(role =>
+        userRolesMapped.includes(role.value)))
+    setFilteredRoles(uloge.filter(role => roles.includes(role.value)))
+    console.log("Korisnik: ", newUser)
   }, []);
 
   const handleInputChange = (field, value) => {
-    setUser((prevUser) => ({ ...prevUser, [field]: value }));
+    setNewUser((prevUser) => ({ ...prevUser, [field]: value }));
   };
 
   const handleAddressChange = (field, value) => {
-    setUser((prevUser) => ({
+    setNewUser((prevUser) => ({
       ...prevUser, address: {
         ...prevUser.address,
         [field]: value
@@ -88,6 +99,7 @@ const UserDetail = (props) => {
   const handleUlogeChange = (selectedOptions) => {
     const selectedRoles = selectedOptions.map(option => option.value)
 
+    console.log(selectedRoles)
     if(selectedRoles.includes('child'))
       setChildSelected(true)
     else setChildSelected(false)
@@ -108,24 +120,42 @@ const UserDetail = (props) => {
       setAdminSelected(true)
     else setAdminSelected(false)
 
-    if(!selectedRoles){
-      setUser((prevUser) => ({
-        ...prevUser,
-        doctor_id: null,
-        parent_id: null
-      }));
-      setSelectedDoctor(null)
-      setSelectedParent(null)
+    // if(selectedRoles === []){
+    //   setNewUser((prevUser) => ({
+    //     ...prevUser,
+    //     doctor_id: null,
+    //     parent_id: null
+    //   }));
+    //   setSelectedDoctor(null)
+    //   setSelectedParent(null)
+    // } else
+    if(!selectedRoles.includes['child']){
+      console.log("tu sam 1")
+      if(!selectedRoles.includes['parent']){
+        console.log("tu sam 2")
+        setNewUser((prevUser) => ({
+          ...prevUser,
+          doctor_id: null,
+          parent_id: null
+        }));
+        setSelectedDoctor(null)
+        setSelectedParent(null)
+      } else {
+        console.log("tu sam 3")
+        setNewUser((prevUser) => ({
+          ...prevUser,
+          parent_id: null
+        }));
+        setSelectedParent(null)
+      }
     }
 
-    setUser(prevUser => ({
-      ...prevUser,
-      roles: ulogeById.filter(role => selectedRoles.includes(role.name))
-    }))
+    setRoles(selectedRoles)
+    setFilteredRoles(uloge.filter(role => selectedRoles.includes(role.value)))
   };
 
   const handleRoditeljChange = (selectedOption) => {
-    setUser((prevUser) => ({
+    setNewUser((prevUser) => ({
       ...prevUser,
       parent_id: selectedOption ? selectedOption.value : null
     }))
@@ -135,7 +165,7 @@ const UserDetail = (props) => {
 
   const handleDoktorChange = (selectedOption) => {
 
-    setUser((prevUser) => ({
+    setNewUser((prevUser) => ({
       ...prevUser,
       doctor_id: selectedOption ? selectedOption.value : null
     }));
@@ -176,27 +206,31 @@ const UserDetail = (props) => {
 
 
 
-      fetch(props.backendRoute + '/users', {
+      fetch(props.backendRoute + `/users/${props.user.id}`, {
         method: 'PUT',
         headers: {
           'Authorization': `Bearer ${props.bearerToken}`,
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          userDTO: user
+          userDTO: newUser,
+          roles: roles
         })
       })
           .then(response => {
                 console.log(response)
                 if(response.status === 400){
-                  setFormatErrorMessage('OIB nije ispravan')
+                  setFormatErrorMessage('Neispravni podatci')
                 }
                 // else if(response.status === 401){
                 //   props.handleLogOut()
                 // }
+                    else if(!response.ok){
+                      console.error("Error: ", response)
+                }
                 else{
                   props.refreshUsers()
-                  props.closeUserForm()
+                  closeModal()
                 }
               }
           )
@@ -234,19 +268,19 @@ const UserDetail = (props) => {
 
           if (pediatriciansPromise.status === 401 || doctorsPromise.status === 401 || usersPromise.status === 401) {
             /* props.handleLogOut() */
-            console.log("unauthorized!!")
+            // console.log("unauthorized!!")
 
           } else
           if (!pediatriciansPromise.ok || !doctorsPromise.ok || !usersPromise.ok) {
-            console.log('Error: ', pediatriciansPromise, doctorsPromise)
+            // console.log('Error: ', pediatriciansPromise, doctorsPromise)
 
           } else {
-            console.log(pediatriciansPromise, doctorsPromise, usersPromise)
+            // console.log(pediatriciansPromise, doctorsPromise, usersPromise)
             return Promise.all([pediatriciansPromise.json(), doctorsPromise.json(), usersPromise.json()])
           }
         }).then(([parsedPediatricians, parsedDoctors, parsedUsers]) =>{
 
-      console.log(parsedPediatricians, parsedDoctors, parsedUsers);
+      // console.log(parsedPediatricians, parsedDoctors, parsedUsers);
 
       const parents = parsedUsers.filter(user => user.roles.map(role => role.name).includes('parent'))
       setDoctorsFormatted(parsedDoctors.map(doctor => ({
@@ -284,18 +318,18 @@ const UserDetail = (props) => {
         label: `${parent.first_name} ${parent.last_name} (${parent.oib})`,
         value: parent.id
       })))
-      console.log(parsedUsers)
+      // console.log(parsedUsers)
       // console.log("doktori: ", doctorsFormatted, "pedijatri: ", pediatriciansFormatted);
       // console.log("useri: ", usersFormatted, "roditelji: ", parentsFormatted)
 
       if(parentSelected && doctorsFormattedTemp.map(doctor => doctor.value).includes(user.doctor.id)){
-        setSelectedDoctor(doctorsFormattedTemp.filter(doctor => doctor.value === user.doctor.id))
-        }
+        setSelectedDoctor(doctorsFormattedTemp.find(doctor => doctor.value === user.doctor.id))
+      }
       if(childSelected && pediatriciansFormattedTemp.map(doctor => doctor.value).includes(user.doctor.id)){
-        setSelectedDoctor(pediatriciansFormattedTemp.filter(doctor => doctor.value === user.doctor.id))
+        setSelectedDoctor(pediatriciansFormattedTemp.find(doctor => doctor.value === user.doctor.id))
       }
       if(childSelected && parentsFormattedTemp.map(parent => parent.value).includes(user.parent.id)){
-        setSelectedParent(parentsFormattedTemp.filter(parent => parent.value === user.parent.id))
+        setSelectedParent(parentsFormattedTemp.find(parent => parent.value === user.parent.id))
       }
     })
         .catch(error => {
@@ -333,7 +367,7 @@ const UserDetail = (props) => {
                       type="text"
                       className="form-control"
                       id="username"
-                      value={user.first_name}
+                      value={newUser.first_name}
                       disabled={!loggedUserIsAdmin}
                       onChange={(e) => handleInputChange('first_name', e.target.value.replace(/[^a-zA-ZščćžđöüäŠČĆŽĐÖÜÄ\\s]/, ''))}
                   />
@@ -344,7 +378,7 @@ const UserDetail = (props) => {
                       type="text"
                       className="form-control"
                       id="username"
-                      value={user.last_name}
+                      value={newUser.last_name}
                       disabled={!loggedUserIsAdmin}
                       onChange={(e) => handleInputChange('last_name', e.target.value.replace(/[^a-zA-ZščćžđöüäŠČĆŽĐÖÜÄ\\s]/, ''))}
                   />
@@ -355,7 +389,7 @@ const UserDetail = (props) => {
                       type="text"
                       className="form-control"
                       id="username"
-                      value={user.email}
+                      value={newUser.email}
                       disabled={!loggedUserIsAdmin}
                       onChange={(e) => handleInputChange('email', e.target.value)}
                   />
@@ -366,7 +400,7 @@ const UserDetail = (props) => {
                       type="text"
                       className="form-control"
                       id="username"
-                      value={user.oib}
+                      value={newUser.oib}
                       disabled={!loggedUserIsAdmin}
                       onChange={(e) => handleInputChange('oib', e.target.value.replace(/\D/g, ''))}
                   />
@@ -377,7 +411,7 @@ const UserDetail = (props) => {
                       type="text"
                       className="form-control"
                       id="username"
-                      value={user.institution_email}
+                      value={newUser.institution_email}
                       disabled={!loggedUserIsAdmin && !loggedUserIsParent}
                       onChange={(e) => handleInputChange('institution_email', e.target.value)}
                   />
@@ -421,7 +455,7 @@ const UserDetail = (props) => {
                       }
                       isMulti={true}
                       placeholder="Odaberite ulogu..."
-                      value={uloge.filter(role => user.roles.map(role=> role.name).includes(role.value))}
+                      value={filteredRoles}
                       isDisabled={!loggedUserIsAdmin}
                       onChange={handleUlogeChange}
                   />
@@ -434,7 +468,7 @@ const UserDetail = (props) => {
                       options={childSelected ? parentsFormatted : []}
                       placeholder="Odaberite roditelja..."
                       value={selectedParent}
-                      isDisabled={!user.roles.map(role => role.name).includes('child')}
+                      isDisabled={!roles.includes('child')}
                       onChange={handleRoditeljChange}
                   />
                 </div>
@@ -444,8 +478,8 @@ const UserDetail = (props) => {
                       options={childSelected ? pediatriciansFormatted : parentSelected ? doctorsFormatted : []}
                       placeholder="Odaberite doktora..."
                       value={selectedDoctor}
-                      isDisabled={!user.roles.map(role => role.name).includes('parent')
-                          && !user.roles.map(role => role.name).includes('child')}
+                      isDisabled={!roles.includes('parent')
+                          && !roles.includes('child')}
                       onChange={handleDoktorChange}
                   />
                 </div>
@@ -456,12 +490,11 @@ const UserDetail = (props) => {
                 </>
                 ) : null}
 
-                {user.address ? (
                     <>
                       <div className="mb-3">
                         <label htmlFor="street" className="form-label" style={{float: 'left'}}>Ulica</label>
                         <input type="text" className="form-control" id="username"
-                               value={user.address.street}
+                               value={newUser.address ? newUser.address.street : ''}
                                disabled={!loggedUserIsAdmin && !loggedUserIsParent}
                                onChange={(e) => handleAddressChange('street', e.target.value)}
                         />
@@ -470,7 +503,7 @@ const UserDetail = (props) => {
                       <div className="mb-3">
                         <label htmlFor="street-number" className="form-label" style={{float: 'left'}}>Broj</label>
                         <input type="text" className="form-control" id="username"
-                               value={user.address.number}
+                               value={newUser.address ? newUser.address.number : ''}
                                disabled={!loggedUserIsAdmin && !loggedUserIsParent}
                                onChange={(e) => handleAddressChange('number', e.target.value)}
                         />
@@ -480,7 +513,7 @@ const UserDetail = (props) => {
                       <div className="mb-3">
                         <label htmlFor="city" className="form-label" style={{float: 'left'}}>Grad</label>
                         <input type="text"  className="form-control" id="username"
-                               value={user.address.city}
+                               value={newUser.address ? newUser.address.city : ''}
                                disabled={!loggedUserIsAdmin && !loggedUserIsParent}
                                onChange={(e) => handleAddressChange('city', e.target.value)}
                         />
@@ -489,13 +522,12 @@ const UserDetail = (props) => {
                       <div className="mb-3">
                         <label htmlFor="Country" className="form-label" style={{float: 'left'}}>Država</label>
                         <input type="text"  className="form-control" id="username"
-                               value={user.address.country}
+                               value={newUser.address ? newUser.address.country : ''}
                                disabled={!loggedUserIsAdmin && !loggedUserIsParent}
                                onChange={(e) => handleAddressChange('country', e.target.value)}
                         />
                       </div>
                     </>
-                ) : null}
 
               {!loggedUserIsAdmin ? (
                 <div className="mb-3">
