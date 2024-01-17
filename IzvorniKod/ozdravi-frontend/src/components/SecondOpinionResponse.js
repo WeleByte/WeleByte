@@ -17,7 +17,8 @@ const SecondOpinionResponse = (props) => {
     const role = sessionStorage.getItem('currentRole');
 
     useEffect(() => {
-        if(props.currentOpinionId !== null && props.currentOpinionId !== undefined) {
+        console.log(props.currentOpinionId)
+        if(props.currentOpinionId ) {
             fetch(props.backendRoute + `/second_opinion/${props.currentOpinionId}`, {
                 method: 'GET',
                 headers: {
@@ -44,7 +45,7 @@ const SecondOpinionResponse = (props) => {
                     console.error('Fetch error:', error);
                 });
         }
-    }, [props.currentOpinionId]);
+    }, []);
 
 
 
