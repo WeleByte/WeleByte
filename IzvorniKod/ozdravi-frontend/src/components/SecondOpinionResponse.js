@@ -90,20 +90,21 @@ const SecondOpinionResponse = (props) => {
                             </div>
 
 
-                            {role == "doctor" || role == "pediatrician" || role == "admin" ? (<div className="mb-3">
+                            {role === "doctor" || role === "pediatrician" || role === "admin" ? (<div className="mb-3">
                                 <label htmlFor="username" className="text-label" style={{float: 'left', fontWeight: "600"}}>Odgovor</label>
                                 <textarea rows = "7" type="date" className="form-control" id="username"
                                 />
                             </div>): null}
-                            {role == "parent" ? (<div className="mb-3">
+                            {role === "parent" ? (<div className="mb-3">
                                 <label htmlFor="username" className=" col-12 text-label" style={{float: 'left', textAlign:"left"}}>Odgovor </label>
                                 
-                                {secondOpinion.content != "" && secondOpinion.content !== null ? (
-                                <p style={{textAlign:"left"}} class ="text mb-5"> {secondOpinion.content} </p> ): null}
+                                {secondOpinion.content !== "" && secondOpinion.content !== null ? (
+                                    <p style={{textAlign:"left"}} className ="text mb-5"> {secondOpinion.content} </p> ):
+                                    <p style={{textAlign:"left"}} className ="text mb-5"> Nije odgovoreno </p>}
 
                             </div>): null}
                             
-                            { role == "doctor" || role == "pediatrician" || role == "admin" ? (       
+                            { role === "doctor" || role === "pediatrician" || role === "admin" ? (
                             <button type="submit" className="btn btn-primary col-12 col-md-2 py-2 mb-4" style={{float:"right"}} >Spremi </button>
                             ): null}
                         </form>

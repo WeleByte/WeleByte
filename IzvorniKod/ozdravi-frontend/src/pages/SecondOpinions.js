@@ -193,14 +193,9 @@ const SecondOpinions = (props) => {
                     <h5 className = " px-4 mt-0 pt-0 " style={{textAlign: "center", maxWidth: "1246px"}}>
                     Nema drugih mišljenja
     
-                             </h5>
-        
-        
-                         <p style={{textAlign: "center", maxWidth: "1200px"}} className = "px-4 mb-2 mt-1 ">{secondOpinions.length} {" "} 
-                         
-                    mišljenja
-        
-                         </p> 
+                    </h5>
+                        <p style={{textAlign: "center", maxWidth: "1200px"}} className = "px-4 mb-2 mt-1 ">
+                            {secondOpinions.length} {" "} </p>
                          {(uloga === "parent" ? (
                             <button className = "btn btn-primary ms-2 mt-2 " style={{}} onClick= {toggleNovoMisljenje}>Dodaj mišljenje +</button>  ) : null)}
                            
