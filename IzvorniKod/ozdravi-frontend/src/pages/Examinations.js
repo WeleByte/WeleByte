@@ -40,9 +40,8 @@ const Examinations = (props) => {
             navigate('/login')
         }else{
             setUser(JSON.parse(sessionStorage.userData))
-           
-            const logUser = JSON.parse(sessionStorage.userData)
-          
+
+
         }
     }, []);
 
@@ -211,7 +210,7 @@ const Examinations = (props) => {
                                                 examination = {examinations[selectedPregledId]}
                                                 closeUserOptions={closeUserOptions}/>}
 
-{examinations.length != 0 ? (
+{examinations.length !== 0 ? (
             <div id = "usersWrapperInner">
 
 
