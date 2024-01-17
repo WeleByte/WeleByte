@@ -76,7 +76,7 @@
 			\end{packed_item}
 			Očekivani rezultat:
 			\begin{packed_item}
-				\item Kontroler u JSON formatu vraća popis svih Uputa koje trenutni korisnik može vidjeti, HTTP odgovor ima status 200 (OK).
+				\item Kontroler u JSON formatu vraća popis svih Uputa koje trenutni korisnik može vidjeti, HTTP odgovor ima status 201 (OK).
 			\end{packed_item}
 			\lstinputlisting[language=Java, caption={Test 3}]{code/instruction_test_1.java}
 			
@@ -169,7 +169,17 @@
 				\item Postoji izbornik pregleda unutar modalnog ekrana u kojem je moguće izabrati traženi pregled.
 				\item Postoji opcija "Spremi" unutar modalnog ekrana.
 			 \end{packed_enum}
-	
+			 
+			 \begin{figure}[H]
+				\includegraphics[width=\textwidth]{slike/selenium1.1.png} 
+				\caption{Rezultati testiranja grupe koraka 1} 
+			\end{figure}
+
+			\begin{figure}[H]
+				\includegraphics[width=\textwidth]{slike/selenium1.2.png} 
+				\caption{Rezultati testiranja grupe koraka 1} 
+			\end{figure}
+
 			 \subsubsection*{Grupa koraka 2: Pregled neobrađene preporuke za bolovanje}
 			 Koraci:
 			 \begin{packed_enum}
@@ -184,6 +194,17 @@
 				\item Postoji tražena preporuka za bolovanje u popisu preporuka.
 				\item Pod "Status" piše "Čeka odobrenje." unutar modalnog ekrana.
 			 \end{packed_enum}
+
+			 
+			 \begin{figure}[H]
+				\includegraphics[width=\textwidth]{slike/selenium2.1.png} 
+				\caption{Rezultati testiranja grupe koraka 2} 
+			\end{figure}
+
+			\begin{figure}[H]
+				\includegraphics[width=\textwidth]{slike/selenium2.2.png} 
+				\caption{Rezultati testiranja grupe koraka 2} 
+			\end{figure}
 
 			 \subsubsection*{Grupa koraka 3: Odobravanje preporuke za bolovanje}
 			 Koraci:
@@ -201,6 +222,16 @@
 				\item Postoji opcija "Odobri" unutar modalnog okvira.
 			 \end{packed_enum}
 
+			 \begin{figure}[H]
+				\includegraphics[width=\textwidth]{slike/selenium3.1.png} 
+				\caption{Rezultati testiranja grupe koraka 3} 
+			\end{figure}
+
+			\begin{figure}[H]
+				\includegraphics[width=\textwidth]{slike/selenium3.2.png} 
+				\caption{Rezultati testiranja grupe koraka 3} 
+			\end{figure}
+
 			 \subsubsection*{Grupa koraka 4: Pregled odobrene preporuke za bolovanje}
 			 Koraci:
 			 \begin{packed_enum}
@@ -216,6 +247,16 @@
 				\item Pod "Status" piše "Odobreno." u modalnom ekranu preporuke.
 			 \end{packed_enum}
 			\eject
+
+			\begin{figure}[H]
+				\includegraphics[width=\textwidth]{slike/selenium4.1.png} 
+				\caption{Rezultati testiranja grupe koraka 4} 
+			\end{figure}
+
+			\begin{figure}[H]
+				\includegraphics[width=\textwidth]{slike/selenium4.2.png} 
+				\caption{Rezultati testiranja grupe koraka 4} 
+			\end{figure}
 		
 		\section{Dijagram razmještaja}
 			Dijagrami razmještaja prikazuju konfiguraciju sklopovlja i programske podrške koja se koristi za implementaciju sustava u njegovom operativnom okruženju. Na cloud platformi smješten je poslužitelj baze podataka te web poslužitelji za backend i frontend. Korisnici pristupaju web aplikaciji putem svog web preglednika. Sustav je temeljen na arhitekturi "klijent - poslužitelj" s komunikacijom između korisničkih računala (roditelj, pedijatar, doktor, administrator) i poslužitelja putem HTTPS veze.
