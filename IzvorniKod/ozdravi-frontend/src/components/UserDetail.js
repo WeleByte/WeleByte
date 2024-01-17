@@ -129,9 +129,9 @@ const UserDetail = (props) => {
     //   setSelectedDoctor(null)
     //   setSelectedParent(null)
     // } else
-    if(!selectedRoles.includes['child']){
+    if(!selectedRoles.includes('child')){
       console.log("tu sam 1")
-      if(!selectedRoles.includes['parent']){
+      if(!selectedRoles.includes('parent')){
         console.log("tu sam 2")
         setNewUser((prevUser) => ({
           ...prevUser,
@@ -170,7 +170,7 @@ const UserDetail = (props) => {
       doctor_id: selectedOption ? selectedOption.value : null
     }));
 
-    setSelectedDoctor(selectedOption ? [selectedOption] : null)
+    setSelectedDoctor(selectedOption  )
   }
 
 
@@ -186,20 +186,20 @@ const UserDetail = (props) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     // Handle the form submission with the user state
-    if(user.first_name.length < 2 || user.last_name.length < 2){
+    if(newUser.first_name.length < 2 || newUser.last_name.length < 2){
       setFormatErrorMessage('Ime i/ili prezime mora biti dulje od 2 slova')
 
-    } else if(!user.email){
+    } else if(!newUser.email){
       setFormatErrorMessage('Email je obavezan')
-    } else if(!(/\S+@\S+\.\S+/.test(user.email)) || (user.institution_email && !(/\S+@\S+\.\S+/.test(user.institution_email)))){
+    } else if(!(/\S+@\S+\.\S+/.test(newUser.email)) || (newUser.institution_email && !(/\S+@\S+\.\S+/.test(newUser.institution_email)))){
       setFormatErrorMessage('Email je neispravan')
-    } else if(!user.oib || user.oib.length !== 11) {
+    } else if(!newUser.oib || newUser.oib.length !== 11) {
       setFormatErrorMessage('OIB je neispravan')
     } else if(roles.length === 0){
         setFormatErrorMessage('Odaberite ulogu')
-    } else if(roles.includes('child') && (!user.parent_id || !user.doctor_id)){
+    } else if(roles.includes('child') && (!newUser.parent_id || !newUser.doctor_id)){
       setFormatErrorMessage('Odaberite roditelja i doktora za dijete')
-    } else if(roles.includes('parent') && !user.doctor_id){
+    } else if(roles.includes('parent') && !newUser.doctor_id){
       setFormatErrorMessage('Odaberite doktora')
     } else {
       setFormatErrorMessage(null)
@@ -234,9 +234,7 @@ const UserDetail = (props) => {
                 }
               }
           )
-      console.log("doktori: ", doctorsFormatted, "pedijatri: ", pediatriciansFormatted)
-      console.log("useri: ", usersFormatted, "roditelji: ", parentsFormatted)
-      console.log('User Data:', user, 'Roles: ', roles);
+      console.log('User Data:', newUser, 'Roles: ', roles);
     }
   }
 
