@@ -206,7 +206,7 @@ const UserDetail = (props) => {
 
 
 
-      fetch(props.backendRoute + `/users/${props.user.id}`, {
+      fetch(props.backendRoute + `/user/${props.user.id}`, {
         method: 'PUT',
         headers: {
           'Authorization': `Bearer ${props.bearerToken}`,
@@ -229,8 +229,12 @@ const UserDetail = (props) => {
                       console.error("Error: ", response)
                 }
                 else{
-                  props.refreshUsers()
-                  closeModal()
+                  if(props.user.id === sessionStorage.userData.id) {
+                    props.handleLogOut()
+                  } else {
+                    props.refreshUsers()
+                    closeModal()
+                  }
                 }
               }
           )
