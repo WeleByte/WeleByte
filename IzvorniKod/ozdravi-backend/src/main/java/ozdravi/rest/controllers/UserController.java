@@ -40,8 +40,8 @@ public class UserController {
         UserDTO userDTO = createUserRequest.getUserDTO();
         List<String> roles = createUserRequest.getRoles();
         User user = userService.createUser(userDTO, roles);
+
         return new ResponseEntity<>(user, HttpStatus.CREATED);
-        //return ResponseEntity.created(URI.create("/users/" + user.getId())).body(user);
     }
 
 //    GET mapping for doctors or pediatricians
@@ -60,9 +60,11 @@ public class UserController {
     }
 
     @PutMapping("user/{id}")
-    public ResponseEntity<?> modifyUser(@PathVariable("id") Long id, @RequestBody UserDTO userModifiedDTO){
-        userService.modifyUser(userModifiedDTO, id);
-        return new ResponseEntity<>("User successfully modified", HttpStatus.OK);
+    public ResponseEntity<?> modifyUser(@PathVariable("id") Long id, @RequestBody CreateUserRequest modifyUserRequest){
+        List<String> roles = modifyUserRequest.getRoles();
+
+        User modifiedUser = userService.modifyUser(modifyUserRequest.getUserDTO(), roles, id);
+        return new ResponseEntity<>(modifiedUser, HttpStatus.OK);
     }
 }
 

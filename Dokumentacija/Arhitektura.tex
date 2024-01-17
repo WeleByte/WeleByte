@@ -45,7 +45,7 @@
 		\end{packed_item}
 
 		Korisnici se u sustav prijavljuju unoseći svoje korisničko ime i lozinku. Na temelju tih vjerodajnica, a nakon provjere s podacima u bazi, backend korisniku izdaje token koji se koristi za autentikaciju narednih zahtjeva s klijenta.
-		Koristimo "Bearer" autentikacijsku schemu koja podrazumijeva da svaki HTTP zahtjev koji dolazi od klijenta ima token u ispravnom polju u zaglavlju. odvija putem HTTPS protokola, osiguravajući sigurnu komunikaciju između klijenta i poslužitelja putem TLS/SSL enkripcije. Ovakav pristup pridonosi zaštiti osjetljivih podataka i održava sigurnost komunikacije u sustavu.
+		Koristimo "Bearer" autentikacijsku schemu koja podrazumijeva da svaki HTTP zahtjev koji dolazi od klijenta ima token u ispravnom polju u zaglavlju. Implementacija se odvija putem HTTPS protokola, osiguravajući sigurnu komunikaciju između klijenta i poslužitelja putem TLS/SSL enkripcije. Ovakav pristup pridonosi zaštiti osjetljivih podataka i održava sigurnost komunikacije u sustavu.
 					
 		\section{Baza podataka}
         Baza podataka koja se koristi u projektu "Ozdravi" ključna je komponenta sustava koja omogućava pohranu, upravljanje i praćenje svih relevantnih informacija o korisnicima i njihovim zdravstvenim podacima. 
