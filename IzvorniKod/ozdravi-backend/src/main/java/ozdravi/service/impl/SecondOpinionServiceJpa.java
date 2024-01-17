@@ -82,7 +82,7 @@ public class SecondOpinionServiceJpa implements SecondOpinionService {
             throw new EntityMissingException("Second opinion with id " + id.toString() + " not found");
 
         if(secondOpinion.get().getDoctor().getId().equals(user.getId())
-                || secondOpinion.get().getRequester().getParent().getId().equals(user.getId())
+//                || secondOpinion.get().getRequester().getParent().getId().equals(user.getId())
                 || secondOpinion.get().getRequester().getId().equals(user.getId())
                 || securityContextService.isUserInRole("ADMIN"))
             return secondOpinion.get();
