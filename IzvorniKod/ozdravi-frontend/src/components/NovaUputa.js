@@ -99,7 +99,7 @@ const NovaUputa = (props) => {
       <div id = "addPatientsWrapper" className = "shadow-lg">
 
 
-        <div id = "addPatientsInner">
+        <div id = "addIspricnicaInner">
 
 
           <h5 className = "pt-3 px-4 mt-2 mb-3 " style={{textAlign: "left"}}>Dodaj uputu{/* <button className='btn btn-tertiary mt-1' style={{float: 'right'}}>Povijest </button>  */} <img style={{ height: "23px", float: "right" }} onClick = {closeModal} src={CloseIcon}></img>  </h5>

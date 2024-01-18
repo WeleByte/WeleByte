@@ -439,11 +439,24 @@ tr {
   margin: 0px !important;
 }
 
+#addIspricnicaWrapper {
+  position: fixed;
+  bottom: 0%;
+  right: 0%;
+  width: 80%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.3);
+  z-index: 10;
+  padding:0px !important;
+  margin: 0px !important;
+}
+
 #addIspricnica {
   position: absolute;
   top: 50%;
   left: 50%;
   z-index: 10;
+  width: 50%;
 }
 
 
@@ -457,6 +470,19 @@ tr {
   border: 1px solid rgba(0, 0, 0, 0.323);
   z-index: 10;
   width: 850px;
+  max-width: 90% !important
+}
+
+#addIspricnicaInner {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 6px;
+  background-color: white !important;
+  border: 1px solid rgba(0, 0, 0, 0.323);
+  z-index: 10;
+  width: 650px;
   max-width: 90% !important
 }
 

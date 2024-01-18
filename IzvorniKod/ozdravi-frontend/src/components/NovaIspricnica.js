@@ -8,21 +8,13 @@ import userIcon from '../assets/images/userIcon.png'
 import Select from 'react-select'
 
 const NovaIspricnica = (props) => {
-    const closeModal = () => {
-        props.closeIspricnica()
-    }
 
-    function handleSubmit(e) {
-        e.preventDefault();
-
-        props.closeIspricnica()
-    }
 
     return (
-        <div id="addPatientsWrapper addIspricnica" className="shadow-lg">
+        <div id="addIspricnicaWrapper addIspricnica" className="shadow-lg">
             <div id="addPatientsInner">
                 <h5 className="pt-3 px-4 mt-2 mb-3 " style={{textAlign: "left"}}>Stvori ispričnicu
-                    <img style={{height: "23px", float: "right"}} onClick={closeModal} src={CloseIcon}></img></h5>
+                    <img style={{height: "23px", float: "right"}} onClick={props.closeIspricnica} src={CloseIcon}></img></h5>
                 <hr className="mb-1 mt-4" style={{opacity: "20%"}}></hr>
                 <div className='px-4 pt-0'>
                     <form>
@@ -36,7 +28,7 @@ const NovaIspricnica = (props) => {
                         </div>
 
                         <button className="btn btn-primary col-12 col-md-2 py-2 mb-4" style={{float: "right"}}
-                                onClick={handleSubmit}>Spremi
+                                onClick={props.closeIspricnica}>Spremi
                         </button>
                     </form>
                 </div>
