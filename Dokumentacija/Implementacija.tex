@@ -10,7 +10,7 @@
 			 Za backend je odabran \textit{Spring}\footnote{\url{https://spring.io}}, robustan okvir za razvoj \textit{Java}\footnote{\url{https://www.java.com/en/}} aplikacija. Spring je pružio strukturu i podršku za izradu pouzdanih, sigurnih i skalabilnih backend rješenja.
 			 API sustav je strukturiran i dokumentiran korištenjem alata \textit{Swagger}\footnote{\url{https://swagger.io}}, pri čemu je implementiran sukladno OpenAPI konvencijama. OpenAPI pristup omogućava jednostavno definiranje, dokumentiranje i testiranje RESTful API-ja te definiranje svih dostupnih endpointa, parametara, odgovora i modela podataka.
 			 U procesu pisanja koda korišteni su \textit{IntelliJ IDEA}\footnote{\url{https://www.jetbrains.com/idea/}} i \textit{Visual Studio Code}\footnote{\url{https://visualstudio.microsoft.com/}}. IntelliJ IDEA, s bogatim skupom značajki, podržavao je razvoj Java aplikacija, dok je Visual Studio Code, lagan i svestran, omogućavao efikasno pisanje koda u različitim jezicima, uključujući \textit{JavaScript}\footnote{\url{https://www.javascript.com/}}.
-			 Odabir ovih alata bio je prepušten osobnim preferncijama članova tima.
+			 Odabir ovih alata bio je prepušten osobnim preferencijama članova tima.
 			 Za postavljanje produkcijskog okruženja odabran je Heroku kao infrastrukturna platforma. \textit{Heroku}\footnote{\url{https://www.heroku.com}} pruža stabilnost i skalabilnost, čineći implementaciju i održavanje aplikacije jednostavnim i učinkovitim.
 			 Baza podataka \textit{PostgreSQL}\footnote{\url{https://www.postgresql.org}} koristila se za trajno pohranjivanje podataka. PostgreSQL je open-source sustav za upravljanje bazama podataka koji pruža pouzdano i sigurno okruženje za pohranu informacija.
 			 U konačnici, ovom kombinacijom tehnologija postignuto je stvaranje moderne zdravstvene aplikacije koja je intuitivna za korisnike, prilagodljiva potrebama zdravstvenog sustava i unapređuje ukupno iskustvo krajnjih korisnika.
@@ -19,7 +19,7 @@
 		\section{Ispitivanje programskog rješenja}
 			Ispitivanje programskog rješenja predstavlja ključan korak u procesu razvoja programske podrške s ciljem ostvarivanja nekoliko ključnih prednosti:
 			\begin{packed_item}
-				\item olakšava dodavanje značajki - ispitivanje osigurava da nove promjene ne nraušavaju funkcionalnost postojećeg koda
+				\item olakšava dodavanje značajki - ispitivanje osigurava da nove promjene ne narušavaju funkcionalnost postojećeg koda
 				\item sprječava unošenje grešaka u kod - kvalitetni testovi detektiraju neispravan kod prije nego što postane dio projekta čime se smanjuje mogućnost pojave grešaka
 			\end{packed_item}
 			
@@ -62,7 +62,7 @@
 			\lstinputlisting[style=JavaStyle, caption={Test 2}]{code/oib_test_2.java}
 
 			U testovima namijenjenima testiranju kontrolera, želimo ispitati isključivo ponašanje kontrolera, bez ispitivanja servisa, baze i drugih dijelova aplikacije.
-			Budući da kontoleri ne mogu raditi bez tih dijelova, nužno je stvoriti "mock" objekte koji ih mijenjaju i simuliraju njihovo ponašanje.
+			Budući da kontroleri ne mogu raditi bez tih dijelova, nužno je stvoriti "mock" objekte koji ih mijenjaju i simuliraju njihovo ponašanje.
 
 			Ovaj postupak uključuje ručno stvaranje entiteta koji predstavljaju očekivane rezultate servisa.
 
@@ -115,7 +115,7 @@
 			\end{packed_item}
 			Očekivani rezultat:
 			\begin{packed_item}
-				\item HTTP odgovor ima status 403 (Forbidden), jer roditelj ne smije dobiti popis svih liječnika u aplikciji.
+				\item HTTP odgovor ima status 403 (Forbidden), jer roditelj ne smije dobiti popis svih liječnika u aplikaciji.
 			\end{packed_item}
 			\lstinputlisting[style=JavaStyle, caption={Test 6}]{code/user_test_1.java}
 			
@@ -149,7 +149,7 @@
 			%==========================================================================================================================%
 			\subsection{Ispitivanje sustava}
 			Testovi ispitivanja sustava su napisani u Selenium IDE dodatku za preglednik i prate nekoliko obrazaca uporabe, ali su vezani uz jednu cjelinu - rad s preporukama za bolovanje.
-			U ovom scenariju testiranja sudjeluje više uloga (roditelj, pedijatar, liječnik) i svi koraci koje jedna uloga izvodi su grupirani u zasebnu "grupu koraka". Također, za svaki korak je
+			U ovom scenariju testiranja sudjeluje više uloga (roditelj, pedijatar, liječnik) i svi koraci koje jedna uloga izvodi su grupirani u zasebnu grupu koraka. Također, za svaki korak je
 			naveden i pripadajući očekivani rezultat.
 			
 			 \subsubsection*{Grupa koraka 1: Dodavanje preporuke za bolovanje}
@@ -246,8 +246,7 @@
 				\item Postoji tražena preporuka za bolovanje u popisu preporuka.
 				\item Pod "Status" piše "Odobreno." u modalnom ekranu preporuke.
 			 \end{packed_enum}
-			\eject
-
+			
 			\begin{figure}[H]
 				\includegraphics[width=\textwidth]{slike/selenium4.1.png} 
 				\caption{Rezultati testiranja grupe koraka 4} 
@@ -257,6 +256,8 @@
 				\includegraphics[width=\textwidth]{slike/selenium4.2.png} 
 				\caption{Rezultati testiranja grupe koraka 4} 
 			\end{figure}
+
+			\eject
 		
 		\section{Dijagram razmještaja}
 			Dijagrami razmještaja prikazuju konfiguraciju sklopovlja i programske podrške koja se koristi za implementaciju sustava u njegovom operativnom okruženju. Na cloud platformi smješten je poslužitelj baze podataka te web poslužitelji za backend i frontend. Korisnici pristupaju web aplikaciji putem svog web preglednika. Sustav je temeljen na arhitekturi "klijent - poslužitelj" s komunikacijom između korisničkih računala (roditelj, pedijatar, doktor, administrator) i poslužitelja putem HTTPS veze.
@@ -267,12 +268,12 @@
 			\eject 
 		
 		\section{Upute za puštanje u pogon}
-			Aplikacija "Odravi" se sastoji od nekoliko dijelova koje je potrebno postaviti kako bi se pokrenula u lokalnom okruženju.
+			Aplikacija "Ozdravi" se sastoji od nekoliko dijelova koje je potrebno postaviti kako bi se pokrenula u lokalnom okruženju.
 		
 			\subsection*{Postavljanje baze podataka}
 			U procesu postavljanja baze podataka za aplikaciju "Ozdravi", prvi korak je instalacija relacijske baze podataka
 			\href{https://www.postgresql.org/download/}{\textit{PostgreSQL-a}}. Nakon završetka instalacije, slijedi standardni postupak postavljanja korisničkog imena i lozinke (neobavezno).
-			Nakon uspješne instalacije, potrebno je pristupiti konzoli baze (psql) kako bi se stvroili potrebni resursi za rad backenda aplikacije "Ozdravi".
+			Nakon uspješne instalacije, potrebno je pristupiti konzoli baze (psql) kako bi se stvorili potrebni resursi za rad backenda aplikacije "Ozdravi".
 	
 			Nakon toga, izvršavaju se sljedeće naredbe:
 			\lstinputlisting[style=SQLStyle, caption={Postavljanje baze podataka}]{code/db_setup.sql}
@@ -285,24 +286,24 @@
 			\end{figure}
 	
 			\subsection*{Postavljanje i pokretanje backenda aplikacije}
-			Backend aplikacije je pisan u Javi 17, što znači da je na sustavu koji pokreće aplikaciju potrebno imati intaliran JDK (Java Development Kit) - preporučamo \href{https://www.openjdk.org}{\textit{OpenJDK}} kao open-source implementaciju, ali i druge inačica bi trebala raditi.
-			Osim Jave, potrebno je imati i \href{https://maven.apache.org/download.cgi}{\textit{Apache Maven}} instaliran. To je alat koji koristimo za upravljenje bibliotekama i "buildovima" backend aplikacije.
+			Backend aplikacije je pisan u Javi 17, što znači da je na sustavu koji pokreće aplikaciju potrebno imati instaliran JDK (Java Development Kit) - preporučujemo \href{https://www.openjdk.org}{\textit{OpenJDK}} kao open-source implementaciju.
+			Osim Jave, potrebno je imati i instaliran \href{https://maven.apache.org/download.cgi}{\textit{Apache Maven}}. To je alat koji koristimo za upravljanje bibliotekama i "buildovima" backend aplikacije.
 			
-			Pri pokretanju, potrebno je u konzoli otvoriti mapu \textit{IzvorniKod/ozdravi-backend} a aplikacija se dalje kompajlira izvršavanjem sljedećih naredbi:
+			Pri pokretanju, potrebno je u konzoli otvoriti mapu \textit{IzvorniKod/ozdravi-backend}, a aplikacija se dalje kompajlira izvršavanjem sljedećih naredbi:
 			\lstinputlisting[style=ShellStyle, caption={Instalacija i kompajliranje backenda}]{code/mvn_cmd.shell}
 
-			i pokreće pomoću 
+			te se pokreće izvršavanjem sljedeće naredbe: 
 			\lstinputlisting[style=ShellStyle, caption={Pokretanje backenda}]{code/java_jar.shell}
 			
 			Aplikacija je sada dostupna na portu 8080 lokalnog stroja.
 
 			\subsection*{Postavljanje frontenda}
-			Frontend aplikacije je pisan u Reactu i za njegovo pakiranje i pokretanje potrebno je preuzeti \href{https://nodejs.org/en/download/}{Node.js}.
+			Frontend aplikacije pisan je u Reactu te za njegovo pakiranje i pokretanje je potrebno preuzeti \href{https://nodejs.org/en/download/}{Node.js}.
 
 			Pri pokretanju, potrebno je u konzoli otvoriti mapu \textit{IzvorniKod/ozdravi-frontend} i izvršiti sljedeće naredbe:
 			\lstinputlisting[style=ShellStyle, caption={Instalacija i pokretanje frontenda}]{code/npm_cmd.shell}
 
-			Prvu je naredbu potrebno izvršiti samo jednom, kako bi se prikupili potrebni paketi, a druga je naredba ona koja pokreće server na kojem je frontend dostupan za preuzimanje.
+			Prvu je naredbu potrebno izvršiti samo jednom, kako bi se prikupili potrebni paketi, a druga je naredba pokreće server na kojem je frontend dostupan za preuzimanje.
 			
 			\newpage \noindent Nakon pokretanja, aplikaciju je moguće vidjeti na adresi: \url{http://localhost:3000.}\\
 			\begin{figure}[H]
@@ -314,5 +315,5 @@
 			
 			
 			\subsubsection*{Stvaranje PDF izvještaja dokumentacije}
-			Dokumentacija za ovaj projekt je napisana pomoću paketa \LaTeX  i nalazi se u mapi \textit{Dokumentacija/}. Kako bi se iz .tex datoteka izgradio PDF izvješaj potrebno je na računalu imati instalaciju \LaTeX-a i pokrenuti ispravne naredbe za izgradnju PDF-a (npr \textit{latexmk}).
+			Dokumentacija za ovaj projekt je napisana koristeći paket \LaTeX  i nalazi se u mapi \textit{Dokumentacija/}. Kako bi se iz .tex datoteka izgradio PDF izvještaj potrebno je na računalu imati instalaciju \LaTeX-a i pokrenuti ispravne naredbe za izgradnju PDF-a (npr. \textit{latexmk}).
 			\eject 
