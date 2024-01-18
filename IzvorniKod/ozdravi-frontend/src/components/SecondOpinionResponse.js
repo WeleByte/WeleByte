@@ -132,10 +132,10 @@ const SecondOpinionResponse = (props) => {
                                     : <p style={{textAlign:"left"}} className ="text mb-5"> Nije odgovoreno </p>}
 
                             </div>): null}
-                            
+
                             { role === "doctor" || role === "pediatrician" || role === "admin" ? (
-                            <button type="submit" className="btn btn-primary col-12 col-md-2 py-2 mb-4" style={{float:"right"}}
-                            onClick={handleSubmit} >Spremi </button>
+                                <button type="submit" className="btn btn-primary col-12 col-md-2 py-2 mb-4" style={{float:"right"}}
+                                        onClick={handleSubmit} >Spremi </button>
                             ): null}
                         </form>
                     </div>

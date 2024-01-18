@@ -10,15 +10,15 @@ import MapComponent from "./MapComponent";
 import { Navigate } from 'react-router-dom';
 import findAddress from "../assets/scripts/AddressFinder";
 
-const PregledDetail = ({closeNoviPregled, pregledId, backendRoute, bearerToken, user, examination}) => {
-
+const PregledDetail = (props) => {
+  const {closeNoviPregled, pregledId, refreshExaminations,
+    backendRoute, bearerToken, user, examination, handleLogOut, currentRole} = props
+  const [report, setReport] = useState(examination.report)
+  const [errorMessage, setErrorMessage] = useState(null)
   const closeModal = () => {
     closeNoviPregled()
   }
 
-  useEffect(() => {
-    console.log(examination)
-  }, []);
 
   const insertNewline = (str) => {
     let result = '';
@@ -36,6 +36,52 @@ const PregledDetail = ({closeNoviPregled, pregledId, backendRoute, bearerToken, 
     }
     return result;
   };
+
+
+
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    if(report !== ""){
+      fetch(backendRoute + `/examination/${examination.id}`, {
+        method: 'PUT',
+        headers: {
+          'Authorization' : `Bearer ${bearerToken}`,
+          'Content-Type' : 'application.json'
+        },
+        body: JSON.stringify({
+          report: report,
+          doctor_id: examination.doctor.id,
+          patient_id: examination.patient.id,
+          scheduler_id: examination.scheduler.id,
+          date: examination.date,
+          address: {
+            street: examination.address.street,
+            number: examination.address.number,
+            city: examination.address.city,
+            country: examination.address.country,
+            longitude: examination.address.longitude,
+            latitude: examination.address.latitude
+          }
+
+        })
+      })
+          .then(response => {
+            // if(response.status === 401){
+              // handleLogOut()
+            // } else
+            if(!response.ok){
+              console.log('negotof')
+              console.error("Error: ", response)
+            } else{
+              console.log('gotof')
+              refreshExaminations()
+              closeModal()
+            }
+          })
+    } else {
+        setErrorMessage("Opis pregleda ne smije ostat prazan")
+    }
+  }
 
   return (
     <div id = "addPatientsWrapper" className = "shadow-lg">
@@ -80,12 +126,14 @@ const PregledDetail = ({closeNoviPregled, pregledId, backendRoute, bearerToken, 
   <p style={{textAlign:"left"}} className ="text"> {examination.address.country + ", " + examination.address.city + ", " + examination.address.street + ", " + examination.address.number} </p>
 </div>
 
+  {}
   <div className="mb-3">
     <label htmlFor="username" className=" col-12 text-label" style={{float: 'left', textAlign:"left"}}>Opis pregleda</label>
     {/*<p style={{textAlign:"left"}} className ="text">{insertNewline(examination.report)}</p>*/}
     <textarea rows = "7" type="text" className="form-control" id="examination-description"
               style={{}}
-              value={examination.report} />
+              value={report}
+              onChange={(e) => setReport(e.target.value)}/>
 
   </div>
 
@@ -97,9 +145,15 @@ const PregledDetail = ({closeNoviPregled, pregledId, backendRoute, bearerToken, 
 
 
 </div>
-
+      { currentRole === "doctor" || currentRole === "pediatrician" || currentRole === "admin" ? (
+          <button type="submit" className="btn btn-primary col-12 col-md-2 py-2 mb-4" style={{float:"right"}}
+                  onClick={handleSubmit} >Spremi </button>
+      ): null}
 
 </form>
+      {errorMessage ?
+          <p style={{color: 'red'}}>{errorMessage}</p>
+          : null}
 </div>
 </div>
     </div>

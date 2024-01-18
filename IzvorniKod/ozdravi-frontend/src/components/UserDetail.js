@@ -16,7 +16,6 @@ const UserDetail = (props) => {
   const [usersFormatted, setUsersFormatted] = useState([])
   const [pediatriciansFormatted, setPediatriciansFormatted] = useState([])
   const [parentsFormatted,  setParentsFormatted] = useState([])
-
   const [loggedUserIsAdmin, setLoggedUserIsAdmin] = useState(false)
   const [loggedUserIsParent, setLoggedUserIsParent] = useState(false)
   const [adminSelected, setAdminSelected] = useState(false)

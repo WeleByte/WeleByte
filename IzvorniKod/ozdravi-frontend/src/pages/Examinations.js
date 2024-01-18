@@ -248,7 +248,9 @@ const Examinations = (props) => {
                                                 closeNoviPregled = {togglePregledDetail}
                                                 pregledId = {selectedPregledId}
                                                 examination = {selectedExaminations[selectedPregledId]}
-                                                closeUserOptions={closeUserOptions}/>}
+                                                closeUserOptions={closeUserOptions}
+                                                currentRole={currentRole}
+                                                refreshExaminations={toggleRefreshExaminations}/>}
 
 
 {selectedExaminations.length !== 0 ? (
