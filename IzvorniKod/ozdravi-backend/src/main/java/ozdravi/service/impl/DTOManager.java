@@ -122,7 +122,7 @@ public class DTOManager {
         User doctor = userService.findById(secondOpinionDTO.getDoctor_id());
         String content = secondOpinionDTO.getContent();
 
-        if (content.isBlank()) throw new IllegalArgumentException("Content cannot be blank");
+//        if (content.isBlank()) throw new IllegalArgumentException("Content cannot be blank");
 
         return SecondOpinion.builder().requester(requester).doctor(doctor).opinion(secondOpinionDTO.getOpinion()).content(content).build();
     }

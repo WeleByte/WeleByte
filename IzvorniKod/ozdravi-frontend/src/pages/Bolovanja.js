@@ -9,10 +9,9 @@ import SickLeaveRecommendationDetail from '../components/SickLeaveRecommendation
 
 const Bolovanja = (props) => {
 
-    const user = JSON.parse(sessionStorage.userData)
     const currentRole = sessionStorage.getItem('currentRole');
     const backendRoute = props.backendRoute
-    const [selectedStatus, setSelectedStatus] = useState('svi')
+    const [selectedStatus, setSelectedStatus] = useState('nepregledano' )
     const bearerToken = sessionStorage.bearerToken
     const navigate = useNavigate()
     const [novoBolovanjeOpen, setNovoBolovanjeOpen] = useState(false)
@@ -55,11 +54,11 @@ const Bolovanja = (props) => {
                 if (response.status === 401) {
                     handleLogOut()
                 } else
-                    if (!response.ok) {
-                        console.log("Error:", response, response.status, response.statusText);
-                    } else {
-                        return response.json();
-                    }
+                if (!response.ok) {
+                    console.log("Error:", response, response.status, response.statusText);
+                } else {
+                    return response.json();
+                }
             })
             .then(parsedData => {
                 console.log(parsedData)
@@ -68,9 +67,9 @@ const Bolovanja = (props) => {
                 setUnresolvedRecommendations(parsedData.filter(recommendation => recommendation.status === null))
                 setFilteredRecommendations(parsedData.filter(recommendation => recommendation.status === null))
             })
-        // .catch(error => {
-        //     console.error('Fetch error:', error);
-        // });
+        .catch(error => {
+            console.error('Fetch error:', error);
+        });
     }, [refreshRecommendations]);
 
     // switch(selectedStatus) {
@@ -95,9 +94,6 @@ const Bolovanja = (props) => {
         }
     }
 
-    if (!bearerToken) {
-        return null
-    }
 
     function handleBolovanjeDetail(id) {
         console.log("id: ", id)
@@ -105,10 +101,17 @@ const Bolovanja = (props) => {
         toggleBolovanjeDetail()
     }
 
+
     if (!bearerToken) {
         return null
     }
 
+
+    function formatDate(dateString) {
+        const options = { hour: '2-digit', minute: '2-digit', day: '2-digit', month: '2-digit', year: 'numeric', hour12: false };
+        const date = new Date(dateString);
+        return date.toLocaleDateString('en-GB', options);
+    }
 
     return (
 
@@ -117,19 +120,20 @@ const Bolovanja = (props) => {
             <Navbar backendRoute={backendRoute} bearerToken={bearerToken}></Navbar>
 
             {novoBolovanjeOpen && <SickLeaveRecommendationForm closeSeccondOpinnionForm={toggleNovoMisljenje}
-                backendRoute={backendRoute}
-                bearerToken={bearerToken}
-                handleLogOut={handleLogOut}
-                refreshRecommendations={toggleRefreshRecommendations} />}
+                                                               backendRoute={backendRoute}
+                                                               bearerToken={bearerToken}
+                                                               handleLogOut={handleLogOut}
+                                                               refreshRecommendations={toggleRefreshRecommendations} />}
 
             {novoBolovanjeDetail && <SickLeaveRecommendationDetail closeBolovanjeDetail={toggleBolovanjeDetail}
-                role={currentRole}
-                backendRoute={backendRoute}
-                bearerToken={bearerToken}
-                recommendationId={currentDetailId}
-                handleLogOut={handleLogOut}
-                refreshRecommendations={toggleRefreshRecommendations} />}
+                                                                   role={currentRole}
+                                                                   backendRoute={backendRoute}
+                                                                   bearerToken={bearerToken}
+                                                                   recommendationId={currentDetailId}
+                                                                   handleLogOut={handleLogOut}
+                                                                   refreshRecommendations={toggleRefreshRecommendations} />}
 
+        { recommendations.length !== 0 ? (
             <div id="seccondOppWrapper">
 
                 {/*     <p style={{textAlign: "left", fontSize: "13px"}} className='px-4 mb-2 mt-2 mb-1'>4 nepregledanih - 7 pregledanih</p> */}
@@ -155,11 +159,11 @@ const Bolovanja = (props) => {
 
                     <button className={selectedStatus === 'nepregledano' ?
                         "btn btn-primary chip-selected  me-2 mt-2" : "btn btn-secondary chip-unselected  me-2 mt-2"}
-                        id="nepregledano" onClick={() => handleFilterButton('nepregledano')}>Nepregledano</button>
+                            id="nepregledano" onClick={() => handleFilterButton('nepregledano')}>Nepregledano</button>
 
                     <button className={selectedStatus === 'pregledano' ?
                         "btn btn-primary chip-selected  me-2 mt-2" : "btn btn-secondary chip-unselected  me-2 mt-2"}
-                        id="pregledano" onClick={() => handleFilterButton('pregledano')}>Pregledano</button>
+                            id="pregledano" onClick={() => handleFilterButton('pregledano')}>Pregledano</button>
                 </div>
 
 
@@ -169,16 +173,20 @@ const Bolovanja = (props) => {
             <button class ="btn selector-btn selector-btn-selected col-6">Nepregledano ({nepregledanoCount})</button>
             <button class ="btn selector-btn selector-btn-unselected col-6">Pregledano ({nepregledanoCount + 3})</button>
         </div> */}
-                    {filteredRecommendations ?
+                    {filteredRecommendations && filteredRecommendations.length !== 0 ?
                         filteredRecommendations.map((recommendation) => (
 
                             <div key={recommendation.id} className="card mb-0" style={{ textAlign: "left" }}>
                                 <div className="card-body pregledajCardBody" style={{ paddingRight: "130px" }}>
                                     <h5 className="card-title ">Preporuka za bolovanje: {recommendation.parent.first_name + " " + recommendation.parent.last_name}</h5>
                                     <p style={{ fontSize: "13px" }}
-                                        className='mb-1'>Dijete: {
-                                            recommendation.examination.patient.first_name + " " + recommendation.examination.patient.last_name
-                                        } • Pregledao: {recommendation.creator.first_name + " " + recommendation.creator.last_name}</p>
+                                       className='mb-1'>
+                                        Pacijent: {
+                                        recommendation.examination.patient.first_name + " " + recommendation.examination.patient.last_name
+                                    } • Pregledao: {recommendation.creator.first_name + " " + recommendation.creator.last_name
+                                    } • Datum pregleda: {
+                                        formatDate(recommendation.examination.date)
+                                    }</p>
                                     <button className='btn btn-secondary pregledajGumbPc' style={{ position: "absolute", right: "1rem", top: "30%" }} onClick={() => handleBolovanjeDetail(recommendation.id)}>Pregledaj <img width="14" height="14" className="ms-1 pregledaj-btn  " src={ArrowRightIcon} style={{ marginBottom: "2px" }} alt="right" />       {/*  <img width="14" height="14" className = "ms-2  " src={ArrowRightIcon} style={{marginBottom: "2px"}}  alt="right"/> */}
                                     </button>
                                     <button className='btn btn-secondary pregledajGumbMobile mt-3 ' onClick={() => handleBolovanjeDetail(recommendation.id)} style={{ zIndex: "100" }}>Pregledaj <img width="14" height="14" className="ms-1 pregledaj-btn  " src={ArrowRightIcon} style={{ marginBottom: "2px" }} alt="right" />
@@ -187,10 +195,31 @@ const Bolovanja = (props) => {
                                 </div>
                             </div>
 
-                        )) : (<p>Loading...</p>)}
+                        )) : (
+
+                            <div id="usersWrapperInner" style={{
+                                display: "flex",        // Enable Flexbox
+                                flexDirection: "column", // Stack children vertically
+                                justifyContent: "center", // Center content vertically
+                                alignItems: "center",    // Center content horizontally
+                                height: "40vh",
+                                // Take full viewport height
+                                // Optional: If you still want additional padding on top
+                            }}>
+
+
+                                <h5 className=" px-4 mt-0 pt-0 " style={{ textAlign: "center", maxWidth: "1246px" }}>
+                                    Nema preporuka za bolovanje
+
+                                </h5>
+
+                                {(currentRole === "doctor" || currentRole === "pediatrician" || currentRole === "admin" ? (
+                                    <button className="btn btn-primary ms-2 mt-2 " style={{}} onClick={toggleNovoMisljenje}>Nova preporuka +</button>) : null)}
+                            </div>
+                        )}
                 </div>
 
-            </div>
+            </div>) : (
             <div id="usersWrapperInner" style={{
                 display: "flex",        // Enable Flexbox
                 flexDirection: "column", // Stack children vertically
@@ -206,10 +235,13 @@ const Bolovanja = (props) => {
                     Nema preporuka za bolovanje
 
                 </h5>
+
+                <p style={{textAlign: "center", maxWidth: "1200px"}} className = "px-4 mb-2 mt-1 ">{recommendations.length} {" "} preporuka</p> 
+
                 
-                {(currentRole === "doctor" || currentRole === "pediatrician" || currentRole === "admin" ? (
+                {(currentRole === "pediatrician" || currentRole === "admin" ? (
                     <button className="btn btn-primary ms-2 mt-2 " style={{}} onClick={toggleNovoMisljenje}>Nova preporuka +</button>) : null)}
-            </div>
+            </div> )}
         </div>
     );
 };
