@@ -166,12 +166,16 @@ const Users = (props) => {
                                          refreshUsers={toggleRefreshUsers}/>}
 
             {userDetailVisible && <UserDetail close = {toggleUserDetail}
-                                              role = {currentRole.name}
-                                              user = {users[selectedUserIndex]}  />}
+                                              role = {currentRole}
+                                              user = {users[selectedUserIndex]}
+                                              backendRoute={backendRoute}
+                                              bearerToken={bearerToken}
+                                              refreshUsers={toggleRefreshUsers}
+                                              handleLogOut={handleLogOut}/>}
 
 
 
-            {users.length != 0 ? (
+            {users.length !== 0 ? (
 
            
             <div id = "usersWrapperInner">
@@ -197,7 +201,7 @@ const Users = (props) => {
                  <p style={{textAlign: "left", maxWidth: "1200px"}} className = "px-4 mb-2 ">{users.length} 
                  
                 {(currentRole === "admin" ? (" korisnika") : null)}
-                {(currentRole === "doctor" || currentRole === "admin" ? (" pacijenata") : null)}
+                {(currentRole === "doctor" ? (" pacijenata") : null)}
                 {(currentRole === "parent" ? (" djece") : null)}
 
                  </p> 

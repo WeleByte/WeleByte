@@ -20,6 +20,23 @@ const PregledDetail = ({closeNoviPregled, pregledId, backendRoute, bearerToken, 
     console.log(examination)
   }, []);
 
+  const insertNewline = (str) => {
+    let result = '';
+    let maxLength = 30 // parametar za najdulji niz znakova
+    for (let i = 0; i < str.length; i += maxLength) {
+      const chunk = str.substring(i, i + maxLength);
+      const prevChunk = result.substring(Math.max(0, result.length - maxLength), result.length);
+
+      // Check if the previous chunk has a space or newline character
+      if (!prevChunk.includes(' ') && !prevChunk.includes('\n')) {
+        result += '\n';
+      }
+
+      result += chunk;
+    }
+    return result;
+  };
+
   return (
     <div id = "addPatientsWrapper" className = "shadow-lg">
 
@@ -48,37 +65,39 @@ const PregledDetail = ({closeNoviPregled, pregledId, backendRoute, bearerToken, 
 
 <div className="mb-3">
   <label htmlFor="username" className=" col-12 text-label" style={{float: 'left', textAlign:"left"}}>Pacijent</label>
-  <p style={{textAlign:"left"}} class ="text"> {examination.patient.first_name + " " + examination.patient.last_name} </p>
+  <p style={{textAlign:"left"}} className ="text"> {examination.patient.first_name + " " + examination.patient.last_name} </p>
 </div>
 <div className="mb-3">
   <label htmlFor="username" className=" col-12 text-label" style={{float: 'left', textAlign:"left"}}>Doktor</label>
-  <p style={{textAlign:"left"}} class ="text">{examination.doctor.first_name + " " + examination.doctor.last_name}</p>
+  <p style={{textAlign:"left"}} className ="text">{examination.doctor.first_name + " " + examination.doctor.last_name}</p>
 </div>
 <div className="mb-3">
   <label htmlFor="username" className=" col-12 text-label" style={{float: 'left', textAlign:"left"}}>Datum</label>
-  <p style={{textAlign:"left"}} class ="text"> {examination.date.substring(0,10)}  </p>
+  <p style={{textAlign:"left"}} className ="text"> {examination.date.substring(0,10)}  </p>
 </div>
 <div className="mb-3">
   <label htmlFor="username" className=" col-12 text-label" style={{float: 'left', textAlign:"left"}}>Lokacija</label>
-  <p style={{textAlign:"left"}} class ="text"> {examination.address.country + ", " + examination.address.city + ", " + examination.address.street + ", " + examination.address.number} </p>
+  <p style={{textAlign:"left"}} className ="text"> {examination.address.country + ", " + examination.address.city + ", " + examination.address.street + ", " + examination.address.number} </p>
 </div>
 
+  <div className="mb-3">
+    <label htmlFor="username" className=" col-12 text-label" style={{float: 'left', textAlign:"left"}}>Opis pregleda</label>
+    {/*<p style={{textAlign:"left"}} className ="text">{insertNewline(examination.report)}</p>*/}
+    <textarea rows = "7" type="text" className="form-control" id="examination-description"
+              style={{}}
+              value={examination.report} />
+
+  </div>
 
 
-
-
+    <div className="mapWrapper" style={{height: "40vh", width:"90%", margin:"2% 0 auto 0", paddingBottom:"30px"}}>
+      <MapComponent address={examination.address}></MapComponent>
+    </div>
 
 
 
 </div>
 
-<div className="mb-3">
-  <label htmlFor="username" className=" col-12 text-label" style={{float: 'left', textAlign:"left"}}>Opis pregleda</label>
-  <p style={{textAlign:"left"}} class ="text mb-5">{examination.report}</p>
-</div>
-      <div className="mapWrapper" style={{height: "40vh", width:"90%", margin:"0 auto", paddingBottom:"30px"}}>
-        <MapComponent address={examination.address}></MapComponent>
-      </div>
 
 </form>
 </div>
