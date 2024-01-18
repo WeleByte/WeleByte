@@ -16,16 +16,19 @@ const SecondOpinions = (props) => {
     const [novoMisljenjeOpen, setNovoMisljenjeOpen] = useState(false)
     const [novoMisljenjeDetail, setNovoMisljenjeDetail] = useState(false)
     const uloga = sessionStorage.getItem('currentRole');
-        
+    const [user, setUser] = useState(null)
+    const [refreshOpinions, setRefreshOpinions] = useState(false)
 
     useEffect(() => {
         if(bearerToken === '' || bearerToken === null || bearerToken === undefined) {
             navigate('/login')
         }else{
-            const logUser = JSON.parse(sessionStorage.userData)
-           
+            setUser(JSON.parse(sessionStorage.userData))
+
+
         }
     }, []);
+
 
     useEffect(() => {
         fetch(backendRoute + "/second_opinions", {
@@ -54,7 +57,7 @@ const SecondOpinions = (props) => {
             .catch(error => {
                 console.error('Fetch error:', error);
             });
-    }, []);
+    }, [refreshOpinions]);
 
     function handleLogOut() {
         sessionStorage.clear()
@@ -75,6 +78,9 @@ const SecondOpinions = (props) => {
 
     };
 
+    const toggleRefreshOpinions = () => {
+        setRefreshOpinions((prev) => !prev);
+    }
 
     function handleMisljenjeDetail(id) {
         console.log("handlemisljenje called")
@@ -95,15 +101,21 @@ const SecondOpinions = (props) => {
         <div id = "HomePageWrapper">
             <Navbar backendRoute={backendRoute} bearerToken={bearerToken}></Navbar>
 
-            {novoMisljenjeOpen && <SecondOpinionForm closeSeccondOpinnionForm = {toggleNovoMisljenje}/>}
+            {novoMisljenjeOpen && <SecondOpinionForm closeSeccondOpinnionForm = {toggleNovoMisljenje}
+                                                     backendRoute={backendRoute}
+                                                     bearerToken={bearerToken}
+                                                     handleLogOut={handleLogOut}
+                                                     user={user}
+                                                     refreshOpinions={toggleRefreshOpinions}/>}
             {novoMisljenjeDetail && <SecondOpinionResponse closeSeccondOpinnionForm = {toggleMisljenjeDetail}
                                                            currentOpinionId={currentDetailId}
                                                            backendRoute={backendRoute}
                                                            bearerToken={bearerToken}
                                                            handleLogOut={handleLogOut}
                                                            role = {uloga}
-                                                           />}
-            {secondOpinions.length != 0 ? (
+                                                           refreshOpinions={toggleRefreshOpinions}/>}
+
+            {secondOpinions.length !== 0 ? (
             <div id = "seccondOppWrapper">
 
                 {/*     <p style={{textAlign: "left", fontSize: "13px"}} className='px-4 mb-2 mt-2 mb-1'>4 nepregledanih - 7 pregledanih</p> */}
@@ -142,7 +154,7 @@ const SecondOpinions = (props) => {
                     {secondOpinions?.map((secondOpinion) => (
                         <div key={secondOpinion.id} className="card mb-0" style={{textAlign: "left"}}>
                             <div className="card-body pregledajCardBody" style={{paddingRight: "130px"}}>
-                                <h5 className="card-title ">Pacijent: {secondOpinion.requester.first_name + " " + secondOpinion.requester.last_name}</h5>
+                                <h5 className="card-title ">Podnositelj zahtjeva: {secondOpinion.requester.first_name + " " + secondOpinion.requester.last_name}</h5>
                                 <p style={{fontSize: "13px"}}
                                    className='mb-1'>{secondOpinion.content} • {secondOpinion.doctor.first_name + " " + secondOpinion.doctor.last_name}</p>
                                
@@ -183,15 +195,10 @@ const SecondOpinions = (props) => {
                     <h5 className = " px-4 mt-0 pt-0 " style={{textAlign: "center", maxWidth: "1246px"}}>
                     Nema drugih mišljenja
     
-                             </h5>
-        
-        
-                         <p style={{textAlign: "center", maxWidth: "1200px"}} className = "px-4 mb-2 mt-1 ">{secondOpinions.length} {" "} 
-                         
-                    mišljenja
-        
-                         </p> 
-                         {(uloga === "doctor" || uloga === "pediatrician" || uloga === "admin"  ? (
+                    </h5>
+                        <p style={{textAlign: "center", maxWidth: "1200px"}} className = "px-4 mb-2 mt-1 ">
+                            {secondOpinions.length} {" "} </p>
+                         {(uloga === "parent" ? (
                             <button className = "btn btn-primary ms-2 mt-2 " style={{}} onClick= {toggleNovoMisljenje}>Dodaj mišljenje +</button>  ) : null)}
                            
                         </div>

@@ -45,7 +45,7 @@ public class UserController {
     }
 
 //    GET mapping for doctors or pediatricians
-    @PreAuthorize("hasAnyRole('ADMIN', 'DOCTOR', 'PEDIATRICIAN')")
+//    @PreAuthorize("hasAnyRole('ADMIN', 'DOCTOR', 'PEDIATRICIAN')")
     @GetMapping("/users/{role}s")
     public ResponseEntity<?> getDoctors(@PathVariable("role") String role){
         if(!role.equals("doctor") && !role.equals("pediatrician"))

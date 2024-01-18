@@ -44,9 +44,8 @@ const Examinations = (props) => {
             navigate('/login')
         }else{
             setUser(JSON.parse(sessionStorage.userData))
-           
-            const logUser = JSON.parse(sessionStorage.userData)
-          
+
+
         }
     }, []);
 
@@ -250,7 +249,6 @@ const Examinations = (props) => {
                                                 pregledId = {selectedPregledId}
                                                 examination = {selectedExaminations[selectedPregledId]}
                                                 closeUserOptions={closeUserOptions}/>}
-
 
 
 {selectedExaminations.length !== 0 ? (

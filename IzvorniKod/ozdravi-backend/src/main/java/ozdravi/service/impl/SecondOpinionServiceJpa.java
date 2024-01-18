@@ -82,7 +82,7 @@ public class SecondOpinionServiceJpa implements SecondOpinionService {
             throw new EntityMissingException("Second opinion with id " + id.toString() + " not found");
 
         if(secondOpinion.get().getDoctor().getId().equals(user.getId())
-                || secondOpinion.get().getRequester().getParent().getId().equals(user.getId())
+//                || secondOpinion.get().getRequester().getParent().getId().equals(user.getId())
                 || secondOpinion.get().getRequester().getId().equals(user.getId())
                 || securityContextService.isUserInRole("ADMIN"))
             return secondOpinion.get();
@@ -95,12 +95,13 @@ public class SecondOpinionServiceJpa implements SecondOpinionService {
         User user = securityContextService.getLoggedInUser();
         SecondOpinion secondOpinion = findById(id);
 
-        if(!secondOpinion.getRequester().getId().equals(user.getId())
-                && !securityContextService.isUserInRole("ADMIN"))
-            throw new RequestDeniedException("You are not authorized to update this second opinion");
 
-        secondOpinion.copyDifferentAttributes(dtoManager.secondOpinionDTOToSecondOpinion(secondOpinionDTO));
-        secondOpinionRepository.save(secondOpinion);
+        if(securityContextService.isUserInRole("ADMIN") || secondOpinion.getDoctor().getId().equals(user.getId())) {
+            secondOpinion.copyDifferentAttributes(dtoManager.secondOpinionDTOToSecondOpinion(secondOpinionDTO));
+            secondOpinionRepository.save(secondOpinion);
+        } else {
+            throw new RequestDeniedException("You are not authorized to update this second opinion");
+        }
     }
 
     @Override

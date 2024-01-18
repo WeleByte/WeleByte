@@ -133,6 +133,7 @@ const Bolovanja = (props) => {
                                                                    handleLogOut={handleLogOut}
                                                                    refreshRecommendations={toggleRefreshRecommendations} />}
 
+        { recommendations.length !== 0 ? (
             <div id="seccondOppWrapper">
 
                 {/*     <p style={{textAlign: "left", fontSize: "13px"}} className='px-4 mb-2 mt-2 mb-1'>4 nepregledanih - 7 pregledanih</p> */}
@@ -218,7 +219,33 @@ const Bolovanja = (props) => {
                         )}
                 </div>
 
+<<<<<<< HEAD
+            </div>) : (
+            <div id="usersWrapperInner" style={{
+                display: "flex",        // Enable Flexbox
+                flexDirection: "column", // Stack children vertically
+                justifyContent: "center", // Center content vertically
+                alignItems: "center",    // Center content horizontally
+                // height: "90vh",
+                // Take full viewport height
+                // Optional: If you still want additional padding on top
+            }}>
+
+
+                <h5 className=" px-4 mt-0 pt-0 " style={{ textAlign: "center", maxWidth: "1246px" }}>
+                    Nema preporuka za bolovanje
+
+                </h5>
+
+                <p style={{textAlign: "center", maxWidth: "1200px"}} className = "px-4 mb-2 mt-1 ">{recommendations.length} {" "} preporuka</p> 
+
+                
+                {(currentRole === "pediatrician" || currentRole === "admin" ? (
+                    <button className="btn btn-primary ms-2 mt-2 " style={{}} onClick={toggleNovoMisljenje}>Nova preporuka +</button>) : null)}
+            </div> )}
+=======
             </div>
+>>>>>>> main
         </div>
     );
 };
