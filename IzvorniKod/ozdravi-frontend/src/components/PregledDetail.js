@@ -46,7 +46,7 @@ const PregledDetail = (props) => {
         method: 'PUT',
         headers: {
           'Authorization' : `Bearer ${bearerToken}`,
-          'Content-Type' : 'application.json'
+          'Content-Type' : 'application/json'
         },
         body: JSON.stringify({
           report: report,
@@ -126,8 +126,8 @@ const PregledDetail = (props) => {
   <p style={{textAlign:"left"}} className ="text"> {examination.address.country + ", " + examination.address.city + ", " + examination.address.street + ", " + examination.address.number} </p>
 </div>
 
-  {}
-  <div className="mb-3">
+  {currentRole === 'doctor' || currentRole === 'pediatrician' || currentRole === 'admin' ? (
+      <div className="mb-3">
     <label htmlFor="username" className=" col-12 text-label" style={{float: 'left', textAlign:"left"}}>Opis pregleda</label>
     {/*<p style={{textAlign:"left"}} className ="text">{insertNewline(examination.report)}</p>*/}
     <textarea rows = "7" type="text" className="form-control" id="examination-description"
@@ -136,6 +136,12 @@ const PregledDetail = (props) => {
               onChange={(e) => setReport(e.target.value)}/>
 
   </div>
+  ) : (
+    <div className="mb-3">
+      <label htmlFor="username" className=" col-12 text-label" style={{float: 'left', textAlign:"left"}}>Opis pregleda </label>
+      <p style={{textAlign:"left"}} className ="mb-3">{examination.report}</p>
+    </div>
+      )}
 
 
     <div className="mapWrapper" style={{height: "40vh", width:"90%", margin:"2% 0 auto 0", paddingBottom:"30px"}}>

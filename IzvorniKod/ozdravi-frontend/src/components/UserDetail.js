@@ -531,12 +531,12 @@ const UserDetail = (props) => {
                     </>
 
               {!loggedUserIsAdmin ? (
-                <div className="mb-3">
-                  <label htmlFor="username" className=" col-12 text-label" style={{float: 'left', textAlign:"left"}}>Uloge </label>
-                  <p style={{textAlign:"left"}} className ="mb-3"> {
-                    displayRoles.map((role, index) => index === displayRoles.length - 1 ? role : `${role}, `)
-                  } </p>
-                </div>
+                  <div className="mb-3">
+                    <label htmlFor="username" className=" col-12 text-label" style={{float: 'left', textAlign:"left"}}>Uloge </label>
+                    <p style={{textAlign:"left"}} className ="mb-3"> {
+                      displayRoles.map((role, index) => index === displayRoles.length - 1 ? role : `${role}, `)
+                    } </p>
+                  </div>
                ) : null}
               </div>
 
