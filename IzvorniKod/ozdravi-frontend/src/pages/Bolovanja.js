@@ -219,7 +219,6 @@ const Bolovanja = (props) => {
                         )}
                 </div>
 
-<<<<<<< HEAD
             </div>) : (
             <div id="usersWrapperInner" style={{
                 display: "flex",        // Enable Flexbox
@@ -243,9 +242,6 @@ const Bolovanja = (props) => {
                 {(currentRole === "pediatrician" || currentRole === "admin" ? (
                     <button className="btn btn-primary ms-2 mt-2 " style={{}} onClick={toggleNovoMisljenje}>Nova preporuka +</button>) : null)}
             </div> )}
-=======
-            </div>
->>>>>>> main
         </div>
     );
 };
