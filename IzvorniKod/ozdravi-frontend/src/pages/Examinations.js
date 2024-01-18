@@ -1,4 +1,4 @@
-import React, {useState, useEffect } from 'react';
+import React, {useState, useEffect} from 'react';
 import Navbar from '../components/Header';
 import userIcon from '../assets/images/userIcon.png'
 import AddPatient from '../components/AddPatient';
@@ -9,7 +9,7 @@ import CloseIcon from '../assets/icons/x2.png'
 import TrashIcon from '../assets/icons/trash.png'
 import Plus2Icon from '../assets/icons/plus2.png'
 import InfoIcon from '../assets/icons/info.png'
-import { useNavigate } from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 
 import NoviPregled from '../components/NoviPregled';
 import PregledDetail from '../components/PregledDetail';
@@ -20,10 +20,10 @@ const Examinations = (props) => {
     const backendRoute = props.backendRoute
     const navigate = useNavigate()
     const bearerToken = sessionStorage.bearerToken
-   
+
     const [selectedUsers, setSelectedUsers] = useState('svi')
     let currentOpenedOptions = null;
-    let optionsOpened= false;
+    let optionsOpened = false;
     const [refreshExaminations, setRefreshExaminations] = useState(false)
     const [selectedExaminations, setSelectedExaminations] = useState([])
     const [parentExaminations, setParentExaminations] = useState([])
@@ -40,9 +40,9 @@ const Examinations = (props) => {
 
 
     useEffect(() => {
-        if(bearerToken === '' || bearerToken === null || bearerToken === undefined) {
+        if (bearerToken === '' || bearerToken === null || bearerToken === undefined) {
             navigate('/login')
-        }else{
+        } else {
             setUser(JSON.parse(sessionStorage.userData))
 
 
@@ -60,12 +60,12 @@ const Examinations = (props) => {
     const [noviPregledOtvoren, setNoviPregledOtvoren] = useState(false);
 
     const toggleNoviPregled = () => {
-        
+
         setNoviPregledOtvoren(!noviPregledOtvoren);
         if (currentOpenedOptions) {
             closeUserOptions(currentOpenedOptions)
         }
-       
+
     };
 
     const togglePregledDetail = (id) => {
@@ -74,51 +74,47 @@ const Examinations = (props) => {
         if (currentOpenedOptions) {
             closeUserOptions(currentOpenedOptions)
         }
-       
+
     };
 
     const closeUserOptions = (index) => {
         console.log("closing")
-        
-            const tbody = document.querySelector(`#usersTable tbody`);
-            const tr = tbody.querySelector(`#usersTable tr:nth-child(${index + 1})`);
+
+        const tbody = document.querySelector(`#usersTable tbody`);
+        const tr = tbody.querySelector(`#usersTable tr:nth-child(${index + 1})`);
 
 
-            const userOptions = tr.querySelector('.userOptions');
+        const userOptions = tr.querySelector('.userOptions');
 
-            userOptions.style.display = 'none';
+        userOptions.style.display = 'none';
 
     }
 
-    
+
     const openUserOptions = (index) => {
         console.log("opening");
         console.log(currentOpenedOptions);
-    
+
         // Close previously opened options if any
         if (currentOpenedOptions !== null && currentOpenedOptions !== index) {
             closeUserOptions(currentOpenedOptions);
         }
-    
+
         optionsOpened = true;
-    
+
         const tbody = document.querySelector(`#usersTable tbody`);
         const tr = tbody.querySelector(`tr:nth-child(${index + 1})`);
         const userOptions = tr.querySelector('.userOptions');
-    
+
         userOptions.style.display = 'block';
-    
+
         currentOpenedOptions = index;
     }
 
     useEffect(() => {
-        
 
-       
-        
+
     }, []); // Empty dependency array ensures the effect runs only once on mount
-
-
 
 
     /*----------------------------------------------HARKODIRANO
@@ -173,14 +169,14 @@ const Examinations = (props) => {
             .then(response => {
                 if (response.status === 401) {
                     handleLogOut()
-                } else if(!response.ok){
+                } else if (!response.ok) {
                     console.log("Error:", response, response.status, response.statusText);
                 } else {
                     return response.json();
                 }
             })
             .then(parsedData => {
-                if(parsedData){
+                if (parsedData) {
                     console.log(parsedData)
                     setParentExaminations(parsedData.filter(examination => examination.patient.roles
                         .map(role => role.name).includes('parent')))
@@ -207,8 +203,8 @@ const Examinations = (props) => {
                             handleLogOut()
                     }
                 } else {
-                        console.log('parsedData empty')
-                    }
+                    console.log('parsedData empty')
+                }
             })
         // .catch(error => {
         //     console.error('Fetch error:', error);
@@ -225,68 +221,72 @@ const Examinations = (props) => {
         }
     }
 
-    if(!bearerToken){
+    if (!bearerToken) {
         return null
     }
 
     return (
 
 
-        <div id = "UsersWrapper">
+        <div id="UsersWrapper">
             <Navbar backendRoute={backendRoute} bearerToken={bearerToken}></Navbar>
 
-            {noviPregledOtvoren && <NoviPregled closeNoviPregled = {toggleNoviPregled}
+            {noviPregledOtvoren && <NoviPregled closeNoviPregled={toggleNoviPregled}
                                                 backendRoute={backendRoute}
                                                 bearerToken={bearerToken}
                                                 handleLogOut={handleLogOut}
                                                 user={user}
                                                 refreshExaminations={toggleRefreshExaminations}/>}
             {isPregledDetailVisible && <PregledDetail backendRoute={backendRoute}
-                                                bearerToken={bearerToken}
-                                                handleLogOut={handleLogOut}
-                                                user={user}
-                                                closeNoviPregled = {togglePregledDetail}
-                                                pregledId = {selectedPregledId}
-                                                examination = {selectedExaminations[selectedPregledId]}
-                                                closeUserOptions={closeUserOptions}
-                                                currentRole={currentRole}
-                                                refreshExaminations={toggleRefreshExaminations}/>}
+                                                      bearerToken={bearerToken}
+                                                      handleLogOut={handleLogOut}
+                                                      user={user}
+                                                      closeNoviPregled={togglePregledDetail}
+                                                      pregledId={selectedPregledId}
+                                                      examination={selectedExaminations[selectedPregledId]}
+                                                      closeUserOptions={closeUserOptions}
+                                                      currentRole={currentRole}
+                                                      refreshExaminations={toggleRefreshExaminations}/>}
 
 
-{selectedExaminations.length !== 0 ? (
-            <div id = "usersWrapperInner">
+            {selectedExaminations.length !== 0 ? (
+                <div id="usersWrapperInner">
 
 
-            <h5 className="pt-3 px-4 mt-2" style={{textAlign: "left", maxWidth: "1246px"}}>Pregledi
-    {/* <button className='btn btn-tertiary mt-1' style={{float: 'right'}}>Povijest </button> */}
-    
-                {(uloga === "doctor" || uloga === "pediatrician" || uloga === "admin") && (
-                    <button className="btn btn-primary" style={{float:"right"}} onClick={toggleNoviPregled}>
-                        Novi Pregled +
-                    </button>
-                )}
-            </h5>
+                    <h5 className="pt-3 px-4 mt-2" style={{textAlign: "left", maxWidth: "1246px"}}>Pregledi
+                        {/* <button className='btn btn-tertiary mt-1' style={{float: 'right'}}>Povijest </button> */}
 
-                 <p style={{textAlign: "left", maxWidth: "1200px"}} className = "px-4 mb-2 ">{selectedExaminations ? selectedExaminations.length : 0} pregleda</p>
+                        {(uloga === "doctor" || uloga === "pediatrician" || uloga === "admin") && (
+                            <button className="btn btn-primary" style={{float: "right"}} onClick={toggleNoviPregled}>
+                                Novi Pregled +
+                            </button>
+                        )}
+                    </h5>
 
-                {currentRole === 'parent' ? (
-                <div id="usersSelectorDiv" className="px-4 pb-1 pt-0 " style={{ display: "flex", justifyContent: "left", flexWrap: "wrap" }}>
-                    {/*<button className = {selectedStatus === 'svi' ?*/}
-                    {/*    "btn btn-primary chip-selected  me-2 mt-2" : "btn btn-secondary chip-unselected me-2 mt-2"}*/}
-                    {/*        id = "nepregledano" onClick={() => setSelectedStatus('svi')}>Sve</button>*/}
+                    <p style={{textAlign: "left", maxWidth: "1200px"}}
+                       className="px-4 mb-2 ">{selectedExaminations ? selectedExaminations.length : 0} pregleda</p>
 
-                    <button className={selectedStatus === 'roditelj' ?
-                        "btn btn-primary chip-selected  me-2 mt-2" : "btn btn-secondary chip-unselected  me-2 mt-2"}
-                            id="nepregledano" onClick={() => handleFilterButton('roditelj')}>Moji Pregledi</button>
+                    {currentRole === 'parent' ? (
+                        <div id="usersSelectorDiv" className="px-4 pb-1 pt-0 "
+                             style={{display: "flex", justifyContent: "left", flexWrap: "wrap"}}>
+                            {/*<button className = {selectedStatus === 'svi' ?*/}
+                            {/*    "btn btn-primary chip-selected  me-2 mt-2" : "btn btn-secondary chip-unselected me-2 mt-2"}*/}
+                            {/*        id = "nepregledano" onClick={() => setSelectedStatus('svi')}>Sve</button>*/}
 
-                    <button className={selectedStatus === 'djeca' ?
-                        "btn btn-primary chip-selected  me-2 mt-2" : "btn btn-secondary chip-unselected  me-2 mt-2"}
-                            id="pregledano" onClick={() => handleFilterButton('djeca')}>Moja djeca</button>
-                </div>
+                            <button className={selectedStatus === 'roditelj' ?
+                                "btn btn-primary chip-selected  me-2 mt-2" : "btn btn-secondary chip-unselected  me-2 mt-2"}
+                                    id="nepregledano" onClick={() => handleFilterButton('roditelj')}>Moji Pregledi
+                            </button>
+
+                            <button className={selectedStatus === 'djeca' ?
+                                "btn btn-primary chip-selected  me-2 mt-2" : "btn btn-secondary chip-unselected  me-2 mt-2"}
+                                    id="pregledano" onClick={() => handleFilterButton('djeca')}>Moja djeca
+                            </button>
+                        </div>
                     ) : null}
 
 
-                {/* <div id = "usersSelectorDiv" className = "px-4 pb-1 pt-0 " style={{display: "flex", justifyContent: "left", flexWrap: "wrap"}}>
+                    {/* <div id = "usersSelectorDiv" className = "px-4 pb-1 pt-0 " style={{display: "flex", justifyContent: "left", flexWrap: "wrap"}}>
     
 
     <button className = {selectedUsers === 'svi' ?
@@ -304,111 +304,102 @@ const Examinations = (props) => {
 </div>  */}
 
 
-                <div id = "patientSearchBoxDiv" className='px-4 pt-3 ' >
+                    <div id="patientSearchBoxDiv" className='px-4 pt-3 '>
 
-                    <div className="input-group mb-0 mx-0  p-3 searchContainer" style={{maxWidth: "1200px"}} >
-                        <img src= {searchIcon} className = "searchIconUsers"></img>
-                        <input type="text" className="form-control me-0 searchInput" style = {{ borderTopRightRadius: "7px", borderBottomRightRadius: "7px", }}
-                               placeholder="Pretraži" aria-label="Recipient's username" aria-describedby="basic-addon2" ></input>
+                        <div className="input-group mb-0 mx-0  p-3 searchContainer" style={{maxWidth: "1200px"}}>
+                            <img src={searchIcon} className="searchIconUsers"></img>
+                            <input type="text" className="form-control me-0 searchInput"
+                                   style={{borderTopRightRadius: "7px", borderBottomRightRadius: "7px",}}
+                                   placeholder="Pretraži" aria-label="Recipient's username"
+                                   aria-describedby="basic-addon2"></input>
 
+                        </div>
                     </div>
-                </div>
 
 
+                    <div className='px-4 pt-0'>
+                        <table className="table  table-bordered " id="usersTable" style={{maxWidth: "1200px"}}>
 
 
-                <div className='px-4 pt-0'>
-                    <table className="table  table-bordered " id= "usersTable" style={{maxWidth: "1200px"}}>
-
-
-
-                        <thead>
-                        <tr>
-                            <th scope="col" >PACIJENT</th>
-                            {/* <th scope="col">DOKTOR</th>
+                            <thead>
+                            <tr>
+                                <th scope="col">PACIJENT</th>
+                                {/* <th scope="col">DOKTOR</th>
                             <th scope="col">EMAIL PACIJENTA</th> */}
-                            <th scope="col">OPIS PREGLEDA</th>
-                            <th scope="col">ADRESA</th>
-                            <th scope="col"></th>
+                                <th scope="col">OPIS PREGLEDA</th>
+                                <th scope="col">ADRESA</th>
+                                <th scope="col"></th>
 
 
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {selectedExaminations.map((examination, index) =>
-                            (
-                                <tr key={examination.id} style={{ position: 'relative' }}>
-                                    <td scope="row">
-                                        <img src = {userIcon} alt = "" width = "14" className='me-3' style={{opacity: "75%"}}></img>
-                                        {examination.patient.first_name + " " + examination.patient.last_name}
-                                    </td>
-                                    {/* <td>{examination.doctor.first_name + " " + examination.doctor.last_name}</td>
-                                    <td>{examination.patient.email}</td> */}
-                                    <td>{examination.report.length >= 30 ? examination.report.substring(0, 30) + "..." : examination.report}</td>
-                                    <td>{examination.address.street}</td>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {selectedExaminations.map((examination, index) =>
+                                (
+                                    <tr key={examination.id} style={{position: 'relative'}}
+                                        onClick={() => togglePregledDetail(index)}>
+                                        <td scope="row">
+                                            <img src={userIcon} alt="" width="14" className='me-3'
+                                                 style={{opacity: "75%"}}></img>
+                                            {examination.patient.first_name + " " + examination.patient.last_name}
+                                        </td>
+                                        <td>{examination.report.length >= 30 ? examination.report.substring(0, 30) + "..." : examination.report}</td>
+                                        <td>{examination.address.street}</td>
 
-                                    <td className = "three-dot-td" >
+                                        <td>
+                                            <button className="col-12" style={{
+                                                opaciy: "80%",
+                                                textAlign: "left",
+                                                fontWeight: "500",
+                                                border: "none",
+                                                background: "none"
+                                            }}><img className="me-3"
+                                                    style={{height: "19px", float: "right", opacity: "80%"}}
+                                                    src={InfoIcon}></img></button>
+                                        </td>
+                                    </tr>
+                                ))}
 
+                            </tbody>
+                        </table>
+                        <div className="input-group mb-0 mx-0  paginationContainer " style={{maxWidth: "1200px"}}>
 
-                                        <img width="18" height="18" onClick={() => openUserOptions(index)}  src="https://img.icons8.com/ios-glyphs/30/menu-2.png" alt="menu-2"/></td>
+                            <span
+                                className="me-3">{selectedExaminations === [] ? (0) : (1 + '-' + selectedExaminations.length)} of {selectedExaminations.length}</span>
+                            <img src={chevronLeft} style={{float: "right"}} className="chevronIcon"></img>
+                            <img src={chevronRight} style={{float: "right"}} className="chevronIcon"></img>
 
-                                    <ul className="list-group userOptions shadow-lg p-0 border" style={{display:"none"}}>
-                                        <p className ="mb-2 mt-2 ps-3 py-1" style={{textAlign: "left"}}>Akcije <img className =" mt-1 closeActionsIcon" style={{ height: "19px", float: "right", opacity: "80%"}} onClick={() => closeUserOptions(index)} src={CloseIcon}></img>  </p>
-                                        <hr className ="mt-0 mb-0" style={{opacity: "20%"}}></hr>
-                                        <button onClick={() => togglePregledDetail(index)}  className =" ps-3 col-12 mb-2 mt-2 py-2 novi-pregled-btn" style={{opaciy: "80%",textAlign: "left", fontWeight:"500", border:"none", background:"none"}} > Detalji  <img className ="me-3 mt-1" style={{ height: "19px", float: "right", opacity: "80%" }} src={InfoIcon}></img> </button>
-
-                                        {/* {(uloga === "doctor" || uloga === "pediatrician" || uloga === "admin") && (
-                                        <button className="ps-3 col-12 mb-2 py-2 delete-btn" 
-                                                style={{opacity: "0.8", textAlign: "left", fontWeight:"500", border:"none", background:"none"}}>
-                                            Izbriši 
-                                            <img className="me-3 mt-1" 
-                                                style={{height: "19px", float: "right", opacity: "0.8"}} 
-                                                src={TrashIcon}>
-                                            </img> 
-                                        </button>
-                                    )} */}
-                                    </ul>
-
-                                </tr>
-                            ))}
-
-                        </tbody>
-                    </table>
-                    <div className="input-group mb-0 mx-0  paginationContainer " style={{maxWidth: "1200px"}} >
-
-                        <span className = "me-3">{selectedExaminations === [] ? (0) : (1 + '-' + selectedExaminations.length)} of {selectedExaminations.length}</span>
-                        <img src= {chevronLeft} style={{float: "right"}} className = "chevronIcon"></img>
-                        <img src= {chevronRight} style={{float: "right"}} className = "chevronIcon"></img>
-
+                        </div>
                     </div>
-                </div>
-            </div> ): (
-                <div id = "usersWrapperInner" style={{
+                </div>) : (
+                <div id="usersWrapperInner" style={{
                     display: "flex",        // Enable Flexbox
                     flexDirection: "column", // Stack children vertically
                     justifyContent: "center", // Center content vertically
                     alignItems: "center",    // Center content horizontally
-                    height: "90vh",   
-                       // Take full viewport height
-                       // Optional: If you still want additional padding on top
+                    height: "90vh",
+                    // Take full viewport height
+                    // Optional: If you still want additional padding on top
                 }}>
 
 
-                <h5 className = " px-4 mt-0 pt-0 " style={{textAlign: "center", maxWidth: "1246px"}}>
-                Još nema unesenih pregleda
+                    <h5 className=" px-4 mt-0 pt-0 " style={{textAlign: "center", maxWidth: "1246px"}}>
+                        Još nema unesenih pregleda
 
-                         </h5>
-    
-    
-                     <p style={{textAlign: "center", maxWidth: "1200px"}} className = "px-4 mb-2 mt-1 ">{selectedExaminations.length} {" "}
-                     
-                pregleda
-    
-                     </p> 
-                     {(uloga === "doctor" || uloga === "pediatrician" || uloga === "admin"  ? (
-                        <button className = "btn btn-primary ms-2 mt-2 " style={{}} onClick= {toggleNoviPregled}>Novi pregled +</button>  ) : null)}
-                       
-                    </div>
+                    </h5>
+
+
+                    <p style={{textAlign: "center", maxWidth: "1200px"}}
+                       className="px-4 mb-2 mt-1 ">{selectedExaminations.length} {" "}
+
+                        pregleda
+
+                    </p>
+                    {(uloga === "doctor" || uloga === "pediatrician" || uloga === "admin" ? (
+                        <button className="btn btn-primary ms-2 mt-2 " style={{}} onClick={toggleNoviPregled}>Novi
+                            pregled +</button>) : null)}
+
+                </div>
             )}
         </div>
     );
