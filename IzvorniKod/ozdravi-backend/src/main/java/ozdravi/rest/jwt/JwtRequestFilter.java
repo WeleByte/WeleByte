@@ -37,14 +37,14 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         final String token = header.substring(7);
         final DecodedJWT decodedJWT = jwtTokenUtil.validateToken(token);
 
-        final String email = decodedJWT.getSubject();
-        final Long role = decodedJWT.getClaim("role_id").asLong();
-
-        if (email == null) {
-            // validation failed or token expired
+        if(decodedJWT == null) {
             chain.doFilter(request, response);
             return;
         }
+
+        final String email = decodedJWT.getSubject();
+        final Long role = decodedJWT.getClaim("role_id").asLong();
+
 
         // set user details on spring security context
         final UserDetails userDetails = jwtUserDetailsService.loadUserByUsername(email, role);
