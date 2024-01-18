@@ -35,11 +35,11 @@ const Upute = (props) => {
 
 
     const toggleNovaUputa = () => {
-        
-    setNovoMisljenjeOpen(!novoMisljenjeOpen);
-    
-   
-};
+
+        setNovoMisljenjeOpen(!novoMisljenjeOpen);
+
+
+    };
     const toggleRefreshExaminations = () => {
         setRefreshExaminations((prev) => !prev);
     }

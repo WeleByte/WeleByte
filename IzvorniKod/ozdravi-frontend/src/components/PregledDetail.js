@@ -9,16 +9,26 @@ import Select from 'react-select'
 import MapComponent from "./MapComponent";
 import { Navigate } from 'react-router-dom';
 import findAddress from "../assets/scripts/AddressFinder";
+import NovaUputa from "./NovaUputa";
+import NovaIspricnica from "./NovaIspricnica";
 
 const PregledDetail = (props) => {
   const {closeNoviPregled, pregledId, refreshExaminations,
     backendRoute, bearerToken, user, examination, handleLogOut, currentRole} = props
   const [report, setReport] = useState(examination.report)
   const [errorMessage, setErrorMessage] = useState(null)
+  const [novoMisljenjeOpen, setNovoMisljenjeOpen] = useState(false)
   const closeModal = () => {
     closeNoviPregled()
   }
 
+  const toggleNovaUputa = (e) => {
+    e.preventDefault()
+    console.log("Otvaram")
+    setNovoMisljenjeOpen(!novoMisljenjeOpen);
+
+
+  };
 
   const insertNewline = (str) => {
     let result = '';
@@ -70,10 +80,8 @@ const PregledDetail = (props) => {
               // handleLogOut()
             // } else
             if(!response.ok){
-              console.log('negotof')
               console.error("Error: ", response)
             } else{
-              console.log('gotof')
               refreshExaminations()
               closeModal()
             }
@@ -85,7 +93,8 @@ const PregledDetail = (props) => {
 
   return (
     <div id = "addPatientsWrapper" className = "shadow-lg">
-
+      {novoMisljenjeOpen && <NovaIspricnica closeIspricnica={toggleNovaUputa}/>
+      }
 
     <div id = "addPatientsInner">
    
@@ -151,10 +160,17 @@ const PregledDetail = (props) => {
 
 
 </div>
+      {currentRole === 'pediatrician' || currentRole === 'admin' ?
+      <button className="btn btn-secondary" style={{float:"right"}}
+              onClick={toggleNovaUputa} >Ispričnica </button>
+          : null}
+
       { currentRole === "doctor" || currentRole === "pediatrician" || currentRole === "admin" ? (
           <button type="submit" className="btn btn-primary col-12 col-md-2 py-2 mb-4" style={{float:"right"}}
                   onClick={handleSubmit} >Spremi </button>
       ): null}
+
+
 
 </form>
       {errorMessage ?

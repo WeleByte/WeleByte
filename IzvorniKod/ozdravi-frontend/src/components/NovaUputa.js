@@ -95,29 +95,17 @@ const NovaUputa = (props) => {
     }
   }
 
-    return (
-    <div id = "addPatientsWrapper" className = "shadow-lg">
+  return (
+      <div id = "addPatientsWrapper" className = "shadow-lg">
 
 
-    <div id = "addPatientsInner">
-   
-
-    <h5 className = "pt-3 px-4 mt-2 mb-3 " style={{textAlign: "left"}}>Dodaj uputu{/* <button className='btn btn-tertiary mt-1' style={{float: 'right'}}>Povijest </button>  */} <img style={{ height: "23px", float: "right" }} onClick = {closeModal} src={CloseIcon}></img>  </h5>
-  
-
-    <hr className = "mb-1 mt-4" style={{opacity: "20%"}}></hr>
+        <div id = "addPatientsInner">
 
 
+          <h5 className = "pt-3 px-4 mt-2 mb-3 " style={{textAlign: "left"}}>Dodaj uputu{/* <button className='btn btn-tertiary mt-1' style={{float: 'right'}}>Povijest </button>  */} <img style={{ height: "23px", float: "right" }} onClick = {closeModal} src={CloseIcon}></img>  </h5>
 
 
-
-
-    
-
-    <div className='px-4 pt-0'>
-    <form >
-
-<div style={{display: "grid", gridTemplateColumns: "1fr", gridColumnGap: "20px"}} class ="mt-4">
+          <hr className = "mb-1 mt-4" style={{opacity: "20%"}}></hr>
 
 
 
@@ -125,29 +113,41 @@ const NovaUputa = (props) => {
 
 
 
-<div className="mb-4">
 
-<Select options={patientsFormatted} placeholder = "Pacijent..."
-        onChange={selectedOption => setSelectedPatient(selectedOption)}/>
-</div>
+          <div className='px-4 pt-0'>
+            <form >
 
-<div className="mb-3">
-  <label htmlFor="username" className="form-label" style={{float: 'left'}}>OPIS UPUTE</label>
-  <textarea rows = "7" type="date" className="form-control" id="username"
-            onChange={(event) => setContent(event.target.value)}/>
-</div>
+              <div style={{display: "grid", gridTemplateColumns: "1fr", gridColumnGap: "20px"}} class ="mt-4">
 
 
-</div>
 
 
-<button type="submit" className="btn btn-primary col-12 col-md-2 py-2 mb-4" style={{float:"right"}}
-    onClick={handleSubmit}>Spremi </button>
-</form>
-</div>
-</div>
-    </div>
-    
+
+
+
+                <div className="mb-4">
+
+                  <Select options={patientsFormatted} placeholder = "Pacijent..."
+                          onChange={selectedOption => setSelectedPatient(selectedOption)}/>
+                </div>
+
+                <div className="mb-3">
+                  <label htmlFor="username" className="form-label" style={{float: 'left'}}>OPIS UPUTE</label>
+                  <textarea rows = "7" type="date" className="form-control" id="username"
+                            onChange={(event) => setContent(event.target.value)}/>
+                </div>
+
+
+              </div>
+
+
+              <button type="submit" className="btn btn-primary col-12 col-md-2 py-2 mb-4" style={{float:"right"}}
+                      onClick={handleSubmit}>Spremi </button>
+            </form>
+          </div>
+        </div>
+      </div>
+
   );
 };
 
