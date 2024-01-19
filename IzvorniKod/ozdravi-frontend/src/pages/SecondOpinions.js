@@ -11,7 +11,7 @@ const SecondOpinions = (props) => {
     const navigate = useNavigate()
     const [selectedStatus, setSelectedStatus] = useState('svi')
     const bearerToken = sessionStorage.bearerToken
-    const [secondOpinions, setSecondOpinions] = useState([])
+    const [secondOpinions, setSecondOpinions] = useState(null)
     const [currentDetailId, setCurrentDetailId] = useState(null)
     const [novoMisljenjeOpen, setNovoMisljenjeOpen] = useState(false)
     const [novoMisljenjeDetail, setNovoMisljenjeDetail] = useState(false)
@@ -132,7 +132,7 @@ const SecondOpinions = (props) => {
                                                            role = {uloga}
                                                            refreshOpinions={toggleRefreshOpinions}/>}
 
-            {secondOpinions.length !== 0 ? (
+            {secondOpinions === null || secondOpinions.length !== 0 ? (
             <div id = "seccondOppWrapper">
 
                 {/*     <p style={{textAlign: "left", fontSize: "13px"}} className='px-4 mb-2 mt-2 mb-1'>4 nepregledanih - 7 pregledanih</p> */}
