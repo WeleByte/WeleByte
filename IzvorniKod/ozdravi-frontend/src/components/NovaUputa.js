@@ -36,7 +36,7 @@ const NovaUputa = (props) => {
         .then(parsedData => {
           setPatients(parsedData);
           setPatientsFormatted(parsedData.map(patient => ({
-            label: `${patient.first_name} ${patient.last_name}`,
+            label: `${patient.first_name} ${patient.last_name} (${patient.oib})`,
             value: patient.id
           })))
         })

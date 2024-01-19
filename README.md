@@ -1,7 +1,5 @@
 # Ozdravi - olakšava život kad imate bolesnu djecu 
 
-Setup guide
-
 ## Deployment
 
 URL aplikacije na javnom poslužitelju: https://welebyte-ozdravi-frontend-8717d38be8e3.herokuapp.com
@@ -12,12 +10,12 @@ biti potreno više vremena da se obradi prvi zahtjev prema backendu. Nakon toga,
 
 U aplikaciji, za potrebe testiranja već postoji set podataka (dummy data), to uključuje i korisnike:
 
-* prvi@mail.com - admin
-* doktor@mail.com - liječnik OM
-* pedijatar@mail.com - pedijatar
-* roditelj@mail.com - roditelj
-* roditaljBezDoktora@mail.com - roditelj
-* roditeljDoktor@mail.com - roditelj i doktor OM
+* prvi@mail.com - Ivan Horvat - admin
+* doktor@mail.com - Ante Kovač - liječnik obiteljske medicine
+* pedijatar@mail.com - Sanda Bulić - pedijatar
+* roditelj@mail.com - Tamara Stanić - roditelj
+* roditaljBezDoktora@mail.com - Jasenka Bilić - roditelj
+* roditeljDoktor@mail.com - Tomislav Lukas - roditelj i doktor obiteljske medicine
 
 Svi korisnici imaju istu lozinku.
 
@@ -35,19 +33,11 @@ Sada bi trebala biti kreairana baza podataka 'ozdravi' ćiji je vlasnik korisnik
 To se može provjeriti izvođenjem naredbe `\l` nakon koje bi se trebale \
 izlistati sve postojeće baze podataka i njihovi vlasnici. 
 
-Trbea otvoriti PgAdmin i tamo naći odgovarajući port servera baze prateći sljedeće korake: \
-desni klik na `PostgreSQL 15` ->  `Properties` -> `Connection` \
-U kućici Port pisat će odgovarajući port servera.
-
-U datoteci `IzvorniKod\ozdravi-backend\src\main\resources\application.properties` potrebno je u prvoj 
-liniji koda kod `localhost:5434` zamjeniti četiri znamenke s nađenim portom.
 
 Potrebno je otvoriti folder `IzvorniKod\ozdravi-backend` kao projekt u Intellij-u. \
 Aplikacija se dalje jednostavno pokrene pokretanjem datoteke `OzdraviBackendApplication.java`
 
 Rad backenda može se dalje pratiti na [http://localhost:8080](http://localhost:8080)
-
-#
 
 ## Frontend
 
@@ -67,8 +57,6 @@ Moguće je mijenjati port aplikacije. \
 To se radi mijenjanjem skripte u *package.json* kojom pokrećemo aplikaciju: \
  `"start": "set PORT=3006 && react-scripts start"`
 
-#
-
 ### `npm test`
 Pokreće aplikaciju u načinu za testiranje i prmatranje. \
 Više o tome na [linku](https://facebook.github.io/create-react-app/docs/running-tests).
@@ -84,5 +72,3 @@ Potpuna dokumentacija je na [linku](https://facebook.github.io/create-react-app/
 Omogućava oslobađanje od defaultnih postavaka i veću slobodu. \
 Nije obavezno ikad koristiti ovu naredbu, osim ako je **izričito** potrebna.
 
-
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
