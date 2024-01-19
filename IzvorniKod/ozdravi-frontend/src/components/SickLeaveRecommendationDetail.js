@@ -149,12 +149,12 @@ const SickLeaveRecommendationDetail = (props) => {
 
 
 
-                    { role === "doctor" && recommendation.status === null ? (
+                    { (role === "doctor" || role === "admin" ) && recommendation.status === null ? (
                         <button type="submit" className="btn btn-primary col-12 col-md-2 py-2 mb-2 mb-md-4" style={{float:"right"}}
                         onClick={handleApproved}>Odobri </button>
                     ): null}
 
-                    { role === "doctor" && recommendation.status === null ? (
+                    { (role === "doctor" || role === "admin" )  && recommendation.status === null ? (
                         <button type="submit" className="btn btn-danger col-12 col-md-2 py-2 mb-3 mb-md-4 mx-md-2" style={{float:"right"}}
                         onClick={handleRejected}>Odbij </button>
                     ): null}

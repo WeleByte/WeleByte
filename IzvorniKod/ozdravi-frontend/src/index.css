@@ -480,7 +480,13 @@ tr {
 .chevronIcon {
   height: 18px;
   opacity: 60%;
+  cursor: pointer;
 }
+
+.chevronDisabled {
+  opacity: 30%;
+}
+
 .searchContainer {
   border-bottom-left-radius: 0px;
   border-bottom-right-radius: 0px;
@@ -604,8 +610,14 @@ padding-top: 13px;
 .selector-btn {
   font-weight: 500 !important;
   padding-bottom: 19px !important;
-  border-radius: 0px !important
+  border-radius: 0px !important;
+  border-top: none !important;
+  border-left: none !important;
+  border-right: none !important;
 }
+
+
+
 
 .selector-btn-selected {
   
@@ -613,7 +625,7 @@ border-bottom: 1px solid #283953  !important
 }
 
 .selector-btn-unselected {
-  opacity: 80%
+  opacity: 70% !important
 }
 
 .card-title {

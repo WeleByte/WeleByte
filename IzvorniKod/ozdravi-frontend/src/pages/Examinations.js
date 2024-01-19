@@ -26,6 +26,7 @@ const Examinations = (props) => {
     let optionsOpened= false;
     const [refreshExaminations, setRefreshExaminations] = useState(false)
     const [selectedExaminations, setSelectedExaminations] = useState([])
+    const [searchedExaminations, setsearchedExaminations] = useState([])
     const [parentExaminations, setParentExaminations] = useState([])
     const [childExaminations, setChildExaminations] = useState([])
     const [isAddPatientVisible, showAddPatient] = useState(false);
@@ -37,6 +38,43 @@ const Examinations = (props) => {
 
     const [user, setUser] = useState('')
     const [roles, setRoles] = useState([""])
+
+
+
+    const [page, setPage] = useState(1);
+    const [pageSize, setpageSize] = useState(5);
+    const [startItem, setStartItem] = useState(1)
+
+    function pageUp() {
+        if ((page + 1) * pageSize > roundUpToNearestMultipleOf5(selectedExaminations.length)) {
+            return
+        }
+        setPage(page + 1);
+        setStartItem((page-1)*pageSize + 1)
+
+    }
+        
+    function pageDown() {
+        
+        if ((page - 1) === 0) {
+            return
+        }
+        setPage(page - 1)
+    }
+
+    function roundUpToNearestMultipleOf5(number) {
+        return Math.ceil(number / 5) * 5;
+    }
+
+    const searchExaminations = (e) => {
+        console.log(e)
+        const inputValue = e.target.value.toLowerCase()
+        const filtered = selectedExaminations.filter(
+            (examination) =>
+                (examination.patient.first_name + examination.patient.last_name).toLowerCase().includes(inputValue)
+        );
+        setsearchedExaminations(filtered)
+    }
 
 
     useEffect(() => {
@@ -182,11 +220,16 @@ const Examinations = (props) => {
             .then(parsedData => {
                 if(parsedData){
                     console.log(parsedData)
+
+                    
                     setParentExaminations(parsedData.filter(examination => examination.patient.roles
                         .map(role => role.name).includes('parent')))
 
                     setChildExaminations(parsedData.filter(examination => examination.patient.roles
                         .map(role => role.name).includes('child')))
+
+                    setsearchedExaminations(parsedData.filter(examination => examination.patient.roles
+                        .map(role => role.name).includes('parent')))
 
                     switch (currentRole) {
                         case 'parent' :
@@ -218,9 +261,11 @@ const Examinations = (props) => {
     const handleFilterButton = (state) => {
         if (state === 'roditelj') {
             setSelectedExaminations(parentExaminations)
+            setsearchedExaminations(parentExaminations)
             setSelectedStatus('roditelj')
         } else if (state === 'djeca') {
             setSelectedExaminations(childExaminations)
+            setsearchedExaminations(childExaminations)
             setSelectedStatus('djeca')
         }
     }
@@ -274,12 +319,30 @@ const Examinations = (props) => {
                     {/*        id = "nepregledano" onClick={() => setSelectedStatus('svi')}>Sve</button>*/}
 
                     <button className={selectedStatus === 'roditelj' ?
-                        "btn btn-primary chip-selected  me-2 mt-2" : "btn btn-secondary chip-unselected  me-2 mt-2"}
+                        "btn btn-primary   me-2 mt-2" : "btn btn-secondary   me-2 mt-2"}
                             id="nepregledano" onClick={() => handleFilterButton('roditelj')}>Moji Pregledi</button>
 
+
                     <button className={selectedStatus === 'djeca' ?
-                        "btn btn-primary chip-selected  me-2 mt-2" : "btn btn-secondary chip-unselected  me-2 mt-2"}
+                        "btn btn-primary  me-2 mt-2" : "btn btn-secondary  me-2 mt-2"}
                             id="pregledano" onClick={() => handleFilterButton('djeca')}>Moja djeca</button>
+                </div>
+                    ) : null}
+
+                {currentRole === 'admin' ? (
+                <div id="usersSelectorDiv" className="px-4 pb-1 pt-0 " style={{ display: "flex", justifyContent: "left", flexWrap: "wrap" }}>
+                    {/*<button className = {selectedStatus === 'svi' ?*/}
+                    {/*    "btn btn-primary chip-selected  me-2 mt-2" : "btn btn-secondary chip-unselected me-2 mt-2"}*/}
+                    {/*        id = "nepregledano" onClick={() => setSelectedStatus('svi')}>Sve</button>*/}
+
+                    <button className={selectedStatus === 'roditelj' ?
+                        "btn btn-primary   me-2 mt-2" : "btn btn-secondary   me-2 mt-2"}
+                            id="nepregledano" onClick={() => handleFilterButton('roditelj')}> Odrasli </button>
+
+
+                    <button className={selectedStatus === 'djeca' ?
+                        "btn btn-primary  me-2 mt-2" : "btn btn-secondary  me-2 mt-2"}
+                            id="pregledano" onClick={() => handleFilterButton('djeca')}> Djeca  </button>
                 </div>
                     ) : null}
 
@@ -306,7 +369,7 @@ const Examinations = (props) => {
 
                     <div className="input-group mb-0 mx-0  p-3 searchContainer" style={{maxWidth: "1200px"}} >
                         <img src= {searchIcon} className = "searchIconUsers"></img>
-                        <input type="text" className="form-control me-0 searchInput" style = {{ borderTopRightRadius: "7px", borderBottomRightRadius: "7px", }}
+                        <input type="text" className="form-control me-0 searchInput" id = "searchInput" onChange={searchExaminations} style = {{ borderTopRightRadius: "7px", borderBottomRightRadius: "7px", }}
                                placeholder="Pretraži" aria-label="Recipient's username" aria-describedby="basic-addon2" ></input>
 
                     </div>
@@ -333,7 +396,7 @@ const Examinations = (props) => {
                         </tr>
                         </thead>
                         <tbody>
-                        {selectedExaminations.map((examination, index) =>
+                        {searchedExaminations.slice((page-1) * pageSize,page * pageSize).map((examination, index) =>
                             (
                                 <tr key={examination.id} style={{ position: 'relative' }}>
                                     <td scope="row">
@@ -374,9 +437,10 @@ const Examinations = (props) => {
                     </table>
                     <div className="input-group mb-0 mx-0  paginationContainer " style={{maxWidth: "1200px"}} >
 
-                        <span className = "me-3">{selectedExaminations === [] ? (0) : (1 + '-' + selectedExaminations.length)} of {selectedExaminations.length}</span>
-                        <img src= {chevronLeft} style={{float: "right"}} className = "chevronIcon"></img>
-                        <img src= {chevronRight} style={{float: "right"}} className = "chevronIcon"></img>
+               
+                    <span className = "me-3">{searchedExaminations.length === 0 ? 0 : ((page-1)*pageSize + 1) + " - " + (Math.min((page)*pageSize, searchedExaminations.length))} of {searchedExaminations.length}</span>
+                        <img src= {chevronLeft} style={{float: "right"}} onClick={pageDown}  className={(page - 1) !== 0 ? "chevronIcon" : "chevronIcon chevronDisabled"} ></img>
+                        <img src= {chevronRight} style={{float: "right"}} onClick={pageUp} className={((page + 1) * pageSize <= roundUpToNearestMultipleOf5(searchedExaminations.length)) ? "chevronIcon" : "chevronIcon chevronDisabled"} ></img>
 
                     </div>
                 </div>

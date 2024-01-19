@@ -19,6 +19,10 @@ const SecondOpinions = (props) => {
     const [user, setUser] = useState(null)
     const [refreshOpinions, setRefreshOpinions] = useState(false)
 
+    const [filteredOppinions, setFilteredOppinions] = useState([])
+    const [notAnwseredOppinions, setNotAnwseredOppinions] = useState([])
+    const [anwseredOppinions, setAnwseredOppinions] = useState([])
+
     useEffect(() => {
         if(bearerToken === '' || bearerToken === null || bearerToken === undefined) {
             navigate('/login')
@@ -28,6 +32,16 @@ const SecondOpinions = (props) => {
 
         }
     }, []);
+
+    const handleFilterButton = (state) => {
+        if (state === 'nepregledano') {
+            setFilteredOppinions(notAnwseredOppinions)
+            setSelectedStatus('nepregledano')
+        } else if (state === 'pregledano') {
+            setFilteredOppinions(anwseredOppinions)
+            setSelectedStatus('pregledano')
+        }
+    }
 
 
     useEffect(() => {
@@ -52,6 +66,9 @@ const SecondOpinions = (props) => {
             .then(parsedData => {
                 console.log(parsedData)
                 setSecondOpinions(parsedData);
+                setAnwseredOppinions(parsedData.filter(obj=> obj.opinion !== null))
+                setNotAnwseredOppinions(parsedData.filter(obj=> obj.opinion === null))
+                setFilteredOppinions(parsedData.filter(obj=> obj.opinion === null))
                 console.log(secondOpinions)
             })
             .catch(error => {
@@ -120,13 +137,13 @@ const SecondOpinions = (props) => {
 
                 {/*     <p style={{textAlign: "left", fontSize: "13px"}} className='px-4 mb-2 mt-2 mb-1'>4 nepregledanih - 7 pregledanih</p> */}
 
-                <h5 className = "pt-3 px-4 mt-2 " style={{textAlign: "left", maxWidth: "1246px"}}>Druga Mišljenja
+                <h5 className = "pt-3 px-4 mt-2 " style={{textAlign: "left", maxWidth: "1246px"}}>Zahtijevi za druga mišljenja
                     {/* <button className='btn btn-tertiary mt-1' style={{float: 'right'}}>Povijest </button>  */}
                     {(uloga === "parent" || uloga === "admin") && (
-                    <button className = "btn btn-primary" style={{float:"right"}} onClick= {toggleNovoMisljenje}>Dodaj Mišljenje +</button> 
+                    <button className = "btn btn-primary" style={{float:"right"}} onClick= {toggleNovoMisljenje}>Zatraži Mišljenje +</button> 
                     )} 
                     </h5>
-                <p style={{textAlign: "left", maxWidth: "1200px"}} className = "px-4 mb-4 ">{secondOpinions?.length} dostupna</p>
+                <p style={{textAlign: "left", maxWidth: "1200px"}} className = "px-4 mb-4 ">{notAnwseredOppinions?.length} neodgovorena, {anwseredOppinions?.length} odgovorena</p>
 
 
                 {/* <div id = "usersSelectorDiv" className = "px-4 pb-1 pt-0 " style={{display: "flex", justifyContent: "left", flexWrap: "wrap"}}>
@@ -147,11 +164,16 @@ const SecondOpinions = (props) => {
 
 
                 <div className = "px-4 pt-1 " id = "secondOppinionList">
-                    {/*  <div class = "selectorHeader">
-            <button class ="btn selector-btn selector-btn-selected col-6">Nepregledano ({nepregledanoCount})</button>
-            <button class ="btn selector-btn selector-btn-unselected col-6">Pregledano ({nepregledanoCount + 3})</button>
-        </div> */}
-                    {secondOpinions?.map((secondOpinion) => (
+                
+                     <div class = "selectorHeader">
+            <button  className={selectedStatus === 'nepregledano' ?
+                        "btn selector-btn selector-btn-selected col-6" : "btn selector-btn selector-btn-unselected col-6"} class ="btn selector-btn selector-btn-selected col-6" onClick={() => handleFilterButton('nepregledano')}>Nepregledano ({notAnwseredOppinions ? notAnwseredOppinions.length : 0})</button>
+            <button className={selectedStatus === 'pregledano' ?
+                        "btn selector-btn selector-btn-selected col-6" : "btn selector-btn selector-btn-unselected col-6"} onClick={() => handleFilterButton('pregledano')}>Pregledano ({anwseredOppinions ? anwseredOppinions.length : 0})</button>
+        </div>
+
+                    {filteredOppinions.length !== 0 ? (
+                    filteredOppinions?.map((secondOpinion) => (
                         <div key={secondOpinion.id} className="card mb-0" style={{textAlign: "left"}}>
                             <div className="card-body pregledajCardBody" style={{paddingRight: "130px"}}>
                                 <h5 className="card-title ">Podnositelj zahtjeva: {secondOpinion.requester.first_name + " " + secondOpinion.requester.last_name}</h5>
@@ -176,7 +198,15 @@ const SecondOpinions = (props) => {
 
                             </div>
                         </div>
-                    ))}
+                    ))  ) : (
+                        <div className="card mb-0" style={{ textAlign: "left" }}>
+                        <div className="card-body" >
+                           
+                            <p style={{marginBottom: "4px", textAlign: "center"}}>Nema rezultata</p>
+
+                        </div>
+                    </div>
+                    )}
                 </div>
 
             </div>) 
@@ -197,7 +227,7 @@ const SecondOpinions = (props) => {
     
                     </h5>
                         <p style={{textAlign: "center", maxWidth: "1200px"}} className = "px-4 mb-2 mt-1 ">
-                            {secondOpinions.length} {" "} </p>
+                            {secondOpinions.length} {" "} mišljenja </p>
                          {(uloga === "parent" ? (
                             <button className = "btn btn-primary ms-2 mt-2 " style={{}} onClick= {toggleNovoMisljenje}>Dodaj mišljenje +</button>  ) : null)}
                            
