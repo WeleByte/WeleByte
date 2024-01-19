@@ -69,14 +69,8 @@ public class ExaminationServiceJpa implements ExaminationService {
         Examination examination = dtoManager.examDTOToExamination(examinationDTO);
         User scheduler;
 
-        //onaj koji je sad ulogiran mora biti naveden kao scheduler ILI ako se radi o adminu, on mora navesti schedulera koji
-        // mora moc biti scheduler
         if (securityContextService.isUserInRole("ADMIN")) {
             scheduler = userService.findById(examination.getScheduler().getId());
-            //if (scheduler.isEmpty()) return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-            if (scheduler.getRoles().stream().noneMatch(role -> Objects.equals(role.getName(), "doctor") || Objects.equals(role.getName(), "pediatrician"))) {
-                throw new IllegalArgumentException("No doctor with such ID.");
-            }
         } else { //trenutni mora biti scheduler
             if (!Objects.equals(examination.getScheduler().getId(), user.getId())) {
                 throw new RequestDeniedException("Doctors can't schedule examinations on behalf of other doctors");
@@ -98,11 +92,11 @@ public class ExaminationServiceJpa implements ExaminationService {
 
         //provjera da onaj koji zakazuje pregled (scheduler) mora biti doktor zaduzen za tog pacijenta
         User requiredDoctor = patient.getDoctor();
-        if (requiredDoctor == null || !Objects.equals(requiredDoctor.getId(), scheduler.getId())) {
+        if (securityContextService.isUserInRole("ADMIN") || Objects.equals(requiredDoctor.getId(), scheduler.getId())) {
+            return examinationRepository.save(examination);
+        } else {
             throw new RequestDeniedException("Doctor can schedule examinations only for his patients");
         }
-
-        return examinationRepository.save(examination);
     }
 
     @Override

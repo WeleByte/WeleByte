@@ -117,12 +117,14 @@ public class SLRServiceJpa implements SLRService {
 
         User currentUserOptional = securityContextService.getLoggedInUser();
 
-        if(!(securityContextService.isUserInRole("DOCTOR") && Objects.equals(slr.getApprover().getId(), currentUserOptional.getId())))
+
+        if(securityContextService.isUserInRole("ADMIN") ||
+                (securityContextService.isUserInRole("DOCTOR") && Objects.equals(slr.getApprover().getId(), currentUserOptional.getId()))) {
+            slr.setStatus(approved);
+            save(slr);
+        } else {
             throw new RequestDeniedException("You are not authorized to approve or reject this SLR");
-
-        slr.setStatus(approved);
-
-        save(slr);
+        }
     }
 
     @Override
