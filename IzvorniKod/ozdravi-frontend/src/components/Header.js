@@ -202,7 +202,7 @@ const Navbar = (props) => {
 
     
      
-      <div className="me-4 d-none d-lg-block">
+      <div className="me-3 d-none d-lg-block">
                   <Select styles={selectStyles} isSearchable = {false}   options={selectableRoles}
                           // placeholder = {currentRole === 'admin' ? 'Admin'
                           //     : currentRole === 'parent' ? 'Roditelj'

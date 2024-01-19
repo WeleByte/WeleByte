@@ -31,9 +31,39 @@ const Users = (props) => {
     const [addUserVisible, setAddUserVisible] = useState(false);
     const [userDetailVisible, setUserDetailVisible] = useState(false);
     const [users, setUsers] = useState([])
+    const [filteredUsers, setFilteredUsers] = useState([])
+
     const [selectedUserIndex, setselectedUserIndex] = useState(false)
     const currentRole = sessionStorage.getItem('currentRole');
 
+    const [selectedUsers, setSelectedUsers] = useState("svi")
+
+    const [searchedUsers, setSearchedUsers] = useState([])
+
+    const [page, setPage] = useState(1);
+    const [pageSize, setpageSize] = useState(5);
+    const [startItem, setStartItem] = useState(1)
+
+    function pageUp() {
+        if ((page + 1) * pageSize > roundUpToNearestMultipleOf5(searchedUsers.length)) {
+            return
+        }
+        setPage(page + 1);
+        setStartItem((page-1)*pageSize + 1)
+
+    }
+        
+    function pageDown() {
+        
+        if ((page - 1) === 0) {
+            return
+        }
+        setPage(page - 1)
+    }
+
+    function roundUpToNearestMultipleOf5(number) {
+        return Math.ceil(number / 5) * 5;
+    }
 
     //go to /home if not admin/doctor/pediatrician
     useEffect(() => {
@@ -51,6 +81,21 @@ const Users = (props) => {
         } */
 
     }, []);
+
+
+    function clearSearch() {
+        document.getElementById("searchInput").value = "";
+    }
+
+    const searchUsers = (e) => {
+        const inputValue = e.target.value.toLowerCase()
+        const filtered = filteredUsers.filter(
+            (user) =>
+                (user.first_name + user.last_name).toLowerCase().includes(inputValue)
+        );
+        setSearchedUsers(filtered)
+    }
+
 
     const toggleRefreshUsers = () => {
         setRefreshUsers((prev) => !prev);
@@ -74,6 +119,37 @@ const Users = (props) => {
         setNoviPregledOtvoren(!noviPregledOtvoren);
         closeUserOptions(currentOpenedOptions)
     };
+
+    function changeSelectedUsers(choice) {
+        setSelectedUsers(choice);
+        switch (choice) {
+            case "svi":
+                setFilteredUsers(users)
+                setSearchedUsers(users)
+                break
+            case "roditelji":
+                setFilteredUsers(users.filter(user => user.roles.map(obj => obj.name).includes("parent")))
+                setSearchedUsers(users.filter(user => user.roles.map(obj => obj.name).includes("parent")))
+                break
+            case "djeca":
+                setFilteredUsers(users.filter(user => user.roles.map(obj => obj.name).includes("child")))
+                setSearchedUsers(users.filter(user => user.roles.map(obj => obj.name).includes("child")))
+                break
+            case "doktori":
+                setFilteredUsers(users.filter(user => user.roles.map(obj => obj.name).includes("doctor")))
+                setSearchedUsers(users.filter(user => user.roles.map(obj => obj.name).includes("doctor")))
+                break
+            case "pedijatri":
+                setFilteredUsers(users.filter(user => user.roles.map(obj => obj.name).includes("pediatrician")))
+                setSearchedUsers(users.filter(user => user.roles.map(obj => obj.name).includes("pediatrician")))
+                break
+            default:
+                setFilteredUsers(users)
+                setSearchedUsers(users)
+                break
+        }
+        clearSearch() 
+    }
 
     const closeUserOptions = (index) => {
 
@@ -137,7 +213,10 @@ const Users = (props) => {
                 }
             })
             .then(parsedData => {
+                console.log(parsedData)
                 setUsers(parsedData);
+                setFilteredUsers(parsedData)
+                setSearchedUsers(parsedData)
             })
             .catch(error => {
                 console.error('Fetch error:', error);
@@ -209,29 +288,37 @@ const Users = (props) => {
                 {/* <p style={{textAlign: "left", maxWidth: "1200px"}} className = "px-4 mb-2 ">{odrasliCount + djecaCount} pacijenata</p> */}
 
 
+                {currentRole === "admin" ? (
+                    <div id = "usersSelectorDiv" className = "px-4 pb-2 pt-0 " style={{display: "flex", justifyContent: "left", flexWrap: "wrap"}}>
 
-                {/* <div id = "usersSelectorDiv" className = "px-4 pb-1 pt-0 " style={{display: "flex", justifyContent: "left", flexWrap: "wrap"}}>
-
-    <button className = {selectedUsers === 'svi' ?
-        "btn btn-primary me-2 mt-2" : "btn btn-secondary me-2 mt-2"}
-            id = "nepregledano" onClick={() => setSelectedUsers('svi')}>SVI</button>
-
-    <button className = {selectedUsers === 'odrasli' ?
-        "btn btn-primary me-2 mt-2" : "btn btn-secondary me-2 mt-2"}
-            id = "nepregledano" onClick={() => setSelectedUsers('odrasli')}> ODRASLI</button>
-
-    <button className = {selectedUsers === 'djeca' ?
-        "btn btn-primary me-2 mt-2" : "btn btn-secondary me-2 mt-2"}
-            id = "pregledano" onClick={() => setSelectedUsers('djeca')}> DJECA</button>
-
-</div> */}
+                    <button className = {selectedUsers === 'svi' ?
+                        "btn btn-primary me-2 mt-2" : "btn btn-secondary me-2 mt-2"}
+                            id = "nepregledano" onClick={() => changeSelectedUsers('svi')}>Svi</button>
+                
+                    <button className = {selectedUsers === 'roditelji' ?
+                        "btn btn-primary me-2 mt-2" : "btn btn-secondary me-2 mt-2"}
+                            id = "nepregledano" onClick={() => changeSelectedUsers('roditelji')}> Roditelji</button>
+                
+                    <button className = {selectedUsers === 'djeca' ?
+                        "btn btn-primary me-2 mt-2" : "btn btn-secondary me-2 mt-2"}
+                            id = "pregledano" onClick={() => changeSelectedUsers('djeca')}> Djeca</button>
+                    <button className = {selectedUsers === 'doktori' ?
+                        "btn btn-primary me-2 mt-2" : "btn btn-secondary me-2 mt-2"}
+                            id = "pregledano" onClick={() => changeSelectedUsers('doktori')}> Doktori</button>
+                    <button className = {selectedUsers === 'pedijatri' ?
+                        "btn btn-primary me-2 mt-2" : "btn btn-secondary me-2 mt-2"}
+                            id = "pregledano" onClick={() => changeSelectedUsers('pedijatri')}> Pedijatri</button>
+                
+                </div>
+                ) : null}
+                
 
 
                 <div id = "patientSearchBoxDiv" className='px-4 pt-3 ' >
 
                     <div className="input-group mb-0 mx-0  p-3 searchContainer" style={{maxWidth: "1200px"}} >
                         <img src= {searchIcon} className = "searchIconUsers"></img>
-                        <input type="text" className="form-control me-0 searchInput" style = {{ borderTopRightRadius: "7px", borderBottomRightRadius: "7px", }} placeholder="Pretraži" aria-label="Recipient's email" aria-describedby="basic-addon2" ></input>
+                        <input type="text" className="form-control me-0 searchInput" id = "searchInput" onChange={searchUsers}  style = {{ borderTopRightRadius: "7px", borderBottomRightRadius: "7px", }} placeholder="Pretraži" aria-label="Recipient's email" aria-describedby="basic-addon2" ></input>
 
                     </div>
                 </div>
@@ -255,7 +342,7 @@ const Users = (props) => {
                         </tr>
                         </thead>
                         <tbody>
-                        {users.map((user, index) => (
+                        {searchedUsers.slice((page-1) * pageSize,page * pageSize).map((user, index) => (
                             <tr key={user.id} style={{ position: 'relative' }}>
                                 <td scope="row">
                                     <img src = {userIcon} alt = "" width = "14" className='me-3' style={{opacity: "75%"}}></img>
@@ -311,9 +398,9 @@ const Users = (props) => {
                     </table>
                     <div className="input-group mb-0 mx-0  paginationContainer " style={{maxWidth: "1200px"}} >
 
-                        <span className = "me-3">{users === [] ? 0 : 1 + " - " + users.length} of {users.length}</span>
-                        <img src= {chevronLeft} style={{float: "right"}} className = "chevronIcon"></img>
-                        <img src= {chevronRight} style={{float: "right"}} className = "chevronIcon"></img>
+                        <span className = "me-3">{searchedUsers.length === 0 ? 0 : ((page-1)*pageSize + 1) + " - " + (Math.min((page)*pageSize, searchedUsers.length))} of {searchedUsers.length}</span>
+                        <img src= {chevronLeft} style={{float: "right"}} onClick={pageDown}  className={(page - 1) !== 0 ? "chevronIcon" : "chevronIcon chevronDisabled"} ></img>
+                        <img src= {chevronRight} style={{float: "right"}} onClick={pageUp} className={((page + 1) * pageSize <= roundUpToNearestMultipleOf5(searchedUsers.length)) ? "chevronIcon" : "chevronIcon chevronDisabled"} ></img>
 
                     </div>
                 </div>

@@ -325,8 +325,7 @@ const UserDetail = (props) => {
     return (
         <div id="addPatientsWrapper" className="shadow-lg">
             <div id="addPatientsInner">
-                <h5 className="pt-3 px-4 mt-2 mb-3 " style={{textAlign: "left"}}>Dodaj
-                    korisnika {/* <button className='btn btn-tertiary mt-1' style={{float: 'right'}}>Povijest </button>  */}
+                <h5 className="pt-3 px-4 mt-2 mb-3 " style={{textAlign: "left"}}>Korisnik {/* <button className='btn btn-tertiary mt-1' style={{float: 'right'}}>Povijest </button>  */}
                     <img style={{height: "23px", float: "right"}} onClick={closeModal} src={CloseIcon}></img></h5>
                 <hr className="mb-1 mt-4" style={{opacity: "20%"}}></hr>
                 <div className='px-4 pt-0'>
