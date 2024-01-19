@@ -246,7 +246,7 @@ const Users = (props) => {
 
             {userDetailVisible && <UserDetail close = {toggleUserDetail}
                                               role = {currentRole}
-                                              user = {users[selectedUserIndex]}
+                                              user = {searchedUsers[selectedUserIndex]}
                                               backendRoute={backendRoute}
                                               bearerToken={bearerToken}
                                               refreshUsers={toggleRefreshUsers}
