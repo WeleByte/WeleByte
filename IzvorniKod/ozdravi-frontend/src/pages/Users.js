@@ -107,9 +107,17 @@ const Users = (props) => {
     const toggleAddUser = () => {
         setAddUserVisible(!addUserVisible);
     };
-    const toggleUserDetail = (index) => {
+    const toggleUserDetail = (index, close) => {
         setselectedUserIndex(index)
-        closeUserOptions(currentOpenedOptions)
+        if (close) {
+            
+            closeUserOptions(selectedUserIndex)
+        }
+        setUserDetailVisible(!userDetailVisible);
+    };
+    const toggleUserDetail2 = (index) => {
+        setselectedUserIndex(index)
+        
         setUserDetailVisible(!userDetailVisible);
     };
 
@@ -122,6 +130,7 @@ const Users = (props) => {
 
     function changeSelectedUsers(choice) {
         setSelectedUsers(choice);
+        setPage(1)
         switch (choice) {
             case "svi":
                 setFilteredUsers(users)
@@ -169,6 +178,8 @@ const Users = (props) => {
     const openUserOptions = (index) => {
         console.log("opening");
         console.log(currentOpenedOptions);
+
+        setselectedUserIndex(index)
 
         // Close previously opened options if any
         if (currentOpenedOptions !== null && currentOpenedOptions !== index) {
@@ -246,7 +257,9 @@ const Users = (props) => {
 
             {userDetailVisible && <UserDetail close = {toggleUserDetail}
                                               role = {currentRole}
-                                              user = {searchedUsers[selectedUserIndex]}
+
+                                              user = {searchedUsers[((page-1)*pageSize) + selectedUserIndex]}
+
                                               backendRoute={backendRoute}
                                               bearerToken={bearerToken}
                                               refreshUsers={toggleRefreshUsers}
@@ -292,21 +305,21 @@ const Users = (props) => {
                     <div id = "usersSelectorDiv" className = "px-4 pb-2 pt-0 " style={{display: "flex", justifyContent: "left", flexWrap: "wrap"}}>
 
                     <button className = {selectedUsers === 'svi' ?
-                        "btn btn-primary me-2 mt-2" : "btn btn-secondary me-2 mt-2"}
+                        "btn btn-primary me-2 mt-2" : "btn btn-secondary btn-secondary-unselected me-2 mt-2"}
                             id = "nepregledano" onClick={() => changeSelectedUsers('svi')}>Svi</button>
                 
                     <button className = {selectedUsers === 'roditelji' ?
-                        "btn btn-primary me-2 mt-2" : "btn btn-secondary me-2 mt-2"}
+                        "btn btn-primary me-2 mt-2" : "btn btn-secondary btn-secondary-unselected me-2 mt-2"}
                             id = "nepregledano" onClick={() => changeSelectedUsers('roditelji')}> Roditelji</button>
                 
                     <button className = {selectedUsers === 'djeca' ?
-                        "btn btn-primary me-2 mt-2" : "btn btn-secondary me-2 mt-2"}
+                        "btn btn-primary me-2 mt-2" : "btn btn-secondary btn-secondary-unselected me-2 mt-2"}
                             id = "pregledano" onClick={() => changeSelectedUsers('djeca')}> Djeca</button>
                     <button className = {selectedUsers === 'doktori' ?
-                        "btn btn-primary me-2 mt-2" : "btn btn-secondary me-2 mt-2"}
+                        "btn btn-primary me-2 mt-2" : "btn btn-secondary btn-secondary-unselected me-2 mt-2"}
                             id = "pregledano" onClick={() => changeSelectedUsers('doktori')}> Doktori</button>
                     <button className = {selectedUsers === 'pedijatri' ?
-                        "btn btn-primary me-2 mt-2" : "btn btn-secondary me-2 mt-2"}
+                        "btn btn-primary me-2 mt-2" : "btn btn-secondary btn-secondary-unselected me-2 mt-2"}
                             id = "pregledano" onClick={() => changeSelectedUsers('pedijatri')}> Pedijatri</button>
                 
                 </div>
@@ -333,7 +346,7 @@ const Users = (props) => {
 
                         <thead>
                         <tr>
-                            <th scope="col" >PATIENT</th>
+                            <th scope="col" >PACIJENT</th>
                             <th scope="col">OIB</th>
                             <th scope="col">EMAIL</th>
                             <th scope="col"></th>
@@ -343,7 +356,9 @@ const Users = (props) => {
                         </thead>
                         <tbody>
                         {searchedUsers.slice((page-1) * pageSize,page * pageSize).map((user, index) => (
-                            <tr key={user.id} style={{ position: 'relative' }}>
+
+                            
+                            <tr key={user.id} style={{ position: 'relative' }} >
                                 <td scope="row">
                                     <img src = {userIcon} alt = "" width = "14" className='me-3' style={{opacity: "75%"}}></img>
                                     {user.first_name + " " + user.last_name}
@@ -352,44 +367,48 @@ const Users = (props) => {
                                 <td>{user.oib}</td>
                                 <td>{user.email}</td>
 
+                                {currentRole === "parent" || currentRole === "admin" ? (
+                                                                    <td style={{width: "10px"}}><img className ="me-2 ms-2 pe-1 mt-1" style={{ height: "19px", float: "right", opacity: "80%" }} onClick={() => toggleUserDetail(index, false)} src={InfoIcon}/></td>
 
-                                <td className = "three-dot-td" >
+                                ): (<td className = "three-dot-td" >
 
-                                    <img width="18" height="18" onClick={() => openUserOptions(index)}
-                                         src="https://img.icons8.com/ios-glyphs/30/menu-2.png" alt="menu-2"/>
+                                <img width="18" height="18" onClick={() => openUserOptions(index)}
+                                     src="https://img.icons8.com/ios-glyphs/30/menu-2.png" alt="menu-2"/>
 
-                               
-                                    <ul className="list-group userOptions shadow-lg p-0 border" style={{display:"none", maxWidth: "220px"}}>
-                                        <p className ="mb-2 mt-2 ps-3 py-1" style={{textAlign: "left"}}>Akcije
-                                            <img className =" mt-1 closeActionsIcon" style={{ height: "19px", float: "right", opacity: "80%"}}
-                                                 onClick={() => closeUserOptions(index)} src={CloseIcon}></img>
-                                        </p>
-                                        <hr className ="mt-0 mb-0" style={{opacity: "20%"}}></hr>
-                                        {/* <button onClick={toggleNoviPregled} className =" ps-3 col-12 mb-2 mt-2 py-2 novi-pregled-btn"
-                                                style={{opaciy: "80%",textAlign: "left", fontWeight:"500", border:"none", background:"none"}} > Novi pregled
-                                            <img className ="me-3 mt-1"
-                                                 style={{ height: "19px", float: "right", opacity: "80%" }} src={Plus2Icon}>
-                                            </img>
-                                        </button> */}
-                                        <button onClick={() => toggleUserDetail(index)}  className =" ps-3 col-12 mb-2 mt-2  py-2 novi-pregled-btn" style={{opaciy: "80%",textAlign: "left", fontWeight:"500", border:"none", background:"none"}} > Detalji  <img className ="me-3 mt-1" style={{ height: "19px", float: "right", opacity: "80%" }} src={InfoIcon}></img> </button>
-                                        
-                                        {currentRole === "doctor" || currentRole === "pediatrician" ? (
-                                        <button className =" ps-3  col-12 mb-2 py-2 delete-btn"
-                                                style={{opaciy: "80%",textAlign: "left", fontWeight:"500", border:"none", background:"none"}}> Ukloni
-                                            <img className ="me-3 mt-1"
-                                                 style={{ height: "19px", float: "right", opacity: "800%" }}  src={TrashIcon}></img>
-                                        </button>
-                                        ): null}
-                                        {/*{rolesMapped.includes("admin")  ? (*/}
-                                        {/*<button className =" ps-3  col-12 mb-2 py-2 delete-btn"*/}
-                                        {/*        style={{opaciy: "80%",textAlign: "left", fontWeight:"500", border:"none", background:"none"}}> Izbriši*/}
-                                        {/*    <img className ="me-3 mt-1"*/}
-                                        {/*         style={{ height: "19px", float: "right", opacity: "800%" }}  src={TrashIcon}></img>*/}
-                                        {/*</button>*/}
-                                        {/*): null}*/}
+                           
+                                <ul className="list-group userOptions shadow-lg p-0 border" style={{display:"none", maxWidth: "220px"}} >
+                                    <p className ="mb-2 mt-2 ps-3 py-1" style={{textAlign: "left"}}>Akcije
+                                        <img className =" mt-1 closeActionsIcon" style={{ height: "19px", float: "right", opacity: "80%"}}
+                                             onClick={() => closeUserOptions(index)} src={CloseIcon}></img>
+                                    </p>
+                                    <hr className ="mt-0 mb-0" style={{opacity: "20%"}}></hr>
+                                    {/* <button onClick={toggleNoviPregled} className =" ps-3 col-12 mb-2 mt-2 py-2 novi-pregled-btn"
+                                            style={{opaciy: "80%",textAlign: "left", fontWeight:"500", border:"none", background:"none"}} > Novi pregled
+                                        <img className ="me-3 mt-1"
+                                             style={{ height: "19px", float: "right", opacity: "80%" }} src={Plus2Icon}>
+                                        </img>
+                                    </button> */}
+                                    <button onClick={() => toggleUserDetail(index, true)}  className =" ps-3 col-12 mb-2 mt-2  py-2 novi-pregled-btn" style={{opaciy: "80%",textAlign: "left", fontWeight:"500", border:"none", background:"none"}} > Detalji  <img className ="me-3 mt-1" style={{ height: "19px", float: "right", opacity: "80%" }} src={InfoIcon}></img> </button>
+                                    
+                                    {currentRole === "doctor" || currentRole === "pediatrician" ? (
+                                    <button className =" ps-3  col-12 mb-2 py-2 delete-btn"
+                                            style={{opaciy: "80%",textAlign: "left", fontWeight:"500", border:"none", background:"none"}}> Ukloni
+                                        <img className ="me-3 mt-1"
+                                             style={{ height: "19px", float: "right", opacity: "800%" }}  src={TrashIcon}></img>
+                                    </button>
+                                    ): null}
+                                    {/*{rolesMapped.includes("admin")  ? (*/}
+                                    {/*<button className =" ps-3  col-12 mb-2 py-2 delete-btn"*/}
+                                    {/*        style={{opaciy: "80%",textAlign: "left", fontWeight:"500", border:"none", background:"none"}}> Izbriši*/}
+                                    {/*    <img className ="me-3 mt-1"*/}
+                                    {/*         style={{ height: "19px", float: "right", opacity: "800%" }}  src={TrashIcon}></img>*/}
+                                    {/*</button>*/}
+                                    {/*): null}*/}
 
-                                    </ul>
-                                </td>
+                                </ul>
+                            </td>)}
+
+                                
 
                             </tr>
                         ))}

@@ -12,7 +12,7 @@ const Upute = (props) => {
     const navigate = useNavigate()
     const bearerToken = sessionStorage.bearerToken
     const backendRoute = props.backendRoute
-    const [instructions, setInstructions] = useState([])
+    const [instructions, setInstructions] = useState(null)
     const [novoMisljenjeOpen, setNovoMisljenjeOpen] = useState(false)
     const [novoMisljenjeDetail, setNovoMisljenjeDetail] = useState(false)
     const [currentInstructionId, setCurrentInstructionId] = useState(null)
@@ -113,7 +113,7 @@ const Upute = (props) => {
                                           bearerToken={bearerToken}
                                           handleLogOut={handleLogOut}/>}
     
-    {instructions.length !== 0 ? (
+    {instructions === null || instructions.length !== 0 ? (
      <div id = "seccondOppWrapper">
 
         {/*     <p style={{textAlign: "left", fontSize: "13px"}} className='px-4 mb-2 mt-2 mb-1'>4 nepregledanih - 7 pregledanih</p> */}
@@ -146,25 +146,29 @@ const Upute = (props) => {
 
     
     <div className = "px-4 pt-1 " id = "secondOppinionList">
+        {instructions !== null ? (
+
+instructions.map((instruction) => {
+    const formattedDate = new Date(instruction.date).toLocaleDateString()
+
+    return(
+    <div key={instruction.id} className = "card mb-0" style={{textAlign: "left"}}>
+        <div className="card-body pregledajCardBody" style={{paddingRight: "130px"}}>
+            <h5 className="card-title ">Pacijent: {instruction.patient.first_name + " " + instruction.patient.last_name}</h5>
+            <p style={{fontSize: "13px"}}
+               className='mb-1'>{formattedDate} • Izdao {instruction.doctor.first_name + " " + instruction.doctor.last_name}</p>
+            <button className='btn btn-secondary pregledajGumbPc'  style={{position:"absolute", right:"1rem", top: "30%"}} onClick={() => handleInstructionDetail(instruction.id)}>Pregledaj   <img width="14" height="14" className = "ms-1 pregledaj-btn  " src={ArrowRightIcon} style={{marginBottom: "2px"}}  alt="right"/>       {/*  <img width="14" height="14" className = "ms-2  " src={ArrowRightIcon} style={{marginBottom: "2px"}}  alt="right"/> */}
+            </button>
+            <button className='btn btn-secondary pregledajGumbMobile mt-3 '  onClick={() => handleInstructionDetail(instruction.id)} style={{zIndex: "100"}}>Pregledaj <img width="14" height="14" className = "ms-1 pregledaj-btn  " src={ArrowRightIcon} style={{marginBottom: "2px"}}  alt="right"/>
+            </button>
+
+        </div>
+    </div>
+
+)})
+
+        ): null}
         
-        {instructions.map((instruction) => {
-            const formattedDate = new Date(instruction.date).toLocaleDateString()
-
-            return(
-            <div key={instruction.id} className = "card mb-0" style={{textAlign: "left"}}>
-                <div className="card-body pregledajCardBody" style={{paddingRight: "130px"}}>
-                    <h5 className="card-title ">Pacijent: {instruction.patient.first_name + " " + instruction.patient.last_name}</h5>
-                    <p style={{fontSize: "13px"}}
-                       className='mb-1'>{formattedDate} • {instruction.doctor.first_name + " " + instruction.doctor.last_name}</p>
-                    <button className='btn btn-secondary pregledajGumbPc'  style={{position:"absolute", right:"1rem", top: "30%"}} onClick={() => handleInstructionDetail(instruction.id)}>Pregledaj   <img width="14" height="14" className = "ms-1 pregledaj-btn  " src={ArrowRightIcon} style={{marginBottom: "2px"}}  alt="right"/>       {/*  <img width="14" height="14" className = "ms-2  " src={ArrowRightIcon} style={{marginBottom: "2px"}}  alt="right"/> */}
-                    </button>
-                    <button className='btn btn-secondary pregledajGumbMobile mt-3 '  onClick={() => handleInstructionDetail(instruction.id)} style={{zIndex: "100"}}>Pregledaj <img width="14" height="14" className = "ms-1 pregledaj-btn  " src={ArrowRightIcon} style={{marginBottom: "2px"}}  alt="right"/>
-                    </button>
-
-                </div>
-            </div>
-
-        )})}
     </div>
 
     </div> ): (

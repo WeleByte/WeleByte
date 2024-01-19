@@ -121,7 +121,6 @@ const Examinations = (props) => {
         const tbody = document.querySelector(`#usersTable tbody`);
         const tr = tbody.querySelector(`#usersTable tr:nth-child(${index + 1})`);
 
-
         const userOptions = tr.querySelector('.userOptions');
 
         userOptions.style.display = 'none';
@@ -132,6 +131,7 @@ const Examinations = (props) => {
     const openUserOptions = (index) => {
         console.log("opening");
         console.log(currentOpenedOptions);
+
 
         // Close previously opened options if any
         if (currentOpenedOptions !== null && currentOpenedOptions !== index) {
@@ -260,10 +260,12 @@ const Examinations = (props) => {
 
     const handleFilterButton = (state) => {
         if (state === 'roditelj') {
+            setPage(1)
             setSelectedExaminations(parentExaminations)
             setsearchedExaminations(parentExaminations)
             setSelectedStatus('roditelj')
         } else if (state === 'djeca') {
+            setPage(1)
             setSelectedExaminations(childExaminations)
             setsearchedExaminations(childExaminations)
             setSelectedStatus('djeca')
@@ -292,7 +294,7 @@ const Examinations = (props) => {
                                                       user={user}
                                                       closeNoviPregled = {togglePregledDetail}
                                                       pregledId = {selectedPregledId}
-                                                      examination = {selectedExaminations[selectedPregledId]}
+                                                      examination = {searchedExaminations[((page-1)*pageSize) + selectedPregledId]}
                                                       closeUserOptions={closeUserOptions}
                                                       currentRole={currentRole}
                                                       refreshExaminations={toggleRefreshExaminations}/>}
@@ -321,12 +323,12 @@ const Examinations = (props) => {
                             {/*        id = "nepregledano" onClick={() => setSelectedStatus('svi')}>Sve</button>*/}
 
                             <button className={selectedStatus === 'roditelj' ?
-                                "btn btn-primary   me-2 mt-2" : "btn btn-secondary   me-2 mt-2"}
+                                "btn btn-primary   me-2 mt-2" : "btn btn-secondary btn-secondary-unselected  me-2 mt-2"}
                                     id="nepregledano" onClick={() => handleFilterButton('roditelj')}>Moji Pregledi</button>
 
 
                             <button className={selectedStatus === 'djeca' ?
-                                "btn btn-primary  me-2 mt-2" : "btn btn-secondary  me-2 mt-2"}
+                                "btn btn-primary  me-2 mt-2" : "btn btn-secondary btn-secondary-unselected me-2 mt-2"}
                                     id="pregledano" onClick={() => handleFilterButton('djeca')}>Moja djeca</button>
                         </div>
                     ) : null}
@@ -338,12 +340,12 @@ const Examinations = (props) => {
                             {/*        id = "nepregledano" onClick={() => setSelectedStatus('svi')}>Sve</button>*/}
 
                             <button className={selectedStatus === 'roditelj' ?
-                                "btn btn-primary   me-2 mt-2" : "btn btn-secondary   me-2 mt-2"}
+                                "btn btn-primary   me-2 mt-2" : "btn btn-secondary btn-secondary-unselected   me-2 mt-2"}
                                     id="nepregledano" onClick={() => handleFilterButton('roditelj')}> Odrasli </button>
 
 
                             <button className={selectedStatus === 'djeca' ?
-                                "btn btn-primary  me-2 mt-2" : "btn btn-secondary  me-2 mt-2"}
+                                "btn btn-primary  me-2 mt-2" : "btn btn-secondary btn-secondary-unselected me-2 mt-2"}
                                     id="pregledano" onClick={() => handleFilterButton('djeca')}> Djeca  </button>
                         </div>
                     ) : null}
@@ -410,27 +412,8 @@ const Examinations = (props) => {
                                         <td>{examination.report.length >= 30 ? examination.report.substring(0, 30) + "..." : examination.report}</td>
                                         <td>{examination.address.street}</td>
 
-                                        <td className = "three-dot-td" >
+                                        <td style={{width: "10px"}}><img className ="me-2 ms-2 pe-1 mt-1" style={{ height: "19px", float: "right", opacity: "80%" }} onClick={() => togglePregledDetail(index)} src={InfoIcon}/></td>
 
-
-                                            <img width="18" height="18" onClick={() => openUserOptions(index)}  src="https://img.icons8.com/ios-glyphs/30/menu-2.png" alt="menu-2"/></td>
-
-                                        <ul className="list-group userOptions shadow-lg p-0 border" style={{display:"none"}}>
-                                            <p className ="mb-2 mt-2 ps-3 py-1" style={{textAlign: "left"}}>Akcije <img className =" mt-1 closeActionsIcon" style={{ height: "19px", float: "right", opacity: "80%"}} onClick={() => closeUserOptions(index)} src={CloseIcon}></img>  </p>
-                                            <hr className ="mt-0 mb-0" style={{opacity: "20%"}}></hr>
-                                            <button onClick={() => togglePregledDetail(index)}  className =" ps-3 col-12 mb-2 mt-2 py-2 novi-pregled-btn" style={{opaciy: "80%",textAlign: "left", fontWeight:"500", border:"none", background:"none"}} > Detalji  <img className ="me-3 mt-1" style={{ height: "19px", float: "right", opacity: "80%" }} src={InfoIcon}></img> </button>
-
-                                            {/* {(uloga === "doctor" || uloga === "pediatrician" || uloga === "admin") && (
-                                        <button className="ps-3 col-12 mb-2 py-2 delete-btn"
-                                                style={{opacity: "0.8", textAlign: "left", fontWeight:"500", border:"none", background:"none"}}>
-                                            Izbriši
-                                            <img className="me-3 mt-1"
-                                                style={{height: "19px", float: "right", opacity: "0.8"}}
-                                                src={TrashIcon}>
-                                            </img>
-                                        </button>
-                                    )} */}
-                                        </ul>
 
                                     </tr>
                                 ))}

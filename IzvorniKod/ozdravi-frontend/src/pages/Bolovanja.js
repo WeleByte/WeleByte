@@ -16,7 +16,7 @@ const Bolovanja = (props) => {
     const navigate = useNavigate()
     const [novoBolovanjeOpen, setNovoBolovanjeOpen] = useState(false)
     const [novoBolovanjeDetail, setNovoBolovanjeDetail] = useState(false)
-    const [recommendations, setRecommendations] = useState([])
+    const [recommendations, setRecommendations] = useState(null)
     const [currentDetailId, setCurrentDetailId] = useState(null)
     const [resolvedRecommendations, setResolvedRecommendations] = useState(null)
     const [unresolvedRecommendations, setUnresolvedRecommendations] = useState(null)
@@ -133,7 +133,7 @@ const Bolovanja = (props) => {
                                                                    handleLogOut={handleLogOut}
                                                                    refreshRecommendations={toggleRefreshRecommendations} />}
 
-        { recommendations.length !== 0 ? (
+        { recommendations === null || recommendations.length !== 0 ? (
             <div id="seccondOppWrapper">
 
                 {/*     <p style={{textAlign: "left", fontSize: "13px"}} className='px-4 mb-2 mt-2 mb-1'>4 nepregledanih - 7 pregledanih</p> */}

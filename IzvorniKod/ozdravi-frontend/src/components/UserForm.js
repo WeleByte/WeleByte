@@ -275,8 +275,8 @@ const UserForm = (props) => {
 
 
 
-                <div className='px-4 pt-0'>
-                    <form >
+                <div className='px-4 pt-0' >
+                    <form style={{maxHeight: "500px", overflowY: "scroll"}}>
 
                         <div style={{display: "grid", gridTemplateColumns: "1fr 1fr", gridColumnGap: "20px"}} class ="mt-4">
 
