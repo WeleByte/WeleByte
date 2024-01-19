@@ -19,6 +19,7 @@ const ProfilePage = (props) => {
     const [saveFailed, setSaveFailed] = useState(false)
     const bearerToken = sessionStorage.bearerToken
     const [errorMessage, setErrorMessage] = useState('')
+    const currentRole = sessionStorage.getItem('currentRole');
 
     useEffect(() => {
         if (bearerToken === '' || bearerToken === null || bearerToken === undefined) {

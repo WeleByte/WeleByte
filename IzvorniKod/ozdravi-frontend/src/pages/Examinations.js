@@ -26,6 +26,7 @@ const Examinations = (props) => {
     let optionsOpened = false;
     const [refreshExaminations, setRefreshExaminations] = useState(false)
     const [selectedExaminations, setSelectedExaminations] = useState([])
+    const [searchedExaminations, setsearchedExaminations] = useState([])
     const [parentExaminations, setParentExaminations] = useState([])
     const [childExaminations, setChildExaminations] = useState([])
     const [isAddPatientVisible, showAddPatient] = useState(false);
@@ -37,6 +38,43 @@ const Examinations = (props) => {
 
     const [user, setUser] = useState('')
     const [roles, setRoles] = useState([""])
+
+
+
+    const [page, setPage] = useState(1);
+    const [pageSize, setpageSize] = useState(5);
+    const [startItem, setStartItem] = useState(1)
+
+    function pageUp() {
+        if ((page + 1) * pageSize > roundUpToNearestMultipleOf5(selectedExaminations.length)) {
+            return
+        }
+        setPage(page + 1);
+        setStartItem((page-1)*pageSize + 1)
+
+    }
+        
+    function pageDown() {
+        
+        if ((page - 1) === 0) {
+            return
+        }
+        setPage(page - 1)
+    }
+
+    function roundUpToNearestMultipleOf5(number) {
+        return Math.ceil(number / 5) * 5;
+    }
+
+    const searchExaminations = (e) => {
+        console.log(e)
+        const inputValue = e.target.value.toLowerCase()
+        const filtered = selectedExaminations.filter(
+            (examination) =>
+                (examination.patient.first_name + examination.patient.last_name).toLowerCase().includes(inputValue)
+        );
+        setsearchedExaminations(filtered)
+    }
 
 
     useEffect(() => {
@@ -178,11 +216,16 @@ const Examinations = (props) => {
             .then(parsedData => {
                 if (parsedData) {
                     console.log(parsedData)
+
+                    
                     setParentExaminations(parsedData.filter(examination => examination.patient.roles
                         .map(role => role.name).includes('parent')))
 
                     setChildExaminations(parsedData.filter(examination => examination.patient.roles
                         .map(role => role.name).includes('child')))
+
+                    setsearchedExaminations(parsedData.filter(examination => examination.patient.roles
+                        .map(role => role.name).includes('parent')))
 
                     switch (currentRole) {
                         case 'parent' :
@@ -214,9 +257,11 @@ const Examinations = (props) => {
     const handleFilterButton = (state) => {
         if (state === 'roditelj') {
             setSelectedExaminations(parentExaminations)
+            setsearchedExaminations(parentExaminations)
             setSelectedStatus('roditelj')
         } else if (state === 'djeca') {
             setSelectedExaminations(childExaminations)
+            setsearchedExaminations(childExaminations)
             setSelectedStatus('djeca')
         }
     }
@@ -274,15 +319,32 @@ const Examinations = (props) => {
                             {/*        id = "nepregledano" onClick={() => setSelectedStatus('svi')}>Sve</button>*/}
 
                             <button className={selectedStatus === 'roditelj' ?
-                                "btn btn-primary chip-selected  me-2 mt-2" : "btn btn-secondary chip-unselected  me-2 mt-2"}
+                                "btn btn-primary  me-2 mt-2" : "btn btn-secondary  me-2 mt-2"}
                                     id="nepregledano" onClick={() => handleFilterButton('roditelj')}>Moji Pregledi
                             </button>
 
                             <button className={selectedStatus === 'djeca' ?
-                                "btn btn-primary chip-selected  me-2 mt-2" : "btn btn-secondary chip-unselected  me-2 mt-2"}
+                                "btn btn-primary me-2 mt-2" : "btn btn-secondary me-2 mt-2"}
                                     id="pregledano" onClick={() => handleFilterButton('djeca')}>Moja djeca
                             </button>
                         </div>
+                    ) : null}
+
+                {currentRole === 'admin' ? (
+                <div id="usersSelectorDiv" className="px-4 pb-1 pt-0 " style={{ display: "flex", justifyContent: "left", flexWrap: "wrap" }}>
+                    {/*<button className = {selectedStatus === 'svi' ?*/}
+                    {/*    "btn btn-primary chip-selected  me-2 mt-2" : "btn btn-secondary chip-unselected me-2 mt-2"}*/}
+                    {/*        id = "nepregledano" onClick={() => setSelectedStatus('svi')}>Sve</button>*/}
+
+                    <button className={selectedStatus === 'roditelj' ?
+                        "btn btn-primary   me-2 mt-2" : "btn btn-secondary   me-2 mt-2"}
+                            id="nepregledano" onClick={() => handleFilterButton('roditelj')}> Odrasli </button>
+
+
+                    <button className={selectedStatus === 'djeca' ?
+                        "btn btn-primary  me-2 mt-2" : "btn btn-secondary  me-2 mt-2"}
+                            id="pregledano" onClick={() => handleFilterButton('djeca')}> Djeca  </button>
+                </div>
                     ) : null}
 
 
@@ -306,12 +368,10 @@ const Examinations = (props) => {
 
                     <div id="patientSearchBoxDiv" className='px-4 pt-3 '>
 
-                        <div className="input-group mb-0 mx-0  p-3 searchContainer" style={{maxWidth: "1200px"}}>
-                            <img src={searchIcon} className="searchIconUsers"></img>
-                            <input type="text" className="form-control me-0 searchInput"
-                                   style={{borderTopRightRadius: "7px", borderBottomRightRadius: "7px",}}
-                                   placeholder="Pretraži" aria-label="Recipient's username"
-                                   aria-describedby="basic-addon2"></input>
+                    <div className="input-group mb-0 mx-0  p-3 searchContainer" style={{maxWidth: "1200px"}} >
+                        <img src= {searchIcon} className = "searchIconUsers"></img>
+                        <input type="text" className="form-control me-0 searchInput" id = "searchInput" onChange={searchExaminations} style = {{ borderTopRightRadius: "7px", borderBottomRightRadius: "7px", }}
+                               placeholder="Pretraži" aria-label="Recipient's username" aria-describedby="basic-addon2" ></input>
 
                         </div>
                     </div>
@@ -326,50 +386,60 @@ const Examinations = (props) => {
                                 <th scope="col">PACIJENT</th>
                                 {/* <th scope="col">DOKTOR</th>
                             <th scope="col">EMAIL PACIJENTA</th> */}
-                                <th scope="col">OPIS PREGLEDA</th>
-                                <th scope="col">ADRESA</th>
-                                <th scope="col"></th>
+                            <th scope="col">OPIS PREGLEDA</th>
+                            <th scope="col">ADRESA</th>
+                            <th scope="col"></th>
 
 
-                            </tr>
-                            </thead>
-                            <tbody>
-                            {selectedExaminations.map((examination, index) =>
-                                (
-                                    <tr key={examination.id} style={{position: 'relative'}}
-                                        onClick={() => togglePregledDetail(index)}>
-                                        <td scope="row">
-                                            <img src={userIcon} alt="" width="14" className='me-3'
-                                                 style={{opacity: "75%"}}></img>
-                                            {examination.patient.first_name + " " + examination.patient.last_name}
-                                        </td>
-                                        <td>{examination.report.length >= 30 ? examination.report.substring(0, 30) + "..." : examination.report}</td>
-                                        <td>{examination.address.street}</td>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {searchedExaminations.slice((page-1) * pageSize,page * pageSize).map((examination, index) =>
+                            (
+                                <tr key={examination.id} style={{ position: 'relative' }}>
+                                    <td scope="row">
+                                        <img src = {userIcon} alt = "" width = "14" className='me-3' style={{opacity: "75%"}}></img>
+                                        {examination.patient.first_name + " " + examination.patient.last_name}
+                                    </td>
+                                    {/* <td>{examination.doctor.first_name + " " + examination.doctor.last_name}</td>
+                                    <td>{examination.patient.email}</td> */}
+                                    <td>{examination.report.length >= 30 ? examination.report.substring(0, 30) + "..." : examination.report}</td>
+                                    <td>{examination.address.street}</td>
 
-                                        <td>
-                                            <button className="col-12" style={{
-                                                opaciy: "80%",
-                                                textAlign: "left",
-                                                fontWeight: "500",
-                                                border: "none",
-                                                background: "none"
-                                            }}><img className="me-3"
-                                                    style={{height: "19px", float: "right", opacity: "80%"}}
-                                                    src={InfoIcon}></img></button>
-                                        </td>
-                                    </tr>
-                                ))}
+                                    <td className = "three-dot-td" >
 
-                            </tbody>
-                        </table>
-                        <div className="input-group mb-0 mx-0  paginationContainer " style={{maxWidth: "1200px"}}>
 
-                            <span
-                                className="me-3">{selectedExaminations === [] ? (0) : (1 + '-' + selectedExaminations.length)} of {selectedExaminations.length}</span>
-                            <img src={chevronLeft} style={{float: "right"}} className="chevronIcon"></img>
-                            <img src={chevronRight} style={{float: "right"}} className="chevronIcon"></img>
+                                        <img width="18" height="18" onClick={() => openUserOptions(index)}  src="https://img.icons8.com/ios-glyphs/30/menu-2.png" alt="menu-2"/></td>
 
-                        </div>
+                                    <ul className="list-group userOptions shadow-lg p-0 border" style={{display:"none"}}>
+                                        <p className ="mb-2 mt-2 ps-3 py-1" style={{textAlign: "left"}}>Akcije <img className =" mt-1 closeActionsIcon" style={{ height: "19px", float: "right", opacity: "80%"}} onClick={() => closeUserOptions(index)} src={CloseIcon}></img>  </p>
+                                        <hr className ="mt-0 mb-0" style={{opacity: "20%"}}></hr>
+                                        <button onClick={() => togglePregledDetail(index)}  className =" ps-3 col-12 mb-2 mt-2 py-2 novi-pregled-btn" style={{opaciy: "80%",textAlign: "left", fontWeight:"500", border:"none", background:"none"}} > Detalji  <img className ="me-3 mt-1" style={{ height: "19px", float: "right", opacity: "80%" }} src={InfoIcon}></img> </button>
+
+                                        {/* {(uloga === "doctor" || uloga === "pediatrician" || uloga === "admin") && (
+                                        <button className="ps-3 col-12 mb-2 py-2 delete-btn" 
+                                                style={{opacity: "0.8", textAlign: "left", fontWeight:"500", border:"none", background:"none"}}>
+                                            Izbriši 
+                                            <img className="me-3 mt-1" 
+                                                style={{height: "19px", float: "right", opacity: "0.8"}} 
+                                                src={TrashIcon}>
+                                            </img> 
+                                        </button>
+                                    )} */}
+                                    </ul>
+
+                                </tr>
+                            ))}
+
+                        </tbody>
+                    </table>
+                    <div className="input-group mb-0 mx-0  paginationContainer " style={{maxWidth: "1200px"}} >
+
+               
+                    <span className = "me-3">{searchedExaminations.length === 0 ? 0 : ((page-1)*pageSize + 1) + " - " + (Math.min((page)*pageSize, searchedExaminations.length))} of {searchedExaminations.length}</span>
+                        <img src= {chevronLeft} style={{float: "right"}} onClick={pageDown}  className={(page - 1) !== 0 ? "chevronIcon" : "chevronIcon chevronDisabled"} ></img>
+                        <img src= {chevronRight} style={{float: "right"}} onClick={pageUp} className={((page + 1) * pageSize <= roundUpToNearestMultipleOf5(searchedExaminations.length)) ? "chevronIcon" : "chevronIcon chevronDisabled"} ></img>
+
                     </div>
                 </div>) : (
                 <div id="usersWrapperInner" style={{

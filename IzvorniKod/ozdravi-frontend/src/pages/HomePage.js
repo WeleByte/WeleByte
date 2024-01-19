@@ -14,6 +14,11 @@ const HomePage = (props) => {
     const bearerToken = sessionStorage.getItem('bearerToken');
     const backendRoute = props.backendRoute
     var [roles, setRoles] = useState([""]);
+    const [secondOpinions, setSecondOpinions] = useState([])
+
+    const [recommendations, setRecommendations] = useState([])
+
+    const [users, setUsers] = useState([])
 
     // if(sessionStorage.userData === undefined) {
     //     sessionStorage.userData = JSON.stringify({first_name: 'a'})
@@ -34,6 +39,35 @@ const HomePage = (props) => {
         }
     }, []);
 
+    useEffect(() => {
+        fetch(backendRoute + "/second_opinions", {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${bearerToken}`,
+                'Content-Type': 'application/json'
+            }
+        })
+            .then(response => {
+                if (response.status === 401) {
+                    console.log("unauthorized!!")
+                    /* handleLogOut() */
+                } else
+                if(!response.ok){
+                    console.log("Error:", response.status, response.statusText);
+                } else {
+                    return response.json();
+                }
+            })
+            .then(parsedData => {
+                console.log(parsedData)
+                setSecondOpinions(parsedData.filter(op => !op.opinion));
+                
+            })
+            .catch(error => {
+                console.error('Fetch error:', error);
+            });
+    }, []);
+
     const navigateUsers = () => {
         // e.preventDefault()
        
@@ -44,6 +78,61 @@ const HomePage = (props) => {
              
            
     }
+
+    useEffect(() => {
+        fetch(backendRoute + "/sick_leave_recommendations", {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${bearerToken}`,
+                'Content-Type': 'application/json'
+            }
+        })
+            .then(response => {
+                if (response.status === 401) {
+                   
+                } else
+                if (!response.ok) {
+                    console.log("Error:", response, response.status, response.statusText);
+                } else {
+                    return response.json();
+                }
+            })
+            .then(parsedData => {
+                console.log(parsedData)
+                setRecommendations(parsedData.filter(p=>p.status === null));
+              
+            })
+        .catch(error => {
+            console.error('Fetch error:', error);
+        });
+    }, []);
+
+    useEffect(() => {
+        fetch(backendRoute + "/users", {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${bearerToken}`,
+                'Content-Type': 'application/json'
+            }
+        })
+            .then(response => {
+                if (response.status === 401) {
+                    
+                } else if(!response.ok){
+                    console.log("Error:", response.status, response.statusText);
+                } else {
+                    return response.json();
+                }
+            })
+            .then(parsedData => {
+                console.log(parsedData)
+                setUsers(parsedData);
+                
+            })
+            .catch(error => {
+                console.error('Fetch error:', error);
+            });
+    },[]); // Include dependencies in the array if needed
   
 
     function click() {
@@ -66,10 +155,10 @@ const HomePage = (props) => {
                         <HomeCard title="Moji Pacijenti" url = "/users" description="34 pacijenata" image={patientsImage} buttonText="Vidi sve" />
                     )}
                     {(currentRole === "admin") && (
-                        <HomeCard title="Korisnici" url = "/users"  description="34 korisnika" image={patientsImage} buttonText="Vidi sve" />
+                        <HomeCard title="Korisnici" url = "/users"  description={users.length + " korisnika"} image={patientsImage} buttonText="Vidi sve" />
                     )}
-                    <HomeCard title="Druga Mišljenja" description="3 za pregled" image={drugoMisljenje} buttonText="Pregledaj" url = "/drugaMisljenja"/>
-                    <HomeCard title="Preporuke za bolovanje"  description="7 za pregled" image={bolovanje} buttonText="Pregledaj" url = "/bolovanja"/>
+                    <HomeCard title="Druga Mišljenja" description= {secondOpinions.length + " za pregled"} image={drugoMisljenje} buttonText="Pregledaj" url = "/drugaMisljenja"/>
+                    <HomeCard title="Preporuke za bolovanje"  description={recommendations.length + " za pregled"} image={bolovanje} buttonText="Pregledaj" url = "/bolovanja"/>
                     {(currentRole === "parent")  && (
                         <HomeCard title="Moja djeca" url = "/users" description="3 prijavljenje djece" image={djeca} buttonText="Vidi sve"/>
                     )}

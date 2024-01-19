@@ -146,33 +146,31 @@ const Bolovanja = (props) => {
 
                 </h5>
                 <p style={{ textAlign: "left", maxWidth: "1200px" }} className="px-4 mb-4 ">
-                    {unresolvedRecommendations ? unresolvedRecommendations.length : 0} nepregladnih, {resolvedRecommendations ? resolvedRecommendations.length : 0} pregledanih preporuka</p>
+                    {unresolvedRecommendations ? unresolvedRecommendations.length : 0} nepregladnih, {resolvedRecommendations ? resolvedRecommendations.length : 0} pregledanih</p>
 
 
                 {/*     <p style={{textAlign: "left", fontSize: "13px"}} className='px-4 mb-2 mt-2 mb-1'>4 nepregledanih - 7 pregledanih</p> */}
 
 
-                <div id="usersSelectorDiv" className="px-4 pb-1 pt-0 " style={{ display: "flex", justifyContent: "left", flexWrap: "wrap" }}>
-                    {/*<button className = {selectedStatus === 'svi' ?*/}
-                    {/*    "btn btn-primary chip-selected  me-2 mt-2" : "btn btn-secondary chip-unselected me-2 mt-2"}*/}
-                    {/*        id = "nepregledano" onClick={() => setSelectedStatus('svi')}>Sve</button>*/}
-
+               {/*  <div id="usersSelectorDiv" className="px-4 pb-1 pt-0 " style={{ display: "flex", justifyContent: "left", flexWrap: "wrap" }}>
+                 
                     <button className={selectedStatus === 'nepregledano' ?
-                        "btn btn-primary chip-selected  me-2 mt-2" : "btn btn-secondary chip-unselected  me-2 mt-2"}
+                        "btn btn-primary me-2 mt-2" : "btn btn-secondary   me-2 mt-2"}
                             id="nepregledano" onClick={() => handleFilterButton('nepregledano')}>Nepregledano</button>
 
                     <button className={selectedStatus === 'pregledano' ?
-                        "btn btn-primary chip-selected  me-2 mt-2" : "btn btn-secondary chip-unselected  me-2 mt-2"}
+                        "btn btn-primary   me-2 mt-2" : "btn btn-secondary  me-2 mt-2"}
                             id="pregledano" onClick={() => handleFilterButton('pregledano')}>Pregledano</button>
-                </div>
-
+                </div> */}
 
 
                 <div className="px-4 pt-1 " id="secondOppinionList">
-                    {/*  <div class = "selectorHeader">
-            <button class ="btn selector-btn selector-btn-selected col-6">Nepregledano ({nepregledanoCount})</button>
-            <button class ="btn selector-btn selector-btn-unselected col-6">Pregledano ({nepregledanoCount + 3})</button>
-        </div> */}
+                     <div class = "selectorHeader">
+            <button  className={selectedStatus === 'nepregledano' ?
+                        "btn selector-btn selector-btn-selected col-6" : "btn  selector-btn selector-btn-unselected col-6"} class ="btn selector-btn selector-btn-selected col-6" onClick={() => handleFilterButton('nepregledano')}>Nepregledano ({unresolvedRecommendations ? unresolvedRecommendations.length : 0})</button>
+            <button className={selectedStatus === 'pregledano' ?
+                        "btn selector-btn selector-btn-selected col-6" : "btn selector-btn selector-btn-unselected col-6"} onClick={() => handleFilterButton('pregledano')}>Pregledano ({resolvedRecommendations ? resolvedRecommendations.length : 0})</button>
+        </div>
                     {filteredRecommendations && filteredRecommendations.length !== 0 ?
                         filteredRecommendations.map((recommendation) => (
 
@@ -197,24 +195,12 @@ const Bolovanja = (props) => {
 
                         )) : (
 
-                            <div id="usersWrapperInner" style={{
-                                display: "flex",        // Enable Flexbox
-                                flexDirection: "column", // Stack children vertically
-                                justifyContent: "center", // Center content vertically
-                                alignItems: "center",    // Center content horizontally
-                                height: "40vh",
-                                // Take full viewport height
-                                // Optional: If you still want additional padding on top
-                            }}>
+                            <div className="card mb-0" style={{ textAlign: "left" }}>
+                                <div className="card-body" >
+                                   
+                                    <p style={{marginBottom: "4px", textAlign: "center"}}>Nema rezultata</p>
 
-
-                                <h5 className=" px-4 mt-0 pt-0 " style={{ textAlign: "center", maxWidth: "1246px" }}>
-                                    Nema preporuka za bolovanje
-
-                                </h5>
-
-                                {(currentRole === "doctor" || currentRole === "pediatrician" || currentRole === "admin" ? (
-                                    <button className="btn btn-primary ms-2 mt-2 " style={{}} onClick={toggleNovoMisljenje}>Nova preporuka +</button>) : null)}
+                                </div>
                             </div>
                         )}
                 </div>
@@ -225,7 +211,7 @@ const Bolovanja = (props) => {
                 flexDirection: "column", // Stack children vertically
                 justifyContent: "center", // Center content vertically
                 alignItems: "center",    // Center content horizontally
-                // height: "90vh",
+                 height: "90vh",
                 // Take full viewport height
                 // Optional: If you still want additional padding on top
             }}>
