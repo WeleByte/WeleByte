@@ -160,7 +160,7 @@ const HomePage = (props) => {
                     <HomeCard title="Druga Mišljenja" description= {secondOpinions.length + " za pregled"} image={drugoMisljenje} buttonText="Pregledaj" url = "/drugaMisljenja"/>
                     <HomeCard title="Preporuke za bolovanje"  description={recommendations.length + " za pregled"} image={bolovanje} buttonText="Pregledaj" url = "/bolovanja"/>
                     {(currentRole === "parent")  && (
-                        <HomeCard title="Moja djeca" url = "/users" description="3 prijavljenje djece" image={djeca} buttonText="Vidi sve"/>
+                        <HomeCard title="Moja djeca" url = "/users" description={users.length + " prijavljene djece"} image={djeca} buttonText="Vidi sve"/>
                     )}
                 </div>
             </div>
