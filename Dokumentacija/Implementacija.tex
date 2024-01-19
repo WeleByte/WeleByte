@@ -313,6 +313,16 @@
 			Nakon svake promjene i spremanja koda, stranica se automatski ponovno učitava. Osim toga, postoji mogućnost promjene porta aplikacije uređivanjem datoteke \textit{package.json}, 
 			gdje se u liniji koda \textit{"start": set PORT=3006 \&\& react-scripts start} može izmijeniti broj porta prema želji.
 			
+			\subsubsection*{Deployment nove verzije aplikacije}
+			Svi dijelovi aplikacije se, u produkcijskom okruženju, pokreću na Heroku platformi. Za sam "build" aplikacije se koriste već gotovi "buildpackovi" za Javu, odnosno React koje osigurava Heroku.
+			Naše Heroku okruženje je povezano s repozitorijem aplikacije na GitHubu i Heroku može preko "GitHub Deployments" povući izvorni kod i provesti proces isporuke.
+			S obzirom da je cijela aplikacija sadržana u jednom repozitoriju, a sastoji se od dvaju dijelova koji se neovisno isporučuju, morali smo prilagoditi "build" proces tome. 
+
+			Način na koji je infrastruktura aplikacije postavljena ne podržava automatsko pokretanje build procesa (npr. kad se pull request mergea) već je potrebno unutar sučelja Herokua ručno pokrenuti isporuku frontend, odnosno backend dijela aplikacije.
+			\begin{figure}[H]
+				\includegraphics[width=\textwidth]{slike/heroku_interface.png} 
+				\caption{Sučelje Heroku platforme} 
+			\end{figure}
 			
 			\subsubsection*{Stvaranje PDF izvještaja dokumentacije}
 			Dokumentacija za ovaj projekt je napisana koristeći paket \LaTeX  i nalazi se u mapi \textit{Dokumentacija/}. Kako bi se iz .tex datoteka izgradio PDF izvještaj potrebno je na računalu imati instalaciju \LaTeX-a i pokrenuti ispravne naredbe za izgradnju PDF-a (npr. \textit{latexmk}).
