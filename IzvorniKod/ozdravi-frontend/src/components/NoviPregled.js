@@ -132,12 +132,12 @@ const NoviPregled = (props) => {
             const allDoctorsTemp= [...parsedPediatricians, ...parsedDoctors]
 
             setAllDoctorsFormatted(allDoctorsTemp.map(doctor => ({
-                label: `${doctor.first_name} ${doctor.last_name}`,
+                label: `${doctor.first_name} ${doctor.last_name} (${doctor.oib})`,
                 value: doctor.id
             })))
 
             setPatientsFormatted(parsedPatients.map(patient => ({
-                label: `${patient.first_name} ${patient.last_name}`,
+                label: `${patient.first_name} ${patient.last_name} (${patient.oib})`,
                 value: patient.id
             })))
 

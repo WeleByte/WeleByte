@@ -257,7 +257,9 @@ const Users = (props) => {
 
             {userDetailVisible && <UserDetail close = {toggleUserDetail}
                                               role = {currentRole}
+
                                               user = {searchedUsers[((page-1)*pageSize) + selectedUserIndex]}
+
                                               backendRoute={backendRoute}
                                               bearerToken={bearerToken}
                                               refreshUsers={toggleRefreshUsers}
