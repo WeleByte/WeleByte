@@ -1,25 +1,19 @@
 package ozdravi.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import ozdravi.dao.RoleRepository;
 import ozdravi.dao.UserRepository;
 import ozdravi.domain.Role;
 import ozdravi.domain.User;
-import ozdravi.exceptions.LoggedUserException;
 import ozdravi.exceptions.RequestDeniedException;
 import ozdravi.exceptions.UserDoesNotExistException;
 import ozdravi.rest.ValidityUtil;
-import ozdravi.rest.dto.CreateUserRequest;
 import ozdravi.rest.dto.UserDTO;
 import ozdravi.service.RoleService;
 import ozdravi.service.UserService;
 
-import java.net.URI;
-import java.time.format.DateTimeParseException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -47,16 +41,8 @@ public class UserServiceJpa implements UserService {
         userRepository.deleteById(id);
     }
 
-
-//    @Override
-//    public User createUser(User user) {
-//        if(!user.getPassword().startsWith("{bcrypt}"))
-//            user.setPassword(passwordEncoder.encode(user.getPassword()));
-//        return userRepository.save(user);
-//    }
-
     @Override
-    public User save(User user){
+    public User save(User user) {
         return userRepository.save(user);
     }
 
@@ -66,13 +52,13 @@ public class UserServiceJpa implements UserService {
         User user = dtoManager.userDTOToUser(userDTO);
         ValidityUtil.checkUserValidity(user);
 
-        if(findByEmail(user.getEmail()).isPresent())
+        if (findByEmail(user.getEmail()).isPresent())
             throw new IllegalArgumentException("Email already in use");
 
         List<Role> roleList = dtoManager.roleStringListToRoleList(roles);
         user.setRoles(roleList);
 
-        if(!user.getPassword().startsWith("{bcrypt}"))
+        if (!user.getPassword().startsWith("{bcrypt}"))
             user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepository.save(user);
     }
@@ -81,12 +67,12 @@ public class UserServiceJpa implements UserService {
     public List<User> listAvailablePatients() {
         User user = securityContextService.getLoggedInUser();
 
-        if(securityContextService.isUserInRole("ADMIN")){
+        if (securityContextService.isUserInRole("ADMIN")) {
             //todo mozda staviti da admin moze vidjeti sve roditelje i djecu koja nemaju doktora
             throw new RequestDeniedException("Admin cannot have available patients");
-        } else if(securityContextService.isUserInRole("DOCTOR")){
+        } else if (securityContextService.isUserInRole("DOCTOR")) {
             return listAvailablePatientsDoctor();
-        } else if(securityContextService.isUserInRole("PEDIATRICIAN")){
+        } else if (securityContextService.isUserInRole("PEDIATRICIAN")) {
             return listAvailablePatientsPediatrician();
         }
 
@@ -97,7 +83,7 @@ public class UserServiceJpa implements UserService {
     public void assignPatient(Long id) {
         User optionalDoctor = securityContextService.getLoggedInUser();
 
-        if(securityContextService.isUserInRole("ADMIN")) {
+        if (securityContextService.isUserInRole("ADMIN")) {
             //todo ne znam kolko ovo ima smisla isto, mozda bolje samo maknuti admina s te rute u potpunosti
             throw new RequestDeniedException("Admin cannot assign patients to self");
         }
@@ -110,7 +96,7 @@ public class UserServiceJpa implements UserService {
     public void removePatient(Long id) {
         User optionalDoctor = securityContextService.getLoggedInUser();
 
-        if(securityContextService.isUserInRole("ADMIN")) {
+        if (securityContextService.isUserInRole("ADMIN")) {
             throw new RequestDeniedException("Admin cannot unassign patients from self");
         }
         User optionalPatient = findById(id);
@@ -140,22 +126,27 @@ public class UserServiceJpa implements UserService {
     @Override
     public List<User> listDoctors(String role) {
         User workingUserOptional = securityContextService.getLoggedInUser();
-        if(role.equals("doctor")) return listAllDoctors();
+        if (role.equals("doctor")) return listAllDoctors();
         else return listAllPediatricians();
     }
 
     @Override
     public User findById(Long id) {
-//        User workingUser = securityContextService.getLoggedInUser();
-//        if (!workingUser.getId().equals(id) && !securityContextService.isUserInRole("ADMIN"))
-//            throw new RequestDeniedException("You are not authorized to view this info");
-
         Optional<User> user = userRepository.findById(id);
-
         if (user.isEmpty())
-            throw new UserDoesNotExistException("No user with such id");
+            throw new UserDoesNotExistException("User with id " + id.toString() + " not found");
 
         return user.get();
+    }
+
+    @Override
+    public User fetch(Long id) {
+        User user = findById(id);
+        User workingUser = securityContextService.getLoggedInUser();
+        if (!workingUser.getId().equals(id) && !securityContextService.isUserInRole("ADMIN"))
+            throw new RequestDeniedException("You are not authorized to view this user");
+
+        return user;
     }
 
     @Override
@@ -164,27 +155,40 @@ public class UserServiceJpa implements UserService {
     }
 
     @Override
-    public void modifyUser(UserDTO userDTO, Long id){
+    public User modifyUser(UserDTO userDTO, Long id) {
+        return modifyUser(userDTO, new ArrayList<>(), id);
+    }
+
+    public User modifyUser(UserDTO userDTO, List<String> roles, Long id) {
         Optional<User> optionalUser = userRepository.findById(id);
-        if(optionalUser.isEmpty()) throw new UserDoesNotExistException("User doesn't exist");
+        if (optionalUser.isEmpty()) throw new UserDoesNotExistException("User doesn't exist");
         User modifiedUser = optionalUser.get();
         User workingUser = securityContextService.getLoggedInUser();
 
-        if(securityContextService.isUserInRole("ADMIN")) {
+        if (securityContextService.isUserInRole("ADMIN")) {
+            if (roles.isEmpty()) {
+                throw new RuntimeException("User must have at least one role.");
+            }
+
+            List<Role> roleList = dtoManager.roleStringListToRoleList(roles);
+            User user = dtoManager.userDTOToUser(userDTO);
+
             userDTO.setId(id);
             ValidityUtil.checkUserDTOForLoops(userDTO);
 
-            User user = dtoManager.userDTOToUser(userDTO);
-            ValidityUtil.checkUserValidity(user);
-            optionalUser.get().copyDifferentAttributes(user);
-            userRepository.save(optionalUser.get());
-        } else if(workingUser.getId().equals(id) || Objects.equals(modifiedUser.getParent().getId(), workingUser.getId())) {
+            modifiedUser.copyDifferentAttributes(user);
+            modifiedUser.setRoles(roleList);
+            ValidityUtil.checkUserValidity(modifiedUser);
+            userRepository.save(modifiedUser);
+        } else if (workingUser.getId().equals(id) || Objects.equals(modifiedUser.getParent().getId(), workingUser.getId())) {
             modifiedUser.setInstitution_email(userDTO.getInstitution_email());
 
             userRepository.save(modifiedUser);
         } else {
             throw new RequestDeniedException("You are not authorized to modify this user");
         }
+
+        return modifiedUser;
     }
 
     @Override
@@ -208,13 +212,13 @@ public class UserServiceJpa implements UserService {
     }
 
     @Override
-    public List<User> listAllDoctors(){
+    public List<User> listAllDoctors() {
         Role doctorRole = roleService.findByName("doctor");
         return userRepository.findUsersByRolesContains(doctorRole);
     }
 
     @Override
-    public List<User> listAllPediatricians(){
+    public List<User> listAllPediatricians() {
         Role pediatricianRole = roleService.findByName("pediatrician");
         return userRepository.findUsersByRolesContains(pediatricianRole);
     }

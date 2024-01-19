@@ -9,6 +9,7 @@ import Select from 'react-select'
 import {useSubmit} from "react-router-dom";
 
 const UserForm = (props) => {
+    const currentRole = props.role
     const [roles, setRoles] = useState([])
     const [user, setUser] = useState({
         first_name: '',
@@ -140,7 +141,8 @@ const UserForm = (props) => {
             setFormatErrorMessage('Šifre se ne poklapaju')
         } else if(roles.length === 0){
             setFormatErrorMessage('Odaberite ulogu')
-        } else if(roles.includes('child') && (!user.parent_id || !user.doctor_id)){
+        } else if(roles.includes('child') && (!user.parent_id || !user.doctor_id) && currentRole === 'admin'){
+            console.log(currentRole)
             setFormatErrorMessage('Odaberite roditelja i doktora za dijete')
         } else if(roles.includes('parent') && !user.doctor_id){
             setFormatErrorMessage('Odaberite doktora')
@@ -165,13 +167,13 @@ const UserForm = (props) => {
                         if(response.status === 400){
                             setFormatErrorMessage('OIB nije ispravan')
                         } else
-                            if(response.status === 401){
-                                props.handleLogOut()
-                            }
-                            else{
+                        if(response.status === 401){
+                            props.handleLogOut()
+                        }
+                        else{
                             props.refreshUsers()
                             props.closeUserForm()
-                            }
+                        }
                     }
                 )
             console.log("doktori: ", doctorsFormatted, "pedijatri: ", pediatriciansFormatted)

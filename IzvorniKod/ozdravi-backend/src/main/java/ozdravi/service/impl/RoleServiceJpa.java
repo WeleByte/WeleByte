@@ -17,14 +17,14 @@ public class RoleServiceJpa implements RoleService {
     @Override
     public Role findByName(String name) {
         Optional<Role> role = roleRepo.findByName(name);
-        if (role.isEmpty()) throw new EntityMissingException("No role with such name");
+        if (role.isEmpty()) throw new EntityMissingException("No role with name " + name);
         return role.get();
     }
 
     @Override
     public Role findById(Long id) {
         Optional<Role> role = roleRepo.findById(id);
-        if (role.isEmpty()) throw new EntityMissingException("No role with such id");
+        if (role.isEmpty()) throw new EntityMissingException("No role with id " + id.toString());
         return role.get();
     }
 }

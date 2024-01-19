@@ -1,8 +1,6 @@
 package ozdravi.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import ozdravi.dao.SecondOpinionRepository;
 import ozdravi.domain.SecondOpinion;
@@ -11,6 +9,7 @@ import ozdravi.exceptions.EntityMissingException;
 import ozdravi.exceptions.RequestDeniedException;
 import ozdravi.rest.dto.SecondOpinionDTO;
 import ozdravi.service.SecondOpinionService;
+import ozdravi.service.UserService;
 
 import java.util.List;
 import java.util.Optional;
@@ -24,12 +23,19 @@ public class SecondOpinionServiceJpa implements SecondOpinionService {
     private SecurityContextService securityContextService;
 
     @Autowired
+    private UserService userService;
+
+    @Autowired
     private DTOManager dtoManager;
 
     @Override
     public SecondOpinion createSecondOpinion(SecondOpinionDTO secondOpinionDTO) {
         User user = securityContextService.getLoggedInUser();
-        secondOpinionDTO.setRequester_id(user.getId());
+        User requester = userService.findById(secondOpinionDTO.getRequester_id());
+
+//        second opinion za osobu smije napraviti ta osoba, njen roditelj ili admin
+        if(!requester.getId().equals(user.getId()) && !requester.getParent().getId().equals(user.getId()) && !securityContextService.isUserInRole("ADMIN"))
+            throw new RequestDeniedException("You are not allowed to create a second opinion for this person");
 
         SecondOpinion secondOpinion = dtoManager.secondOpinionDTOToSecondOpinion(secondOpinionDTO);
         return secondOpinionRepository.save(secondOpinion);
@@ -39,7 +45,7 @@ public class SecondOpinionServiceJpa implements SecondOpinionService {
     public List<SecondOpinion> list() {
         User user = securityContextService.getLoggedInUser();
         if(securityContextService.isUserInRole("PARENT"))
-            return listByRequester(user.getId());
+            return listByRequesterOrRequesterParent(user.getId());
 
         if(securityContextService.isUserInRole("DOCTOR")
                 || securityContextService.isUserInRole("PEDIATRICIAN"))
@@ -59,6 +65,11 @@ public class SecondOpinionServiceJpa implements SecondOpinionService {
     }
 
     @Override
+    public List<SecondOpinion> listByRequesterOrRequesterParent(Long id){
+        return secondOpinionRepository.findAllByRequesterIdOrRequesterParentId(id, id);
+    }
+
+    @Override
     public List<SecondOpinion> listByDoctor(Long id) {
         return secondOpinionRepository.findAllByDoctorId(id);
     }
@@ -68,9 +79,10 @@ public class SecondOpinionServiceJpa implements SecondOpinionService {
         User user = securityContextService.getLoggedInUser();
         Optional<SecondOpinion> secondOpinion = secondOpinionRepository.findById(id);
         if(secondOpinion.isEmpty())
-            throw new EntityMissingException("no second opinion with such id");
+            throw new EntityMissingException("Second opinion with id " + id.toString() + " not found");
 
         if(secondOpinion.get().getDoctor().getId().equals(user.getId())
+//                || secondOpinion.get().getRequester().getParent().getId().equals(user.getId())
                 || secondOpinion.get().getRequester().getId().equals(user.getId())
                 || securityContextService.isUserInRole("ADMIN"))
             return secondOpinion.get();
@@ -83,12 +95,13 @@ public class SecondOpinionServiceJpa implements SecondOpinionService {
         User user = securityContextService.getLoggedInUser();
         SecondOpinion secondOpinion = findById(id);
 
-        if(!secondOpinion.getRequester().getId().equals(user.getId())
-                && !securityContextService.isUserInRole("ADMIN"))
-            throw new RequestDeniedException("You are not authorized to update this second opinion");
 
-        secondOpinion.copyDifferentAttributes(dtoManager.secondOpinionDTOToSecondOpinion(secondOpinionDTO));
-        secondOpinionRepository.save(secondOpinion);
+        if(securityContextService.isUserInRole("ADMIN") || secondOpinion.getDoctor().getId().equals(user.getId())) {
+            secondOpinion.copyDifferentAttributes(dtoManager.secondOpinionDTOToSecondOpinion(secondOpinionDTO));
+            secondOpinionRepository.save(secondOpinion);
+        } else {
+            throw new RequestDeniedException("You are not authorized to update this second opinion");
+        }
     }
 
     @Override

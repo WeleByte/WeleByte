@@ -29,7 +29,7 @@ public class SecondOpinion {
     @Column
     private String opinion;
 
-    @Column(nullable = false)
+    @Column
     private String content;
 
     public void copyDifferentAttributes(SecondOpinion newData) {

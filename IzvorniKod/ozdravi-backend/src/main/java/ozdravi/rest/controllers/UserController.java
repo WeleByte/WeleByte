@@ -40,12 +40,12 @@ public class UserController {
         UserDTO userDTO = createUserRequest.getUserDTO();
         List<String> roles = createUserRequest.getRoles();
         User user = userService.createUser(userDTO, roles);
+
         return new ResponseEntity<>(user, HttpStatus.CREATED);
-        //return ResponseEntity.created(URI.create("/users/" + user.getId())).body(user);
     }
 
 //    GET mapping for doctors or pediatricians
-    @PreAuthorize("hasAnyRole('ADMIN', 'DOCTOR', 'PEDIATRICIAN')")
+//    @PreAuthorize("hasAnyRole('ADMIN', 'DOCTOR', 'PEDIATRICIAN')")
     @GetMapping("/users/{role}s")
     public ResponseEntity<?> getDoctors(@PathVariable("role") String role){
         if(!role.equals("doctor") && !role.equals("pediatrician"))
@@ -56,17 +56,15 @@ public class UserController {
 
     @GetMapping("/user/{id}")
     public ResponseEntity<?> getUser(@PathVariable("id") Long id) {
-        User workingUser = securityContextService.getLoggedInUser();
-        if (!workingUser.getId().equals(id) && !securityContextService.isUserInRole("ADMIN"))
-            throw new RequestDeniedException("You are not authorized to view this info");
-
-        return new ResponseEntity<>(userService.findById(id), HttpStatus.OK);
+        return new ResponseEntity<>(userService.fetch(id), HttpStatus.OK);
     }
 
     @PutMapping("user/{id}")
-    public ResponseEntity<?> modifyUser(@PathVariable("id") Long id, @RequestBody UserDTO userModifiedDTO){
-        userService.modifyUser(userModifiedDTO, id);
-        return new ResponseEntity<>("User successfully modified", HttpStatus.OK);
+    public ResponseEntity<?> modifyUser(@PathVariable("id") Long id, @RequestBody CreateUserRequest modifyUserRequest){
+        List<String> roles = modifyUserRequest.getRoles();
+
+        User modifiedUser = userService.modifyUser(modifyUserRequest.getUserDTO(), roles, id);
+        return new ResponseEntity<>(modifiedUser, HttpStatus.OK);
     }
 }
 

@@ -9,10 +9,6 @@ import NovaUputa from '../components/NovaUputa';
 import UputaDetail from '../components/UputaDetail';
 
 const Upute = (props) => {
-
-    const [uloga, setUloga] = useState()
-
-
     const navigate = useNavigate()
     const bearerToken = sessionStorage.bearerToken
     const backendRoute = props.backendRoute
@@ -24,13 +20,14 @@ const Upute = (props) => {
     const [refreshExaminations, setRefreshExaminations] = useState(false)
 
 
+    const uloga = sessionStorage.getItem('currentRole');
 
     useEffect(() => {
         if(bearerToken === '' || bearerToken === null || bearerToken === undefined) {
             navigate('/login')
         }else{
             setUser(JSON.parse(sessionStorage.userData))
-            setUloga(JSON.parse(sessionStorage.userData).roles[0].name)
+            
             // const logUser = JSON.parse(sessionStorage.userData)
             // console.log(logUser)
         }
@@ -38,11 +35,11 @@ const Upute = (props) => {
 
 
     const toggleNovaUputa = () => {
-        
-    setNovoMisljenjeOpen(!novoMisljenjeOpen);
-    
-   
-};
+
+        setNovoMisljenjeOpen(!novoMisljenjeOpen);
+
+
+    };
     const toggleRefreshExaminations = () => {
         setRefreshExaminations((prev) => !prev);
     }
@@ -100,31 +97,32 @@ const Upute = (props) => {
       
     
     <div id = "HomePageWrapper">
-     <Navbar></Navbar>
+     <Navbar backendRoute={backendRoute} bearerToken={bearerToken}></Navbar>
 
-     {novoMisljenjeOpen && <NovaUputa closeUputaForm = {toggleNovaUputa}
-                                      backendRoute={backendRoute}
-                                      bearerToken={bearerToken}
-                                      handleLogOut={handleLogOut}
-                                      user={user}
-                                      refreshExaminations={toggleRefreshExaminations}/>
-     }
+        {novoMisljenjeOpen && <NovaUputa closeUputaForm = {toggleNovaUputa}
+                                         backendRoute={backendRoute}
+                                         bearerToken={bearerToken}
+                                         handleLogOut={handleLogOut}
+                                         user={user}
+                                         refreshExaminations={toggleRefreshExaminations}/>
+        }
 
      {novoMisljenjeDetail && <UputaDetail closeInstructionDetail = {toggleInstructionDetail}
                                           currentInstructionId={currentInstructionId}
                                           backendRoute={backendRoute}
                                           bearerToken={bearerToken}
                                           handleLogOut={handleLogOut}/>}
-  
+    
+    {instructions.length !== 0 ? (
      <div id = "seccondOppWrapper">
 
         {/*     <p style={{textAlign: "left", fontSize: "13px"}} className='px-4 mb-2 mt-2 mb-1'>4 nepregledanih - 7 pregledanih</p> */}
         <h5 className = "pt-3 px-4 mt-2 " style={{textAlign: "left", maxWidth: "1246px"}}>Upute
                     {/* <button className='btn btn-tertiary mt-1' style={{float: 'right'}}>Povijest </button>  */}
-                    {(uloga === "admin" || uloga == "doctor" || uloga == "pediatrician") && (
+                    {(uloga === "admin" || uloga === "doctor" || uloga === "pediatrician") && (
                     <button className = "btn btn-primary" style={{float:"right"}} onClick= {toggleNovaUputa}>Dodaj Uputu +</button> 
                     )}</h5>
-                    <p style={{textAlign: "left", maxWidth: "1200px"}} className = "px-4 mb-4 ">{12} nepregladnih</p> 
+                    <p style={{textAlign: "left", maxWidth: "1200px"}} className = "px-4 mb-4 ">{instructions ? instructions.length : 0} uputa</p>
 
 
 {/*     <p style={{textAlign: "left", fontSize: "13px"}} className='px-4 mb-2 mt-2 mb-1'>4 nepregledanih - 7 pregledanih</p> */}
@@ -169,9 +167,36 @@ const Upute = (props) => {
         )})}
     </div>
 
-    </div>
+    </div> ): (
+                <div id = "usersWrapperInner" style={{
+                    display: "flex",        // Enable Flexbox
+                    flexDirection: "column", // Stack children vertically
+                    justifyContent: "center", // Center content vertically
+                    alignItems: "center",    // Center content horizontally
+                    height: "90vh",   
+                       // Take full viewport height
+                       // Optional: If you still want additional padding on top
+                }}>
+
+
+                <h5 className = " px-4 mt-0 pt-0 " style={{textAlign: "center", maxWidth: "1246px"}}>
+                Još nema unesenih uputa
+
+                         </h5>
+    
+    
+                     <p style={{textAlign: "center", maxWidth: "1200px"}} className = "px-4 mb-2 mt-1 ">{instructions.length} {" "} 
+                     
+                uputa
+    
+                     </p> 
+                     {(uloga === "doctor" || uloga === "pediatrician" || uloga === "admin"  ? (
+                        <button className = "btn btn-primary ms-2 mt-2 " style={{}} onClick= {toggleNovaUputa}>Nova uputa +</button>  ) : null)}
+                       
+                    </div>
+            )}
      
-    </div>
+    </div> 
   );
 };
 

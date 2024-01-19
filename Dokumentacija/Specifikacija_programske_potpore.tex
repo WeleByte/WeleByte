@@ -15,7 +15,7 @@
 					\item registrirati se i prijaviti u sustav
                     \item vidjeti profil za sebe i svoju djecu
 					\item pregledati medicinske nalaze, dijagnoze i povijesti pregleda za sebe i svoju djecu
-					\item unijeti nalaz dobiven temeljem određenog pregleda ili postupka u privatnoj ustanovi te zatražiit drugo mišljenje liječnika ili pedijatra
+					\item unijeti nalaz dobiven na temelju određenog pregleda ili postupka u privatnoj ustanovi te zatražiti drugo mišljenje liječnika ili pedijatra
                     \item vidjeti zahtjeve za drugim mišljenjima koje je stvorio
                     \item vidjeti upute koje su on ili njegova djeca dobili od liječnika/pedijatra
 				\end{packed_enum}
@@ -119,8 +119,8 @@
 						\item  \textbf{Opis osnovnog tijeka:}
 						
 						\item[] \begin{packed_enum}
-							\item korisniku se po upisu web adrese aplikacije, otvara početna stranica
-							\item korisnik odabire akciju prijavi se
+							\item korisniku se po upisu web adrese aplikacije otvara početna stranica
+							\item korisnik odabire akciju 'Prijavi se'
 							\item sustav otvara ekran prijave
 							\item korisnik unosi email i lozinku
 							\item korisnik odabire akciju potvrde unosa
@@ -132,7 +132,7 @@
 						\item  \textbf{Opis mogućih odstupanja:}
 						
 						\item[] \begin{packed_item}
-							\item[5.a] Korisnik odabire akciju Odustani
+							\item[5.a] Korisnik odabire akciju 'Odustani'
 							\item[] 
 							\begin{packed_enum} 
 								\item sustav zatvara ekran
@@ -151,7 +151,7 @@
                     \noindent \underbar{\textbf{UC3 - pregledaj profil djeteta}}
 					\begin{packed_item}
 	
-						\item \textbf{Glavni sudionik: }korisnik
+						\item \textbf{Glavni sudionik: }roditelj
 						\item  \textbf{Cilj:} pregledati djetetovu povijest pregleda, nalaze i dijagnoze
 						\item  \textbf{Sudionici:} baza podataka
 						\item  \textbf{Preduvjet:} izvođenje UC2 i UC22, korisnik ima dijete
@@ -171,7 +171,7 @@
 					\noindent \underbar{\textbf{UC4 - pregledaj povijest pregleda svojeg djeteta}}
 					\begin{packed_item}
 	
-						\item \textbf{Glavni sudionik: }korisnik
+						\item \textbf{Glavni sudionik: }roditelj
 						\item  \textbf{Cilj:} pristupiti povijesti pregleda djeteta, za svaki pregled su vidljivi nalazi i dijagnoze ustanovljene na pregledu
 						\item  \textbf{Sudionici:} baza podataka
 						\item  \textbf{Preduvjet:} izvođenje UC2, UC23
@@ -517,7 +517,6 @@
 							\item pedijatar odabire opciju 'Nova preporuka za bolovanje' s početne stranice
 							\item sustav prikazuje modalni okvir za unos preporuke za bolovanje
 							\item pedijatar odabire pregled na temelju kojeg je potrebna preporuka za bolovanje
-							\item pedijatar unosi podatke o preporuci za bolovanje
 							\item pedijatar odabire opciju 'Unesi preporuku'
 							\item sustav provjerava i potvrđuje da je unos uspješan
 							\item sustav obavještava pedijatra da je preporuka uspješno unesena
@@ -545,14 +544,13 @@
 						\item  \textbf{Opis osnovnog tijeka:}
 						
 						\item[] \begin{packed_enum}
-	
 							\item pedijatar odabire opciju 'Pregledi' s početne stranice
 							\item pedijatar odabire pregled na temelju kojega je potrebno poslati ispričnicu
+							\item pedijatar odabire opciju 'Pošalji ispričnicu'
 							\item pedijatar unosi podatke o ispričnici
-                            \item pedijatar odabire opciju 'Pošalji ispričnicu'
+							\item pedijatar odabire opciju pošalji
                             \item sustav provjerava i potvrđuje da je unos uspješan
                             \item sustav obavještava pedijatra da je ispričnica uspješno poslana
-
 						\end{packed_enum}
 						
 						\item  \textbf{Opis mogućih odstupanja:}
@@ -573,6 +571,9 @@
 							\end{packed_enum}
 							
 						\end{packed_item}
+
+						\item \textbf{NAPOMENA:} Iako za ovaj UC postoje sve UI komponente s kojima korisnik ima interakciju, 
+						slanje e-maila nije zapravo implementirano jer bi zahtijevalo integraciju sa stvarnim servisima za slanje e-maila.
 					\end{packed_item}
 
      
@@ -590,7 +591,7 @@
 							\item liječnik pregledava popis svojih pacijenata
 							\item liječnik odabire pacijenta kojeg želi naručiti na specijalistički pregled/postupak
 							\item liječnik stvara novi specijalistički pregled i zakaže vrijeme u budućnosti
-                            \item vrijeme i lokacija se šalju pacijenti te je vidljiv pod 'Moji pregledi'
+                            \item vrijeme i lokacija se šalju pacijentu te je pregled vidljiv pod 'Moji pregledi'
 
 						\end{packed_enum}
 						\item  \textbf{Opis mogućih odstupanja:}
@@ -654,23 +655,12 @@
 						\item  \textbf{Opis osnovnog tijeka:}
 						
 						\item[] \begin{packed_enum}
-							\item korisnik odabire opciju 'Odjava' s početne stranice
-							\item sustav prikazuje modalni okvir za potvrdu odjave
+							\item korisnik odabire opciju 'Moj profil' s početne stranice
+							\item sustav prikazuje korisnički profil
 							\item korisnik odabire opciju 'Odjavi se'
 							\item sustav odjavljuje korisnika iz sustava i prikazuje početnu stranicu za prijavu
 
 						\end{packed_enum}
-
-						\item  \textbf{Opis mogućih odstupanja:}
-						
-						\item[] \begin{packed_item}
-	
-							\item[3.a] korisnik odabire opciju 'Odustani'
-							\item [] \begin{packed_enum}
-								\item sustav zatvara modalni ekran
-								\item prikazuje se prethodni ekran i završava izvođenje ovog scenarija
-							\end{packed_enum}
-						\end{packed_item}
 					\end{packed_item}
                     
                     \noindent \underbar{\textbf{UC20 - pregledaj korisnika}}
@@ -705,9 +695,9 @@
 							\item administrator odabire opciju 'Pregled korisnika' s početne stranice
 							\item sustav prikazuje listu svih ispravno registriranih korisnika
 							\item administrator pronalazi željenog korisnika
-							\item administrator mijenja razinu pristupa željenom korisniku odabirom opcije 'Promijeni razinu pristupa'
-							\item sustav obavještava administratora da je razina pristupa uspješno promijenjena
-                        
+							\item administrator bira uloge koje želi dodijeliti korisniku
+							\item administrator odabire opciju 'Spremi'
+							\item sustav zatvara modalni okvir
 						\end{packed_enum}
 					\end{packed_item}
         
@@ -830,11 +820,7 @@
 				\eject		
 				
 			\subsection{Sekvencijski dijagrami}
-				
-				%dio 1. revizije
-				
-				%Nacrtati sekvencijske dijagrame koji modeliraju najvažnije dijelove sustava (max. 4 dijagrama). Uz svaki dijagram napisati detaljni opis dijagrama.
-				\noindent\textbf{Obrazac uporabe UC9 - stvori zahtjev za drugim mišljenjem}\\
+				\subsubsection*{Obrazac uporabe UC9 - stvori zahtjev za drugim mišljenjem}
 				Kroz proces potraživanja drugog mišljenja, korisnik inicira postupak odabirom opcije 
 				'Zatraži drugo mišljenje'. Sustav odgovara otvaranjem modalnog okvira za unos zahtjeva, 
 				gdje korisnik, u ovom slučaju roditelj, prenosi medicinski nalaz. Nakon toga, korisnik 
@@ -850,7 +836,7 @@
 				\end{figure}
 				\eject
 
-				\noindent\textbf{Obrazac uporabe UC14 - evidentiraj preporuku za bolovanje}\\
+				\subsubsection*{Obrazac uporabe UC14 - evidentiraj preporuku za bolovanje}
 				U postupku stvaranja nove preporuke za bolovanje, pedijatar započinje odabirom opcije 'Preporuke za bolovanje'.
 				Zatim odabire opciju 'Nova preporuka za bolovanje'. Sustav reagira prikazivanjem modalnog 
 				okvira za unos preporuke za bolovanje. Pedijatar zatim odabire pregled na temelju kojeg 
@@ -864,12 +850,13 @@
 				\end{figure}
 				\eject
 				
-				\noindent\textbf{Obrazac uporabe UC15 - pošalji ispričnicu u vrtić/školu}\\
+				\subsubsection*{Obrazac uporabe UC15 - pošalji ispričnicu u vrtić/školu}
+
 				U procesu izdavanja nove ispričnice, pedijatar započinje odabirom opcije 'Pregledi' 
 				na početnoj stranici, što pokreće sustav da prikaže popis svih obavljenih pregleda. 
-				Pedijatar tada odabire pregled na temelju kojeg je potrebno poslati ispričnicu. Nakon 
-				što popuni potrebne podatke, pedijatar odabire opciju 'Pošalji ispričnicu'. Sustav 
-				izvršava provjeru i potvrđuje uspješan unos, nakon čega obavještava pedijatra da je 
+				Pedijatar tada odabire pregled na temelju kojeg je potrebno poslati ispričnicu. Na modalnom ekranu pregleda pedijatar bira opciju 
+				'Pošalji ispričnicu' i na novom modalnom ekranu unosi tekst ispričnice. Nakon toga, bira opciju 'Spremi'.
+				Sustav izvršava provjeru i potvrđuje uspješan unos, nakon čega obavještava pedijatra da je 
 				ispričnica uspješno poslana. U slučaju neispravnog popunjavanja ispričnice, sustav 
 				prikazuje poruku o neispravnom unosu podataka, a pedijatar se vraća na ponovno 
 				popunjavanje ispričnice. \\
@@ -895,10 +882,9 @@
 				\item Neispravno korištenje korisničkog sučelja ne smije narušiti funkcionalnost i rad sustava
 				\item Sustav treba biti jednostavan za korištenje, sučelje treba biti intuitivno te se korisnici moraju znati koristiti sučeljem bez opširnih uputa
 				\item Veza s bazom podataka mora biti kvalitetno zaštićena, brza i otporna na vanjske greške
-				\item Pristup sustavu mora biti omogućen iz javne mreže pomoću HTTPS protokola
+				\item Pristup sustavu mora biti omogućen iz javne mreže koristeći HTTPS protokol
 				\item Svi osjetljivi korisnički podaci, uključujući medicinske informacije, moraju biti kriptirani u 
 				prijenosu i pohranjeni na način koji udovoljava standardima sigurnosti podataka u zdravstvenim aplikacijama
-				\item Redovito automatsko izvođenje sigurnosnih kopija podataka s brzim i pouzdanim sustavom oporavka u slučaju neplaniranih događaja ili gubitka podataka
 			 \end{packed_item}
 			 	 
 			 

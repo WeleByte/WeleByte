@@ -120,7 +120,7 @@ insert into examinations(patient_id, doctor_id, scheduler_id, address_id, report
 values(4, 2, 2, 3, 'pacijent ima upalu uha.', '2023-01-11 14:30:00');
 
 insert into examinations(patient_id, doctor_id, scheduler_id, address_id, report, date)
-values(4, 3, 2, 3, 'gastroskopija.', '2023-12-25 18:30:00');
+values(4, 2, 2, 3, 'gastroskopija.', '2023-12-25 18:30:00');
 
 insert into examinations(patient_id, doctor_id, scheduler_id, address_id, report, date)
 values(6, 2, 3, 3, 'pregled stitnjace.', '2023-02-13 14:30:00');
@@ -136,14 +136,15 @@ values(3, 5, '2024-01-10 10:00:00', 'pacijent treba piti ovaj znj antibiotik');
 --sick leave recommendation
 
 insert into sick_leave_recommendations(parent_id, creator_id, approver_id, examination_id, status)
-values(4, 2, 2, 3, false);
+values(4, 3, 2, 3, null);
 
 insert into sick_leave_recommendations(parent_id, creator_id, approver_id, examination_id, status)
-values(4, 3, 2, 1, true);
+values(4, 3, 2, 1, null);
+
 
 -- second opinios
 insert into second_opinions(requester_id, doctor_id, opinion, content)
-values(4, 2, 'Nalaz ukazuje na moguću hemofiliju.', 'Nalaz iz AnalizaLAb-a od 12.12.2023.');
+values(4, 2, 'Nalaz ukazuje na moguću hemofiliju.', 'Nalaz iz AnalizaLAB-a od 12.12.2023.');
 
 insert into second_opinions(requester_id, doctor_id, opinion, content)
 values(4, 2, null, 'Nalaz iz AnalizaLAB-a od 20.12.2020.');

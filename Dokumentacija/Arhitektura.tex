@@ -45,7 +45,7 @@
 		\end{packed_item}
 
 		Korisnici se u sustav prijavljuju unoseći svoje korisničko ime i lozinku. Na temelju tih vjerodajnica, a nakon provjere s podacima u bazi, backend korisniku izdaje token koji se koristi za autentikaciju narednih zahtjeva s klijenta.
-		Koristimo "Bearer" autentikacijsku schemu koja podrazumijeva da svaki HTTP zahtjev koji dolazi od klijenta ima token u ispravnom polju u zaglavlju. odvija putem HTTPS protokola, osiguravajući sigurnu komunikaciju između klijenta i poslužitelja putem TLS/SSL enkripcije. Ovakav pristup pridonosi zaštiti osjetljivih podataka i održava sigurnost komunikacije u sustavu.
+		Koristimo "Bearer" autentikacijsku shemu koja podrazumijeva da svaki HTTP zahtjev koji dolazi od klijenta ima token u ispravnom polju u zaglavlju. Implementacija se odvija putem HTTPS protokola, osiguravajući sigurnu komunikaciju između klijenta i poslužitelja putem TLS/SSL enkripcije. Ovakav pristup pridonosi zaštiti osjetljivih podataka i održava sigurnost komunikacije u sustavu.
 					
 		\section{Baza podataka}
         Baza podataka koja se koristi u projektu "Ozdravi" ključna je komponenta sustava koja omogućava pohranu, upravljanje i praćenje svih relevantnih informacija o korisnicima i njihovim zdravstvenim podacima. 
@@ -86,7 +86,7 @@
 			role & VARCHAR &  Uloga korisnika (NOT NULL) \\ \hline 
 			password & VARCHAR &  Lozinka za prijavu u sustav \\ \hline
 			email & VARCHAR &  e-mail za prijavu u sustav \\ \hline 
-			institution\_email & VARCHAR &  službeni e-mail ustanove (vrtić/škola/poslodovac)\\ \hline
+			institution\_email & VARCHAR &  službeni e-mail ustanove (vrtić/škola/poslodavac)\\ \hline
 		\end{longtblr}
 
 
@@ -264,7 +264,7 @@
 			
 			%Potrebno je priložiti dijagram stanja i opisati ga. Dovoljan je jedan dijagram stanja koji prikazuje značajan dio funkcionalnosti sustava. Na primjer, stanja korisničkog sučelja i tijek korištenja neke ključne funkcionalnosti jesu značajan dio sustava, a registracija i prijava nisu.
 
-			UML dijagram stanja je vrsta dijagrama koja prikazuje različita stanja kroz koje objekt ili sustav prolazi tokom svog životnog ciklusa. Na slici 4.6 prikazan je dijagram stanja za registriranog korisnika koji ima ulogu roditelja. Nakon što se korisnik prijavi, prikazuje mu se početna stranica. Korisnik u Izborniku može odabrati neku od ponuđenih opcija. Klikom na „Moj profil“ prikazuju se podatci korisnika koje može urediti. Također, korisnik ima mogućnost odjave klikom na „Odjavi se“. Odabirom „Moja djeca“ prikazuje se lista korisnikove djece, a klikom na neko od ponuđenih imena djece otvara se profil odabranog djeteta. Klikom na „Uredi“ moguće je izmijeniti djetetove podatke. U izborniku, klikom na „ Druga mišljenja“ moguće je stvoriti zahtjev za novim mišljenjem klikom na „Zatraži drugo mišljenje“ ili pregledati listu zahtjeva klikom na „Moji zahtjevi“ te vidjeti detalje zahtjeva odabirom željenog zahtjeva. Odabirom „Moji pregledi“ otvaramo povijest svih pregleda korisnika, klikom na određeni pregled prikazuju se detalji istog. Klikom na karticu s imenom djeteta, moguće je vidjeti povijest pregleda odabranog djeteta te kao i kod osobnih pregleda vidjeti detalje pregleda odabirom specifičnog pregleda.
+			UML dijagram stanja je vrsta dijagrama koja prikazuje različita stanja kroz koje objekt ili sustav prolazi tijekom svog životnog ciklusa. Na slici 4.6 prikazan je dijagram stanja za registriranog korisnika koji ima ulogu roditelja. Nakon što se korisnik prijavi, prikazuje mu se početna stranica. Korisnik u izborniku može odabrati neku od ponuđenih opcija. Klikom na 'Moj profil' prikazuju se podatci korisnika koje može urediti. Također, korisnik ima mogućnost odjave odabirom opcije 'Odjavi se'. Odabirom opcije 'Moja djeca' prikazuje se lista korisnikove prijavljene djece, a klikom na neko od ponuđenih imena djece otvara se profil odabranog djeteta. Klikom na opciju 'Uredi' moguće je izmijeniti djetetove podatke. U izborniku, odabirom opcije 'Druga mišljenja' moguće je stvoriti zahtjev za novim mišljenjem klikom na 'Zatraži drugo mišljenje' ili pregledati listu zahtjeva klikom na 'Moji zahtjevi' te vidjeti detalje zahtjeva odabirom željenog zahtjeva. Odabirom opcije 'Moji pregledi' otvaramo povijest svih pregleda korisnika, klikom na određeni pregled prikazuju se detalji istog. Klikom na karticu s imenom djeteta, moguće je vidjeti povijest pregleda odabranog djeteta te kao i kod osobnih pregleda vidjeti detalje pregleda odabirom specifičnog pregleda.
 			
 				\begin{figure}[H]
 					\includegraphics[width=\textwidth]{slike/DijagramStanja.png} 
@@ -277,8 +277,7 @@
 		Dijagram aktivnosti u okviru projekta koristi se kako bi opisao tokove upravljanja ili podataka u sustavu. 
 		Za razliku od modeliranja događajima poticanog ponašanja, dijagram aktivnosti fokusira se na prikaz toka upravljanja, 
 		gdje svaki sljedeći korak slijedi nakon završenog prethodnog. Osnovna načela modeliranja dijagrama aktivnosti uključuju 
-		jednostavnost i jasnoću, čime olakšava razumijevanje procesa unutar sustava.
-		Na dijagramu aktivnosti 4.7 prikazana je 
+		jednostavnost i jasnoću, čime olakšava razumijevanje procesa unutar sustava. Na dijagramu aktivnosti 4.7 prikazana je 
 		aktivnost pregledavanja djetetovog profila. Aktivnost započinje korisnikovom prijavom u sustav, nakon koje korisnik odabire 
 		dijete čiji profil želi pregledati. Nakon odabira, sustav prikazuje profil odabranog djeteta te korisnik ima mogućnost pregledati 
 		povijest pregleda. Odabirom opcije 'Povijest pregleda', sustav nudi popis svih djetetovih pregleda. Korisnik može odabrati 
@@ -296,7 +295,7 @@
 		
 			 %Potrebno je priložiti dijagram komponenti s pripadajućim opisom. Dijagram komponenti treba prikazivati strukturu cijele aplikacije.
 		
-		UML dijagrami komponenata pružaju vizualni prikaz modularne strukture i međusobnih odnosa između komponenata u programskoj potpori. Na slici 4.8. prikazan je dijagram komponenti web-aplikacije Ozdravi. Sastoji se od 4 komponente: Controllers, Services, Repos i Entities. Controllers pružaju REST\_API sučelje na koje vanjski web-preglednik može slati zahtjeve. Komponenta Controllers je zadužena za obradu HTTPS zahtjeva na temelju kojih poziva operacije komponente Services. Komponenta Services za izvođenje pojedinih operacija treba pristup podacima iz baze, za što koristi operacije komponente Repos koja ostvaruje sučelje JDBC. Repos upisuju podatke iz baze podataka u komponentu Entities.
+		UML dijagrami komponenti pružaju vizualni prikaz modularne strukture i međusobnih odnosa između komponenti u programskoj potpori. Na slici 4.8. prikazan je dijagram komponenti web-aplikacije Ozdravi. Sastoji se od 4 komponente: Controllers, Services, Repos i Entities. Controllers pružaju REST\_API sučelje na koje vanjski web-preglednik može slati zahtjeve. Komponenta Controllers je zadužena za obradu HTTPS zahtjeva na temelju kojih poziva operacije komponente Services. Komponenta Services za izvođenje pojedinih operacija treba pristup podacima iz baze, za što koristi operacije komponente Repos koja ostvaruje sučelje JDBC. Repos upisuju podatke iz baze podataka u komponentu Entities.
 		
 			 \begin{figure}[H]
 				\includegraphics[width=\textwidth]{slike/DijagramKomponenti.png} 

@@ -1,14 +1,10 @@
 package ozdravi.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import ozdravi.dao.AddressRepository;
 import ozdravi.domain.Address;
-import ozdravi.domain.User;
 import ozdravi.exceptions.EntityMissingException;
-import ozdravi.exceptions.LoggedUserException;
 import ozdravi.rest.dto.AddressDTO;
 import ozdravi.service.AddressService;
 
@@ -29,11 +25,9 @@ public class AddressServiceJpa implements AddressService {
 
     @Override
     public Address createAddress(AddressDTO addressDTO) {
-        User optUser = securityContextService.getLoggedInUser();
         Address address = dtoManager.addressDTOToAddress(addressDTO);
         return addressRepository.save(address);
     }
-
     @Override
     public List<Address> listAll() {
         return addressRepository.findAll();
@@ -42,13 +36,12 @@ public class AddressServiceJpa implements AddressService {
     @Override
     public Address findById(Long id) {
         Optional<Address> address = addressRepository.findById(id);
-        if (address.isEmpty()) throw new EntityMissingException("No address with such id");
+        if (address.isEmpty()) throw new EntityMissingException("Address with id " + id.toString() + " not found");
         return address.get();
     }
 
     @Override
     public void deleteById(Long id) {
-        //todo provjera da postoji
         addressRepository.deleteById(id);
     }
 

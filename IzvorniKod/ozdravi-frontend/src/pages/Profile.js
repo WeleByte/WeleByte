@@ -3,6 +3,7 @@ import loginVector from '../assets/images/loginVector.png';
 import {useNavigate} from 'react-router-dom';
 import {useState} from 'react';
 import Navbar from '../components/Header';
+import Select from "react-select";
 
 const ProfilePage = (props) => {
     const backendRoute = props.backendRoute
@@ -18,6 +19,7 @@ const ProfilePage = (props) => {
     const [saveFailed, setSaveFailed] = useState(false)
     const bearerToken = sessionStorage.bearerToken
     const [errorMessage, setErrorMessage] = useState('')
+    const currentRole = sessionStorage.getItem('currentRole');
 
     useEffect(() => {
         if (bearerToken === '' || bearerToken === null || bearerToken === undefined) {
@@ -57,7 +59,9 @@ const ProfilePage = (props) => {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                'institution_email': institutionEmail,
+                'userDTO': {
+                    'institution_email': institutionEmail
+                }
             })
         })
 
@@ -78,7 +82,7 @@ const ProfilePage = (props) => {
     }
     return (
         <div id="HomePageWrapper">
-            <Navbar></Navbar>
+            <Navbar backendRoute={backendRoute} bearerToken={bearerToken}></Navbar>
             <div className="row" id="loginRow" style={{paddingTop: "50px"}}>
 
                 <div className="col-12 mx-auto ">
@@ -88,9 +92,9 @@ const ProfilePage = (props) => {
 
                             {/*----------------------------FIRST NAME-----------------------------*/}
                             <div className="mb-3">
-                                <label htmlFor="username" className="form-label" style={{float: 'left'}}>IME</label>
+                                <label htmlFor="first_name" className="form-label" style={{float: 'left'}}>IME</label>
                                 <input type="text" className="form-control"
-                                       id="username" value={user.first_name}
+                                       id="first_name" value={user.first_name}
                                        disabled={true}
                                        onChange={(e) =>
                                            setFirstName(e.target.value.replace(/[^a-zA-ZščćžđöüäŠČĆŽĐÖÜÄ\\s]/, ''))}/>
@@ -98,75 +102,68 @@ const ProfilePage = (props) => {
 
                             {/*----------------------------LAST NAME-----------------------------*/}
                             <div className="mb-3">
-                                <label htmlFor="username" className="form-label" style={{float: 'left'}}>PREZIME</label>
+                                <label htmlFor="last_name" className="form-label" style={{float: 'left'}}>PREZIME</label>
                                 <input type="text" className="form-control"
                                        disabled={true}
-                                       id="username" value={user.last_name}
+                                       id="last_name" value={user.last_name}
                                        onChange={(e) =>
                                            setLastName(e.target.value.replace(/[^a-zA-ZščćžđöüäŠČĆŽĐÖÜÄ\\s]/, ''))}/>
                             </div>
 
                             {/*-------------------------------OIB--------------------------------*/}
                             <div className="mb-3">
-                                <label htmlFor="username" className="form-label" style={{float: 'left'}}>OIB</label>
+                                <label htmlFor="oib" className="form-label" style={{float: 'left'}}>OIB</label>
                                 <input type="text" className="form-control"
                                        disabled={true}
-                                       id="username" value={user.oib}
+                                       id="oib" value={user.oib}
                                        onChange={(e) =>
                                            setOIB(e.target.value.replace(/\D/g, ''))}/>
                             </div>
 
                             {/*------------------------ EMAIL-------------------------*/}
                             <div className="mb-3">
-                                <label htmlFor="password" className="form-label" style={{float: 'left'}}>E-MAIL</label>
+                                <label htmlFor="email" className="form-label" style={{float: 'left'}}>E-MAIL</label>
                                 <input type="text" className="form-control"
                                        disabled={true}
-                                       id="username" value={user.email}
-                                       onChange={(e) => setInstitutionEmail(e.target.value)}/>
+                                       id="email" value={user.email}/>
                             </div>
 
 
                             <div className="mb-3">
-                                <label htmlFor="password" className="form-label" style={{float: 'left'}}>ULICA</label>
+                                <label htmlFor="address_street" className="form-label" style={{float: 'left'}}>ULICA</label>
                                 <input type="text" className="form-control"
                                        disabled={true}
-                                       id="username" value={user.address?.street}
-                                       onChange={(e) => setInstitutionEmail(e.target.value)}/>
+                                       id="address_street" value={user.address?.street}/>
                             </div>
 
 
                             <div className="mb-3">
-                                <label htmlFor="password" className="form-label" style={{float: 'left'}}>KUĆNI
+                                <label htmlFor="address_number" className="form-label" style={{float: 'left'}}>KUĆNI
                                     BROJ</label>
                                 <input type="text" className="form-control"
                                        disabled={true}
-                                       id="username" value={user.address?.number}
-                                       onChange={(e) => setInstitutionEmail(e.target.value)}/>
+                                       id="address_number" value={user.address?.number}/>
                             </div>
 
 
                             <div className="mb-3">
-                                <label htmlFor="password" className="form-label" style={{float: 'left'}}>GRAD</label>
+                                <label htmlFor="address_city" className="form-label" style={{float: 'left'}}>GRAD</label>
                                 <input type="text" className="form-control"
                                        disabled={true}
-                                       id="username" value={user.address?.city}
-                                       onChange={(e) => setInstitutionEmail(e.target.value)}/>
+                                       id="address_city" value={user.address?.city}/>
                             </div>
 
                             <div className="mb-3">
-                                <label htmlFor="password" className="form-label" style={{float: 'left'}}>DRŽAVA</label>
+                                <label htmlFor="address_country" className="form-label" style={{float: 'left'}}>DRŽAVA</label>
                                 <input type="text" className="form-control"
                                        disabled={true}
-                                       id="username" value={user.address?.country}
-                                       onChange={(e) => setInstitutionEmail(e.target.value)}/>
+                                       id="address_country" value={user.address?.country}/>
                             </div>
 
                             <div className="mb-3">
-                                <label htmlFor="password" className="form-label" style={{float: 'left'}}>E-MAIL
-                                    INSTITUCIJE</label>
+                                <label htmlFor="institution_email" className="form-label" style={{float: 'left'}}>E-MAIL POSLODAVCA</label>
                                 <input type="text" className="form-control"
-                                       id="username" value={user.institution_email}
-                                       onChange={(e) => setInstitutionEmail(e.target.value)}/>
+                                       id="institution_email" value={user.institution_email}/>
                             </div>
                         </div>
 

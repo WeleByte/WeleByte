@@ -36,18 +36,26 @@ public class ExaminationServiceJpa implements ExaminationService {
     public Examination findById(Long id) {
         Optional<Examination> examination = examinationRepository.findById(id);
         if(examination.isEmpty())
-            throw new EntityMissingException("No Examination with such id");
+            throw new EntityMissingException("Examination with id " + id.toString() + " not found");
 
+        return examination.get();
+    }
+
+    @Override
+    public Examination fetch(Long id) {
+        Examination examination = findById(id);
         User user = securityContextService.getLoggedInUser();
         Long user_id = user.getId();
 
-        if(securityContextService.isUserInRole("PARENT") && listParentExaminations(user_id).contains(examination.get()) ||
-                securityContextService.isUserInRole("ADMIN") ||
-                (securityContextService.isUserInRole("DOCTOR") || securityContextService.isUserInRole("PEDIATRICIAN")) &&
-                        listDoctorExaminations(user_id).contains(examination.get()))
-            return examination.get();
+        boolean parentCond = securityContextService.isUserInRole("PARENT") && listParentExaminations(user_id).contains(examination);
+        boolean adminCond = securityContextService.isUserInRole("ADMIN");
+        boolean doctPedCond = (securityContextService.isUserInRole("DOCTOR") || securityContextService.isUserInRole("PEDIATRICIAN"))
+                && listDoctorExaminations(user_id).contains(examination);
+
+        if(parentCond || adminCond || doctPedCond) return examination;
+
         //inace
-        throw new RequestDeniedException("You are not authorized to view this info");
+        throw new RequestDeniedException("You are not authorized to view this examination");
     }
 
     @Override
