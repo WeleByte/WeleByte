@@ -19,6 +19,7 @@ const ProfilePage = (props) => {
     const [saveFailed, setSaveFailed] = useState(false)
     const bearerToken = sessionStorage.bearerToken
     const [errorMessage, setErrorMessage] = useState('')
+    const currentRole = sessionStorage.getItem('currentRole');
 
     useEffect(() => {
         if (bearerToken === '' || bearerToken === null || bearerToken === undefined) {
@@ -81,7 +82,7 @@ const ProfilePage = (props) => {
     }
     return (
         <div id="HomePageWrapper">
-            <Navbar></Navbar>
+            <Navbar backendRoute={backendRoute} bearerToken={bearerToken}></Navbar>
             <div className="row" id="loginRow" style={{paddingTop: "50px"}}>
 
                 <div className="col-12 mx-auto ">

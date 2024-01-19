@@ -35,11 +35,11 @@ const Upute = (props) => {
 
 
     const toggleNovaUputa = () => {
-        
-    setNovoMisljenjeOpen(!novoMisljenjeOpen);
-    
-   
-};
+
+        setNovoMisljenjeOpen(!novoMisljenjeOpen);
+
+
+    };
     const toggleRefreshExaminations = () => {
         setRefreshExaminations((prev) => !prev);
     }
@@ -99,13 +99,13 @@ const Upute = (props) => {
     <div id = "HomePageWrapper">
      <Navbar backendRoute={backendRoute} bearerToken={bearerToken}></Navbar>
 
-     {novoMisljenjeOpen && <NovaUputa closeUputaForm = {toggleNovaUputa}
-                                      backendRoute={backendRoute}
-                                      bearerToken={bearerToken}
-                                      handleLogOut={handleLogOut}
-                                      user={user}
-                                      refreshExaminations={toggleRefreshExaminations}/>
-     }
+        {novoMisljenjeOpen && <NovaUputa closeUputaForm = {toggleNovaUputa}
+                                         backendRoute={backendRoute}
+                                         bearerToken={bearerToken}
+                                         handleLogOut={handleLogOut}
+                                         user={user}
+                                         refreshExaminations={toggleRefreshExaminations}/>
+        }
 
      {novoMisljenjeDetail && <UputaDetail closeInstructionDetail = {toggleInstructionDetail}
                                           currentInstructionId={currentInstructionId}

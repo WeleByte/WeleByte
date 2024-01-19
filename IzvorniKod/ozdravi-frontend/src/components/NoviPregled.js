@@ -28,6 +28,7 @@ const NoviPregled = (props) => {
     const [allDoctorsFormatted, setAllDoctorsFormatted] = useState([])
     const [patientsFormatted, setPatientsFormatted] = useState([])
     const [isDoctor, setIsDoctor] = useState(true)
+    const [errorMessage, setErrorMessage] = useState(null)
 
     // useEffect(() => {
     //     props.user.roles.forEach(role => {
@@ -131,12 +132,12 @@ const NoviPregled = (props) => {
             const allDoctorsTemp= [...parsedPediatricians, ...parsedDoctors]
 
             setAllDoctorsFormatted(allDoctorsTemp.map(doctor => ({
-                label: `${doctor.first_name} ${doctor.last_name}`,
+                label: `${doctor.first_name} ${doctor.last_name} (${doctor.oib})`,
                 value: doctor.id
             })))
 
             setPatientsFormatted(parsedPatients.map(patient => ({
-                label: `${patient.first_name} ${patient.last_name}`,
+                label: `${patient.first_name} ${patient.last_name} (${patient.oib})`,
                 value: patient.id
             })))
 
@@ -190,6 +191,7 @@ const NoviPregled = (props) => {
             closeModal()
         } else {
             console.log('Some field is empty', selectedDoctor, selectedPatient, report, date);
+            setErrorMessage("Uneseni podatci nisu ispravni.")
         }
 
     }
@@ -278,6 +280,9 @@ const NoviPregled = (props) => {
                         <button type="submit" className="btn btn-primary col-12 col-md-2 py-2 mb-4" style={{float:"right"}}
                                 onClick={handleSubmit}>Dodaj</button>
                     </form>
+                    {errorMessage ?
+                        <p style={{color: 'red'}}>{errorMessage}</p>
+                        : null}
                 </div>
             </div>
         </div>
