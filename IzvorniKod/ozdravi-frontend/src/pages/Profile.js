@@ -39,6 +39,10 @@ const ProfilePage = (props) => {
         navigate('/login')
     }
 
+    const handleMailInput = (value) => {
+        setInstitutionEmail(value);
+    }
+
     const handleSave = async (e) => {
         e.preventDefault();
 
@@ -163,7 +167,8 @@ const ProfilePage = (props) => {
                             <div className="mb-3">
                                 <label htmlFor="institution_email" className="form-label" style={{float: 'left'}}>E-MAIL POSLODAVCA</label>
                                 <input type="text" className="form-control"
-                                       id="institution_email" value={user.institution_email}/>
+                                       id="institution_email" value={institutionEmail}
+                                       onChange={(e) => handleMailInput(e.target.value)}/>
                             </div>
                         </div>
 
