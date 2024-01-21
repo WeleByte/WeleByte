@@ -149,6 +149,9 @@ const UserForm = (props) => {
         } else {
             setFormatErrorMessage(null)
 
+            if(!user.address.city || !user.address.street || !user.address.number || !user.address.country) {
+                user.address = null;
+            }
 
             fetch(props.backendRoute + '/users', {
                 method: 'POST',
